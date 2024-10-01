@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tabula Rasa to zespół rockowy z Warszawy redefiniujący granice muzyki. Dołącz do naszej muzycznej podróży!">
+    <title>Galeria i Aktualności | Tabula Rasa</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
+</head>
+<body>
+
+<header>
+    <!-- Desktopowa wersja nagłówka (pozostaje bez zmian) -->
+    <div class="desktop-header">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="about.html">O nas</a></li>
+                <li><a href="music.html">Muzyka</a></li>
+                <li><a href="shows.html">Koncerty</a></li>
+                <li class="logo-container">
+                    <a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="logo" loading="lazy"></a>
+                </li>
+                <li><a href="gallery.html">Galeria</a></li>
+                <li><a href="press.html">Press</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Mobilna wersja nagłówka (tylko dla urządzeń mobilnych) -->
+    <div class="mobile-header">
+        <div class="logo-container">
+            <a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="logo" loading="lazy"></a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-mobile" id="nav-mobile">
+            <ul>
+                <li><a href="about.html">O nas</a></li>
+                <li><a href="music.html">Muzyka</a></li>
+                <li><a href="shows.html">Koncerty</a></li>
+                <li><a href="gallery.html">Galeria</a></li>
+                <li><a href="press.html">Press</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Dynamiczna Galeria Zdjęć -->
+<div class="slider-container">
+    <img src="zdjecie1-mobile.jpg" alt="Zdjęcie 1" class="active" loading="lazy">
+    <img src="zdjecie2-mobile.jpg" alt="Zdjęcie 2" loading="lazy">
+    <img src="zdjecie3-mobile.jpg" alt="Zdjęcie 3" loading="lazy">
+</div>
+
+ <!-- Sekcja Aktualności -->
+    <section id="news">
+        <h2>Aktualności</h2>
+
+        <!-- Artykuł ze zdjęciem -->
+        <article class="article-with-image">
+            <h3>Premiera kawałka Ostatni Raz!</h3>
+            <div class="article-content">
+                <p>Nasz ostatni singiel Ostatni Raz jest już dostępny na wszystkich platformach streamingowych, możecie też zobaczyć teledysk na platformie Youtube.</p>
+                <img src="zdjecie6.jpg" alt="Zdjęcie 3" loading="lazy">
+            </div>
+        </article>
+
+        <!-- Artykuł ze zdjęciem -->
+        <article class="article-with-image">
+            <h3>Nasz pierwszy singiel!</h3>
+            <div class="article-content">
+                <p>Nasz pierwszy kawałek ujrzał światło dzienne! Zyskał dużą popularność na platformie Youtube, można było o nim usłyszeć nawet w programie telewizyjnym Teleexpress.</p>
+                <img src="zdjecie3.jpg" alt="Zdjęcie 2" loading="lazy">
+            </div>
+        </article>
+
+        <!-- Artykuł ze zdjęciem -->
+        <article class="article-with-image">
+            <h3>Nadchodzi album</h3>
+            <div class="article-content">
+                <p>Już niedługo wydamy swój pierwszy album. Stay focused!</p>
+                <img src="zdjecie7.jpg" alt="Zdjęcie 2" loading="lazy">
+            </div>
+        </article>
+
+        <!-- Artykuł bez zdjęcia -->
+        <article class="article-no-image">
+            <h3>Kim jesteśmy?</h3>
+            <p>Tabula Rasa, dynamiczny zespół rockowy z Warszawy...</p>
+        </article>
+
+        <!-- Artykuł bez zdjęcia -->
+        <article class="article-no-image">
+            <h3>W skrócie</h3>
+            <p>Gotowi na muzyczną podróż...</p>
+        </article>
+    </section>
+
+<!-- Stopka -->
+<footer>
+    <!-- Desktopowa wersja stopki -->
+    <div class="desktop-footer">
+        <hr class="footer-divider">
+        <div class="footer-container">
+            <div class="footer-section logo-description">
+                <img src="logo.png" alt="Logo Zespołu" class="footer-logo" loading="lazy">
+                <p>Tabula Rasa - zespół rockowy, który redefiniuje granice muzyki. Odkryj naszą twórczość!</p>
+            </div>
+            <div class="footer-section social-media">
+                <ul>
+                    <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="spotify.png" alt="Spotify" loading="lazy"></a></li>
+                    <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="youtube.png" alt="YouTube" loading="lazy"></a></li>
+                    <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="facebook.png" alt="Facebook" loading="lazy"></a></li>
+                    <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="instagram.png" alt="Instagram" loading="lazy"></a></li>
+                    <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="tiktok.png" alt="TikTok" loading="lazy"></a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tabula Rasa. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+
+    <!-- Mobilna wersja stopki (tylko dla urządzeń mobilnych) -->
+    <div class="mobile-footer">
+        <hr class="footer-divider">
+        <div class="footer-section logo-description">
+            <img src="logo.png" alt="Logo Zespołu" class="footer-logo" loading="lazy">
+        </div>
+        <div class="footer-section social-media">
+            <ul>
+                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="spotify.png" alt="Spotify" loading="lazy"></a></li>
+                <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="youtube.png" alt="YouTube" loading="lazy"></a></li>
+                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="facebook.png" alt="Facebook" loading="lazy"></a></li>
+                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="instagram.png" alt="Instagram" loading="lazy"></a></li>
+                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="tiktok.png" alt="TikTok" loading="lazy"></a></li>
+            </ul>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tabula Rasa. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXX-Y"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXX-Y');
+</script>
+
+<!-- Ładowanie zminifikowanego pliku JavaScript -->
+<script src="script.js"></script>
+</body>
+</html>
