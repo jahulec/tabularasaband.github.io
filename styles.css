@@ -29,6 +29,9 @@ header.hidden {
     transition: top 0.3s ease-in-out; /* Płynne przejście */
 }
 
+.mobile-only {
+    display: none;
+}
 /* Logo */
 .logo-container {
     text-align: center;
@@ -72,7 +75,6 @@ nav ul li a:hover {
    transform: scale(1.15);
 }
 
-/* Dynamiczna Galeria Zdjęć */
 .slider-container {
     position: fixed;
     top: 0;
@@ -81,7 +83,7 @@ nav ul li a:hover {
     height: 100vh;
     overflow: hidden;
     z-index: 1;
-    background-color: black; /* Czarne tło, aby ukryć puste zdjęcia */
+    background-color: black;
 }
 
 .slider-container img {
@@ -90,13 +92,14 @@ nav ul li a:hover {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 1s ease-in-out, transform 12s ease-in-out; /* Szybszy zoom */
+    transition: opacity 1s ease-in-out, transform 12s ease-in-out; /* Dodanie płynnego przejścia */
 }
 
 .slider-container img.active {
-    opacity: 1; /* Zdjęcie staje się widoczne */
-    transform: scale(1.1); /* Efekt lekkiego zoomu */
+    opacity: 1;
+    transform: scale(1.1);
 }
+
 /* Sekcja Aktualności */
 #news {
     position: relative;
@@ -107,89 +110,143 @@ nav ul li a:hover {
     margin-top: 100vh;
 }
 
-/* Nagłówek sekcji Aktualności */
+/* Usuń linię po ostatnim artykule */
+#news > div:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Nagłówek sekcji Aktualności - linia tylko po nagłówku */
 #news h2 {
     text-align: center;
     font-size: 3em;
     color: #ffffff;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     position: relative;
-    padding-bottom: 10px;
 }
 
 /* Dodanie linii po nagłówku h2 */
 #news h2::after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #444;
-}
-
-/* Styl tytułów artykułów (dla wszystkich artykułów) */
-#news article h3 {
-    font-size: 2em;
-    margin-bottom: 10px;
-    text-align: center; /* Tytuł zawsze wyrównany do środka */
-    width: 100%;
-}
-
-/* Linie między elementami bez zdjęć */
-.article-no-image,
-.article-with-image .article-content p {
-    position: relative;
-    padding: 20px 0;
-    border-bottom: 1px solid #444;
-}
-
-/* Układ treści artykułów ze zdjęciem */
-.article-with-image .article-content {
-    display: flex;
-    justify-content: flex-start; /* Tekst wyrównany do lewej */
-    align-items: flex-start; /* Tekst wyrównany do góry */
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* Linie pod tekstem, jeśli w artykule nie ma zdjęcia */
-.article-no-image p::after,
-.article-with-image .article-content p:not(:has(img))::after {
-    content: "";
+    content: '';
     display: block;
     width: 100%;
-    height: 1px;
+    height: 2px;
     background-color: #444;
     margin-top: 20px;
 }
 
-/* Stylizacja obrazów */
-.article-with-image .article-content img {
-    width: 20%; /* Zmniejszenie szerokości zdjęć */
-    height: auto;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-    margin-left: 20px; /* Odstęp od tekstu */
-    max-width: 100%; /* Ograniczenie maksymalnej szerokości obrazka */
+/* Artykuły ze zdjęciem */
+.article-with-image {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    border-bottom: 1px solid #444;
 }
 
-.article-with-image .article-content img:hover {
-    transform: scale(1.1);
+/* Tytuł artykułu - wyśrodkowany */
+.article-with-image h3 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 
-/* Usunięcie linii, jeśli w elemencie jest tylko obrazek bez tekstu */
-.article-with-image:has(img:only-child) p::after {
-    display: none;
-}
-
-/* Tekst w artykułach bez zdjęcia */
-.article-no-image p {
+/* Kontener dla tekstu i zdjęcia */
+.article-with-image .article-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
     margin-top: 10px;
+}
+
+/* Tekst artykułu z lewej */
+.article-with-image .article-content p {
+    width: 80%; /* Tekst zajmuje 80% szerokości */
     text-align: left;
 }
 
+/* Zdjęcie artykułu z prawej */
+.article-with-image .article-content img {
+    width: 40%; /* Zdjęcie zajmuje 40% szerokości */
+    height: auto;
+    max-width: 400px; /* Maksymalna szerokość zdjęcia */
+    max-height: 300px; /* Maksymalna wysokość zdjęcia */
+    object-fit: cover; /* Dopasowanie zdjęcia bez deformacji */
+    border-radius: 8px; /* Zaokrąglone rogi */
+    margin-left: 20px; /* Odstęp od tekstu */
+    transition: transform 0.3s ease;
+}
 
+.article-with-image .article-content img:hover {
+    transform: scale(1.05); /* Powiększenie zdjęcia na hover */
+}
+
+/* Artykuły bez zdjęcia */
+.article-no-image {
+    padding: 20px 0;
+    border-bottom: 1px solid #444;
+    text-align: left;
+}
+
+/* Usuń linię po ostatnim artykule bez zdjęcia */
+.article-no-image:last-child {
+    border-bottom: none;
+}
+
+/* Tytuł artykułu bez zdjęcia - wyśrodkowany */
+.article-no-image h3 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* Tekst artykułu bez zdjęcia - wyśrodkowany do lewej */
+.article-no-image p {
+    width: 100%;
+    text-align: left;
+    margin: 0 auto;
+}
+
+/* Mobile style */
+@media only screen and (max-width: 768px) {
+    .article-with-image .article-content img {
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+        max-width: 100%; /* Zdjęcia zajmują pełną szerokość na mobile */
+        transition: transform 0.5s ease, filter 0.5s ease; /* Animacja powracania */
+        filter: brightness(1); /* Normalna jasność */
+    }
+
+
+    /* Efekt kliknięcia - powiększenie zdjęcia i wyświetlenie tekstu */
+    .member.active img {
+        transform: scale(1.05); /* Powiększenie zdjęcia */
+    }
+
+
+    /* Powrót do oryginalnej wielkości po drugim kliknięciu */
+    .member:not(.active) img {
+        transform: scale(1);
+    }
+}
+
+
+.concert-section h3 {
+    text-align: center; /* Wyśrodkowanie nagłówków */
+    font-size: 2em;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.concert-section h3::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #444; /* Kolor linii pasujący do strony */
+    margin-top: 10px;
+}
 
 #kontakt {
     padding: 60px 20px;
@@ -238,7 +295,7 @@ nav ul li a:hover {
 }
 
 .contact-submit {
-    background-color: #f04e30;
+    background-color: #e60023;
     color: #fff;
     padding: 12px 30px;
     border: none;
@@ -248,7 +305,7 @@ nav ul li a:hover {
 }
 
 .contact-submit button:hover {
-    background-color: #d94336; /* Ciemniejszy odcień koloru przycisku po najechaniu */
+    background-color: #e60023; /* Ciemniejszy odcień koloru przycisku po najechaniu */
     transform: scale(1.1); /* Efekt powiększenia na hover */
 }
 
@@ -263,7 +320,7 @@ nav ul li a:hover {
 }
 
 .contact-info a {
-    color: #f04e30;
+    color: #e60023;
     text-decoration: none;
 }
 
@@ -317,7 +374,7 @@ nav ul li a:hover {
 
 /* Formularz kontaktowy */
 .contact-submit {
-    background-color: #f04e3e; /* Kolor przycisku */
+    background-color: #e60023; /* Kolor przycisku */
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -382,9 +439,28 @@ nav ul li a:hover {
 
 
 
-#galeria {
-    padding: 20px;
-    text-align: center; /* Wyśrodkowanie wszystkich elementów */
+.gallery-grid {
+    display: flex; /* Zmiana z grid na flex dla łatwego wyśrodkowania */
+    justify-content: center; /* Wyśrodkowanie zdjęć w poziomie */
+    flex-wrap: wrap; /* Zdjęcia zawijają się na nowe wiersze, jeśli zabraknie miejsca */
+    gap: 20px; /* Odstęp między zdjęciami */
+    padding: 20px; /* Dodatkowy odstęp wewnątrz galerii */
+}
+
+.gallery-item {
+    flex-basis: 300px; /* Szerokość każdego zdjęcia */
+    max-width: 300px; /* Maksymalna szerokość */
+}
+
+.gallery-item img {
+    width: 100%; /* Obrazek zajmuje pełną szerokość kontenera */
+    height: auto; /* Zachowanie proporcji obrazu */
+    border-radius: 8px; /* Zaokrąglone rogi */
+    transition: transform 0.3s ease-in-out; /* Dodanie animacji powiększenia */
+}
+
+.gallery-item img:hover {
+    transform: scale(1.1); /* Powiększenie zdjęcia na hover */
 }
 
 h2 {
@@ -423,49 +499,6 @@ h3 {
     transform: scale(1.1); /* Efekt powiększenia na hover */
 }
 
-/* Siatka zdjęć */
-.gallery-container {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center; /* Wyśrodkowanie galerii */
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    justify-items: center; /* Wyśrodkowanie obrazów */
-}
-
-/* Styl dla zdjęć */
-.gallery-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.gallery-item img:hover {
-    transform: scale(1.05);
-}
-
-/* Styl dla pionowych i poziomych zdjęć */
-.gallery-item.vertical img {
-    object-fit: cover;
-    height: 400px; /* Możesz dostosować wysokość pionowych zdjęć */
-}
-
-.gallery-item.horizontal img {
-    object-fit: cover;
-    height: 250px; /* Możesz dostosować wysokość poziomych zdjęć */
-}
-
-/* Ukrywanie elementów przy filtrze */
-.gallery-item.hidden {
-    display: none;
-}
 
 .concerts-section {
     text-align: center;
@@ -486,83 +519,184 @@ h3 {
     margin-bottom: 30px; /* Odstęp między kolejnymi koncertami */
 }
 
+/* Ustawienie podstawowe dla sekcji */
+/* Ustawienia dla sekcji muzyka */
 .music-section {
-    text-align: center;
     padding: 40px 20px;
+    text-align: center;
 }
 
 .music-section h2 {
     font-size: 2.5em;
     margin-bottom: 40px;
+    position: relative;
 }
 
-.music-section h3 {
-    font-size: 2em;
-    margin-bottom: 30px;
+/* Ustawienia ogólne dla sekcji muzyka */
+.music-section {
+    padding: 40px 20px;
+    text-align: center;
 }
 
-.song {
+/* H2 z linią */
+.music-section h2 {
+    font-size: 2.5em;
     margin-bottom: 40px;
+    position: relative;
 }
 
+/* H3 - nagłówek na całą szerokość strony */
+.music-section h3 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.music-section h3::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #444;
+    margin-top: 20px;
+}
+
+/* Układ na desktopie - dwie sekcje obok siebie */
+@media (min-width: 768px) {
+    .original-music, .covers {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px; /* Odstęp między sekcjami */
+    }
+
+    .song {
+        flex: 1;
+        max-width: 45%; /* Każda sekcja zajmuje maksymalnie 45% szerokości */
+        text-align: center;
+    }
+}
+
+/* Wyśrodkowanie tytułów piosenek nad filmami */
 .song h4 {
     font-size: 1.5em;
     margin-bottom: 20px;
 }
 
+/* Ustawienie dla okienka YouTube */
 .video-container {
     width: 100%;
-    max-width: 560px;
-    margin: 0 auto;
-}
-
-/* Ogólne style dla członków zespołu */
-.members-container {
-    display: flex;
-    justify-content: space-between; /* Obrazki obok siebie w wersji desktop */
-    gap: 10px; /* Delikatna przerwa między zdjęciami */
-    flex-wrap: wrap; /* Zawijanie zdjęć w przypadku mniejszej szerokości */
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Pojedynczy członek zespołu */
-.member {
     position: relative;
-    flex: 1;
+    padding-bottom: 56.25%; /* Stosunek 16:9 */
+    height: 0;
     overflow: hidden;
-    transition: transform 0.3s ease;
+    background-color: black;
 }
 
-/* Zdjęcie członka zespołu */
-.member img {
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    border-radius: 10px;
-}
-
-/* Efekt najechania na zdjęcie */
-.member:hover img {
-    transform: scale(1.05); /* Powiększenie zdjęcia */
-    filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+    height: 100%;
 }
 
 
-    /* Krótki opis pojawia się na zdjęciu po kliknięciu */
-    .member[data-member]:hover::after {
-        content: attr(data-member);
+
+
+/* MEDIA QUERIES - wersja mobilna */
+@media only screen and (max-width: 768px) {
+    .music-section .original-music, 
+    .music-section .covers {
+        display: block; /* Filmy pod sobą */
+    }
+
+    /* Linie tylko po nagłówkach h3, bez linii po ostatnim elemencie */
+    .music-section h3::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: #444;
+        margin-top: 10px;
+    }
+
+    /* Brak linii po ostatnim elemencie */
+    .music-section > div: {
+        border-bottom: none;
+    }
+}
+  /* Stylizacja zdjęć dla wersji desktop */
+@media only screen and (min-width: 769px) {
+
+    /* Kontener dla zdjęć */
+    .members-container {
+        display: flex;
+        justify-content: space-between; /* Równomierne rozmieszczenie zdjęć */
+        gap: 10px; /* Odstęp między zdjęciami */
+        flex-wrap: wrap; /* Dostosowanie do szerokości ekranu */
+    }
+
+    .member {
+        flex: 1 1 calc(20% - 10px); /* Każde zdjęcie zajmuje 25% szerokości, minus odstęp */
+        position: relative;
+        margin-bottom: 10px; /* Odstęp między rzędami zdjęć */
+        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
+    }
+
+    .member img {
+        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+        height: 100%;
+        object-fit: cover; /* Dopasowanie zdjęcia, bez ucięcia */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
+    }
+
+    /* Efekt hover: Gradient zamiast blur + wyświetlanie tekstu */
+    .member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         color: #fff;
         font-size: 1.5em;
         font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out; /* Płynna zmiana widoczności */
     }
-	
-	
+
+    /* Powiększenie i wyświetlanie tekstu na hover */
+	.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+    .member:hover::after {
+        opacity: 1; /* Pojawienie się tekstu na hover */
+    }
+
+
+}
+
+	/* Dodanie linii po każdym divie w sekcji Koncerty, oprócz ostatniego */
+#koncerty div:not(:last-child) {
+    border-bottom: 2px solid #444; /* Linia pod divem */
+    padding-bottom: 20px; /* Odstęp nad linią */
+    margin-bottom: 20px; /* Odstęp pod linią */
+}
+/* Dodanie linii po każdym koncercie, oprócz ostatniego */
+.concert-item:not(:last-child) {
+    border-bottom: 2px solid #444;
+    margin-bottom: 20px;
+}
+.contact-info {
+    text-align: center; /* Center the text */
+    padding: 20px; /* Optional: Add padding for spacing */
+}
 /* Stopka */
 footer {
     background-color: #000000; /* Czarne tło */
@@ -672,16 +806,6 @@ footer {
     margin: 0;
 }
 
-/* Usunięcie marginesu pomiędzy ostatnim artykułem a stopką */
-#news article:last-child {
-    margin-bottom: 0;
-    border-bottom: none;
-}
-
-#news {
-    padding-bottom: 0; /* Usunięcie nadmiarowego miejsca na dole sekcji aktualności */
-}
-
 /* Ukrywanie mobilnych elementów w wersji desktopowej */
 .mobile-header, .mobile-footer {
     display: none;
@@ -699,7 +823,13 @@ footer {
     .desktop-header, .desktop-footer {
         display: none;
     }
+    .desktop-only {
+        display: none;
+    }
 
+    .mobile-only {
+        display: block;
+    }
     /* Pokazywanie mobilnych nagłówka i stopki */
    .mobile-header {
     display: flex;
@@ -978,33 +1108,72 @@ footer {
     align-items: flex-start;
 }
 
-.members-container {
-        flex-direction: column;
-        gap: 10px; /* Odstęp między zdjęciami w mobilnej wersji */
+    /* Kontener dla zdjęć */
+    .members-container {
+        display: flex;
+        flex-direction: column; /* Zdjęcia w jednej kolumnie */
+        align-items: center;
+        gap: 20px; /* Odstęp między zdjęciami */
     }
 
     .member {
-        max-width: 100%;
-    }
-
-    /* Na urządzeniach mobilnych zdjęcie ma być rozmazane po najechaniu */
-    .member img:hover {
-        filter: blur(3px);
+        width: 90%; /* Szerokość zdjęcia dopasowana do szerokości ekranu */
+        position: relative;
+        transition: transform 0.5s ease;
     }
 
     .member img {
-        border-radius: 10px; /* Zaokrąglone wszystkie rogi na mobile */
+        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+        height: auto; /* Automatyczna wysokość */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        transition: transform 0.5s ease;
     }
 
-    /* Krótki opis pojawia się na zdjęciu po kliknięciu */
-    .member[data-member]:hover::after {
-        content: attr(data-member);
+    /* Efekt kliknięcia - gradient zamiast blur */
+    .member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
         color: #fff;
         font-size: 1.5em;
         font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
     }
+
+    /* Powiększenie i wyświetlanie tekstu na hover */
+	.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+    .member.active::after {
+        opacity: 1; /* Wyświetlenie tekstu */
+    }
+
+    /* Powrót do oryginalnej wielkości po drugim kliknięciu */
+    .member:not(.active) img {
+        transform: scale(1);
+				filter: brightness(1); /* Przyciemnienie zdjęcia */
+				
+    }
+	
+	/* Ustawienia dla desktop */
+@media (min-width: 769px) {
+    .slider-container img {
+        display: block;
+    }
+}
+
+/* Ustawienia dla mobile */
+@media (max-width: 768px) {
+    .slider-container img {
+        display: block;
+    }
+}

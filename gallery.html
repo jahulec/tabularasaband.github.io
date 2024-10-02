@@ -49,81 +49,69 @@
     </div>
 </header>
 
-<!-- Dynamiczna Galeria Zdjęć -->
+<<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="slider-container">
-    <img src="zdjecie1-mobile.jpg" alt="Zdjęcie 1" class="active">
-    <img src="zdjecie2-mobile.jpg" alt="Zdjęcie 2">
-    <img src="zdjecie3-mobile.jpg" alt="Zdjęcie 3">
+    <img src="zdjecie1.jpg" alt="Zdjęcie 1" class="active desktop-image" loading="lazy" data-mobile-src="zdjecie1-mobile.jpg" data-desktop-src="zdjecie1.jpg">
+    <img src="zdjecie2.jpg" alt="Zdjęcie 2" class="desktop-image" loading="lazy" data-mobile-src="zdjecie2-mobile.jpg" data-desktop-src="zdjecie2.jpg">
+    <img src="zdjecie3.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie3-mobile.jpg" data-desktop-src="zdjecie3.jpg">
 </div>
 
 <section id="news">
     <h3>Galeria zdjęć</h3>
-<!-- Filtr kategorii -->
-<!--
-<div class="filter-buttons">
-    <button data-filter="all">Wszystkie</button>
-    <button data-filter="vertical">Pionowe</button>
-    <button data-filter="horizontal">Poziome</button>
-</div>
--->
+
     <!-- Galeria podzielona na koncerty -->
     <div class="gallery-container">
-	
+    
         <!-- Sekcja koncertu 1 -->
         <div class="concert-section" data-concert="koncert-2023-06-15">
-            <h2>Rock and Love</h2>
+            <h3>Rock and Love</h3>
             <div class="gallery-grid">
-								<div class="gallery-item vertical" data-category="verical">
-                    <img src="2.jpg" alt="Zdjęcie poziome z koncertu 15 czerwca">
-                </div>				                
-								<div class="gallery-item vertical" data-category="vertical">
-                    <img src="8.jpg" alt="Zdjęcie pionowe z koncertu 15 czerwca">
+                <div class="gallery-item">
+                    <img src="2.jpg" alt="Zdjęcie z koncertu 15 czerwca">
                 </div>
-				                <div class="gallery-item horizontal" data-category="horizontal">
-                    <img src="3.jpg" alt="Zdjęcie poziome z koncertu 15 czerwca">
+                <div class="gallery-item">
+                    <img src="3.jpg" alt="Zdjęcie z koncertu 15 czerwca">
                 </div>
-				                <div class="gallery-item horizontal" data-category="horizontal">
-                    <img src="5.jpg" alt="Zdjęcie poziome z koncertu 15 czerwca">
+                <div class="gallery-item">
+                    <img src="5.jpg" alt="Zdjęcie z koncertu 15 czerwca">
                 </div>
-				                <div class="gallery-item horizontal" data-category="horizontal">
-                    <img src="6.jpg" alt="Zdjęcie poziome z koncertu 15 czerwca">
+                <div class="gallery-item">
+                    <img src="6.jpg" alt="Zdjęcie z koncertu 15 czerwca">
                 </div>
-				                <div class="gallery-item horizontal" data-category="horizontal">
-                    <img src="7.jpg" alt="Zdjęcie poziome z koncertu 15 czerwca">
-
             </div>
         </div>
 
- <!-- Sekcja koncertu 2 -->
+        <!-- Sekcja koncertu 2 -->
         <div class="concert-section" data-concert="koncert-2023-07-10">
-            <h2>Festiwal Wielki Ogień Miry Kubasińskiej</h2>
+            <h3>Festiwal Wielki Ogień Miry Kubasińskiej</h3>
             <div class="gallery-grid">
-                <div class="gallery-item vertical" data-category="vertical">
-                    <img src="15.jpg" alt="Zdjęcie pionowe z koncertu 10 lipca">
+                <div class="gallery-item">
+                    <img src="15.jpg" alt="Zdjęcie z koncertu 10 lipca">
                 </div>
-				<div class="gallery-item vertical" data-category="vertical">
-                    <img src="17.jpg" alt="Zdjęcie pionowe z koncertu 10 lipca">
+                <div class="gallery-item">
+                    <img src="17.jpg" alt="Zdjęcie z koncertu 10 lipca">
                 </div>
+            </div>
         </div>
-		
-		
+        
         <!-- Sekcja koncertu 3 -->
         <div class="concert-section" data-concert="koncert-2023-07-10">
-            <h2>Festiwal Śmigasówka</h32
+            <h3>Festiwal Śmigasówka</h3>
             <div class="gallery-grid">
-                <div class="gallery-item vertical" data-category="vertical">
-                    <img src="11.jpg" alt="Zdjęcie pionowe z koncertu 10 lipca">
+                <div class="gallery-item">
+                    <img src="14.jpg" alt="Zdjęcie z koncertu 10 lipca">
                 </div>
-				<div class="gallery-item vertical" data-category="vertical">
-                    <img src="14.jpg" alt="Zdjęcie pionowe z koncertu 10 lipca">
+                <div class="gallery-item">
+                    <img src="11.jpg" alt="Zdjęcie z koncertu 10 lipca">
                 </div>
-				<div class="gallery-item vertical" data-category="vertical">
-                    <img src="16.jpg" alt="Zdjęcie pionowe z koncertu 10 lipca">
+                <div class="gallery-item">
+                    <img src="16.jpg" alt="Zdjęcie z koncertu 10 lipca">
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 
 <!-- Stopka -->

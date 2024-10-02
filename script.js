@@ -7,6 +7,27 @@ const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
 let currentImageIndex = 0; // Indeks bieżącego obrazu
 
+
+window.addEventListener("load", function() {
+    handleImageSwap(); // Zmień obrazy w zależności od urządzenia
+});
+
+window.addEventListener("resize", handleImageSwap); // Zmiana obrazu po zmianie rozmiaru ekranu
+
+
+function handleImageSwap() {
+    const sliderImages = document.querySelectorAll('.slider-container img');
+    
+    sliderImages.forEach(img => {
+        if (window.innerWidth <= 768) {
+            // Mobile - zmieniamy na wersje mobilne
+            img.src = img.getAttribute('data-mobile-src');
+        } else {
+            // Desktop - zmieniamy na wersje desktopowe
+            img.src = img.getAttribute('data-desktop-src');
+        }
+    });
+}
 // Funkcja do aktywowania pierwszego zdjęcia
 function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
@@ -14,12 +35,12 @@ function activateFirstSlide() {
 
 // Funkcja do zmiany zdjęć co kilka sekund
 function changeSlide() {
-    sliderImages.forEach((img, index) => {
+    sliderImages.forEach((img) => {
         img.classList.remove('active'); // Usuwanie klasy active ze wszystkich obrazów
     });
 
-    currentImageIndex = (currentImageIndex + 1) % sliderImages.length; // Następne zdjęcie w kolejności
-    sliderImages[currentImageIndex].classList.add('active'); // Dodawanie klasy active do bieżącego obrazu
+    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
+    sliderImages[currentImageIndex].classList.add('active');
 }
 
 // Sprawdzanie, czy wszystkie zdjęcia zostały załadowane
@@ -36,7 +57,7 @@ function areImagesLoaded() {
 // Uruchomienie funkcji zmiany zdjęć po załadowaniu wszystkich obrazów
 function startSlider() {
     if (areImagesLoaded()) {
-        activateFirstSlide(); // Aktywowanie pierwszego zdjęcia
+        activateFirstSlide();
         setInterval(changeSlide, 5000); // Co 5 sekund zmiana zdjęcia
     } else {
         setTimeout(startSlider, 100); // Sprawdzanie załadowania co 100ms
@@ -57,25 +78,40 @@ function handleHeaderVisibility(scrollTop) {
 
     // Ukrywanie nagłówka po zniknięciu galerii
     if (galleryBottom <= 0) {
-        // Gdy przewijamy w dół, nagłówek się ukrywa
         if (scrollTop > lastScrollTop) {
-            header.classList.add("hidden");
+            header.classList.add("hidden"); // Ukryj nagłówek, gdy przewijasz w dół
         } else {
-            // Gdy przewijamy w górę, nagłówek się pokazuje
-            header.classList.remove("hidden");
+            header.classList.remove("hidden"); // Pokaż nagłówek, gdy przewijasz w górę
         }
     } else {
-        // Nagłówek zawsze widoczny, gdy galeria jest widoczna
-        header.classList.remove("hidden");
+        header.classList.remove("hidden"); // Nagłówek zawsze widoczny, gdy galeria jest widoczna
     }
 
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Aktualizacja wartości scrollTop
 }
 
-window.onload = function() {
-    startSlider(); // Rozpoczęcie działania slidera po pełnym załadowaniu strony
-};
+// Obsługa hamburger menu
+document.getElementById('hamburger').addEventListener('click', function() {
+    this.classList.toggle('active');
+    document.getElementById('nav-mobile').classList.toggle('active');
+});
 
+// Obsługa kliknięcia na członków zespołu (wersja mobilna)
+document.querySelectorAll('.member').forEach(member => {
+    member.addEventListener('click', function() {
+        if (this.classList.contains('active')) {
+            this.classList.remove('active'); // Usuwanie aktywności po ponownym kliknięciu
+        } else {
+            document.querySelectorAll('.member').forEach(el => el.classList.remove('active'));
+            this.classList.add('active'); // Dodanie aktywności do klikniętego elementu
+        }
+    });
+});
+
+// Dodanie event listenera na załadowanie strony, który uruchamia slider
+window.addEventListener("load", startSlider);
+
+// Obsługa scrollowania
 window.addEventListener("scroll", function () {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     adjustImageBrightness(scrollTop); // Przyciemnianie obrazów w zależności od scrolla
@@ -83,21 +119,4 @@ window.addEventListener("scroll", function () {
 });
 
 
-document.getElementById('hamburger').addEventListener('click', function() {
-    this.classList.toggle('active');
-    document.getElementById('nav-mobile').classList.toggle('active');
-});
 
-// JavaScript do obsługi kliknięcia na zdjęcia w wersji mobilnej
-document.querySelectorAll('.member').forEach(member => {
-    member.addEventListener('click', function() {
-        // Sprawdź, czy jest już aktywny
-        if (this.classList.contains('active')) {
-            this.classList.remove('active'); // Usuwanie aktywności po ponownym kliknięciu
-        } else {
-            // Dezaktywuj inne elementy
-            document.querySelectorAll('.member').forEach(el => el.classList.remove('active'));
-            this.classList.add('active'); // Dodaj aktywność do klikniętego elementu
-        }
-    });
-});

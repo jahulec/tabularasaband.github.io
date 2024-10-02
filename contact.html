@@ -49,11 +49,11 @@
     </div>
 </header>
 
-<!-- Dynamiczna Galeria Zdjęć -->
+<<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="slider-container">
-    <img src="zdjecie1-mobile.jpg" alt="Zdjęcie 1" class="active">
-    <img src="zdjecie2-mobile.jpg" alt="Zdjęcie 2">
-    <img src="zdjecie3-mobile.jpg" alt="Zdjęcie 3">
+    <img src="zdjecie1.jpg" alt="Zdjęcie 1" class="active desktop-image" loading="lazy" data-mobile-src="zdjecie1-mobile.jpg" data-desktop-src="zdjecie1.jpg">
+    <img src="zdjecie2.jpg" alt="Zdjęcie 2" class="desktop-image" loading="lazy" data-mobile-src="zdjecie2-mobile.jpg" data-desktop-src="zdjecie2.jpg">
+    <img src="zdjecie3.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie3-mobile.jpg" data-desktop-src="zdjecie3.jpg">
 </div>
 
 <!-- Sekcja Kontakt -->
@@ -65,7 +65,7 @@
         <p>Masz pytania? Skontaktuj się z nami, a odpowiemy najszybciej, jak to możliwe!</p>
         
         <!-- Formularz kontaktowy -->
-        <form action="send-message.php" method="post" class="contact-form">
+        <form action="https://formspree.io/f/xanwrzoo" method="POST" class="contact-form">
             <div class="form-group">
                 <label for="name">Imię i nazwisko</label>
                 <input type="text" id="name" name="name" placeholder="Wpisz swoje imię" required>
