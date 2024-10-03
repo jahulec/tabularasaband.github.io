@@ -1,6 +1,88 @@
-/* Ogólne style */
+/* ogólne style */
+	
+	/* Globalna zasada - wyśrodkowany nagłówek h1 */
+h1 {
+    text-align: center; /* Wyśrodkowanie tekstu */
+    font-size: 3em; /* Rozmiar czcionki dla h1 */
+    margin-bottom: 100px; /* Odstęp pod nagłówkiem */
+}
+
+
+/* Globalna zasada - wyśrodkowany nagłówek h2 z linią poniżej */
+h2 {
+    text-align: center; /* Wyśrodkowanie nagłówka */
+    font-size: 2.5em; /* Standardowy rozmiar dla h2 */
+    margin-bottom: 10px; /* Odstęp między nagłówkiem a linią */
+}
+
+h2::after {
+ content: '';
+    display: block;
+    width: 100%; /* Szerokość linii - możesz dostosować */
+    height: 2px;
+    background-color: #444; /* Kolor linii */
+    margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
+}
+
+/* Globalna zasada - wyśrodkowany nagłówek h3 z linią poniżej */
+h3 {
+    text-align: center; /* Wyśrodkowanie nagłówka */
+    font-size: 2em; /* Standardowy rozmiar dla h3 */
+    margin-bottom: 10px; /* Odstęp między nagłówkiem a linią */
+}
+
+h3::after {
+ content: '';
+    display: block;
+    width: 100%; /* Szerokość linii - możesz dostosować */
+    height: 2px;
+    background-color: #444; /* Kolor linii */
+    margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
+}
+
+/* Globalna zasada - styl dla obrazów */
+img {
+    max-width: 100%; /* Obrazy nie będą wychodzić poza szerokość kontenera */
+    height: auto; /* Zachowanie proporcji obrazu */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    object-fit: cover; /* Dopasowanie obrazów bez zniekształceń */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Delikatny cień dla estetyki */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animacja przy najechaniu */
+}
+
+/* Efekt po najechaniu na obraz */
+img:hover {
+    transform: scale(1.05); /* Powiększenie obrazu przy najechaniu */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Wzmocnienie cienia przy najechaniu */
+}
+
+	/* Wyjątek dla logo.png - inne zasady dla logo */
+img[src$="logo.png"] {
+    border-radius: 0; /* Usuń zaokrąglone rogi dla logo */
+    box-shadow: none; /* Brak cienia dla logo */
+    transform: none; /* Brak powiększenia dla logo */
+    transition: none; /* Brak animacji dla logo */
+}
+	/* Widoczność desktopowych elementów */
+.desktop-header {
+    display: flex; /* Upewnij się, że nagłówek na desktopie jest wyświetlany */
+}
+
+.mobile-header {
+    display: none; /* Ukryj mobilny nagłówek na desktopie */
+}
+
+.desktop-footer {
+    display: block;
+}
+
+.mobile-footer {
+    display: none; /* Ukryj mobilną stopkę na desktopie */
+}
+
+
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: transparent;
     color: #f0f0f0;
     margin: 0;
@@ -20,18 +102,19 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    transition: top 0.3s ease-in-out; /* Dodanie płynnego przesuwania nagłówka */
+    transition: top 0.3s ease-in-out;
 }
 
 /* Ukrywanie nagłówka */
 header.hidden {
-    top: -100px; /* Przesunięcie nagłówka poza ekran, wartość wyższa niż jego wysokość (80px) */
-    transition: top 0.3s ease-in-out; /* Płynne przejście */
+    top: -100px;
+    transition: top 0.3s ease-in-out;
 }
 
 .mobile-only {
     display: none;
 }
+
 /* Logo */
 .logo-container {
     text-align: center;
@@ -92,7 +175,7 @@ nav ul li a:hover {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 1s ease-in-out, transform 12s ease-in-out; /* Dodanie płynnego przejścia */
+    transition: opacity 1s ease-in-out, transform 12s ease-in-out;
 }
 
 .slider-container img.active {
@@ -140,7 +223,7 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     padding: 20px 0;
-    border-bottom: 1px solid #444;
+
 }
 
 /* Tytuł artykułu - wyśrodkowany */
@@ -161,30 +244,29 @@ nav ul li a:hover {
 
 /* Tekst artykułu z lewej */
 .article-with-image .article-content p {
-    width: 80%; /* Tekst zajmuje 80% szerokości */
+    width: 80%;
     text-align: left;
 }
 
 /* Zdjęcie artykułu z prawej */
 .article-with-image .article-content img {
-    width: 40%; /* Zdjęcie zajmuje 40% szerokości */
+    width: 40%;
     height: auto;
-    max-width: 400px; /* Maksymalna szerokość zdjęcia */
-    max-height: 300px; /* Maksymalna wysokość zdjęcia */
-    object-fit: cover; /* Dopasowanie zdjęcia bez deformacji */
-    border-radius: 8px; /* Zaokrąglone rogi */
-    margin-left: 20px; /* Odstęp od tekstu */
+    max-width: 400px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-left: 20px;
     transition: transform 0.3s ease;
 }
 
 .article-with-image .article-content img:hover {
-    transform: scale(1.05); /* Powiększenie zdjęcia na hover */
+    transform: scale(1.05);
 }
 
 /* Artykuły bez zdjęcia */
 .article-no-image {
     padding: 20px 0;
-    border-bottom: 1px solid #444;
     text-align: left;
 }
 
@@ -207,33 +289,8 @@ nav ul li a:hover {
     margin: 0 auto;
 }
 
-/* Mobile style */
-@media only screen and (max-width: 768px) {
-    .article-with-image .article-content img {
-        width: 100%;
-        height: auto;
-        margin-top: 20px;
-        max-width: 100%; /* Zdjęcia zajmują pełną szerokość na mobile */
-        transition: transform 0.5s ease, filter 0.5s ease; /* Animacja powracania */
-        filter: brightness(1); /* Normalna jasność */
-    }
-
-
-    /* Efekt kliknięcia - powiększenie zdjęcia i wyświetlenie tekstu */
-    .member.active img {
-        transform: scale(1.05); /* Powiększenie zdjęcia */
-    }
-
-
-    /* Powrót do oryginalnej wielkości po drugim kliknięciu */
-    .member:not(.active) img {
-        transform: scale(1);
-    }
-}
-
-
 .concert-section h3 {
-    text-align: center; /* Wyśrodkowanie nagłówków */
+    text-align: center;
     font-size: 2em;
     margin-bottom: 10px;
     position: relative;
@@ -244,9 +301,34 @@ nav ul li a:hover {
     display: block;
     width: 100%;
     height: 2px;
-    background-color: #444; /* Kolor linii pasujący do strony */
+    background-color: #444;
     margin-top: 10px;
 }
+
+
+/* Styl dla przycisku pobierania Ridera */
+.rider-download-btn {
+    display: inline-block;
+    margin: 20px auto; /* Wyśrodkowanie przycisku */
+    padding: 10px 20px;
+    background-color: #e60023; /* Kolor tła zgodny z kolorystyką strony */
+	
+    color: #fff; /* Kolor tekstu */
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px; /* Zaokrąglone rogi */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Animacja */
+}
+.rider-section {
+    text-align: center; /* Wyśrodkowanie zawartości, w tym przycisku */
+}
+
+/* Efekt najechania */
+.rider-download-btn:hover {
+    transform: scale(1.05); /* Lekkie powiększenie przy najechaniu */
+}
+
+
 
 #kontakt {
     padding: 60px 20px;
@@ -305,416 +387,38 @@ nav ul li a:hover {
 }
 
 .contact-submit button:hover {
-    background-color: #e60023; /* Ciemniejszy odcień koloru przycisku po najechaniu */
-    transform: scale(1.1); /* Efekt powiększenia na hover */
+    background-color: #e60023;
+    transform: scale(1.1);
 }
 
-.contact-info h3 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
-}
-
-.contact-info p {
-    font-size: 1.2em;
-    margin: 5px 0;
-}
-
-.contact-info a {
-    color: #e60023;
-    text-decoration: none;
-}
-
-.contact-info a:hover {
-    text-decoration: underline;
-}
-
-/* Stylizacja sekcji Presspack */
-.press-section {
-    padding: 40px;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-.press-section h1, .press-section h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.press-info, .press-members, .press-history, .press-rider, .press-images {
-    margin-bottom: 40px;
-}
-
-.press-members ul, .press-rider ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.press-members ul li, .press-rider ul li {
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.press-images .images-gallery {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.press-images img {
-    width: 45%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.band-image, .stage-image {
-    max-width: 100%;
-    height: auto;
-}
-
-/* Formularz kontaktowy */
-.contact-submit {
-    background-color: #e60023; /* Kolor przycisku */
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.contact-submit:hover {
-    background-color: #d94336; /* Ciemniejszy kolor po najechaniu */
-    transform: scale(1.1); /* Efekt powiększenia na hover */
-}
-
-/* Kontener dla tytułu, tekstu i obrazu (desktop) */
-.rider-section {
-    flex-direction: column; /* Ustawienie kolumnowego układu dla tytułu, a potem treści */
-    align-items: center;
-    padding: 40px 0;
-}
-
-/* Tytuł wyśrodkowany */
-.rider-title {
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-/* Kontener dla tekstu i obrazu */
-.rider-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px; /* Szerokość całego kontenera z tekstem i obrazkiem */
-    align-items: flex-start;
-}
-
-/* Lewa część - tekst */
-.rider-text {
-    flex: 1;
-		width: 50%; /* Tekst zajmuje maksymalnie 50% szerokości */
-    padding-right: 20px;
-    text-align: left;
-    box-sizing: border-box;
-}
-
-/* Prawa część - obrazek */
-.rider-image {
-    flex: 1;
-    max-width: 50%; /* Obrazek zajmuje maksymalnie 50% szerokości */
-    display: flex;
-    justify-content: flex-end;
-    box-sizing: border-box;
-}
-
-.rider-image img {
-    width: 100%;
-    height: auto;
-    max-width: 100%; /* Obrazek zajmuje pełną szerokość kontenera */
-    object-fit: cover; /* Zapewnia, że obrazek dostosuje się do kontenera bez zniekształceń */
-    border-radius: 10px; /* Zaokrąglone rogi */
-}
-
-
-
-.gallery-grid {
-    display: flex; /* Zmiana z grid na flex dla łatwego wyśrodkowania */
-    justify-content: center; /* Wyśrodkowanie zdjęć w poziomie */
-    flex-wrap: wrap; /* Zdjęcia zawijają się na nowe wiersze, jeśli zabraknie miejsca */
-    gap: 20px; /* Odstęp między zdjęciami */
-    padding: 20px; /* Dodatkowy odstęp wewnątrz galerii */
-}
-
-.gallery-item {
-    flex-basis: 300px; /* Szerokość każdego zdjęcia */
-    max-width: 300px; /* Maksymalna szerokość */
-}
-
-.gallery-item img {
-    width: 100%; /* Obrazek zajmuje pełną szerokość kontenera */
-    height: auto; /* Zachowanie proporcji obrazu */
-    border-radius: 8px; /* Zaokrąglone rogi */
-    transition: transform 0.3s ease-in-out; /* Dodanie animacji powiększenia */
-}
-
-.gallery-item img:hover {
-    transform: scale(1.1); /* Powiększenie zdjęcia na hover */
-}
-
-h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    text-align: center; /* Wyśrodkowanie nagłówka */
-}
-
-h3 {
-    font-size: 1.8em;
-    margin-top: 20px;
-    text-align: center; /* Wyśrodkowanie podnagłówka */
-}
-
-/* Filtr kategorii */
-.filter-buttons {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center; /* Wyśrodkowanie przycisków */
-    gap: 10px; /* Odstęp między przyciskami */
-}
-
-.filter-buttons button {
-    background-color: #f04e3e; /* Nowy kolor przycisku */
-    color: #fff;
-    padding: 10px 20px;
-    margin: 0 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease; /* Dodanie płynnego efektu */
-}
-
-.filter-buttons button:hover {
-    background-color: #d94336; /* Ciemniejszy odcień koloru przycisku po najechaniu */
-    transform: scale(1.1); /* Efekt powiększenia na hover */
-}
-
-
-.concerts-section {
-    text-align: center;
-    padding: 20px 0; /* Dodatkowy odstęp od góry i dołu dla sekcji */
-}
-
-.concerts-section h2 {
-    margin-bottom: 40px; /* Większy odstęp pod nagłówkiem sekcji */
-}
-
-.concert-item h3, 
-.concert-item p {
-    text-align: center;
-    margin-bottom: 10px; /* Odstęp między nagłówkiem koncertu a tekstem */
-}
-
-.concert-item {
-    margin-bottom: 30px; /* Odstęp między kolejnymi koncertami */
-}
-
-/* Ustawienie podstawowe dla sekcji */
-/* Ustawienia dla sekcji muzyka */
-.music-section {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-.music-section h2 {
-    font-size: 2.5em;
-    margin-bottom: 40px;
-    position: relative;
-}
-
-/* Ustawienia ogólne dla sekcji muzyka */
-.music-section {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-/* H2 z linią */
-.music-section h2 {
-    font-size: 2.5em;
-    margin-bottom: 40px;
-    position: relative;
-}
-
-/* H3 - nagłówek na całą szerokość strony */
-.music-section h3 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.music-section h3::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #444;
-    margin-top: 20px;
-}
-
-/* Układ na desktopie - dwie sekcje obok siebie */
-@media (min-width: 768px) {
-    .original-music, .covers {
-        display: flex;
-        justify-content: space-between;
-        gap: 40px; /* Odstęp między sekcjami */
+    /* Zmiana koloru linków na czerwony */
+    .contact-info a {
+        color: #e60023; /* Czerwony kolor linków */
+        text-decoration: none;
+        transition: color 0.3s ease;
     }
 
-    .song {
-        flex: 1;
-        max-width: 45%; /* Każda sekcja zajmuje maksymalnie 45% szerokości */
-        text-align: center;
+    .contact-info a:hover {
+        color: #d94336; /* Ciemniejszy czerwony po najechaniu */
+        text-decoration: underline;
     }
-}
-
-/* Wyśrodkowanie tytułów piosenek nad filmami */
-.song h4 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-/* Ustawienie dla okienka YouTube */
-.video-container {
-    width: 100%;
-    position: relative;
-    padding-bottom: 56.25%; /* Stosunek 16:9 */
-    height: 0;
-    overflow: hidden;
-    background-color: black;
-}
-
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-
-
-
-/* MEDIA QUERIES - wersja mobilna */
-@media only screen and (max-width: 768px) {
-    .music-section .original-music, 
-    .music-section .covers {
-        display: block; /* Filmy pod sobą */
-    }
-
-    /* Linie tylko po nagłówkach h3, bez linii po ostatnim elemencie */
-    .music-section h3::after {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 2px;
-        background-color: #444;
-        margin-top: 10px;
-    }
-
-    /* Brak linii po ostatnim elemencie */
-    .music-section > div: {
-        border-bottom: none;
-    }
-}
-  /* Stylizacja zdjęć dla wersji desktop */
-@media only screen and (min-width: 769px) {
-
-    /* Kontener dla zdjęć */
-    .members-container {
-        display: flex;
-        justify-content: space-between; /* Równomierne rozmieszczenie zdjęć */
-        gap: 10px; /* Odstęp między zdjęciami */
-        flex-wrap: wrap; /* Dostosowanie do szerokości ekranu */
-    }
-
-    .member {
-        flex: 1 1 calc(20% - 10px); /* Każde zdjęcie zajmuje 25% szerokości, minus odstęp */
-        position: relative;
-        margin-bottom: 10px; /* Odstęp między rzędami zdjęć */
-        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
-    }
-
-    .member img {
-        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
-        height: 100%;
-        object-fit: cover; /* Dopasowanie zdjęcia, bez ucięcia */
-        border-radius: 10px; /* Zaokrąglone rogi */
-        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
-    }
-
-    /* Efekt hover: Gradient zamiast blur + wyświetlanie tekstu */
-    .member::after {
-        content: attr(data-member); /* Wyświetlanie opisu */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        color: #fff;
-        font-size: 1.5em;
-        font-weight: bold;
-        text-align: center;
-        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out; /* Płynna zmiana widoczności */
-    }
-
-    /* Powiększenie i wyświetlanie tekstu na hover */
-	.member:hover img {
-		transform: scale(1.1); /* Powiększenie zdjęcia */
-		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
-}	
-
-    .member:hover::after {
-        opacity: 1; /* Pojawienie się tekstu na hover */
-    }
-
-
-}
-
-	/* Dodanie linii po każdym divie w sekcji Koncerty, oprócz ostatniego */
-#koncerty div:not(:last-child) {
-    border-bottom: 2px solid #444; /* Linia pod divem */
-    padding-bottom: 20px; /* Odstęp nad linią */
-    margin-bottom: 20px; /* Odstęp pod linią */
-}
-/* Dodanie linii po każdym koncercie, oprócz ostatniego */
-.concert-item:not(:last-child) {
-    border-bottom: 2px solid #444;
-    margin-bottom: 20px;
-}
-.contact-info {
-    text-align: center; /* Center the text */
-    padding: 20px; /* Optional: Add padding for spacing */
-}
 /* Stopka */
 footer {
-    background-color: #000000; /* Czarne tło */
+    background-color: #000000;
     color: #ffffff;
-    padding: 20px 20px 0 20px; /* Zmniejszenie paddingu u góry */
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 20px 20px 0 20px;
     font-size: 0.9em;
     text-align: center;
     z-index: 1;
     position: relative;
-    margin-top: 0; /* Usunięcie marginesu górnego */
+    margin-top: 0;
     background-color: transparent;
     color: #f0f0f0;
 }
 
 .footer-divider {
     border: 0;
-    border-top: 1px solid #444; /* Dopasowanie stylu linii */
+    border-top: 1px solid #444;
     margin: 20px 0;
     width: 100%;
 }
@@ -806,51 +510,415 @@ footer {
     margin: 0;
 }
 
-/* Ukrywanie mobilnych elementów w wersji desktopowej */
-.mobile-header, .mobile-footer {
-    display: none;
+/* Styl hamburgera - upewnij się, że jest widoczny w mobilnej wersji */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+    right: 15px; /* Ustawienie pozycji hamburgera */
+    top: 20px;
+    z-index: 999; /* Upewnij się, że hamburger ma wysoki z-index, aby był nad innymi elementami */
 }
 
-/* Widoczność desktopowych elementów */
-.desktop-header, .desktop-footer {
+.hamburger span {
     display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff; /* Kolor linii hamburgera */
+    transition: all 0.3s ease;
 }
 
-/* MEDIA QUERIES: Zmiany tylko dla wersji mobilnej (max-width: 768px) */
-@media only screen and (max-width: 768px) {
 
-    /* Ukrywanie desktopowych nagłówka i stopki */
+    .gallery-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
+        width: 100%;
+    }
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Automatyczne kolumny z minimalną szerokością 200px */
+        gap: 20px; /* Odstępy między zdjęciami */
+        justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
+        width: 100%;
+
+    }
+
+    .gallery-item img {
+        width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
+        height: auto; /* Zachowanie proporcji */
+        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+    }
+
+/* Style Desktop only */
+@media only screen and (min-width: 768px) {
+    .original-music, .covers {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    .song {
+        flex: 1;
+        max-width: 45%;
+        text-align: center;
+    }
+
+    /* Kontener dla zdjęć */
+    .members-container {
+        display: flex;
+        justify-content: space-between; /* Równomierne rozmieszczenie zdjęć */
+        gap: 10px; /* Odstęp między zdjęciami */
+        flex-wrap: wrap; /* Dostosowanie do szerokości ekranu */
+    }
+
+    .member {
+        flex: 1 1 calc(20% - 10px); /* Każde zdjęcie zajmuje 25% szerokości, minus odstęp */
+        position: relative;
+        margin-bottom: 10px; /* Odstęp między rzędami zdjęć */
+        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
+    }
+
+    .member img {
+        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+        height: 100%;
+        object-fit: cover; /* Dopasowanie zdjęcia, bez ucięcia */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
+    }
+
+    /* Efekt hover: Gradient zamiast blur + wyświetlanie tekstu */
+    .member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out; /* Płynna zmiana widoczności */
+    }
+
+    /* Powiększenie i wyświetlanie tekstu na hover */
+	.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+    .member:hover::after {
+        opacity: 1; /* Pojawienie się tekstu na hover */
+    }
+    .slider-container img {
+        display: block;
+    }
+}
+
+/* Style Mobile only */
+@media (max-width: 768px) {
+   
+
+    .desktop-header {
+        display: none; /* Ukryj desktopowy nagłówek na urządzeniach mobilnych */
+    }
+
+    .mobile-header {
+        display: flex; /* Pokaż mobilny nagłówek tylko na urządzeniach mobilnych */
+    }
+
+    .desktop-footer {
+        display: none; /* Ukryj desktopową stopkę na urządzeniach mobilnych */
+    }
+
+    .mobile-footer {
+        display: flex; /* Pokaż mobilną stopkę tylko na urządzeniach mobilnych */
+    }
+	
+	
+	
+   .article-with-image .article-content img {
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+        max-width: 100%;
+        transition: transform 0.5s ease, filter 0.5s ease;
+        filter: brightness(1);
+    }
+
+    .member.active img {
+        transform: scale(1.05);
+    }
+
+    .member:not(.active) img {
+        transform: scale(1);
+    }
+
+   /* Kontener dla zdjęć */
+    .members-container {
+        display: flex;
+        flex-direction: column; /* Zdjęcia w jednej kolumnie */
+        align-items: center;
+        gap: 20px; /* Odstęp między zdjęciami */
+    }
+
+    .member {
+        width: 90%; /* Szerokość zdjęcia dopasowana do szerokości ekranu */
+        position: relative;
+        transition: transform 0.5s ease;
+    }
+
+    .member img {
+        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+        height: auto; /* Automatyczna wysokość */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        transition: transform 0.5s ease;
+    }
+
+    /* Efekt kliknięcia - gradient zamiast blur */
+    .member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    /* Powiększenie i wyświetlanie tekstu na hover */
+	.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+    .member.active::after {
+        opacity: 1; /* Wyświetlenie tekstu */
+    }
+
+    /* Powrót do oryginalnej wielkości po drugim kliknięciu */
+    .member:not(.active) img {
+        transform: scale(1);
+				filter: brightness(1); /* Przyciemnienie zdjęcia */
+				
+    }
+   
+       .music-section {
+        padding: 15px;
+    }
+
+    .music-section .original-music,
+    .music-section .covers {
+        display: grid;
+        grid-template-columns: 1fr; /* Elementy ułożone jeden pod drugim */
+        gap: 15px; /* Odstępy między elementami */
+    }
+
+    .music-section .song {
+        width: 100%; /* Ustawienie szerokości na 100% */
+        text-align: center; /* Wyśrodkowanie zawartości */
+    }
+
+    .music-section iframe {
+        width: 100%; /* Ustawienie szerokości na pełną szerokość kontenera */
+        height: auto; /* Zachowanie proporcji */
+    }
+
+.index-section {
+        padding: 15px;
+    }
+
+    .index-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Elementy ułożone jeden pod drugim */
+        gap: 15px; /* Odstępy między elementami */
+    }
+
+    .index-item {
+        width: 100%; /* Ustawienie szerokości na 100% */
+    }
+
+    .index-item img {
+        width: 100%; /* Ustawienie pełnej szerokości obrazka */
+        height: auto; /* Zachowanie proporcji */
+        object-fit: cover; /* Dopasowanie obrazka bez deformacji */
+    }
+    .mobile-header, .mobile-footer {
+        display: block;
+    }
+
     .desktop-header, .desktop-footer {
         display: none;
     }
-    .desktop-only {
-        display: none;
+
+    .nav-mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        top: -100vh;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(0px);
+        text-align: center;
+        z-index: 998;
+        transition: top 0.8s cubic-bezier(0.65, 0, 0.35, 1),
+                    backdrop-filter 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     }
 
-    .mobile-only {
+    .nav-mobile.active {
+        top: 0;
+        backdrop-filter: blur(10px);
+    }
+
+    /* Stylizacja artykułu bez linii pod artykułem ze zdjęciem */
+    .article-with-image {
+        text-align: center;
+        align-items: center;
+        padding: 20px 0;
+        border-bottom: none; /* Usunięcie linii pod artykułem ze zdjęciem */
+    }
+
+    /* Stylizacja artykułu bez zdjęcia - bez zmian */
+    .article-no-image {
+        text-align: center;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .article-with-image .article-content, .article-no-image .article-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .article-with-image .article-content p, .article-no-image .article-content p {
+        width: 100%;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .article-with-image .article-content img {
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+		        margin-left: auto;
+        margin-right: auto; /* Wyśrodkowanie zdjęcia */
+		
+    }
+    .contact-container {
+        padding: 15px;
+    }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .contact-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .contact-form button {
+        width: 100%;
+        padding: 10px;
+        font-size: 1.2em;
+        cursor: pointer;
+        background-color: #f04e3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+        background-color: #f04e3;
+    }
+
+    .contact-info {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .contact-info h3 {
+        margin-bottom: 10px;
+    }
+
+    .contact-info p {
+        margin-bottom: 5px;
+    }
+
+    .contact-info a {
+        color: #f04e3;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .contact-info a:hover {
+        text-decoration: underline;
+    }
+
+    .rider-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        width: 100%;
+    }
+
+    .rider-text {
+        max-width: 100%;
+        padding: 0 20px;
+        text-align: left;
+    }
+
+    .rider-image {
+        max-width: 100%;
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .rider-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .slider-container img {
         display: block;
     }
-    /* Pokazywanie mobilnych nagłówka i stopki */
-   .mobile-header {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 35px;
-    position: relative;
-    z-index: 10; /* Zapewnienie, że nagłówek jest nad innymi elementami */
-}
-/* Logo wyśrodkowane w poziomie i pionie w mobilnym nagłówku, z większym rozmiarem */
-.mobile-header {
-    display: flex;
-    justify-content: center; /* Wyśrodkowanie logo w poziomie */
-    align-items: center; /* Wyśrodkowanie logo w pionie */
-    height: 80px; /* Ustawienie wysokości nagłówka */
-    padding: 0 15px;
-    position: relative;
-    width: 100%;
-}
-
-    /* Hamburger menu */
+	
+   /* Hamburger menu */
     .mobile-header .hamburger {
         position: absolute;
         right: 15px;
@@ -945,235 +1013,18 @@ footer {
         background-color: rgba(255, 255, 255, 0.2); /* Podświetlenie po najechaniu */
     }
 
-    /* Stylizacja sekcji "Aktualności" w wersji mobilnej */
-    #news h2 {
-		        align-items: center;
-        font-size: 2.5em;
-        text-align: center; /* Wyśrodkowanie nagłówka */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: 1fr; /* Każde zdjęcie zajmuje całą szerokość */
+        gap: 10px; /* Mniejszy odstęp między zdjęciami */
     }
 
-    .article-with-image, .article-no-image {
-        text-align: center;
-		        align-items: center;
-        padding: 20px 0;
-        border-bottom: 1px solid #444;
-    }
-
-    .article-with-image h3, .article-no-image h3 {
-        font-size: 1.5em;
-        text-align: center;
-		        align-items: center;
-    }
-
-    .article-with-image .article-content, .article-no-image .article-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .article-with-image .article-content p, .article-no-image .article-content p {
-        width: 100%;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .article-with-image .article-content img {
-        order: 2; /* Przeniesienie zdjęcia pod tekst */
-        width: 100%;
-        max-width: 90%;
-        height: auto;
-        margin-top: 10px;
-    }
-
-    /* Mobilna stopka */
-    .mobile-footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-    }
-
-    .mobile-footer .social-media ul {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .mobile-footer .social-media ul li {
-        margin: 0 10px;
-    }
-
-    .mobile-footer .footer-logo {
-        margin-bottom: 10px;
-    }
-	
-	    /* Strona Contact - Formularz */
-    .contact-container {
-        padding: 15px;
-    }
-
-    .contact-form {
-        display: flex;
-        flex-direction: column;
-        width: 100%; /* Formularz zajmuje pełną szerokość */
-    }
-
-    .contact-form .form-group {
-        margin-bottom: 15px; /* Odstęp między polami formularza */
-    }
-
-    .contact-form input[type="text"],
-    .contact-form input[type="email"],
-    .contact-form textarea {
-        width: 100%; /* Pola formularza na pełną szerokość */
-        padding: 10px; /* Zwiększenie odstępu wewnętrznego */
-        box-sizing: border-box; /* Zabezpieczenie przed wyjściem poza kontener */
-    }
-
-    .contact-form button {
-        width: 100%; /* Przycisk na pełną szerokość */
-        padding: 10px;
-        font-size: 1.2em;
-        cursor: pointer;
-        background-color: #f04e3;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-
-    .contact-form button:hover {
-        background-color: #f04e3;
-    }
-
-    /* Kontakt - Informacje kontaktowe */
-    .contact-info {
-        padding: 15px;
-        text-align: center; /* Wyśrodkowanie tekstu kontaktowego */
-    }
-
-    .contact-info h3 {
-        margin-bottom: 10px;
-    }
-
-    .contact-info p {
-        margin-bottom: 5px;
-    }
-
-    .contact-info a {
-        color: #f04e3;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .contact-info a:hover {
-        text-decoration: underline;
-    }
-
-/* Sekcja rider w układzie kolumnowym */
-.rider-section {
-    flex-direction: column; /* Ustawienie kolumnowe dla sekcji */
-    align-items: center;
-    padding: 20px 0;
-    width: 100%;
-}
-
-/* Tekst zajmuje całą szerokość ekranu */
-.rider-text {
-    max-width: 100%; /* Tekst zajmuje pełną szerokość */
-    padding: 0 20px;
-    text-align: left; /* Można zmienić na center jeśli chcesz wyśrodkować tekst */
-}
-
-/* Obrazek znajduje się pod tekstem */
-.rider-image {
-    max-width: 100%; /* Obrazek zajmuje całą szerokość ekranu */
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.rider-image img {
-    width: 100%; /* Obrazek na pełną szerokość ekranu */
-    height: auto;
-    border-radius: 10px;
-}
-.rider-content {
-    display: grid;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px; /* Szerokość całego kontenera z tekstem i obrazkiem */
-    align-items: flex-start;
-}
-
-    /* Kontener dla zdjęć */
-    .members-container {
-        display: flex;
-        flex-direction: column; /* Zdjęcia w jednej kolumnie */
-        align-items: center;
-        gap: 20px; /* Odstęp między zdjęciami */
-    }
-
-    .member {
-        width: 90%; /* Szerokość zdjęcia dopasowana do szerokości ekranu */
-        position: relative;
-        transition: transform 0.5s ease;
-    }
-
-    .member img {
-        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
-        height: auto; /* Automatyczna wysokość */
-        border-radius: 10px; /* Zaokrąglone rogi */
-        transition: transform 0.5s ease;
-    }
-
-    /* Efekt kliknięcia - gradient zamiast blur */
-    .member::after {
-        content: attr(data-member); /* Wyświetlanie opisu */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-
-        color: #fff;
-        font-size: 1.5em;
-        font-weight: bold;
-        text-align: center;
-        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
-
-    /* Powiększenie i wyświetlanie tekstu na hover */
-	.member:hover img {
-		transform: scale(1.1); /* Powiększenie zdjęcia */
-		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
-}	
-
-    .member.active::after {
-        opacity: 1; /* Wyświetlenie tekstu */
-    }
-
-    /* Powrót do oryginalnej wielkości po drugim kliknięciu */
-    .member:not(.active) img {
-        transform: scale(1);
-				filter: brightness(1); /* Przyciemnienie zdjęcia */
-				
-    }
-	
-	/* Ustawienia dla desktop */
-@media (min-width: 769px) {
-    .slider-container img {
-        display: block;
+    .gallery-item img {
+        width: 100%; /* Zdjęcia zajmują całą szerokość dostępnej kolumny */
+        height: auto; /* Zachowanie proporcji */
+        object-fit: cover; /* Dopasowanie zdjęć bez deformacji */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
     }
 }
 
-/* Ustawienia dla mobile */
-@media (max-width: 768px) {
-    .slider-container img {
-        display: block;
-    }
-}
+
