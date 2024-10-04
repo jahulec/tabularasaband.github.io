@@ -583,8 +583,12 @@ footer {
 
 /* Style Mobile only */
 @media (max-width: 768px) {
-   
-   
+  
+	p {
+		text-align: center;
+	}
+	
+	
 /* nagłowek mobile i desktop */
     .desktop-header, .desktop-footer {
         display: none;
