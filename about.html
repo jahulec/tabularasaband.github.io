@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
 	<link rel="icon" href="logo.png" type="image/png">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
 
 </head>
 <body>
@@ -54,31 +56,37 @@
 </header>
 
 <<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
+<<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="slider-container">
     <img src="zdjecie1.jpg" alt="Zdjęcie 1" class="active desktop-image" loading="lazy" data-mobile-src="zdjecie1-mobile.jpg" data-desktop-src="zdjecie1.jpg">
     <img src="zdjecie2.jpg" alt="Zdjęcie 2" class="desktop-image" loading="lazy" data-mobile-src="zdjecie2-mobile.jpg" data-desktop-src="zdjecie2.jpg">
     <img src="zdjecie3.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie3-mobile.jpg" data-desktop-src="zdjecie3.jpg">
+	<img src="zdjecie4.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie4-mobile.jpg" data-desktop-src="zdjecie4.jpg">
+	<img src="zdjecie5.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie5-mobile.jpg" data-desktop-src="zdjecie5.jpg">
+	<img src="zdjecie6.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie6-mobile.jpg" data-desktop-src="zdjecie6.jpg">
+	<img src="zdjecie7.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie7-mobile.jpg" data-desktop-src="zdjecie7.jpg">
 </div>
 
+
 <section id="news">
-	    <h1>O nas</h1>
-		<h3 style="text-align: center; margin-bottom: 30px;">Kliknij zdjęcie po więcej informacji!</h3>
+	    <h1 id="welcome">O nas</h1>
+		<h3 style="text-align: center; margin-bottom: 30px;">Członkowie</h3>
   <!-- Członkowie zespołu -->
     <div class="members-container">
         <div class="member" data-member="Benek">
-            <img src="ben.jpg" alt="Beniamin Skoniecki">
+            <img src="ben.jpg" alt="Beniamin Skoniecki" loading="lazy">
+        </div>
+		        <div class="member" data-member="Johnny">
+            <img src="john.jpg" alt="Johnny Mitrowski" loading="lazy">
         </div>
         <div class="member" data-member="Delia">
-            <img src="dela.jpg" alt="Delia Janiszewska">
-        </div>
-        <div class="member" data-member="Johnny">
-            <img src="john.jpg" alt="Johnny Mitrowski">
+            <img src="dela.jpg" alt="Delia Janiszewska" loading="lazy">
         </div>
         <div class="member" data-member="Car Loss">
-            <img src="carl.jpg" alt="Carlos Ceron Lara">
+            <img src="carl.jpg" alt="Carlos Ceron Lara" loading="lazy">
         </div>
         <div class="member" data-member="Bartek">
-            <img src="bart.jpg" alt="Bartosz Kamiński">
+            <img src="bart.jpg" alt="Bartosz Kamiński" loading="lazy">
         </div>
     </div>
 
@@ -86,8 +94,11 @@
 
     <!-- Historia zespołu -->
     <div class="history">
-        <h2>Historia zespołu</h2>
-        <p>Tabula Rasa powstała w 2023 roku. Od tego czasu zespół zdobył kilka znaczących nagród, takich jak Rock May Festiwal i Wielki Ogień im. Miry Kubasińskiej. Zespół grał na najważniejszych scenach, takich jak Juwenalia PW czy konkurs Politechniki Warszawskiej.</p>
+        <h2>Kim Jesteśmy</h2>
+        <p>Tabula Rasa to dynamiczny zespół rockowy z Warszawy, który szybko zdobywa uznanie na polskiej scenie muzycznej. Nazwa zespołu, inspirowana koncepcją "czystej tablicy", symbolizuje nieograniczony potencjał, kreatywność i odwagę do eksperymentowania. Od momentu założenia w 2023 roku, nasza muzyka przyciągnęła uwagę fanów i krytyków, a nasze występy na prestiżowych wydarzeniach oraz festiwalach potwierdzają rosnącą popularność.
+Nasze brzmienie to unikalna mieszanka melodyjnych dźwięków i mocnych riffów, które tworzą harmonijną całość, wprowadzając słuchaczy w emocjonalną podróż. Każdy nasz utwór to połączenie głębokich tekstów i wyrazistego wykonania, które dotyka serc i pozostaje w pamięci na długo po zakończeniu koncertu.
+Tabula Rasa to nie tylko muzyka – to doświadczenie, które porusza i inspiruje. Mamy na swoim koncie zwycięstwa w prestiżowych konkursach oraz współpracę z uznanymi markami. Gramy na największych scenach, od klubów po festiwale, zawsze dostarczając niezapomnianych emocji.
+Jesteśmy zespołem, który wciąż się rozwija, a nasze koncerty to wydarzenia pełne pasji i energii. Zapraszamy Cię do odkrycia naszej muzyki i dołączenia do naszej rockowej podróży. Tabula Rasa to zespół, który przekracza granice konwencji, a jego potencjał dopiero zaczyna się realizować.</p>
     </div>
 </section>
 

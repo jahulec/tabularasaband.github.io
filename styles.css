@@ -1,14 +1,16 @@
 /* ogólne style */
-	
-	/* Globalna zasada - wyśrodkowany nagłówek h1 */
+html {
+    scroll-behavior: smooth;
+}	
+
 h1 {
     text-align: center; /* Wyśrodkowanie tekstu */
     font-size: 3em; /* Rozmiar czcionki dla h1 */
     margin-bottom: 100px; /* Odstęp pod nagłówkiem */
+	    margin-top: 0; /* Usunięcie domyślnych marginesów */
+    padding-top: 0; /* Usunięcie domyślnych odstępów */
 }
 
-
-/* Globalna zasada - wyśrodkowany nagłówek h2 z linią poniżej */
 h2 {
     text-align: center; /* Wyśrodkowanie nagłówka */
     font-size: 2.5em; /* Standardowy rozmiar dla h2 */
@@ -24,7 +26,6 @@ h2::after {
     margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
 }
 
-/* Globalna zasada - wyśrodkowany nagłówek h3 z linią poniżej */
 h3 {
     text-align: center; /* Wyśrodkowanie nagłówka */
     font-size: 2em; /* Standardowy rozmiar dla h3 */
@@ -40,7 +41,6 @@ h3::after {
     margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
 }
 
-/* Globalna zasada - styl dla obrazów */
 img {
     max-width: 100%; /* Obrazy nie będą wychodzić poza szerokość kontenera */
     height: auto; /* Zachowanie proporcji obrazu */
@@ -50,20 +50,31 @@ img {
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animacja przy najechaniu */
 }
 
-/* Efekt po najechaniu na obraz */
 img:hover {
     transform: scale(1.05); /* Powiększenie obrazu przy najechaniu */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Wzmocnienie cienia przy najechaniu */
 }
 
-	/* Wyjątek dla logo.png - inne zasady dla logo */
 img[src$="logo.png"] {
     border-radius: 0; /* Usuń zaokrąglone rogi dla logo */
     box-shadow: none; /* Brak cienia dla logo */
     transform: none; /* Brak powiększenia dla logo */
     transition: none; /* Brak animacji dla logo */
 }
-	/* Widoczność desktopowych elementów */
+
+body {
+    font-family: 'Gill Sans Nova', sans-serif;
+    background-color: transparent;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow-x: hidden;
+	transition: scroll-behavior 2s ease-out;
+}
+
+
+/* nagłowek mobile i desktop */
 .desktop-header {
     display: flex; /* Upewnij się, że nagłówek na desktopie jest wyświetlany */
 }
@@ -81,40 +92,6 @@ img[src$="logo.png"] {
 }
 
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: transparent;
-    color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* Nagłówek */
-header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 10;
-    height: 80px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    transition: top 0.3s ease-in-out;
-}
-
-/* Ukrywanie nagłówka */
-header.hidden {
-    top: -100px;
-    transition: top 0.3s ease-in-out;
-}
-
-.mobile-only {
-    display: none;
-}
-
 /* Logo */
 .logo-container {
     text-align: center;
@@ -131,33 +108,76 @@ header.hidden {
     transform: scale(1.1);
 }
 
-/* Nawigacja */
-nav ul {
+
+/* nagłowek */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie całego nagłówka w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    transition: top 0.3s ease-in-out;
+}
+
+header.hidden {
+    top: -100px; /* Ukrycie nagłówka przy przewinięciu */
+    transition: top 0.3s ease-in-out;
+}
+
+/* Stylizacja nagłówka desktopowego */
+.desktop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Maksymalna szerokość nagłówka */
+}
+
+/* Stylizacja logo */
+.desktop-header .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px; /* Stała szerokość logo */
+}
+
+.desktop-header .logo {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Lista nawigacyjna */
+.desktop-header nav ul {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%; /* Cała dostępna szerokość */
+    justify-content: space-around; /* Równomierne rozmieszczenie linków */
+    align-items: center; /* Wyśrodkowanie linków w pionie */
 }
 
-nav ul li {
-    margin: 0 30px;
+/* Stylizacja linków */
+.desktop-header nav ul li {
+    margin: 0 20px; /* Odstęp między linkami */
 }
 
-nav ul li a {
-    display: inline-block;
+.desktop-header nav ul li a {
     text-decoration: none;
-    color: #ffffff;
+    color: #fff; /* Kolor linków */
     font-weight: bold;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease; /* Płynna animacja zoom */
+    display: inline-block;
 }
 
-nav ul li a:hover {
-   transform: scale(1.15);
+.desktop-header nav ul li a:hover {
+    transform: scale(1.1); /* Efekt zoom na hover */
 }
 
+/* Dynamiczna galeria zdjęć */
 .slider-container {
     position: fixed;
     top: 0;
@@ -182,6 +202,11 @@ nav ul li a:hover {
     opacity: 1;
     transform: scale(1.1);
 }
+.slider-container img.zoom {
+    transform: scale(1.1); /* Powiększenie obrazu */
+    transition: transform 5s ease; /* Powolne powiększanie obrazu */
+}
+
 
 /* Sekcja Aktualności */
 #news {
@@ -193,120 +218,65 @@ nav ul li a:hover {
     margin-top: 100vh;
 }
 
-/* Usuń linię po ostatnim artykule */
-#news > div:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
 
-/* Nagłówek sekcji Aktualności - linia tylko po nagłówku */
-#news h2 {
-    text-align: center;
-    font-size: 3em;
-    color: #ffffff;
-    margin-bottom: 20px;
-    position: relative;
-}
+/* sekcja galeria */
+.gallery-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
+        width: 100%;
+    }
+	
+.gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Automatyczne kolumny z minimalną szerokością 200px */
+        gap: 20px; /* Odstępy między zdjęciami */
+        justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
+        width: 100%;
 
-/* Dodanie linii po nagłówku h2 */
-#news h2::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #444;
-    margin-top: 20px;
-}
+    }
 
-/* Artykuły ze zdjęciem */
-.article-with-image {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 0;
-
-}
-
-/* Tytuł artykułu - wyśrodkowany */
-.article-with-image h3 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-/* Kontener dla tekstu i zdjęcia */
-.article-with-image .article-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* Tekst artykułu z lewej */
-.article-with-image .article-content p {
-    width: 80%;
-    text-align: left;
-}
-
-/* Zdjęcie artykułu z prawej */
-.article-with-image .article-content img {
-    width: 40%;
-    height: auto;
-    max-width: 400px;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-left: 20px;
-    transition: transform 0.3s ease;
-}
-
-.article-with-image .article-content img:hover {
-    transform: scale(1.05);
-}
-
-/* Artykuły bez zdjęcia */
-.article-no-image {
-    padding: 20px 0;
-    text-align: left;
-}
-
-/* Usuń linię po ostatnim artykule bez zdjęcia */
-.article-no-image:last-child {
-    border-bottom: none;
-}
-
-/* Tytuł artykułu bez zdjęcia - wyśrodkowany */
-.article-no-image h3 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-/* Tekst artykułu bez zdjęcia - wyśrodkowany do lewej */
-.article-no-image p {
-    width: 100%;
-    text-align: left;
-    margin: 0 auto;
-}
-
-.concert-section h3 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 10px;
-    position: relative;
-}
-
-.concert-section h3::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: #444;
-    margin-top: 10px;
-}
+.gallery-item img {
+        width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
+        height: auto; /* Zachowanie proporcji */
+        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+    }
 
 
-/* Styl dla przycisku pobierania Ridera */
+/* sekcja press */
+.rider-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        width: 100%;
+    }
+
+.rider-text {
+        max-width: 100%;
+        padding: 0 20px;
+        text-align: left;
+    }
+
+.rider-image {
+        max-width: 100%;
+        width: 100%;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+.rider-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+.music-section .song {
+        width: 100%; /* Ustawienie szerokości na 100% */
+        text-align: center; /* Wyśrodkowanie zawartości */
+    }
+
 .rider-download-btn {
     display: inline-block;
     margin: 20px auto; /* Wyśrodkowanie przycisku */
@@ -319,17 +289,17 @@ nav ul li a:hover {
     border-radius: 5px; /* Zaokrąglone rogi */
     transition: background-color 0.3s ease, transform 0.3s ease; /* Animacja */
 }
+
 .rider-section {
     text-align: center; /* Wyśrodkowanie zawartości, w tym przycisku */
 }
 
-/* Efekt najechania */
 .rider-download-btn:hover {
     transform: scale(1.05); /* Lekkie powiększenie przy najechaniu */
 }
 
 
-
+/* sekcja kontakt*/
 #kontakt {
     padding: 60px 20px;
     color: #f0f0f0;
@@ -337,9 +307,23 @@ nav ul li a:hover {
     text-align: center;
 }
 
-#kontakt h2 {
-    font-size: 2.5em;
-    margin-bottom: 30px;
+ 
+.contact-form textarea {
+    font-family: 'Montserrat', sans-serif; /* Czcionka taka sama jak na całej stronie */
+}
+
+.contact-form button {
+    color: #fff; /* Kolor tekstu w przycisku */
+    background-color: #e60023; /* Tło przycisku */
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #d94336; /* Ciemniejszy odcień czerwonego po najechaniu */
 }
 
 .contact-container {
@@ -391,18 +375,19 @@ nav ul li a:hover {
     transform: scale(1.1);
 }
 
-    /* Zmiana koloru linków na czerwony */
-    .contact-info a {
+.contact-info a {
         color: #e60023; /* Czerwony kolor linków */
         text-decoration: none;
         transition: color 0.3s ease;
     }
 
-    .contact-info a:hover {
+.contact-info a:hover {
         color: #d94336; /* Ciemniejszy czerwony po najechaniu */
         text-decoration: underline;
     }
-/* Stopka */
+
+
+/* footer */
 footer {
     background-color: #000000;
     color: #ffffff;
@@ -510,67 +495,39 @@ footer {
     margin: 0;
 }
 
-/* Styl hamburgera - upewnij się, że jest widoczny w mobilnej wersji */
-.hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    position: absolute;
-    right: 15px; /* Ustawienie pozycji hamburgera */
-    top: 20px;
-    z-index: 999; /* Upewnij się, że hamburger ma wysoki z-index, aby był nad innymi elementami */
-}
-
-.hamburger span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #ffffff; /* Kolor linii hamburgera */
-    transition: all 0.3s ease;
-}
-
-
-    .gallery-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
-        width: 100%;
-    }
-
-    .gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Automatyczne kolumny z minimalną szerokością 200px */
-        gap: 20px; /* Odstępy między zdjęciami */
-        justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
-        width: 100%;
-
-    }
-
-    .gallery-item img {
-        width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
-        height: auto; /* Zachowanie proporcji */
-        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
-    }
 
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
-    .original-music, .covers {
+
+
+/* margines 80% */
+    body {
         display: flex;
-        justify-content: space-between;
-        gap: 40px;
+        flex-direction: column;
+        align-items: center; /* Wycentrowanie zawartości */
     }
 
-    .song {
+    #news, footer {
+        width: 80%; /* Zajmowanie 80% szerokości */
+    }
+
+
+/* sekcja muzyka */
+	.song {
         flex: 1;
         max-width: 45%;
         text-align: center;
     }
 
-    /* Kontener dla zdjęć */
+	.music-section .videos {
+    display: flex;
+    justify-content: space-between; /* Zapewnia odstępy między filmami w wersji desktop */
+    flex-wrap: wrap; /* Umożliwia zawijanie filmów w mniejszych rozdzielczościach */
+    gap: 20px; /* Odstęp między wideo */
+}
+
+
+/* sekcja o nas */
     .members-container {
         display: flex;
         justify-content: space-between; /* Równomierne rozmieszczenie zdjęć */
@@ -593,7 +550,6 @@ footer {
         transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
     }
 
-    /* Efekt hover: Gradient zamiast blur + wyświetlanie tekstu */
     .member::after {
         content: attr(data-member); /* Wyświetlanie opisu */
         position: absolute;
@@ -610,7 +566,6 @@ footer {
         transition: opacity 0.5s ease-in-out; /* Płynna zmiana widoczności */
     }
 
-    /* Powiększenie i wyświetlanie tekstu na hover */
 	.member:hover img {
 		transform: scale(1.1); /* Powiększenie zdjęcia */
 		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
@@ -619,306 +574,30 @@ footer {
     .member:hover::after {
         opacity: 1; /* Pojawienie się tekstu na hover */
     }
-    .slider-container img {
+    
+	.slider-container img {
         display: block;
     }
 }
 
+
 /* Style Mobile only */
 @media (max-width: 768px) {
    
-
-    .desktop-header {
-        display: none; /* Ukryj desktopowy nagłówek na urządzeniach mobilnych */
-    }
-
-    .mobile-header {
-        display: flex; /* Pokaż mobilny nagłówek tylko na urządzeniach mobilnych */
-    }
-
-    .desktop-footer {
-        display: none; /* Ukryj desktopową stopkę na urządzeniach mobilnych */
-    }
-
-    .mobile-footer {
-        display: flex; /* Pokaż mobilną stopkę tylko na urządzeniach mobilnych */
-    }
-	
-	
-	
-   .article-with-image .article-content img {
-        width: 100%;
-        height: auto;
-        margin-top: 20px;
-        max-width: 100%;
-        transition: transform 0.5s ease, filter 0.5s ease;
-        filter: brightness(1);
-    }
-
-    .member.active img {
-        transform: scale(1.05);
-    }
-
-    .member:not(.active) img {
-        transform: scale(1);
-    }
-
-   /* Kontener dla zdjęć */
-    .members-container {
-        display: flex;
-        flex-direction: column; /* Zdjęcia w jednej kolumnie */
-        align-items: center;
-        gap: 20px; /* Odstęp między zdjęciami */
-    }
-
-    .member {
-        width: 90%; /* Szerokość zdjęcia dopasowana do szerokości ekranu */
-        position: relative;
-        transition: transform 0.5s ease;
-    }
-
-    .member img {
-        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
-        height: auto; /* Automatyczna wysokość */
-        border-radius: 10px; /* Zaokrąglone rogi */
-        transition: transform 0.5s ease;
-    }
-
-    /* Efekt kliknięcia - gradient zamiast blur */
-    .member::after {
-        content: attr(data-member); /* Wyświetlanie opisu */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-
-        color: #fff;
-        font-size: 1.5em;
-        font-weight: bold;
-        text-align: center;
-        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-    }
-
-    /* Powiększenie i wyświetlanie tekstu na hover */
-	.member:hover img {
-		transform: scale(1.1); /* Powiększenie zdjęcia */
-		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
-}	
-
-    .member.active::after {
-        opacity: 1; /* Wyświetlenie tekstu */
-    }
-
-    /* Powrót do oryginalnej wielkości po drugim kliknięciu */
-    .member:not(.active) img {
-        transform: scale(1);
-				filter: brightness(1); /* Przyciemnienie zdjęcia */
-				
-    }
    
-       .music-section {
-        padding: 15px;
-    }
-
-    .music-section .original-music,
-    .music-section .covers {
-        display: grid;
-        grid-template-columns: 1fr; /* Elementy ułożone jeden pod drugim */
-        gap: 15px; /* Odstępy między elementami */
-    }
-
-    .music-section .song {
-        width: 100%; /* Ustawienie szerokości na 100% */
-        text-align: center; /* Wyśrodkowanie zawartości */
-    }
-
-    .music-section iframe {
-        width: 100%; /* Ustawienie szerokości na pełną szerokość kontenera */
-        height: auto; /* Zachowanie proporcji */
-    }
-
-.index-section {
-        padding: 15px;
-    }
-
-    .index-grid {
-        display: grid;
-        grid-template-columns: 1fr; /* Elementy ułożone jeden pod drugim */
-        gap: 15px; /* Odstępy między elementami */
-    }
-
-    .index-item {
-        width: 100%; /* Ustawienie szerokości na 100% */
-    }
-
-    .index-item img {
-        width: 100%; /* Ustawienie pełnej szerokości obrazka */
-        height: auto; /* Zachowanie proporcji */
-        object-fit: cover; /* Dopasowanie obrazka bez deformacji */
-    }
-    .mobile-header, .mobile-footer {
-        display: block;
-    }
-
+/* nagłowek mobile i desktop */
     .desktop-header, .desktop-footer {
         display: none;
     }
-
-    .nav-mobile {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        position: fixed;
-        top: -100vh;
-        right: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(0px);
-        text-align: center;
-        z-index: 998;
-        transition: top 0.8s cubic-bezier(0.65, 0, 0.35, 1),
-                    backdrop-filter 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-    }
-
-    .nav-mobile.active {
-        top: 0;
-        backdrop-filter: blur(10px);
-    }
-
-    /* Stylizacja artykułu bez linii pod artykułem ze zdjęciem */
-    .article-with-image {
-        text-align: center;
-        align-items: center;
-        padding: 20px 0;
-        border-bottom: none; /* Usunięcie linii pod artykułem ze zdjęciem */
-    }
-
-    /* Stylizacja artykułu bez zdjęcia - bez zmian */
-    .article-no-image {
-        text-align: center;
-        align-items: center;
-        padding: 20px 0;
-    }
-
-    .article-with-image .article-content, .article-no-image .article-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .article-with-image .article-content p, .article-no-image .article-content p {
-        width: 100%;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-
-    .article-with-image .article-content img {
-        width: 100%;
-        height: auto;
-        margin-top: 10px;
-		        margin-left: auto;
-        margin-right: auto; /* Wyśrodkowanie zdjęcia */
-		
-    }
-    .contact-container {
-        padding: 15px;
-    }
-
-    .contact-form {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .contact-form .form-group {
-        margin-bottom: 15px;
-    }
-
-    .contact-form input[type="text"],
-    .contact-form input[type="email"],
-    .contact-form textarea {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-
-    .contact-form button {
-        width: 100%;
-        padding: 10px;
-        font-size: 1.2em;
-        cursor: pointer;
-        background-color: #f04e3;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-
-    .contact-form button:hover {
-        background-color: #f04e3;
-    }
-
-    .contact-info {
-        padding: 15px;
-        text-align: center;
-    }
-
-    .contact-info h3 {
-        margin-bottom: 10px;
-    }
-
-    .contact-info p {
-        margin-bottom: 5px;
-    }
-
-    .contact-info a {
-        color: #f04e3;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .contact-info a:hover {
-        text-decoration: underline;
-    }
-
-    .rider-section {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        width: 100%;
-    }
-
-    .rider-text {
-        max-width: 100%;
-        padding: 0 20px;
-        text-align: left;
-    }
-
-    .rider-image {
-        max-width: 100%;
-        width: 100%;
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .rider-image img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-
-    .slider-container img {
-        display: block;
-    }
 	
-   /* Hamburger menu */
+    .mobile-header, .mobile-footer {
+        display: flex;
+        flex-direction: column;
+        align-i
+	}
+	
+	
+/* Hamburger menu */
     .mobile-header .hamburger {
         position: absolute;
         right: 15px;
@@ -933,7 +612,6 @@ footer {
         transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Animacja obracania */
     }
 
-    /* Animacja obracania hamburgera w lewo o 90 stopni */
     .hamburger.active {
         transform: rotate(-90deg); /* Obracanie o 90 stopni w lewo */
     }
@@ -946,15 +624,6 @@ footer {
         transition: all 0.3s ease;
     }
 
-    /* Miejsce pod hamburgerem, nieklikalne i oddzielone */
-    .hamburger-separator {
-        height: 50px;
-        width: 100%;
-        background: transparent;
-        pointer-events: none; /* Brak interaktywności */
-    }
-
-    /* Menu rozwijane z animacją zjeżdżania i stopniowym rozmyciem tła */
     .nav-mobile {
         display: flex;
         flex-direction: column;
@@ -973,13 +642,11 @@ footer {
                     backdrop-filter 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Synchronizacja rozmycia z animacją */
     }
 
-    /* Aktywacja menu - zjeżdżanie i rozmywanie tła */
     .nav-mobile.active {
         top: 0;
         backdrop-filter: blur(10px); /* Stopniowe zwiększanie rozmycia tła */
     }
 
-    /* Stylizacja linków w rozwijanym menu */
     .nav-mobile ul {
         list-style: none;
         padding: 0;
@@ -1008,11 +675,81 @@ footer {
         transition: background-color 0.3s ease;
     }
 
-    /* Efekt najechania na link */
     .nav-mobile ul li a:hover {
         background-color: rgba(255, 255, 255, 0.2); /* Podświetlenie po najechaniu */
     }
 
+
+/* sekcja o nas */
+    .member.active img {
+        transform: scale(1.05);
+    }
+
+    .member:not(.active) img {
+        transform: scale(1);
+    }
+
+    .members-container {
+        display: flex;
+        flex-direction: column; /* Zdjęcia w jednej kolumnie */
+        align-items: center;
+        gap: 20px; /* Odstęp między zdjęciami */
+    }
+
+    .member {
+        width: 90%; /* Szerokość zdjęcia dopasowana do szerokości ekranu */
+        position: relative;
+        transition: transform 0.5s ease;
+    }
+
+    .member img {
+        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+        height: auto; /* Automatyczna wysokość */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        transition: transform 0.5s ease;
+    }
+
+    .member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+	.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+    .member.active::after {
+        opacity: 1; /* Wyświetlenie tekstu */
+    }
+
+    .member:not(.active) img {
+        transform: scale(1);
+				filter: brightness(1); /* Przyciemnienie zdjęcia */
+				
+    }
+
+
+/* sekcja muzyka */
+    .music-section iframe {
+        width: 100%; /* Ustawienie szerokości na pełną szerokość kontenera */
+        height: auto; /* Zachowanie proporcji */
+    }
+
+
+/* sekcja galeria */
     .gallery-grid {
         display: grid;
         grid-template-columns: 1fr; /* Każde zdjęcie zajmuje całą szerokość */
@@ -1025,6 +762,14 @@ footer {
         object-fit: cover; /* Dopasowanie zdjęć bez deformacji */
         border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
     }
-}
 
+
+/* sekcja kontakt */
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
 

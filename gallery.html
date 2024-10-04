@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
 	<link rel="icon" href="logo.png" type="image/png">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
 
 </head>
 <body>
@@ -53,15 +55,20 @@
     </div>
 </header>
 
+
 <<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="slider-container">
     <img src="zdjecie1.jpg" alt="Zdjęcie 1" class="active desktop-image" loading="lazy" data-mobile-src="zdjecie1-mobile.jpg" data-desktop-src="zdjecie1.jpg">
     <img src="zdjecie2.jpg" alt="Zdjęcie 2" class="desktop-image" loading="lazy" data-mobile-src="zdjecie2-mobile.jpg" data-desktop-src="zdjecie2.jpg">
     <img src="zdjecie3.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie3-mobile.jpg" data-desktop-src="zdjecie3.jpg">
+	<img src="zdjecie4.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie4-mobile.jpg" data-desktop-src="zdjecie4.jpg">
+	<img src="zdjecie5.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie5-mobile.jpg" data-desktop-src="zdjecie5.jpg">
+	<img src="zdjecie6.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie6-mobile.jpg" data-desktop-src="zdjecie6.jpg">
+	<img src="zdjecie7.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie7-mobile.jpg" data-desktop-src="zdjecie7.jpg">
 </div>
 
 <section id="news">
-    <h1>Galeria zdjęć</h1>
+    <h1 id="welcome">Galeria zdjęć</h1>
 
     <!-- Galeria podzielona na koncerty -->
     <div class="gallery-container">
