@@ -1,18 +1,17 @@
 let lastScrollTop = 0;
 const header = document.querySelector("header");
-const sliderContainer = document.querySelector(".slider-container");
-const sliderImages = document.querySelectorAll(".slider-container img");
+const sliderImages = document.querySelectorAll(".background-slider img");
 const windowHeight = window.innerHeight;
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
 let currentImageIndex = 0; // Indeks bieżącego obrazu
-
+let isHeaderHidden = false;
+const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
 // Funkcja do aktywowania pierwszego zdjęcia
 function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
 }
-
 
 // Funkcja do zmiany zdjęć co kilka sekund
 function changeSlide() {
@@ -23,7 +22,6 @@ function changeSlide() {
     currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
     sliderImages[currentImageIndex].classList.add('active');
 }
-
 
 // Sprawdzanie, czy wszystkie zdjęcia zostały załadowane
 function areImagesLoaded() {
@@ -36,7 +34,6 @@ function areImagesLoaded() {
     return allLoaded;
 }
 
-
 // Uruchomienie funkcji zmiany zdjęć po załadowaniu wszystkich obrazów
 function startSlider() {
     if (areImagesLoaded()) {
@@ -47,8 +44,6 @@ function startSlider() {
     }
 }
 
-
-// Funkcja do przyciemniania obrazów w zależności od scrollowania
 function adjustImageBrightness(scrollTop) {
     const opacityFactor = Math.min(scrollTop / windowHeight, 1); // Im więcej przewiniemy, tym ciemniejsze stają się zdjęcia
     sliderImages.forEach((img) => {
@@ -57,6 +52,12 @@ function adjustImageBrightness(scrollTop) {
     });
 }
 
+window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    adjustImageBrightness(scrollTop); // Zmiana jasności zdjęć przy scrollowaniu
+    handleHeaderVisibility(scrollTop); // Ukrywanie/pokazywanie nagłówka
+});
+
 
 // Obsługa hamburger menu
 document.getElementById('hamburger').addEventListener('click', function() {
@@ -64,57 +65,76 @@ document.getElementById('hamburger').addEventListener('click', function() {
     document.getElementById('nav-mobile').classList.toggle('active');
 });
 
-
-// Obsługa kliknięcia na członków zespołu (wersja mobilna)
-document.querySelectorAll('.member').forEach(member => {
-    member.addEventListener('click', function() {
-        if (this.classList.contains('active')) {
-            this.classList.remove('active'); // Usuwanie aktywności po ponownym kliknięciu
-        } else {
-            document.querySelectorAll('.member').forEach(el => el.classList.remove('active'));
-            this.classList.add('active'); // Dodanie aktywności do klikniętego elementu
-        }
-    });
-});
-
-
-// Funkcja do ukrywania/pokazywania nagłówka na podstawie przewijania
 function handleHeaderVisibility(scrollTop) {
+    const opacityFactor = Math.min(scrollTop / maxOpacityScroll, 1); // Opacity osiągnie 1, gdy scrollTop = windowHeight
+    const isImagesFullyDimmed = opacityFactor === 1; // Sprawdzamy, czy obrazy są w pełni przyciemnione
+
     if (scrollTop < lastScrollTop && isHeaderHidden) {
-        header.classList.remove("hidden"); // Pokaż nagłówek, gdy przewijamy w górę
+        // Jeśli przewijasz do góry, pokaż nagłówek
+        header.classList.remove("hidden");
         isHeaderHidden = false;
+    } else if (scrollTop > lastScrollTop && !isHeaderHidden && isImagesFullyDimmed) {
+        // Ukryj nagłówek tylko wtedy, gdy obrazy są w pełni przyciemnione i przewijasz w dół
+        header.classList.add("hidden");
+        isHeaderHidden = true;
     }
+
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Aktualizacja wartości scrollTop
 }
 
-// Obsługa scrollowania
-window.addEventListener("scroll", function () {
+// Zdarzenie scrollowania, aby ukrywać/pokazywać nagłówek
+window.addEventListener('scroll', function () {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    adjustImageBrightness(scrollTop); // Przyciemnianie obrazów w zależności od scrolla
-    handleHeaderVisibility(scrollTop); // Ukrywanie nagłówka na podstawie scrolla
+    adjustImageBrightness(scrollTop); // Zmiana jasności zdjęć przy scrollowaniu
+    handleHeaderVisibility(scrollTop); // Ukrywanie/pokazywanie nagłówka
 });
-
-
 // Dodanie event listenera na załadowanie strony, który uruchamia slider
 window.addEventListener("load", startSlider);
 
-window.addEventListener("load", function() {
-    handleImageSwap(); // Zmień obrazy w zależności od urządzenia
-});
-
-window.addEventListener("resize", handleImageSwap); // Zmiana obrazu po zmianie rozmiaru ekranu
-
+// Zmiana obrazów w zależności od urządzenia (mobile/desktop)
+window.addEventListener("resize", handleImageSwap);
+window.addEventListener("load", handleImageSwap);
 
 function handleImageSwap() {
-    const sliderImages = document.querySelectorAll('.slider-container img');
-    
     sliderImages.forEach(img => {
         if (window.innerWidth <= 768) {
-            // Mobile - zmieniamy na wersje mobilne
             img.src = img.getAttribute('data-mobile-src');
         } else {
-            // Desktop - zmieniamy na wersje desktopowe
             img.src = img.getAttribute('data-desktop-src');
         }
     });
 }
+
+// Obsługa kliknięcia na członka zespołu
+document.querySelectorAll('.member').forEach(member => {
+    member.addEventListener('click', function() {
+        // Sprawdź, czy element już ma klasę 'active'
+        if (this.classList.contains('active')) {
+            this.classList.remove('active'); // Usuń efekt po ponownym kliknięciu
+        } else {
+            // Usuń klasę 'active' z innych członków
+            document.querySelectorAll('.member').forEach(m => m.classList.remove('active'));
+            this.classList.add('active'); // Dodaj efekt powiększenia i przyciemnienia
+        }
+    });
+});
+
+
+let stickyHeader = document.querySelector('.mobile-sticky-header');
+let isStickyVisible = false;
+
+window.addEventListener('scroll', function () {
+    let scrollY = window.scrollY;
+
+    if (scrollY > 170 && !isStickyVisible) {
+        // Pojawienie się nagłówka po 400px scrolla
+        stickyHeader.classList.add('show');
+        stickyHeader.classList.remove('hide');
+        isStickyVisible = true;
+    } else if (scrollY <= 170 && isStickyVisible) {
+        // Ukrywanie nagłówka po powrocie na górę
+        stickyHeader.classList.add('hide');
+        stickyHeader.classList.remove('show');
+        isStickyVisible = false;
+    }
+});

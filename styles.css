@@ -55,11 +55,22 @@ img:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Wzmocnienie cienia przy najechaniu */
 }
 
+img[src^="tlo/"] {
+    all: unset; /* Usuwa wszystkie style */
+    display: block; /* Resetuje domyślne ustawienie inline dla obrazów */
+}
 img[src$="logo.png"] {
     border-radius: 0; /* Usuń zaokrąglone rogi dla logo */
     box-shadow: none; /* Brak cienia dla logo */
     transform: none; /* Brak powiększenia dla logo */
     transition: none; /* Brak animacji dla logo */
+}
+
+@font-face {
+    font-family: 'Gill Sans Nova';
+    src: url('/GillSansNova.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body {
@@ -70,8 +81,9 @@ body {
     padding: 0;
     line-height: 1.6;
     overflow-x: hidden;
-	transition: scroll-behavior 2s ease-out;
+    transition: scroll-behavior 2s ease-out;
 }
+
 
 
 /* nagłowek mobile i desktop */
@@ -79,16 +91,14 @@ body {
     display: flex; /* Upewnij się, że nagłówek na desktopie jest wyświetlany */
 }
 
+.mobile-sticky-header,
+.mobile-footer,
 .mobile-header {
     display: none; /* Ukryj mobilny nagłówek na desktopie */
 }
 
 .desktop-footer {
     display: block;
-}
-
-.mobile-footer {
-    display: none; /* Ukryj mobilną stopkę na desktopie */
 }
 
 
@@ -177,19 +187,20 @@ header.hidden {
     transform: scale(1.1); /* Efekt zoom na hover */
 }
 
-/* Dynamiczna galeria zdjęć */
-.slider-container {
+
+/* Dynamiczna galeria zdjęć jako tło */
+.background-slider {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    z-index: 1;
+    z-index: -1; /* Tło za innymi elementami */
     background-color: black;
 }
 
-.slider-container img {
+.background-slider img {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -198,11 +209,12 @@ header.hidden {
     transition: opacity 1s ease-in-out, transform 12s ease-in-out;
 }
 
-.slider-container img.active {
+.background-slider img.active {
     opacity: 1;
     transform: scale(1.1);
 }
-.slider-container img.zoom {
+
+.background-slider img.zoom {
     transform: scale(1.1); /* Powiększenie obrazu */
     transition: transform 5s ease; /* Powolne powiększanie obrazu */
 }
@@ -217,31 +229,6 @@ header.hidden {
     color: #f0f0f0;
     margin-top: 100vh;
 }
-
-
-/* sekcja galeria */
-.gallery-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
-        width: 100%;
-    }
-	
-.gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Automatyczne kolumny z minimalną szerokością 200px */
-        gap: 20px; /* Odstępy między zdjęciami */
-        justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
-        width: 100%;
-
-    }
-
-.gallery-item img {
-        width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
-        height: auto; /* Zachowanie proporcji */
-        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
-    }
 
 
 /* sekcja press */
@@ -307,9 +294,10 @@ header.hidden {
     text-align: center;
 }
 
- 
+.contact-form button,
+.form-group input,
 .contact-form textarea {
-    font-family: 'Montserrat', sans-serif; /* Czcionka taka sama jak na całej stronie */
+    font-family: 'Gill Sans Nova', sans-serif;
 }
 
 .contact-form button {
@@ -496,6 +484,7 @@ footer {
 }
 
 
+
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
 
@@ -510,21 +499,6 @@ footer {
     #news, footer {
         width: 80%; /* Zajmowanie 80% szerokości */
     }
-
-
-/* sekcja muzyka */
-	.song {
-        flex: 1;
-        max-width: 45%;
-        text-align: center;
-    }
-
-	.music-section .videos {
-    display: flex;
-    justify-content: space-between; /* Zapewnia odstępy między filmami w wersji desktop */
-    flex-wrap: wrap; /* Umożliwia zawijanie filmów w mniejszych rozdzielczościach */
-    gap: 20px; /* Odstęp między wideo */
-}
 
 
 /* sekcja o nas */
@@ -578,7 +552,87 @@ footer {
 	.slider-container img {
         display: block;
     }
+
+
+/* sekcja muzyka */
+	.song {
+        flex: 1;
+        max-width: 45%;
+        text-align: center;
+    }
+
+	.music-section .videos {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Zawijanie elementów w mniejszych szerokościach */
+    gap: 20px; /* Odstęp między wideo */
 }
+
+	.music-section .video-container {
+    flex: 1;
+    min-width: 300px; /* Minimalna szerokość, aby wideo nie nachodziły na siebie */
+}
+
+	iframe {
+    width: 100%;
+
+}
+
+
+/* sekcja aktualności */
+#news img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Płynna animacja */
+}
+
+#news img:hover {
+    transform: scale(1.02); /* Subtelne powiększenie (zmniejszenie efektu) */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Delikatny cień dla podkreślenia */
+}
+
+
+/* sekcja galeria */
+    .gallery-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
+        width: 100%;
+    }
+
+    .gallery-grid,
+	.gallery-grid-a {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Automatyczne kolumny z minimalną szerokością 200px */
+        gap: 20px; /* Odstępy między zdjęciami */
+        justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
+        width: 100%;
+		padding-bottom: 20px;
+    }
+
+    .gallery-grid img {
+        height: 300px; /* Stała wysokość dla wszystkich zdjęć */
+        width: auto; /* Szerokość automatyczna */
+        object-fit: cover; /* Dopasowanie zdjęć bez zniekształceń */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+        scroll-snap-align: start; /* Wyrównanie do początku każdego zdjęcia */
+    }
+
+    .gallery-grid-a img {
+        width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
+        height: auto; /* Zachowanie proporcji */
+        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-grid img:hover, .gallery-grid-a img:hover {
+        transform: scale(1.05); /* Powiększenie zdjęcia przy najechaniu */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Delikatny cień */
+    }
+
+}
+
+
+
 
 
 /* Style Mobile only */
@@ -599,8 +653,120 @@ footer {
         flex-direction: column;
         align-i
 	}
+
+
+/* Styl dla wysuwanego paska nagłówka */
+.mobile-sticky-header {
+    position: fixed;
+	width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    z-index: 999;
+    height: 30px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(100%); /* Ukryty poza ekranem na początku */
+    display: flex;
+    justify-content: center; /* Upewnia się, że elementy są wyśrodkowane */
+    align-items: center;
+    transition: transform 0.5s ease-out; /* Płynna animacja */
+    overflow: hidden; /* Zapobiega wyciekaniu elementów */
+}
+
+/* Widoczny pasek z animacją wjeżdżania */
+.mobile-sticky-header.show {
+    transform: translateY(0); /* Wjeżdża na ekran */
+}
+
+/* Ukrywanie paska z animacją wyjeżdżania */
+.mobile-sticky-header.hide {
+    transform: translateY(100%); /* Zjeżdża z ekranu */
 	
-	
+}
+
+.mobile-sticky-nav  {
+    width: 100%; /* Rozciąga listę na całą szerokość */
+}
+.mobile-sticky-nav ul {
+    display: flex;
+    justify-content: space-between; /* Utrzymanie równomiernego rozłożenia */
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Rozciąga listę na całą szerokość */
+}
+
+.mobile-sticky-nav ul li {
+    flex: 1; /* Każdy element ma równą szerokość */
+    text-align: center;
+}
+
+.mobile-sticky-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    display: block;
+}
+
+.sticky-logo {
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+    width: auto; /* Zachowanie proporcji logo */
+}
+
+
+
+
+footer {
+	padding-bottom: 50px;
+}
+
+
+
+
+
+
+
+/* Styl dla logo */
+.sticky-logo {
+    height: 30px;
+}
+
+.mobile-sticky-header.show {
+    display: block;
+    bottom: 0;
+}
+
+/* Styl stopki */
+.desktop-footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.desktop-footer .footer-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+
 /* Hamburger menu */
     .mobile-header .hamburger {
         position: absolute;
@@ -693,27 +859,45 @@ footer {
         transform: scale(1);
     }
 
-    .members-container {
+	.members-container {
         display: flex;
-        flex-direction: column; /* Zdjęcia w jednej kolumnie */
-        align-items: center;
+        flex-direction: row; /* Ustawienie galerii w poziomie */
+        overflow-x: auto; /* Umożliwienie przewijania w poziomie */
+        overflow-y: hidden; /* Blokowanie przewijania w pionie */
         gap: 20px; /* Odstęp między zdjęciami */
+        padding: 10px;
+        width: 100%;
+        height: 300px; /* Stała wysokość kontenera */
+        scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
     }
 
     .member {
-        width: 90%; /* Szerokość zdjęcia dopasowana do szerokości ekranu */
+        flex: 0 0 70%; /* Każdy element zajmuje 70% szerokości ekranu */
         position: relative;
-        transition: transform 0.5s ease;
+        cursor: pointer;
+        height: 100%; /* Każdy element ma wypełniać całą wysokość kontenera */
+        transition: transform 0.5s ease, filter 0.5s ease;
+        scroll-snap-align: start; /* Efekt przyciągania zdjęć do początku */
     }
 
     .member img {
         width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
-        height: auto; /* Automatyczna wysokość */
+        height: 100%; /* Dopasowanie zdjęcia do wysokości kontenera */
+        object-fit: cover; /* Zapewnia dopasowanie do kontenera bez deformacji */
         border-radius: 10px; /* Zaokrąglone rogi */
         transition: transform 0.5s ease;
     }
 
-    .member::after {
+    .members-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .members-container {
+        -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
+        scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
+    }
+    
+	.member::after {
         content: attr(data-member); /* Wyświetlanie opisu */
         position: absolute;
         top: 0;
@@ -749,22 +933,30 @@ footer {
 /* sekcja muzyka */
     .music-section iframe {
         width: 100%; /* Ustawienie szerokości na pełną szerokość kontenera */
-        height: auto; /* Zachowanie proporcji */
     }
 
 
-/* sekcja galeria */
-    .gallery-grid {
-        display: grid;
-        grid-template-columns: 1fr; /* Każde zdjęcie zajmuje całą szerokość */
-        gap: 10px; /* Mniejszy odstęp między zdjęciami */
+ /* sekcja galeia */
+    .gallery-grid, .gallery-grid-a {
+        display: flex;
+        overflow-x: scroll; /* Umożliwienie przewijania w poziomie */
+        scroll-snap-type: x mandatory; /* Przewijanie z efektem przyciągania do zdjęcia */
+        gap: 10px; /* Odstęp między zdjęciami */
+        padding: 10px; /* Dodatkowy padding po bokach */
+        width: 100%;
     }
 
-    .gallery-item img {
-        width: 100%; /* Zdjęcia zajmują całą szerokość dostępnej kolumny */
-        height: auto; /* Zachowanie proporcji */
-        object-fit: cover; /* Dopasowanie zdjęć bez deformacji */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+    .gallery-grid img, .gallery-grid-a img {
+        height: 300px; /* Stała wysokość zdjęć */
+        width: auto; /* Automatyczna szerokość */
+        object-fit: cover; /* Dopasowanie zdjęcia bez zniekształceń */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        scroll-snap-align: start; /* Ustawienie zdjęć do wyrównania w widoku */
+    }
+
+    .gallery-grid img:hover, .gallery-grid-a img:hover {
+        transform: none;
+        box-shadow: none;
     }
 
 

@@ -6,11 +6,7 @@
     <meta name="description" content="Tabula Rasa to zespół rockowy z Warszawy redefiniujący granice muzyki. Dołącz do naszej muzycznej podróży!">
     <title>Tabula Rasa</title>
     <link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
-	<link rel="icon" href="logo.png" type="image/png">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
-
+	<link rel="icon" href="logo.png" type="image/png" loading="lazy">
 </head>
 <body>
 
@@ -23,7 +19,7 @@
                 <li><a href="music.html">Muzyka</a></li>
                 <li><a href="shows.html">Koncerty</a></li>
                 <li class="logo-container">
-                    <a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="logo"></a>
+                    <a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="logo" loading="lazy"></a>
                 </li>
                 <li><a href="gallery.html">Galeria</a></li>
                 <li><a href="press.html">Press</a></li>
@@ -35,7 +31,7 @@
     <!-- Mobilna wersja nagłówka (tylko dla urządzeń mobilnych) -->
     <div class="mobile-header">
         <div class="logo-container">
-            <a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="logo"></a>
+            <a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="logo" loading="lazy"></a>
         </div>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -55,15 +51,29 @@
     </div>
 </header>
 
-<<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
-<div class="slider-container">
-    <img src="zdjecie1.jpg" alt="Zdjęcie 1" class="active desktop-image" loading="lazy" data-mobile-src="zdjecie1-mobile.jpg" data-desktop-src="zdjecie1.jpg">
-    <img src="zdjecie2.jpg" alt="Zdjęcie 2" class="desktop-image" loading="lazy" data-mobile-src="zdjecie2-mobile.jpg" data-desktop-src="zdjecie2.jpg">
-    <img src="zdjecie3.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie3-mobile.jpg" data-desktop-src="zdjecie3.jpg">
-	<img src="zdjecie4.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie4-mobile.jpg" data-desktop-src="zdjecie4.jpg">
-	<img src="zdjecie5.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie5-mobile.jpg" data-desktop-src="zdjecie5.jpg">
-	<img src="zdjecie6.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie6-mobile.jpg" data-desktop-src="zdjecie6.jpg">
-	<img src="zdjecie7.jpg" alt="Zdjęcie 3" class="desktop-image" loading="lazy" data-mobile-src="zdjecie7-mobile.jpg" data-desktop-src="zdjecie7.jpg">
+<div class="mobile-sticky-header">
+    <nav class="mobile-sticky-nav">
+        <ul>
+            <li><a href="about.html">O nas</a></li>
+            <li><a href="music.html">Muzyka</a></li>
+            <li><a href="shows.html">Koncerty</a></li>
+            <li><a href="index.html"><img src="logo.png" alt="Logo Zespołu" class="sticky-logo"></a></li>
+            <li><a href="gallery.html">Galeria</a></li>
+            <li><a href="press.html">Press</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
+<div class="background-slider">
+    <img src="tlo/zdjecie1.jpg" alt="Zdjęcie 1" class="active" data-mobile-src="tlo/zdjecie1-mobile.jpg" data-desktop-src="tlo/zdjecie1.jpg" loading="lazy">
+    <img src="tlo/zdjecie2.jpg" alt="Zdjęcie 2" data-mobile-src="tlo/zdjecie2-mobile.jpg" data-desktop-src="tlo/zdjecie2.jpg" loading="lazy">
+    <img src="tlo/zdjecie3.jpg" alt="Zdjęcie 3" data-mobile-src="tlo/zdjecie3-mobile.jpg" data-desktop-src="tlo/zdjecie3.jpg" loading="lazy">
+    <img src="tlo/zdjecie4.jpg" alt="Zdjęcie 4" data-mobile-src="tlo/zdjecie4-mobile.jpg" data-desktop-src="tlo/zdjecie4.jpg" loading="lazy">
+    <img src="tlo/zdjecie5.jpg" alt="Zdjęcie 5" data-mobile-src="tlo/zdjecie5-mobile.jpg" data-desktop-src="tlo/zdjecie5.jpg" loading="lazy">
+    <img src="tlo/zdjecie6.jpg" alt="Zdjęcie 6" data-mobile-src="tlo/zdjecie6-mobile.jpg" data-desktop-src="tlo/zdjecie6.jpg" loading="lazy">
+    <img src="tlo/zdjecie7.jpg" alt="Zdjęcie 7" data-mobile-src="tlo/zdjecie7-mobile.jpg" data-desktop-src="tlo/zdjecie7.jpg" loading="lazy">
 </div>
 
 
@@ -71,13 +81,6 @@
 <section id="news" class="press-section">
     <h1 id="welcome">Presspack</h1>
 
-    </div>
-    <!-- Opis zespołu -->
-    <div class="press-info">
-        <h2>Opis zespołu</h2>
-        <p>Tabula Rasa - zespół, który niesie ze sobą energię, pasję i oryginalne brzmienie rocka, które przekracza granice konwencji.
-        Tabula Rasa, nazwana od koncepcji "czystej tablicy", odzwierciedla ducha kreatywności, eksperymentowania i nieograniczonego potencjału.
-        W naszej muzyce znajdziesz harmonię melodyjnych dźwięków i potężnych riffów, które wypełniają przestrzeń, kierując słuchaczy w emocjonalną podróż.</p>
     </div>
 
     <!-- Historia i osiągnięcia -->
@@ -108,16 +111,16 @@
         <hr class="footer-divider">
         <div class="footer-container">
             <div class="footer-section logo-description">
-                <img src="logo.png" alt="Logo Zespołu" class="footer-logo">
+                <img src="logo.png" alt="Logo Zespołu" class="footer-logo" loading="lazy">
                 <p>Tabula Rasa - zespół rockowy, który redefiniuje granice muzyki. Odkryj naszą twórczość!</p>
             </div>
             <div class="footer-section social-media">
                 <ul>
-                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="spotify.png" alt="Spotify"></a></li>
-                <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="youtube.png" alt="YouTube"></a></li>
-                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="facebook.png" alt="Facebook"></a></li>
-                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="instagram.png" alt="Instagram"></a></li>
-                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="tiktok.png" alt="TikTok"></a></li>
+                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="ikony/spotify.png" alt="Spotify" loading="lazy"></a></li>
+                <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="ikony/youtube.png" alt="YouTube" loading="lazy"></a></li>
+                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="ikony/facebook.png" alt="Facebook" loading="lazy"></a></li>
+                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="ikony/instagram.png" alt="Instagram" loading="lazy"></a></li>
+                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="ikony/tiktok.png" alt="TikTok" loading="lazy"></a></li>
             </ul>
 				<p>Nasze social media<br>Znajdź nas!</p>
             </div>
@@ -132,15 +135,15 @@
     <div class="mobile-footer">
 	        <hr class="footer-divider">
         <div class="footer-section logo-description">
-            <img src="logo.png" alt="Logo Zespołu" class="footer-logo">
+            <img src="logo.png" alt="Logo Zespołu" class="footer-logo" loading="lazy">
         </div>
         <div class="footer-section social-media">
             <ul>
-                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="spotify.png" alt="Spotify"></a></li>
-                <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="youtube.png" alt="YouTube"></a></li>
-                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="facebook.png" alt="Facebook"></a></li>
-                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="instagram.png" alt="Instagram"></a></li>
-                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="tiktok.png" alt="TikTok"></a></li>
+                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="ikony/spotify.png" alt="Spotify" loading="lazy"></a></li>
+                <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="ikony/youtube.png" alt="YouTube" loading="lazy"></a></li>
+                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="ikony/facebook.png" alt="Facebook" loading="lazy"></a></li>
+                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="ikony/instagram.png" alt="Instagram" loading="lazy"></a></li>
+                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="ikony/tiktok.png" alt="TikTok" loading="lazy"></a></li>
             </ul>
         </div>
 		        <hr class="footer-divider">
