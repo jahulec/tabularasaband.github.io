@@ -15,32 +15,17 @@ function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
 }
 
+// Funkcja do zmiany zdjęć co kilka sekund
 function changeSlide() {
-    console.log('changeSlide wywołane'); // Dodaj log na początku, aby zobaczyć, czy funkcja jest wywoływana
-
     sliderImages.forEach((img) => {
         img.classList.remove('active'); // Usuwanie klasy active ze wszystkich obrazów
-        console.log('Klasa active usunięta z obrazu: ', img.src); // Logujemy, z których obrazów usuwamy klasę
     });
 
-    currentImageIndex = (currentImageIndex + 1) % sliderImages.length; // Przejście do następnego obrazu
-    console.log('Aktualny indeks obrazu: ', currentImageIndex); // Loguj indeks następnego obrazu
-
-    sliderImages[currentImageIndex].classList.add('active'); // Dodanie klasy active do nowego obrazu
-    console.log('Klasa active dodana do obrazu: ', sliderImages[currentImageIndex].src); // Logujemy nowo aktywny obraz
-}liderImages[currentImageIndex].classList.add('active');
+    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
+    sliderImages[currentImageIndex].classList.add('active');
 }
 
-// Sprawdzanie, czy wszystkie zdjęcia zostały załadowane
-function areImagesLoaded() {
-    let allLoaded = true;
-    sliderImages.forEach((img) => {
-        if (!img.complete || img.naturalHeight === 0) {
-            allLoaded = false;
-        }
-    });
-    return allLoaded;
-}
+
 
 // Uruchomienie funkcji zmiany zdjęć po załadowaniu wszystkich obrazów
 function startSlider() {
