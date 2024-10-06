@@ -397,16 +397,7 @@ header.hidden {
     }
 
 
-/* footer */
- .desktop-footer {
-        display: block !important; /* Wyświetl desktopową stopkę */
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+
 footer {
 
     background-color: #000000;
@@ -520,7 +511,16 @@ footer {
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
 
-
+/* footer */
+ .desktop-footer {
+        display: block /* Wyświetl desktopową stopkę */
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
 /* margines 80% */
     body {
