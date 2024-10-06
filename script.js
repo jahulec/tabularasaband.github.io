@@ -9,75 +9,82 @@ let isHeaderHidden = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
 
-// Funkcja do aktywowania pierwszego zdjęcia z efektem zoom po pełnym załadowaniu strony
-function activateFirstSlide() {
-    sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
-}
-
-// Funkcja do zmiany zdjęć co kilka sekund
-function changeSlide() {
-    const imagesToChange = window.innerWidth <= 768 ? document.querySelectorAll('.background-slider img[data-mobile-src]') : document.querySelectorAll('.background-slider img[data-desktop-src]');
-    imagesToChange.forEach((img) => img.classList.remove('active')); // Usuwanie klasy active ze wszystkich obrazów
-    
-    currentImageIndex = (currentImageIndex + 1) % imagesToChange.length;
-    imagesToChange[currentImageIndex].classList.add('active');
-}
-
-// Funkcja sprawdzająca, czy wszystkie obrazy zostały załadowane
-function areImagesLoaded() {
-    return Array.from(sliderImages).every(img => img.complete);
-}
-
-// Funkcja, która uruchamia slider, jeśli wszystkie obrazy są załadowane
-function startSlider() {
-    if (areImagesLoaded()) {
-        activateFirstSlide();
-        setInterval(changeSlide, 5000); // Zmieniaj zdjęcia co 5 sekund
-    } else {
-        setTimeout(startSlider, 100); // Sprawdzaj co 100ms, czy obrazy zostały załadowane
-    }
-}
-
-// Funkcja do zmiany obrazów w zależności od rozdzielczości (desktop/mobile)
-function handleImageSwap() {
-    const sliderImages = document.querySelectorAll('.background-slider img');
-    
-    sliderImages.forEach(img => {
-        if (window.innerWidth <= 768) {
-            img.src = img.getAttribute('data-mobile-src'); // Ładowanie wersji mobilnych
-        } else {
-            img.src = img.getAttribute('data-desktop-src'); // Ładowanie wersji desktopowych
-        }
-    });
-}
-
-// Nasłuchiwanie na zmianę rozmiaru ekranu i wywołanie funkcji zmiany obrazów
-window.addEventListener("resize", handleImageSwap);
-
-// Debugowanie ładowania obrazów
+// 1. Debugowanie ładowania obrazów
 function debugImageLoading() {
-    const images = document.querySelectorAll('.background-slider img'); // Pobieramy wszystkie obrazy w galerii
+    console.log("Funkcja debugImageLoading uruchomiona");
+    const images = document.querySelectorAll('.background-slider img'); 
 
     images.forEach((img, index) => {
-        // Zdarzenie "load" dla każdego obrazu
         img.addEventListener('load', () => {
-            console.log(`Obraz ${index + 1} (${img.src}) został załadowany poprawnie.`);
+            console.log(`Obraz ${index + 1} (${img.src}) załadowany.`);
         });
 
-        // Zdarzenie "error" dla każdego obrazu w przypadku błędu
         img.addEventListener('error', () => {
             console.error(`Błąd ładowania obrazu ${index + 1} (${img.src}).`);
         });
     });
+    console.log("Funkcja debugImageLoading zakończona");
 }
 
-// Wywołanie funkcji debugującej po załadowaniu strony
-window.addEventListener('load', function() {
-    debugImageLoading(); // Uruchamiamy debugowanie
-    handleImageSwap();   // Sprawdzamy i ustawiamy obrazy na mobilne lub desktopowe
-    startSlider();       // Rozpoczynamy slider po załadowaniu obrazów
-});
+// 2. Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
+function handleImageSwap() {
+    console.log("Funkcja handleImageSwap uruchomiona");
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    
+    sliderImages.forEach(img => {
+        if (window.innerWidth <= 768) {
+            img.src = img.getAttribute('data-mobile-src');
+        } else {
+            img.src = img.getAttribute('data-desktop-src');
+        }
+    });
+    console.log("Funkcja handleImageSwap zakończona");
+}
 
+// 3. Funkcja zmiany obrazów
+function changeSlide() {
+    console.log("Funkcja changeSlide uruchomiona");
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    
+    sliderImages.forEach(img => {
+        img.classList.remove('active');
+    });
+
+    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
+    sliderImages[currentImageIndex].classList.add('active');
+    console.log(`Aktywny slajd: ${currentImageIndex + 1}`);
+    console.log("Funkcja changeSlide zakończona");
+}
+
+// 4. Funkcja uruchamiająca slider
+function startSlider() {
+    console.log("Funkcja startSlider uruchomiona");
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    if (Array.from(sliderImages).every(img => img.complete)) {
+        activateFirstSlide();
+        setInterval(changeSlide, 5000);
+    } else {
+        setTimeout(startSlider, 100);
+    }
+    console.log("Funkcja startSlider zakończona");
+}
+
+// 5. Funkcja aktywująca pierwszy slajd
+function activateFirstSlide() {
+    console.log("Funkcja activateFirstSlide uruchomiona");
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    sliderImages[0].classList.add('active');
+}
+
+window.onload = function() {
+    console.log("Strona załadowana, uruchamianie funkcji");
+    debugImageLoading();
+    handleImageSwap();
+    startSlider();
+};
+
+// Reagowanie na zmianę rozmiaru okna
+window.addEventListener("resize", handleImageSwap);
 
 
 function adjustImageBrightness(scrollTop) {
