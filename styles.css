@@ -404,7 +404,7 @@ header.hidden {
 
 footer {
 	display: block;
-    color: #ffffff;
+    color: #00000;
     padding: 20px 20px 0 20px;
     font-size: 0.9em;
     text-align: center;
@@ -412,7 +412,6 @@ footer {
     position: relative;
     margin-top: 0;
     background-color: transparent;
-    color: #f0f0f0;
 }
 
 .footer-divider {
@@ -685,23 +684,24 @@ footer {
 /* Styl dla wysuwanego paska nagłówka */
 .mobile-sticky-header {
     position: fixed;
-	width: 100%;
+    width: 100%;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #333;
-    color: white;
+    background-color: #000;
+    color: black;
     padding: 10px 0;
     z-index: 999;
     height: 30px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    border-top: 1px solid #444; /* Dodanie linii na górze */
     transform: translateY(100%); /* Ukryty poza ekranem na początku */
     display: flex;
-    justify-content: center; /* Upewnia się, że elementy są wyśrodkowane */
+    justify-content: center; /* Wyśrodkowanie elementów */
     align-items: center;
     transition: transform 0.5s ease-out; /* Płynna animacja */
     overflow: hidden; /* Zapobiega wyciekaniu elementów */
 }
+
 
 /* Widoczny pasek z animacją wjeżdżania */
 .mobile-sticky-header.show {
@@ -955,39 +955,30 @@ footer {
 
 
  /* sekcja galeia */
-    .gallery-grid, .gallery-grid-a {
-        display: flex;
-        overflow-x: scroll; /* Umożliwienie przewijania w poziomie */
-		scroll-snap-type: x mandatory; /* Scroll-snap - automatyczne dopasowanie */
-    scrollbar-width: thin;  
-        gap: 10px; /* Odstęp między zdjęciami */
-        padding: 10px; /* Dodatkowy padding po bokach */
-        width: 100%;
-    }
+.gallery-grid {
+    display: flex;
+    overflow-x: scroll; /* Przewijanie w poziomie */
+    scroll-snap-type: x mandatory; /* Scroll-snap dla automatycznego dopasowania */
+    scrollbar-width: thin;
+    gap: 10px; /* Odstęp między zdjęciami */
+    padding: 10px;
+    width: 100%;
+}
 
-    .gallery-grid img {
-		    flex-shrink: 0;    
-		scroll-snap-align: start; /* Ustawienie przyciągania każdego zdjęcia */
-		height: 300px; /* Stała wysokość dla wszystkich zdjęć */
-        width: auto; /* Szerokość automatyczna */
-        object-fit: cover; /* Dopasowanie zdjęć bez zniekształceń */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
-        scroll-snap-align: start; /* Wyrównanie do początku każdego zdjęcia */
-    }
-	.gallery-grid-a img {
-		    flex-shrink: 0;    
-		scroll-snap-align: start; /* Ustawienie przyciągania każdego zdjęcia */
-		width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
-        height: auto; /* Zachowanie proporcji */
-        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.gallery-grid img {
+    flex-shrink: 0; /* Zapobieganie skurczaniu się zdjęć */
+    scroll-snap-align: start; /* Przyciąganie zdjęć do początku */
+    height: 300px; /* Wspólna wysokość dla wszystkich zdjęć */
+    width: auto; /* Automatyczna szerokość */
+    object-fit: cover; /* Dopasowanie bez zniekształceń */
+    border-radius: 10px; /* Zaokrąglone rogi */
+}
 
-    .gallery-grid img:hover, .gallery-grid-a img:hover {
-        transform: none;
-        box-shadow: none;
-    }
+.gallery-grid img:hover {
+    transform: none;
+    box-shadow: none;
+}
+
 
 
 /* sekcja kontakt */
