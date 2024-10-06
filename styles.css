@@ -5,9 +5,10 @@ html {
 	-webkit-overflow-scrolling: touch;
 }	
 
-html {
+html, body {
 	overflow-x: hidden;
 	background-color: #333
+	    height: 100%;
 }	
 
 
@@ -61,13 +62,6 @@ img:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Wzmocnienie cienia przy najechaniu */
 }
 
-img[src^="tlo/"] {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    overflow: hidden; /* Upewnij się, że overflow jest ukryty */
-}
 img[src$="logo.png"] {
     border-radius: 0; /* Usuń zaokrąglone rogi dla logo */
     box-shadow: none; /* Brak cienia dla logo */
