@@ -1,8 +1,15 @@
 /* ogólne style */
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
-    height: 100%;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
+    height: 100vh;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
+	-webkit-overflow-scrolling: touch;
 }	
+
+html {
+	overflow-x: hidden;
+	background-color: #333
+}	
+
 
 h1 {
     font-size: 3em;
@@ -927,10 +934,6 @@ footer {
         transition: transform 0.5s ease;
     }
 
-    .members-container::-webkit-scrollbar {
-        display: none;
-    }
-
     .members-container {
         -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
         scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
@@ -978,7 +981,6 @@ footer {
  /* sekcja galeia */
     .gallery-grid, .gallery-grid-a {
         display: flex;
-		  -webkit-overflow-scrolling: touch; /* Lepsza obsługa przewijania na mobile */
         overflow-x: scroll; /* Umożliwienie przewijania w poziomie */
         scroll-snap-type: x mandatory; /* Przewijanie z efektem przyciągania do zdjęcia */
         gap: 10px; /* Odstęp między zdjęciami */
