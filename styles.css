@@ -204,7 +204,7 @@ header.hidden {
     bottom: -5px; /* Mały odstęp od tekstu */
     width: 100%;
     height: 2px; /* Grubość linii podkreślenia */
-    background-color: white; /* Kolor linii */
+    background-color: #ffffff; /* Kolor linii */
 }
 
 .main-nav a.active {
@@ -219,7 +219,7 @@ header.hidden {
     bottom: -5px; /* Mały odstęp od tekstu */
     width: 100%;
     height: 2px; /* Grubość linii podkreślenia */
-    background-color: white; /* Kolor linii */
+    background-color: #ffffff; /* Kolor linii */
 }
 
 
