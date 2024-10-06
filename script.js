@@ -24,40 +24,60 @@ function changeSlide() {
     sliderImages[currentImageIndex].classList.add('active'); // Dodawanie klasy active do bieżącego obrazu
 }
 
-// Uruchomienie funkcji zmiany zdjęć co 5 sekund
+// Funkcja sprawdzająca, czy wszystkie obrazy zostały załadowane
 function areImagesLoaded() {
     return Array.from(sliderImages).every(img => img.complete);
 }
 
+// Funkcja, która uruchamia slider, jeśli wszystkie obrazy są załadowane
 function startSlider() {
     if (areImagesLoaded()) {
         activateFirstSlide();
-        setInterval(changeSlide, 5000);
+        setInterval(changeSlide, 5000); // Zmieniaj zdjęcia co 5 sekund
     } else {
         setTimeout(startSlider, 100); // Sprawdzaj co 100ms, czy obrazy zostały załadowane
     }
 }
 
+// Funkcja do zmiany obrazów w zależności od rozdzielczości (desktop/mobile)
 function handleImageSwap() {
-    const sliderImages = document.querySelectorAll('.background-slider img');
-    
     sliderImages.forEach(img => {
-        if (window.innerWidth <= 768) {
-            // Mobile - zmieniamy na wersje mobilne
-            img.src = img.getAttribute('data-mobile-src');
-        } else {
-            // Desktop - zmieniamy na wersje desktopowe
-            img.src = img.getAttribute('data-desktop-src');
+        // Sprawdzamy, czy obraz jest już ustawiony dla odpowiedniego urządzenia
+        if (window.innerWidth <= 768 && img.src !== img.getAttribute('data-mobile-src')) {
+            img.src = img.getAttribute('data-mobile-src'); // Ustaw wersję mobilną
+        } else if (window.innerWidth > 768 && img.src !== img.getAttribute('data-desktop-src')) {
+            img.src = img.getAttribute('data-desktop-src'); // Ustaw wersję desktopową
         }
     });
 }
 
-window.addEventListener("resize", handleImageSwap);  // Reaguj na zmianę rozmiaru ekranu
-window.addEventListener("load", handleImageSwap);    // Uruchom przy ładowaniu strony
+// Nasłuchiwanie na zmianę rozmiaru ekranu i wywołanie funkcji zmiany obrazów
+window.addEventListener("resize", handleImageSwap);
 
-window.onload = function() {
-    startSlider(); // Rozpoczęcie działania slidera po pełnym załadowaniu strony
-};
+// Debugowanie ładowania obrazów
+function debugImageLoading() {
+    const images = document.querySelectorAll('.background-slider img'); // Pobieramy wszystkie obrazy w galerii
+
+    images.forEach((img, index) => {
+        // Zdarzenie "load" dla każdego obrazu
+        img.addEventListener('load', () => {
+            console.log(`Obraz ${index + 1} (${img.src}) został załadowany poprawnie.`);
+        });
+
+        // Zdarzenie "error" dla każdego obrazu w przypadku błędu
+        img.addEventListener('error', () => {
+            console.error(`Błąd ładowania obrazu ${index + 1} (${img.src}).`);
+        });
+    });
+}
+
+// Wywołanie funkcji debugującej po załadowaniu strony
+window.addEventListener('load', function() {
+    debugImageLoading(); // Uruchamiamy debugowanie
+    handleImageSwap();   // Sprawdzamy i ustawiamy obrazy na mobilne lub desktopowe
+    startSlider();       // Rozpoczynamy slider po załadowaniu obrazów
+});
+
 
 
 function adjustImageBrightness(scrollTop) {

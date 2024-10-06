@@ -682,7 +682,7 @@ footer {
 		text-align: center;
 	}
 	
-	 .desktop-header {
+	 .desktop-header, .desktop-footer {
         display: none;
     }
     .mobile-header, .mobile-footer, .mobile-sticky-header {
