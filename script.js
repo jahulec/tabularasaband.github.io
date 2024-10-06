@@ -8,6 +8,8 @@ let currentImageIndex = 0; // Indeks bieżącego obrazu
 let isHeaderHidden = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
+
+	
 // Funkcja do aktywowania pierwszego zdjęcia
 function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
@@ -137,4 +139,15 @@ window.addEventListener('scroll', function () {
         stickyHeader.classList.remove('show');
         isStickyVisible = false;
     }
+});
+
+window.addEventListener('load', function() {
+    const h1Element = document.querySelector('h1');
+    
+    // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
+    gsap.to(window, {
+        scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
+        duration: 1, // Czas przewijania (możesz dostosować)
+        ease: "power2.out" // Płynne przewijanie
+    });
 });
