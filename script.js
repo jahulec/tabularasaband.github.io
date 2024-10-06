@@ -53,9 +53,9 @@ function changeSlide() {
         img.classList.remove('active');
     });
 
-    currentImageIndex = (currentImageIndex + 0.5) % sliderImages.length;
+    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
     sliderImages[currentImageIndex].classList.add('active');
-    console.log(`Aktywny slajd: ${currentImageIndex + 0.5}`);
+    console.log(`Aktywny slajd: ${currentImageIndex + 1}`);
 
     setTimeout(() => { 
         isChangingSlide = false; // Zdejmujemy blokadę po krótkim czasie
