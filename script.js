@@ -16,12 +16,11 @@ function activateFirstSlide() {
 
 // Funkcja do zmiany zdjęć co kilka sekund
 function changeSlide() {
-    sliderImages.forEach((img, index) => {
-        img.classList.remove('active'); // Usuwanie klasy active ze wszystkich obrazów
-    });
-
-    currentImageIndex = (currentImageIndex + 1) % sliderImages.length; // Następne zdjęcie w kolejności
-    sliderImages[currentImageIndex].classList.add('active'); // Dodawanie klasy active do bieżącego obrazu
+    const imagesToChange = window.innerWidth <= 768 ? document.querySelectorAll('.background-slider img[data-mobile-src]') : document.querySelectorAll('.background-slider img[data-desktop-src]');
+    imagesToChange.forEach((img) => img.classList.remove('active')); // Usuwanie klasy active ze wszystkich obrazów
+    
+    currentImageIndex = (currentImageIndex + 1) % imagesToChange.length;
+    imagesToChange[currentImageIndex].classList.add('active');
 }
 
 // Funkcja sprawdzająca, czy wszystkie obrazy zostały załadowane
@@ -41,12 +40,13 @@ function startSlider() {
 
 // Funkcja do zmiany obrazów w zależności od rozdzielczości (desktop/mobile)
 function handleImageSwap() {
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    
     sliderImages.forEach(img => {
-        // Sprawdzamy, czy obraz jest już ustawiony dla odpowiedniego urządzenia
-        if (window.innerWidth <= 768 && img.src !== img.getAttribute('data-mobile-src')) {
-            img.src = img.getAttribute('data-mobile-src'); // Ustaw wersję mobilną
-        } else if (window.innerWidth > 768 && img.src !== img.getAttribute('data-desktop-src')) {
-            img.src = img.getAttribute('data-desktop-src'); // Ustaw wersję desktopową
+        if (window.innerWidth <= 768) {
+            img.src = img.getAttribute('data-mobile-src'); // Ładowanie wersji mobilnych
+        } else {
+            img.src = img.getAttribute('data-desktop-src'); // Ładowanie wersji desktopowych
         }
     });
 }
