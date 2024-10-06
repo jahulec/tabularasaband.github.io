@@ -230,7 +230,6 @@ header.hidden {
     left: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
     z-index: -1; /* Tło za innymi elementami */
     background-color: black;
 }
