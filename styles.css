@@ -20,7 +20,7 @@ html, body {
 h1 {
     font-size: 3em;
     text-align: center;
-    margin-bottom: 200px; /* Zaczyna na środku ekranu */
+    margin-bottom: 100px; /* Zaczyna na środku ekranu */
 }
 
 h2 {
