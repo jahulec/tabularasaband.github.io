@@ -20,6 +20,9 @@ function areImagesLoaded() {
     return allLoaded;
 }
 
+sliderImages.forEach((img, index) => {
+    console.log(`Image ${index} loaded: `, img.complete);
+});
 
 // Funkcja do aktywowania pierwszego zdjęcia
 function activateFirstSlide() {
