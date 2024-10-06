@@ -642,33 +642,37 @@ footer {
         width: 100%;
     }
 
-    .gallery-grid,
-	.gallery-grid-a {
-    display: flex;
-    overflow-x: auto; /* Poprawne przewijanie w poziomie */
-    overflow-y: hidden; /* Ukrycie przewijania w pionie */
-    scroll-snap-type: x mandatory;
-    gap: 10px;
-    padding: 10px;
-    height: 300px;
-    overflow: hidden; /* Zapobiega problemom z overflow */
-    }
+.gallery-grid-a {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamicznie dostosowuje liczbę kolumn */
+    gap: 20px; /* Odstęp między zdjęciami */
+    margin-bottom: 40px; /* Odstęp między galeriami */
+    width: 100%;
+}
 
-    .gallery-grid img {
-        height: 300px; /* Stała wysokość dla wszystkich zdjęć */
-        width: auto; /* Szerokość automatyczna */
-        object-fit: cover; /* Dopasowanie zdjęć bez zniekształceń */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
-        scroll-snap-align: start; /* Wyrównanie do początku każdego zdjęcia */
-    }
+.gallery-grid-a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Dopasowanie obrazków do kontenerów, bez deformacji */
+    border-radius: 8px; /* Opcjonalne zaokrąglenie rogów */
 
-    .gallery-grid-a img {
-        width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
-        height: auto; /* Zachowanie proporcji */
-        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
-        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+
+/* Stylizacja dla galerii pionowej */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamicznie dostosowuje liczbę kolumn */
+    gap: 20px; /* Odstęp między zdjęciami */
+    margin-bottom: 40px; /* Odstęp na dole, aby zachować przestrzeń */
+    width: 100%;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Dopasowanie obrazków do kontenerów */
+    border-radius: 8px; /* Opcjonalne zaokrąglenie rogów */
+}adius: 8px; /* Opcjonalne zaokrąglenie rogów */
+}
 
     .gallery-grid img:hover, .gallery-grid-a img:hover {
         transform: scale(1.05); /* Powiększenie zdjęcia przy najechaniu */
