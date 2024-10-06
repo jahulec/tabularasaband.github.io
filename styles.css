@@ -6,7 +6,7 @@ html {
 }	
 
 html, body {
-	background-color: #000
+    background-color: transparent;
     height: 100%;
 	margin: 0;
 	padding: 0;
