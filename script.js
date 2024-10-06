@@ -187,3 +187,6 @@ window.addEventListener('load', function() {
     });
 });
 
+document.getElementById("scrollTopBtn").addEventListener("click", function() {
+    gsap.to(window, {duration: 1.5, scrollTo: {y: 200, ease: "power2.inOut"}});
+});

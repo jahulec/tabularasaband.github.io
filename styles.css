@@ -5,6 +5,7 @@ html {
 	-webkit-overflow-scrolling: touch;
 }	
 
+
 html, body {
 	background-color: #000
     height: 100%;
@@ -12,20 +13,24 @@ html, body {
 	padding: 0;
 	overflow-x: hidden;
 }	
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #000;
     }
 }
+
 @media (prefers-color-scheme: light) {
     body {
         background-color: #fff;
     }
 }
+
 #content {
 	min-height: 100vh;
 	box-sizing: border-box;
 }
+
 h1 {
     font-size: 3em;
     text-align: center;
@@ -135,14 +140,11 @@ header {
     transition: top 0.3s ease-in-out;
 }
 
-
-
 header.hidden {
     top: -100px; /* Ukrycie nagłówka przy przewinięciu */
     transition: top 0.3s ease-in-out;
 }
 
-/* Stylizacja nagłówka desktopowego */
 .desktop-header {
     display: flex;
     justify-content: space-between;
@@ -150,7 +152,6 @@ header.hidden {
     max-width: 1200px; /* Maksymalna szerokość nagłówka */
 }
 
-/* Stylizacja logo */
 .desktop-header .logo-container {
     display: flex;
     justify-content: center;
@@ -163,7 +164,6 @@ header.hidden {
     height: auto;
 }
 
-/* Lista nawigacyjna */
 .desktop-header nav ul {
     display: flex;
     list-style: none;
@@ -174,7 +174,6 @@ header.hidden {
     align-items: center; /* Wyśrodkowanie linków w pionie */
 }
 
-/* Stylizacja linków */
 .desktop-header nav ul li {
     margin: 0 20px; /* Odstęp między linkami */
 }
@@ -190,6 +189,7 @@ header.hidden {
 .desktop-header nav ul li a:hover {
     transform: scale(1.1); /* Efekt zoom na hover */
 }
+
 
 /* Dla linków w sticky mobile header */
 .mobile-sticky-nav a.active {
@@ -207,7 +207,6 @@ header.hidden {
     background-color: #444; /* Kolor linii */
 }
 
-
 .main-nav a.active {
     position: relative;
     text-decoration: none; /* Usunięcie domyślnego podkreślenia */
@@ -222,6 +221,7 @@ header.hidden {
     height: 2px; /* Grubość linii podkreślenia */
     background-color: #444; /* Kolor linii */
 }
+
 
 /* Dynamiczna galeria zdjęć jako tło */
 .background-slider {
@@ -255,6 +255,21 @@ header.hidden {
 }
 
 
+/* Sekcja koncerty */
+.concerts-section h3::after {
+	display: none;
+}
+
+.concerts-section p::after {
+	content: '';
+    display: block;
+    width: 100%; /* Szerokość linii - możesz dostosować */
+    height: 2px;
+    background-color: #444; /* Kolor linii */
+    margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
+}
+
+	
 /* Sekcja Aktualności */
 #news {
     position: relative;
@@ -342,11 +357,11 @@ header.hidden {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .contact-form button:hover {
-    background-color: #d94336; /* Ciemniejszy odcień czerwonego po najechaniu */
+    transform: scale(1.1);
 }
 
 .contact-container {
@@ -390,11 +405,10 @@ header.hidden {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .contact-submit button:hover {
-    background-color: #e60023;
     transform: scale(1.1);
 }
 
@@ -410,7 +424,7 @@ header.hidden {
     }
 
 
-
+/* stopka */
 footer {
 	display: block;
     color: #00000;
@@ -517,10 +531,37 @@ footer {
     margin: 0;
 }
 
+.scroll-to-top {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.scroll-to-top button {
+    color: #fff; /* Kolor tekstu w przycisku */
+	font-family: 'Gill Sans Nova';
+    background-color: #e60023; /* Tło przycisku */
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.scroll-to-top button:hover {
+    transform: scale(1.05);
+}
 
 
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
+
+/* ukrywanie mobile */
+    .desktop-header, .desktop-footer {
+        display: block;
+    }
+    .mobile-header, .mobile-footer, .mobile-sticky-header {
+        display: none;
+    }
 
 
 /* margines 80% */
@@ -666,31 +707,25 @@ footer {
 }
 
 
-
-@media (min-width: 769px) {
-    .desktop-header, .desktop-footer {
-        display: block;
-    }
-    .mobile-header, .mobile-footer, .mobile-sticky-header {
-        display: none;
-    }
-}
-
 /* Style Mobile only */
 @media (max-width: 768px) {
-  
-	p {
+
+
+/* tekst wyśrodkowany */
+p {
 		text-align: center;
 	}
 	
-	 .desktop-header, .desktop-footer {
+	.desktop-header, .desktop-footer {
         display: none;
     }
-    .mobile-header, .mobile-footer, .mobile-sticky-header {
+    
+	.mobile-header, .mobile-footer, .mobile-sticky-header {
         display: block;
     }
 	
-/* Styl dla wysuwanego paska nagłówka */
+	
+/* Styl dla dolnego paska nagłówka */
 .mobile-sticky-header {
     position: fixed;
     width: 100%;
@@ -711,13 +746,12 @@ footer {
     overflow: hidden; /* Zapobiega wyciekaniu elementów */
 }
 
-
-/* Widoczny pasek z animacją wjeżdżania */
 .mobile-sticky-header.show {
     transform: translateY(0); /* Wjeżdża na ekran */
+    display: block;
+    bottom: 0;
 }
 
-/* Ukrywanie paska z animacją wyjeżdżania */
 .mobile-sticky-header.hide {
     transform: translateY(100%); /* Zjeżdża z ekranu */
 	
@@ -726,6 +760,7 @@ footer {
 .mobile-sticky-nav  {
     width: 100%; /* Rozciąga listę na całą szerokość */
 }
+
 .mobile-sticky-nav ul {
     display: flex;
     justify-content: space-between; /* Utrzymanie równomiernego rozłożenia */
@@ -755,28 +790,14 @@ footer {
 }
 
 
-
-
+/* stopka */
 footer {
 	padding-bottom: 50px;
 }
 
-
-
-
-
-
-
-/* Styl dla logo */
 .sticky-logo {
     height: 30px;
 }
-
-.mobile-sticky-header.show {
-    display: block;
-    bottom: 0;
-}
-
 
 .mobile-footer .footer-container {
     display: flex;
@@ -987,7 +1008,6 @@ footer {
     transform: none;
     box-shadow: none;
 }
-
 
 
 /* sekcja kontakt */
