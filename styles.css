@@ -6,9 +6,10 @@ html {
 }	
 
 html, body {
-	overflow-x: hidden;
 	background-color: #333
-	    height: 100%;
+    min-height: 100dvh; /* Używa dynamicznej wysokości viewportu */
+    height: auto;
+	    background-attachment: fixed; /* Utrzymanie tła w miejscu */
 }	
 
 
@@ -77,13 +78,13 @@ img[src$="logo.png"] {
 }
 
 body {
+	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
     font-family: 'Gill Sans Nova', sans-serif;
     background-color: transparent;
     color: #f0f0f0;
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    overflow-x: hidden;
     transition: scroll-behavior 2s ease-out;
 }
 
@@ -397,7 +398,17 @@ header.hidden {
 
 
 /* footer */
+ .desktop-footer {
+        display: block !important; /* Wyświetl desktopową stopkę */
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 footer {
+
     background-color: #000000;
     color: #ffffff;
     padding: 20px 20px 0 20px;
@@ -509,20 +520,7 @@ footer {
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
 
-/* nagłowek mobile i desktop */
-.desktop-header {
-    display: flex; /* Upewnij się, że nagłówek na desktopie jest wyświetlany */
-}
 
-.mobile-sticky-header,
-.mobile-footer,
-.mobile-header {
-    display: none; /* Ukryj mobilny nagłówek na desktopie */
-}
-
-.desktop-footer {
-    display: block;
-}
 
 /* margines 80% */
     body {
@@ -684,7 +682,7 @@ footer {
 		text-align: center;
 	}
 	
-	 .desktop-header, .desktop-footer {
+	 .desktop-header {
         display: none;
     }
     .mobile-header, .mobile-footer, .mobile-sticky-header {
@@ -777,13 +775,6 @@ footer {
     bottom: 0;
 }
 
-/* Styl stopki */
-.desktop-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-}
 
 .desktop-footer .footer-container {
     display: flex;
