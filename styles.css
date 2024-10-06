@@ -1,7 +1,6 @@
 /* ogólne style */
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
-    scroll-behavior: smooth;    /* Płynne przewijanie */
     height: 100%;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
 }	
 
@@ -56,8 +55,11 @@ img:hover {
 }
 
 img[src^="tlo/"] {
-    all: unset; /* Usuwa wszystkie style */
-    display: block; /* Resetuje domyślne ustawienie inline dla obrazów */
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    overflow: hidden; /* Upewnij się, że overflow jest ukryty */
 }
 img[src$="logo.png"] {
     border-radius: 0; /* Usuń zaokrąglone rogi dla logo */
@@ -225,6 +227,7 @@ header.hidden {
 
 /* Dynamiczna galeria zdjęć jako tło */
 .background-slider {
+	overflow: hidden; /* Zapobiega wyciekaniu obrazów poza kontener */
     position: fixed;
     top: 0;
     left: 0;
@@ -634,12 +637,14 @@ footer {
 
     .gallery-grid,
 	.gallery-grid-a {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Automatyczne kolumny z minimalną szerokością 200px */
-        gap: 20px; /* Odstępy między zdjęciami */
-        justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
-        width: 100%;
-		padding-bottom: 20px;
+    display: flex;
+    overflow-x: auto; /* Poprawne przewijanie w poziomie */
+    overflow-y: hidden; /* Ukrycie przewijania w pionie */
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    padding: 10px;
+    height: 300px;
+    overflow: hidden; /* Zapobiega problemom z overflow */
     }
 
     .gallery-grid img {
@@ -981,12 +986,19 @@ footer {
         width: 100%;
     }
 
-    .gallery-grid img, .gallery-grid-a img {
-        height: 300px; /* Stała wysokość zdjęć */
-        width: auto; /* Automatyczna szerokość */
-        object-fit: cover; /* Dopasowanie zdjęcia bez zniekształceń */
-        border-radius: 10px; /* Zaokrąglone rogi */
-        scroll-snap-align: start; /* Ustawienie zdjęć do wyrównania w widoku */
+    .gallery-grid img {
+		height: 300px; /* Stała wysokość dla wszystkich zdjęć */
+        width: auto; /* Szerokość automatyczna */
+        object-fit: cover; /* Dopasowanie zdjęć bez zniekształceń */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+        scroll-snap-align: start; /* Wyrównanie do początku każdego zdjęcia */
+    }
+	.gallery-grid-a img {
+		width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
+        height: auto; /* Zachowanie proporcji */
+        object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
+        border-radius: 10px; /* Zaokrąglone rogi dla estetyki */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .gallery-grid img:hover, .gallery-grid-a img:hover {
