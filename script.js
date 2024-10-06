@@ -20,29 +20,35 @@ function areImagesLoaded() {
     return allLoaded;
 }
 
+sliderImages.forEach((img, index) => {
+    console.log(`Image ${index} loaded: `, img.complete);
+});
 
 // Funkcja do aktywowania pierwszego zdjęcia
 function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
 }
 
-// Funkcja do zmiany zdjęć co kilka sekund
 function changeSlide() {
+    // Sprawdzamy, czy są jakieś obrazy
+    if (sliderImages.length === 0) return;
+
+    // Usuwanie klasy .active ze wszystkich obrazów
     sliderImages.forEach((img) => {
-        img.classList.remove('active'); // Usuwanie klasy active ze wszystkich obrazów
+        img.classList.remove('active');
     });
 
+    // Zwiększamy indeks obrazu i resetujemy, jeśli przekroczy liczbę obrazów
     currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
+
+    // Dodanie klasy .active do bieżącego obrazu
     sliderImages[currentImageIndex].classList.add('active');
 }
 
-
-
-// Uruchomienie funkcji zmiany zdjęć po załadowaniu wszystkich obrazów
 function startSlider() {
     if (areImagesLoaded()) {
         activateFirstSlide();
-        setInterval(changeSlide, 5000); // Co 5 sekund zmiana zdjęcia
+        setInterval(changeSlide, 5000); // Uruchamianie zmiany obrazu co 5 sekund
     } else {
         setTimeout(startSlider, 100); // Sprawdzanie załadowania co 100ms
     }
