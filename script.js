@@ -42,18 +42,24 @@ function handleImageSwap() {
 }
 
 // 3. Funkcja zmiany obrazów
+let isChangingSlide = false; // Blokada
+
 function changeSlide() {
+    if (isChangingSlide) return; // Sprawdzamy, czy zmiana slajdu już trwa
+    isChangingSlide = true; // Ustawiamy blokadę
+
     console.log("Funkcja changeSlide uruchomiona");
-    const sliderImages = document.querySelectorAll('.background-slider img');
-    
-    sliderImages.forEach(img => {
+    sliderImages.forEach((img, index) => {
         img.classList.remove('active');
     });
 
     currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
     sliderImages[currentImageIndex].classList.add('active');
     console.log(`Aktywny slajd: ${currentImageIndex + 1}`);
-    console.log("Funkcja changeSlide zakończona");
+
+    setTimeout(() => { 
+        isChangingSlide = false; // Zdejmujemy blokadę po krótkim czasie
+    }, 1000); // 1 sekunda, można dostosować
 }
 
 // 4. Funkcja uruchamiająca slider
