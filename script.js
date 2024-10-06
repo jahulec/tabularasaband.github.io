@@ -51,6 +51,10 @@ function handleImageSwap() {
         }
     });
 }
+
+window.addEventListener("resize", handleImageSwap);  // Reaguj na zmianę rozmiaru ekranu
+window.addEventListener("load", handleImageSwap);    // Uruchom przy ładowaniu strony
+
 window.onload = function() {
     startSlider(); // Rozpoczęcie działania slidera po pełnym załadowaniu strony
 };
