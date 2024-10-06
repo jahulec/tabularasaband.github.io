@@ -188,5 +188,12 @@ window.addEventListener('load', function() {
 });
 
 document.getElementById("scrollTopBtn").addEventListener("click", function() {
-    gsap.to(window, {duration: 1.5, scrollTo: {y: 200, ease: "power2.inOut"}});
+ const h1Element = document.querySelector('h1');
+    
+    // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
+    gsap.to(window, {
+        scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
+        duration: 1, // Czas przewijania (możesz dostosować)
+        ease: "power2.out" // Płynne przewijanie
+    });
 });
