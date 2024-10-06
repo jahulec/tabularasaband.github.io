@@ -10,11 +10,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#333">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
+	<link rel="manifest" href="/manifest.json">
 </head>
+
+
 <body>
+
 
 <header>
     <!-- Desktopowa wersja nagłówka (pozostaje bez zmian) -->
@@ -57,6 +59,7 @@
     </div>
 </header>
 
+
 <div class="mobile-sticky-header">
     <nav class="mobile-sticky-nav">
         <ul>
@@ -71,6 +74,7 @@
     </nav>
 </div>
 
+
 <!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="background-slider">
     <img src="zdjecie1.jpg" alt="Zdjęcie 1" class="active" data-mobile-src="zdjecie1-mobile.jpg" data-desktop-src="zdjecie1.jpg">
@@ -80,6 +84,7 @@
     <img src="zdjecie5.jpg" alt="Zdjęcie 5" data-mobile-src="zdjecie5-mobile.jpg" data-desktop-src="zdjecie5.jpg">
     <img src="zdjecie6.jpg" alt="Zdjęcie 6" data-mobile-src="zdjecie6-mobile.jpg" data-desktop-src="zdjecie6.jpg">
 </div>
+
 
 <!-- Sekcja Kontakt -->
 <section id="news">
@@ -118,6 +123,7 @@
         <p><a href="tel:+48724011079">+48 724 011 079</a></p>
     </div>
 </section>
+
 
 <!-- Stopka -->
 <footer>
@@ -168,7 +174,8 @@
     </div>
 </footer>
 
+
 <!-- Ładowanie pliku JavaScript -->
-<script src="script.js"></script>
+<script src="script.js" async></script>
 </body>
 </html>

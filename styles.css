@@ -76,7 +76,7 @@ img[src$="logo.png"] {
 
 @font-face {
     font-family: 'Gill Sans Nova';
-    src: url('/GillSansNova.woff') format('woff');
+    src: url('GillSansNova.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -403,8 +403,7 @@ header.hidden {
 
 
 footer {
-
-    background-color: #333;
+	display: block;
     color: #ffffff;
     padding: 20px 20px 0 20px;
     font-size: 0.9em;
@@ -515,16 +514,6 @@ footer {
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
 
-/* footer */
- .desktop-footer {
-        display: block /* Wyświetl desktopową stopkę */
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
 
 /* margines 80% */
     body {
@@ -672,7 +661,7 @@ footer {
 
 @media (min-width: 769px) {
     .desktop-header, .desktop-footer {
-        display: flex;
+        display: block;
     }
     .mobile-header, .mobile-footer, .mobile-sticky-header {
         display: none;
@@ -780,7 +769,7 @@ footer {
 }
 
 
-.desktop-footer .footer-container {
+.mobile-footer .footer-container {
     display: flex;
     justify-content: space-around;
 }
