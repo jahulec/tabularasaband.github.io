@@ -896,6 +896,8 @@ footer {
 
 	.members-container {
         display: flex;
+		    flex-shrink: 0; 
+    scrollbar-width: thin; 			
 		  -webkit-overflow-scrolling: touch; /* Lepsza obsługa przewijania na mobile */
         flex-direction: row; /* Ustawienie galerii w poziomie */
         overflow-x: auto; /* Umożliwienie przewijania w poziomie */
@@ -972,13 +974,15 @@ footer {
     .gallery-grid, .gallery-grid-a {
         display: flex;
         overflow-x: scroll; /* Umożliwienie przewijania w poziomie */
-        scroll-snap-type: x mandatory; /* Przewijanie z efektem przyciągania do zdjęcia */
+		scroll-snap-type: x mandatory; /* Scroll-snap - automatyczne dopasowanie */
+    scrollbar-width: thin;  
         gap: 10px; /* Odstęp między zdjęciami */
         padding: 10px; /* Dodatkowy padding po bokach */
         width: 100%;
     }
 
     .gallery-grid img {
+		    flex-shrink: 0;    
 		scroll-snap-align: start; /* Ustawienie przyciągania każdego zdjęcia */
 		height: 300px; /* Stała wysokość dla wszystkich zdjęć */
         width: auto; /* Szerokość automatyczna */
@@ -987,6 +991,7 @@ footer {
         scroll-snap-align: start; /* Wyrównanie do początku każdego zdjęcia */
     }
 	.gallery-grid-a img {
+		    flex-shrink: 0;    
 		scroll-snap-align: start; /* Ustawienie przyciągania każdego zdjęcia */
 		width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
         height: auto; /* Zachowanie proporcji */

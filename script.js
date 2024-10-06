@@ -154,4 +154,3 @@ window.addEventListener('load', function() {
     });
 });
 
-const gallery = document.querySelector('.gallery-grid'); // lub .gallery-grid-a
