@@ -88,23 +88,6 @@ body {
 }
 
 
-
-/* nagłowek mobile i desktop */
-.desktop-header {
-    display: flex; /* Upewnij się, że nagłówek na desktopie jest wyświetlany */
-}
-
-.mobile-sticky-header,
-.mobile-footer,
-.mobile-header {
-    display: none; /* Ukryj mobilny nagłówek na desktopie */
-}
-
-.desktop-footer {
-    display: block;
-}
-
-
 /* Logo */
 .logo-container {
     text-align: center;
@@ -526,6 +509,20 @@ footer {
 /* Style Desktop only */
 @media only screen and (min-width: 768px) {
 
+/* nagłowek mobile i desktop */
+.desktop-header {
+    display: flex; /* Upewnij się, że nagłówek na desktopie jest wyświetlany */
+}
+
+.mobile-sticky-header,
+.mobile-footer,
+.mobile-header {
+    display: none; /* Ukryj mobilny nagłówek na desktopie */
+}
+
+.desktop-footer {
+    display: block;
+}
 
 /* margines 80% */
     body {
@@ -660,7 +657,7 @@ footer {
     object-fit: cover; /* Dopasowanie obrazków do kontenerów */
     border-radius: 8px; /* Opcjonalne zaokrąglenie rogów */
 }adius: 8px; /* Opcjonalne zaokrąglenie rogów */
-}
+
 
     .gallery-grid img:hover, .gallery-grid-a img:hover {
         transform: scale(1.05); /* Powiększenie zdjęcia przy najechaniu */
@@ -671,7 +668,14 @@ footer {
 
 
 
-
+@media (min-width: 769px) {
+    .desktop-header, .desktop-footer {
+        display: flex;
+    }
+    .mobile-header, .mobile-footer, .mobile-sticky-header {
+        display: none;
+    }
+}
 
 /* Style Mobile only */
 @media (max-width: 768px) {
@@ -680,19 +684,13 @@ footer {
 		text-align: center;
 	}
 	
-	
-/* nagłowek mobile i desktop */
-    .desktop-header, .desktop-footer {
+	 .desktop-header, .desktop-footer {
         display: none;
     }
+    .mobile-header, .mobile-footer, .mobile-sticky-header {
+        display: block;
+    }
 	
-    .mobile-header, .mobile-footer {
-        display: flex;
-        flex-direction: column;
-        align-i
-	}
-
-
 /* Styl dla wysuwanego paska nagłówka */
 .mobile-sticky-header {
     position: fixed;

@@ -25,11 +25,32 @@ function changeSlide() {
 }
 
 // Uruchomienie funkcji zmiany zdjęć co 5 sekund
-function startSlider() {
-    activateFirstSlide(); // Aktywowanie pierwszego zdjęcia
-    setInterval(changeSlide, 5000); // Co 5 sekund zmiana zdjęcia
+function areImagesLoaded() {
+    return Array.from(sliderImages).every(img => img.complete);
 }
 
+function startSlider() {
+    if (areImagesLoaded()) {
+        activateFirstSlide();
+        setInterval(changeSlide, 5000);
+    } else {
+        setTimeout(startSlider, 100); // Sprawdzaj co 100ms, czy obrazy zostały załadowane
+    }
+}
+
+function handleImageSwap() {
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    
+    sliderImages.forEach(img => {
+        if (window.innerWidth <= 768) {
+            // Mobile - zmieniamy na wersje mobilne
+            img.src = img.getAttribute('data-mobile-src');
+        } else {
+            // Desktop - zmieniamy na wersje desktopowe
+            img.src = img.getAttribute('data-desktop-src');
+        }
+    });
+}
 window.onload = function() {
     startSlider(); // Rozpoczęcie działania slidera po pełnym załadowaniu strony
 };
@@ -130,31 +151,3 @@ window.addEventListener('load', function() {
 });
 
 const gallery = document.querySelector('.gallery-grid'); // lub .gallery-grid-a
-
-let startX;
-let scrollLeft;
-
-gallery.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].pageX; // Pobieramy punkt początkowy
-    scrollLeft = gallery.scrollLeft; // Zapamiętujemy pozycję początkową
-});
-
-gallery.addEventListener('touchmove', (e) => {
-    const x = e.touches[0].pageX; // Aktualna pozycja dotyku
-    const walk = startX - x; // Dystans, o jaki został przesunięty palec
-    gallery.scrollLeft = scrollLeft + walk; // Przesunięcie galerii
-});
-
-gallery.addEventListener('touchend', () => {
-    const scrollAmount = gallery.scrollLeft;
-    const imageWidth = gallery.querySelector('img').clientWidth + 10; // Szerokość zdjęcia plus odstęp
-
-    // Oblicz najbliższe zdjęcie
-    const closestImage = Math.round(scrollAmount / imageWidth) * imageWidth;
-
-    // Płynne przewinięcie do najbliższego zdjęcia
-    gallery.scrollTo({
-        left: closestImage,
-        behavior: 'smooth'
-    });
-});
