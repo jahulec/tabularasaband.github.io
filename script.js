@@ -9,7 +9,18 @@ let isHeaderHidden = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
 
-	
+// Funkcja do sprawdzenia, czy obrazy się załadowały
+function areImagesLoaded() {
+    let allLoaded = true;
+    sliderImages.forEach((img) => {
+        if (!img.complete || img.naturalHeight === 0) {
+            allLoaded = false;
+        }
+    });
+    return allLoaded;
+}
+
+
 // Funkcja do aktywowania pierwszego zdjęcia
 function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
@@ -36,6 +47,26 @@ function startSlider() {
         setTimeout(startSlider, 100); // Sprawdzanie załadowania co 100ms
     }
 }
+
+function handleImageSwap() {
+    sliderImages.forEach(img => {
+        if (window.innerWidth <= 768) {
+            // Mobile - ustawiamy mobilne wersje obrazów
+            img.src = img.getAttribute('data-mobile-src');
+        } else {
+            // Desktop - ustawiamy desktopowe wersje obrazów
+            img.src = img.getAttribute('data-desktop-src');
+        }
+    });
+}
+
+window.addEventListener("load", function() {
+    handleImageSwap();
+    startSlider();
+});
+
+window.addEventListener("resize", handleImageSwap);
+
 
 function adjustImageBrightness(scrollTop) {
     const opacityFactor = Math.min(scrollTop / windowHeight, 1); // Im więcej przewiniemy, tym ciemniejsze stają się zdjęcia
@@ -84,19 +115,7 @@ window.addEventListener('scroll', function () {
 // Dodanie event listenera na załadowanie strony, który uruchamia slider
 window.addEventListener("load", startSlider);
 
-// Zmiana obrazów w zależności od urządzenia (mobile/desktop)
-window.addEventListener("resize", handleImageSwap);
-window.addEventListener("load", handleImageSwap);
 
-function handleImageSwap() {
-    sliderImages.forEach(img => {
-        if (window.innerWidth <= 768) {
-            img.src = img.getAttribute('data-mobile-src');
-        } else {
-            img.src = img.getAttribute('data-desktop-src');
-        }
-    });
-}
 
 // Obsługa kliknięcia na członka zespołu
 document.querySelectorAll('.member').forEach(member => {
