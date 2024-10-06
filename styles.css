@@ -1,6 +1,8 @@
 /* ogólne style */
 html {
-    scroll-behavior: smooth;
+	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
+    scroll-behavior: smooth;    /* Płynne przewijanie */
+    height: 100%;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
 }	
 
 h1 {
