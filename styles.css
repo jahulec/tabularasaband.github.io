@@ -6,13 +6,17 @@ html {
 }	
 
 html, body {
-	background-color: #333
-    min-height: 100dvh; /* Używa dynamicznej wysokości viewportu */
-    height: auto;
-	    background-attachment: fixed; /* Utrzymanie tła w miejscu */
+	background-color: #000
+    height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
 }	
 
-
+#content {
+	min-height: 100vh;
+	box-sizing: border-box;
+}
 h1 {
     font-size: 3em;
     text-align: center;
@@ -400,7 +404,7 @@ header.hidden {
 
 footer {
 
-    background-color: #000000;
+    background-color: #333;
     color: #ffffff;
     padding: 20px 20px 0 20px;
     font-size: 0.9em;
