@@ -84,7 +84,7 @@ img[src$="logo.png"] {
 body {
 	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
     font-family: 'Gill Sans Nova', sans-serif;
-    background-color: transparent;
+    background-color: #00000;
     color: #f0f0f0;
     margin: 0;
     padding: 0;
