@@ -9,69 +9,30 @@ let isHeaderHidden = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
 
-// Funkcja do sprawdzenia, czy obrazy się załadowały
-function areImagesLoaded() {
-    let allLoaded = true;
-    sliderImages.forEach((img) => {
-        if (!img.complete || img.naturalHeight === 0) {
-            allLoaded = false;
-        }
-    });
-    return allLoaded;
-}
-
-sliderImages.forEach((img, index) => {
-    console.log(`Image ${index} loaded: `, img.complete);
-});
-
-// Funkcja do aktywowania pierwszego zdjęcia
+// Funkcja do aktywowania pierwszego zdjęcia z efektem zoom po pełnym załadowaniu strony
 function activateFirstSlide() {
     sliderImages[0].classList.add('active'); // Dodanie klasy .active do pierwszego zdjęcia
 }
 
+// Funkcja do zmiany zdjęć co kilka sekund
 function changeSlide() {
-    // Sprawdzamy, czy są jakieś obrazy
-    if (sliderImages.length === 0) return;
-
-    // Usuwanie klasy .active ze wszystkich obrazów
-    sliderImages.forEach((img) => {
-        img.classList.remove('active');
+    sliderImages.forEach((img, index) => {
+        img.classList.remove('active'); // Usuwanie klasy active ze wszystkich obrazów
     });
 
-    // Zwiększamy indeks obrazu i resetujemy, jeśli przekroczy liczbę obrazów
-    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
-
-    // Dodanie klasy .active do bieżącego obrazu
-    sliderImages[currentImageIndex].classList.add('active');
+    currentImageIndex = (currentImageIndex + 1) % sliderImages.length; // Następne zdjęcie w kolejności
+    sliderImages[currentImageIndex].classList.add('active'); // Dodawanie klasy active do bieżącego obrazu
 }
 
+// Uruchomienie funkcji zmiany zdjęć co 5 sekund
 function startSlider() {
-    if (areImagesLoaded()) {
-        activateFirstSlide();
-        setInterval(changeSlide, 5000); // Uruchamianie zmiany obrazu co 5 sekund
-    } else {
-        setTimeout(startSlider, 100); // Sprawdzanie załadowania co 100ms
-    }
+    activateFirstSlide(); // Aktywowanie pierwszego zdjęcia
+    setInterval(changeSlide, 5000); // Co 5 sekund zmiana zdjęcia
 }
 
-function handleImageSwap() {
-    sliderImages.forEach(img => {
-        if (window.innerWidth <= 768) {
-            // Mobile - ustawiamy mobilne wersje obrazów
-            img.src = img.getAttribute('data-mobile-src');
-        } else {
-            // Desktop - ustawiamy desktopowe wersje obrazów
-            img.src = img.getAttribute('data-desktop-src');
-        }
-    });
-}
-
-window.addEventListener("load", function() {
-    handleImageSwap();
-    startSlider();
-});
-
-window.addEventListener("resize", handleImageSwap);
+window.onload = function() {
+    startSlider(); // Rozpoczęcie działania slidera po pełnym załadowaniu strony
+};
 
 
 function adjustImageBrightness(scrollTop) {
@@ -165,5 +126,35 @@ window.addEventListener('load', function() {
         scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
         duration: 1, // Czas przewijania (możesz dostosować)
         ease: "power2.out" // Płynne przewijanie
+    });
+});
+
+const gallery = document.querySelector('.gallery-grid'); // lub .gallery-grid-a
+
+let startX;
+let scrollLeft;
+
+gallery.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].pageX; // Pobieramy punkt początkowy
+    scrollLeft = gallery.scrollLeft; // Zapamiętujemy pozycję początkową
+});
+
+gallery.addEventListener('touchmove', (e) => {
+    const x = e.touches[0].pageX; // Aktualna pozycja dotyku
+    const walk = startX - x; // Dystans, o jaki został przesunięty palec
+    gallery.scrollLeft = scrollLeft + walk; // Przesunięcie galerii
+});
+
+gallery.addEventListener('touchend', () => {
+    const scrollAmount = gallery.scrollLeft;
+    const imageWidth = gallery.querySelector('img').clientWidth + 10; // Szerokość zdjęcia plus odstęp
+
+    // Oblicz najbliższe zdjęcie
+    const closestImage = Math.round(scrollAmount / imageWidth) * imageWidth;
+
+    // Płynne przewinięcie do najbliższego zdjęcia
+    gallery.scrollTo({
+        left: closestImage,
+        behavior: 'smooth'
     });
 });

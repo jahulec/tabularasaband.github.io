@@ -636,31 +636,25 @@ footer {
         width: 100%;
     }
 
-.gallery-grid-a {
+/* Galeria desktop */
+.gallery-grid, .gallery-grid-a {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamicznie dostosowuje liczbę kolumn */
-    gap: 20px; /* Odstęp między zdjęciami */
-    margin-bottom: 40px; /* Odstęp między galeriami */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Automatyczna liczba kolumn, min 300px */
+    gap: 20px; /* Odstępy między zdjęciami */
+    justify-items: center; /* Wyśrodkowanie zdjęć w gridzie */
     width: 100%;
+	padding-bottom: 20px;
+}
+
+.gallery-grid img, .gallery-grid-a img {
+    width: 100%; /* Zdjęcia będą rozciągać się na całą szerokość kolumny */
+    height: 100%; /* Stała wysokość dla zdjęć */
+    object-fit: cover; /* Dopasowanie zdjęcia do kolumny bez deformacji */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .gallery-grid-a img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Dopasowanie obrazków do kontenerów, bez deformacji */
-    border-radius: 8px; /* Opcjonalne zaokrąglenie rogów */
-
-
-/* Stylizacja dla galerii pionowej */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamicznie dostosowuje liczbę kolumn */
-    gap: 20px; /* Odstęp między zdjęciami */
-    margin-bottom: 40px; /* Odstęp na dole, aby zachować przestrzeń */
-    width: 100%;
-}
-
-.gallery-grid img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Dopasowanie obrazków do kontenerów */
@@ -987,6 +981,7 @@ footer {
     }
 
     .gallery-grid img {
+		scroll-snap-align: start; /* Ustawienie przyciągania każdego zdjęcia */
 		height: 300px; /* Stała wysokość dla wszystkich zdjęć */
         width: auto; /* Szerokość automatyczna */
         object-fit: cover; /* Dopasowanie zdjęć bez zniekształceń */
@@ -994,6 +989,7 @@ footer {
         scroll-snap-align: start; /* Wyrównanie do początku każdego zdjęcia */
     }
 	.gallery-grid-a img {
+		scroll-snap-align: start; /* Ustawienie przyciągania każdego zdjęcia */
 		width: 100%; /* Zdjęcia skalują się automatycznie do szerokości komórki */
         height: auto; /* Zachowanie proporcji */
         object-fit: cover; /* Dopasowanie zdjęcia do komórki, bez deformacji */
