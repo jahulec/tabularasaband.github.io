@@ -929,8 +929,7 @@ footer {
     overflow-x: auto; /* Umożliwienie przewijania w poziomie */
     overflow-y: hidden; /* Blokowanie przewijania w pionie */
     gap: 20px; /* Odstęp między zdjęciami */
-    padding: 10px;
-	padding-left: 15vw;
+    padding-left: 15vw; /* Wcięcie po lewej stronie */
     width: 100%;
     height: 300px; /* Stała wysokość kontenera */
     scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
@@ -946,8 +945,13 @@ footer {
     transition: transform 0.5s ease, filter 0.5s ease;
     scroll-snap-align: center; /* Wyśrodkowanie zdjęć podczas przewijania */
 }
+
 .member:last-child {
-    margin-right: 30vw; /* Dodanie wcięcia po prawej stronie dla ostatniego elementu proporcjonalnie do szerokości okna */
+    margin-right: 15vw; /* Dodanie wcięcia po prawej stronie dla ostatniego elementu */
+}
+.members-container::after {
+    content: '';
+    margin-right: 15vw; /* Dodanie wcięcia po prawej stronie dla ostatniego elementu */
 }
 
 .member img {
@@ -957,6 +961,8 @@ footer {
     border-radius: 10px; /* Zaokrąglone rogi */
     transition: transform 0.5s ease, filter 0.5s ease;
 }
+
+
 
 	.member::after {
         content: attr(data-member); /* Wyświetlanie opisu */
@@ -1000,12 +1006,20 @@ footer {
  /* sekcja galeia */
 .gallery-grid {
     display: flex;
-    overflow-x: scroll; /* Przewijanie w poziomie */
-    scroll-snap-type: x mandatory; /* Scroll-snap dla automatycznego dopasowania */
+    flex-shrink: 0;
     scrollbar-width: thin;
-    gap: 10px; /* Odstęp między zdjęciami */
+    -webkit-overflow-scrolling: touch; /* Lepsza obsługa przewijania na mobile */
+    flex-direction: row; /* Ustawienie galerii w poziomie */
+    overflow-x: auto; /* Umożliwienie przewijania w poziomie */
+    overflow-y: hidden; /* Blokowanie przewijania w pionie */
+    gap: 20px; /* Odstęp między zdjęciami */
     padding: 10px;
+	padding-left: 15vw;
     width: 100%;
+    height: 300px; /* Stała wysokość kontenera */
+    scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
+    -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
+    scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
 }
 
 .gallery-grid img {
