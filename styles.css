@@ -22,7 +22,7 @@ html, body {
 
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #000;
+        background-color: #fff;
     }
 }
 
@@ -95,6 +95,10 @@ img[src$="logo.png"] {
     font-style: normal;
 }
 
+
+#news, #footer {
+	font-size: clamp(16px, 2vw, 24px);
+}
 body {
 	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
     font-family: 'Gill Sans Nova', sans-serif;
@@ -260,8 +264,8 @@ header.hidden {
 	display: none;
 }
 
-.concerts-section p::after {
-	content: '';
+.concerts-section .concert-item:not(:last-child)::after {
+    content: '';
     display: block;
     width: 100%; /* Szerokość linii - możesz dostosować */
     height: 2px;
@@ -426,10 +430,10 @@ header.hidden {
 
 /* stopka */
 footer {
+		font-size: clamp(16px, 2vw, 24px);
 	display: block;
     color: #00000;
     padding: 20px 20px 0 20px;
-    font-size: 0.9em;
     text-align: center;
     z-index: 1;
     position: relative;
@@ -538,12 +542,18 @@ footer {
 
 .scroll-to-top button {
     color: #fff; /* Kolor tekstu w przycisku */
-	font-family: 'Gill Sans Nova';
+    font-family: 'Gill Sans Nova';
     background-color: #e60023; /* Tło przycisku */
-    padding: 12px 30px;
+    padding: 15px; /* Mniejsze paddingi, aby przycisk był bardziej kwadratowy */
     border: none;
-    border-radius: 5px;
+    border-radius: 50%; /* Okrągły przycisk */
     cursor: pointer;
+    font-size: 24px; /* Rozmiar strzałki */
+    width: 60px; /* Szerokość przycisku */
+    height: 60px; /* Wysokość przycisku */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: transform 0.3s ease;
 }
 
@@ -900,51 +910,50 @@ footer {
 
 
 /* sekcja o nas */
-    .member.active img {
-        transform: scale(1.05);
-    }
+.member.active img {
+    transform: scale(1.1); /* Powiększenie zdjęcia dla aktywnego elementu */
+    filter: brightness(0.7); /* Przyciemnienie aktywnego elementu */
+}
 
-    .member:not(.active) img {
-        transform: scale(1);
-    }
+.member:not(.active) img {
+    transform: scale(1);
+    filter: brightness(1); /* Resetowanie jasności dla nieaktywnych elementów */
+}
 
-	.members-container {
-        display: flex;
-		    flex-shrink: 0; 
-    scrollbar-width: thin; 			
-		  -webkit-overflow-scrolling: touch; /* Lepsza obsługa przewijania na mobile */
-        flex-direction: row; /* Ustawienie galerii w poziomie */
-        overflow-x: auto; /* Umożliwienie przewijania w poziomie */
-        overflow-y: hidden; /* Blokowanie przewijania w pionie */
-        gap: 20px; /* Odstęp między zdjęciami */
-        padding: 10px;
-        width: 100%;
-        height: 300px; /* Stała wysokość kontenera */
-        scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
-    }
+.members-container {
+    display: flex;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch; /* Lepsza obsługa przewijania na mobile */
+    flex-direction: row; /* Ustawienie galerii w poziomie */
+    overflow-x: auto; /* Umożliwienie przewijania w poziomie */
+    overflow-y: hidden; /* Blokowanie przewijania w pionie */
+    gap: 20px; /* Odstęp między zdjęciami */
+    padding: 10px;
+    width: 100%;
+    height: 300px; /* Stała wysokość kontenera */
+    scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
+    -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
+    scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
+}
 
-    .member {
-        flex: 0 0 70%; /* Każdy element zajmuje 70% szerokości ekranu */
-        position: relative;
-        cursor: pointer;
-        height: 100%; /* Każdy element ma wypełniać całą wysokość kontenera */
-        transition: transform 0.5s ease, filter 0.5s ease;
-        scroll-snap-align: start; /* Efekt przyciągania zdjęć do początku */
-    }
+.member {
+    flex: 0 0 70%; /* Każdy element zajmuje 70% szerokości ekranu */
+    position: relative;
+    cursor: pointer;
+    height: 100%; /* Każdy element ma wypełniać całą wysokość kontenera */
+    transition: transform 0.5s ease, filter 0.5s ease;
+    scroll-snap-align: center; /* Wyśrodkowanie zdjęć podczas przewijania */
+}
 
-    .member img {
-        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
-        height: 100%; /* Dopasowanie zdjęcia do wysokości kontenera */
-        object-fit: cover; /* Zapewnia dopasowanie do kontenera bez deformacji */
-        border-radius: 10px; /* Zaokrąglone rogi */
-        transition: transform 0.5s ease;
-    }
+.member img {
+    width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+    height: 100%; /* Dopasowanie zdjęcia do wysokości kontenera */
+    object-fit: cover; /* Zapewnia dopasowanie do kontenera bez deformacji */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
 
-    .members-container {
-        -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
-        scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
-    }
-    
 	.member::after {
         content: attr(data-member); /* Wyświetlanie opisu */
         position: absolute;
