@@ -22,7 +22,7 @@ html, body {
 
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #fff;
+        background-color: #000;
     }
 }
 
@@ -352,16 +352,28 @@ header.hidden {
 .form-group input,
 .contact-form textarea {
     font-family: 'Gill Sans Nova', sans-serif;
+	width:100%
+	
+}
+
+.form-group input,
+.contact-form textarea {
+    font-family: 'Gill Sans Nova', sans-serif;
+    width: 100%;
+    resize: vertical; /* Pozwól na zmianę rozmiaru tylko w pionie */
 }
 
 .contact-form button {
     color: #fff; /* Kolor tekstu w przycisku */
+    font-size: 1.2em;
     background-color: #e60023; /* Tło przycisku */
+    width: auto; /* Zmieniamy szerokość na auto, aby przycisk nie zajmował całej szerokości */
     padding: 12px 30px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    margin: 0 auto; /* Wyśrodkowanie przycisku */
 }
 
 .contact-form button:hover {
@@ -428,102 +440,70 @@ header.hidden {
     }
 
 
-/* stopka */
+/* Kontener stopki */
 footer {
-		font-size: clamp(16px, 2vw, 24px);
-	display: block;
-    color: #00000;
-    padding: 20px 20px 0 20px;
+    font-size: clamp(16px, 2vw, 24px); /* Dynamiczny rozmiar tekstu w zależności od ekranu */
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    flex-direction: column; /* Elementy w stopce ustawione w kolumnie */
+    background-color: transparent; /* Ogólne transparentne tło */
+    width: 100vw; /* Zajmuje całą szerokość ekranu */
     text-align: center;
-    z-index: 1;
-    position: relative;
-    margin-top: 0;
-    background-color: transparent;
 }
 
-.footer-divider {
-    border: 0;
-    border-top: 1px solid #444;
-    margin: 20px 0;
-    width: 100%;
-}
 
+/* Kontener sekcji w stopce */
 .footer-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Równomierne rozmieszczenie sekcji */
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%; /* Zajmuje całą szerokość stopki */
+    flex-wrap: wrap; /* Zawijanie wierszy na mniejszych ekranach */
 }
 
-.footer-section.logo-description {
+/* Stylizacja sekcji */
+.footer-section {
+    flex: 1 1 33.33%; /* Każda sekcja zajmuje 1/3 szerokości */
+    padding: 10px;
+    box-sizing: border-box;
     text-align: center;
-    max-width: 400px;
-    line-height: 1.6;
 }
 
+/* Ikony społecznościowe */
+.footer-section.social-media ul {
+    display: flex;
+    justify-content: space-around; /* Równomierne rozmieszczenie ikon */
+    align-items: center;
+    padding: 0;
+    list-style: none;
+    width: 100%; /* Ikony zajmują 100% szerokości stopki */
+}
+
+.footer-section.social-media ul li {
+    flex: 1; /* Każda ikona zajmuje równo szerokość */
+    margin: 0 15px; /* Odstęp między ikonami */
+}
+
+.footer-section.social-media ul li a img {
+    width: 100%; /* Ikony zajmują pełną szerokość li */
+    height: auto;
+    max-width: 60px; /* Maksymalna wielkość ikony */
+    transition: transform 0.3s ease;
+}
+
+.footer-section.social-media ul li a:hover img {
+    transform: scale(1.2); /* Powiększenie ikon przy najechaniu */
+}
+
+/* Sekcja logo */
 .footer-logo {
     width: 120px;
     display: block;
     margin: 0 auto 15px;
 }
 
-.footer-section.social-media {
-    text-align: center;
-}
-
-.footer-section.social-media ul {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    list-style: none;
-}
-
-.footer-section.social-media ul li {
-    margin: 0 15px;
-}
-
-.footer-section.social-media ul li a img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: transform 0.3s ease;
-}
-
-.footer-section.social-media ul li a:hover img {
-    transform: scale(1.1);
-}
-
-.social-media-text {
-    margin-top: 10px;
-    font-size: 1.1em;
-    color: #ffffff;
-}
-
-.footer-links ul {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    list-style: none;
-    margin: 20px 0;
-}
-
-.footer-links ul li {
-    margin: 0 30px;
-}
-
-.footer-links ul li a {
-    display: inline-block;
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: bold;
-    transition: transform 0.3s ease;
-}
-
-.footer-links ul li a:hover {
-    transform: scale(1.15);
-}
-
+/* Dół stopki */
 .footer-bottom {
     text-align: center;
     padding: 5px 0;
@@ -535,9 +515,10 @@ footer {
     margin: 0;
 }
 
+/* Przycisk */
 .scroll-to-top {
+    margin-top: 40px; /* Dodanie odstępu między przyciskiem a pozostałymi sekcjami */
     text-align: center;
-    margin: 20px 0;
 }
 
 .scroll-to-top button {
@@ -548,6 +529,8 @@ footer {
     border: none;
     border-radius: 50%; /* Okrągły przycisk */
     cursor: pointer;
+	margin-left: 5vw; /* Margines po lewej stronie to 5% szerokości okna widoku */
+    margin-right: 5vw; /* Margines po prawej stronie to 5% szerokości okna widoku */
     font-size: 24px; /* Rozmiar strzałki */
     width: 60px; /* Szerokość przycisku */
     height: 60px; /* Wysokość przycisku */
@@ -559,6 +542,14 @@ footer {
 
 .scroll-to-top button:hover {
     transform: scale(1.05);
+}
+
+.footer-divider {
+    border: 0; /* Usuwamy jakiekolwiek domyślne obramowanie */
+    border-top: 2px solid #444; /* Ustawienie koloru linii na #444 */
+    margin: 20px 0;
+    width: 100%;
+    background-color: transparent; /* Upewniamy się, że tło dividera jest przezroczyste */
 }
 
 
@@ -677,12 +668,17 @@ footer {
 
 /* sekcja galeria */
     .gallery-container {
+		
         display: flex;
         flex-direction: column;
         align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
         width: 100%;
     }
-
+    
+	.strzałka {
+        display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
+    }
+	
 /* Galeria desktop */
 .gallery-grid, .gallery-grid-a {
     display: grid;
@@ -801,28 +797,40 @@ p {
 
 
 /* stopka */
-footer {
-	padding-bottom: 50px;
+
+
+.mobile-footer {
+    width: 100%; /* Zajmuje całą szerokość strony */
+    max-width: 1200px; /* Maksymalna szerokość, aby nie rozciągać stopki */
+    margin: 0 auto; /* Wyśrodkowanie w poziomie */
+    margin-bottom: 40px; /* Poprawna składnia */
+    padding: 20px; /* Dodanie wewnętrznego odstępu */
+box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokość */
 }
 
-.sticky-logo {
-    height: 30px;
+ .footer-container {
+        display: flex;
+        flex-direction: column; /* Ułóż elementy w kolumnie na urządzeniach mobilnych */
+        align-items: center; /* Wyśrodkuj wszystkie elementy w pionie */
+        justify-content: center;
+    }
+
+
+    .footer-section {
+        width: 100%;
+        text-align: center;
+    }
+	
+.footer-section.logo-description {
+    text-align: center;
+    max-width: 100%; /* Zmiana na 100%, aby sekcja zajmowała całą szerokość */
+    line-height: 1.6;
 }
 
-.mobile-footer .footer-container {
-    display: flex;
-    justify-content: space-around;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li a {
-    color: white;
-    text-decoration: none;
-    margin: 0 5px;
+.footer-logo {
+    width: 120px; /* Możesz dostosować szerokość logo */
+    display: block;
+    margin: 0 auto 15px; /* Wyśrodkowanie logo */
 }
 
 
@@ -996,11 +1004,15 @@ footer {
 
 
 /* sekcja muzyka */
-    .music-section iframe {
-        width: 100%; /* Ustawienie szerokości na pełną szerokość kontenera */
-    }
-
-
+.music-section iframe {
+    top: 0;
+    left: 0;
+    width: 80%; /* Ustawienie szerokości na 80%, co daje marginesy po bokach */
+    height: 100%;
+    border: none; /* Usuń ramki */
+    margin: 0 auto; /* Wyśrodkowanie w poziomie */
+    max-width: 1000px; /* Maksymalna szerokość wideo, aby zachować proporcje */
+}
  /* sekcja galeia */
 .gallery-grid {
     display: flex;
