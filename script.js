@@ -110,13 +110,33 @@ window.addEventListener('scroll', function() {
 
 // Obsługa hamburger menu
 document.getElementById('hamburger').addEventListener('click', function() {
+    console.log("Hamburger clicked");
     this.classList.toggle('active');
     document.getElementById('nav-mobile').classList.toggle('active');
+
+    if (this.classList.contains('active')) {
+        console.log("Hamburger is active");
+        // Gdy hamburger jest aktywny, pokaż nagłówek (jeśli jest ukryty)
+        header.classList.remove("hidden");
+        isHeaderHidden = false;
+    } else {
+        console.log("Hamburger is not active");
+    }
 });
 
 function handleHeaderVisibility(scrollTop) {
     const opacityFactor = Math.min(scrollTop / maxOpacityScroll, 1); // Opacity osiągnie 1, gdy scrollTop = windowHeight
     const isImagesFullyDimmed = opacityFactor === 1; // Sprawdzamy, czy obrazy są w pełni przyciemnione
+
+    // Sprawdzenie, czy hamburger menu jest aktywne
+    const isHamburgerActive = hamburger.classList.contains('active');
+
+    if (isHamburgerActive) {
+        // Jeśli menu hamburgera jest aktywne, nie chowaj nagłówka
+        header.classList.remove("hidden");
+        isHeaderHidden = false;
+        return; // Zakończ funkcję, nie chowamy nagłówka
+    }
 
     if (scrollTop < lastScrollTop && isHeaderHidden) {
         // Jeśli przewijasz do góry, pokaż nagłówek
@@ -130,6 +150,9 @@ function handleHeaderVisibility(scrollTop) {
 
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Aktualizacja wartości scrollTop
 }
+
+
+
 
 // Zdarzenie scrollowania, aby ukrywać/pokazywać nagłówek
 window.addEventListener('scroll', function () {
