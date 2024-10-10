@@ -6,6 +6,8 @@ const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
 let currentImageIndex = 0; // Indeks bieżącego obrazu
 let isHeaderHidden = false;
+let stickyHeader = document.querySelector('.mobile-sticky-header');
+let isStickyVisible = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
 
@@ -92,7 +94,7 @@ window.onload = function() {
 // Reagowanie na zmianę rozmiaru okna
 window.addEventListener("resize", handleImageSwap);
 
-
+// zciemnianie
 function adjustImageBrightness(scrollTop) {
     const opacityFactor = Math.min(scrollTop / windowHeight, 1); // Im więcej przewiniemy, tym ciemniejsze stają się zdjęcia
     sliderImages.forEach((img) => {
@@ -106,7 +108,6 @@ window.addEventListener('scroll', function() {
     adjustImageBrightness(scrollTop); // Zmiana jasności zdjęć przy scrollowaniu
     handleHeaderVisibility(scrollTop); // Ukrywanie/pokazywanie nagłówka
 });
-
 
 // Obsługa hamburger menu
 document.getElementById('hamburger').addEventListener('click', function() {
@@ -124,6 +125,7 @@ document.getElementById('hamburger').addEventListener('click', function() {
     }
 });
 
+// chowanie nagłówka
 function handleHeaderVisibility(scrollTop) {
     const opacityFactor = Math.min(scrollTop / maxOpacityScroll, 1); // Opacity osiągnie 1, gdy scrollTop = windowHeight
     const isImagesFullyDimmed = opacityFactor === 1; // Sprawdzamy, czy obrazy są w pełni przyciemnione
@@ -151,19 +153,14 @@ function handleHeaderVisibility(scrollTop) {
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Aktualizacja wartości scrollTop
 }
 
-
-
-
-// Zdarzenie scrollowania, aby ukrywać/pokazywać nagłówek
 window.addEventListener('scroll', function () {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     adjustImageBrightness(scrollTop); // Zmiana jasności zdjęć przy scrollowaniu
     handleHeaderVisibility(scrollTop); // Ukrywanie/pokazywanie nagłówka
 });
-// Dodanie event listenera na załadowanie strony, który uruchamia slider
+
+// slider hamburger
 window.addEventListener("load", startSlider);
-
-
 
 // Obsługa kliknięcia na członka zespołu
 document.querySelectorAll('.member').forEach(member => {
@@ -179,10 +176,7 @@ document.querySelectorAll('.member').forEach(member => {
     });
 });
 
-
-let stickyHeader = document.querySelector('.mobile-sticky-header');
-let isStickyVisible = false;
-
+// dolny nagłówek
 window.addEventListener('scroll', function () {
     let scrollY = window.scrollY;
 
@@ -199,6 +193,7 @@ window.addEventListener('scroll', function () {
     }
 });
 
+// przewijanie po załadowaniu strony
 window.addEventListener('load', function() {
     const h1Element = document.querySelector('h1');
     
@@ -210,6 +205,7 @@ window.addEventListener('load', function() {
     });
 });
 
+// przycisk to top
 document.getElementById("scrollTopBtn").addEventListener("click", function() {
  const h1Element = document.querySelector('h1');
     
