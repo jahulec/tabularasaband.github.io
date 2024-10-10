@@ -11,22 +11,36 @@ let isStickyVisible = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
 
-// 1. Debugowanie ładowania obrazów
-function debugImageLoading() {
-    console.log("Funkcja debugImageLoading uruchomiona");
-    const images = document.querySelectorAll('.background-slider img'); 
+// Funkcja sprawdzająca, czy wszystkie obrazy zostały poprawnie załadowane
+function checkAllImagesLoaded() {
+    const images = document.querySelectorAll('.background-slider img');
+    let allImagesLoaded = true;
 
     images.forEach((img, index) => {
-        img.addEventListener('load', () => {
-            console.log(`Obraz ${index + 1} (${img.src}) załadowany.`);
-        });
-
-        img.addEventListener('error', () => {
-            console.error(`Błąd ładowania obrazu ${index + 1} (${img.src}).`);
-        });
+        if (!img.complete || img.naturalWidth === 0) {
+            console.error(`Obraz ${index + 1} (${img.src}) nie został poprawnie załadowany.`);
+            allImagesLoaded = false;
+        } else {
+            console.log(`Obraz ${index + 1} (${img.src}) załadowany poprawnie.`);
+        }
     });
-    console.log("Funkcja debugImageLoading zakończona");
+
+    if (allImagesLoaded) {
+        console.log("Wszystkie obrazy zostały poprawnie załadowane.");
+    } else {
+        console.error("Niektóre obrazy nie zostały poprawnie załadowane.");
+    }
 }
+
+// Wywołanie funkcji po załadowaniu strony
+window.onload = function() {
+    console.log("Strona załadowana, uruchamianie funkcji debugowania i sprawdzania obrazów");
+    debugImageLoading(); // Istniejąca funkcja
+    checkAllImagesLoaded(); // Sprawdzanie wszystkich obrazów
+    handleImageSwap();
+    startSlider();
+};
+
 
 // 2. Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
 function handleImageSwap() {
@@ -83,13 +97,6 @@ function activateFirstSlide() {
     const sliderImages = document.querySelectorAll('.background-slider img');
     sliderImages[0].classList.add('active');
 }
-
-window.onload = function() {
-    console.log("Strona załadowana, uruchamianie funkcji");
-    debugImageLoading();
-    handleImageSwap();
-    startSlider();
-};
 
 // Reagowanie na zmianę rozmiaru okna
 window.addEventListener("resize", handleImageSwap);
