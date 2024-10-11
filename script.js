@@ -36,7 +36,6 @@ function checkAllImagesLoaded() {
 window.onload = function() {
     console.log("Strona załadowana, uruchamianie funkcji debugowania i sprawdzania obrazów");
     checkAllImagesLoaded(); // Istniejąca funkcja
-    checkAllImagesLoaded(); // Sprawdzanie wszystkich obrazów
     handleImageSwap();
     startSlider();
 };
