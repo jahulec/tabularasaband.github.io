@@ -59,24 +59,34 @@ function activateFirstSlide() {
     sliderImages[0].classList.add('active');
 }
 
-// slider
-document.addEventListener("DOMContentLoaded", function() {
-    startSlider();
-});
+// Funkcja aktywująca wszystko po page onload
+window.onload = function() {
+    console.log("Strona została w pełni załadowana, uruchamiam wszystkie skrypty.");
 
-// przewijanie po załadowaniu strony
-document.addEventListener('DOMContentLoaded', function() {
+    // Uruchomienie wymiany obrazów
+    handleImageSwap();
+
+    // Uruchomienie slidera
+    startSlider();
+
+    // Uruchomienie przewijania do H1 po pełnym załadowaniu
     const h1Element = document.querySelector('h1');
-    
-    // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
     gsap.to(window, {
         scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
         duration: 1, // Czas przewijania (możesz dostosować)
         ease: "power2.out" // Płynne przewijanie
     });
-});
+}
 
-
+// Funkcja sprawdzająca co 0.1 sekundy, czy strona jest w pełni załadowana
+let checkInterval = setInterval(function() {
+    if (document.readyState === "complete") {
+        console.log("Strona w pełni załadowana.");
+        clearInterval(checkInterval); // Zatrzymanie sprawdzania po pełnym załadowaniu strony
+    } else {
+        console.log("Strona jeszcze nie jest załadowana.");
+    }
+}, 100); // Co 0.1 sekundy
 
 // zciemnianie
 function adjustImageBrightness(scrollTop) {
