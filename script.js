@@ -60,7 +60,7 @@ function activateFirstSlide() {
 }
 
 // Funkcja aktywująca wszystko po page onload
-window.onload = function() {
+window.addEventListener('load', function() {
     console.log("Strona została w pełni załadowana, uruchamiam wszystkie skrypty.");
 
     // Uruchomienie wymiany obrazów
@@ -76,7 +76,7 @@ window.onload = function() {
         duration: 1, // Czas przewijania (możesz dostosować)
         ease: "power2.out" // Płynne przewijanie
     });
-}
+});
 
 // Funkcja sprawdzająca co 0.1 sekundy, czy strona jest w pełni załadowana
 let checkInterval = setInterval(function() {
