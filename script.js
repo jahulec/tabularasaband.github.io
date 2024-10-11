@@ -8,7 +8,31 @@ let currentImageIndex = 0; // Indeks bieżącego obrazu
 let isHeaderHidden = false;
 let stickyHeader = document.querySelector('.mobile-sticky-header');
 let isStickyVisible = false;
+let isChangingSlide = false; // Blokada globalna
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
+
+// Funkcja sprawdzająca, czy wszystkie obrazy zostały poprawnie załadowane
+function checkImagesLoaded() {
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    let allImagesLoaded = true;
+
+    sliderImages.forEach((img, index) => {
+        if (img.complete && img.naturalWidth !== 0) {
+            console.log(`Obraz ${index + 1} (${img.src}) został poprawnie załadowany.`);
+        } else {
+            console.error(`Obraz ${index + 1} (${img.src}) nie został poprawnie załadowany.`);
+            allImagesLoaded = false;
+        }
+    });
+
+    if (allImagesLoaded) {
+        console.log("Wszystkie obrazy zostały poprawnie załadowane.");
+    } else {
+        console.error("Niektóre obrazy nie zostały poprawnie załadowane.");
+    }
+
+    return allImagesLoaded;
+}
 
 // Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
 function handleImageSwap() {
@@ -24,8 +48,6 @@ function handleImageSwap() {
 }
 
 // Funkcja zmiany obrazów
-let isChangingSlide = false; // Blokada
-
 function changeSlide() {
     if (isChangingSlide) return; // Sprawdzamy, czy zmiana slajdu już trwa
     isChangingSlide = true; // Ustawiamy blokadę
@@ -45,11 +67,16 @@ function changeSlide() {
 // Funkcja uruchamiająca slider
 function startSlider() {
     const sliderImages = document.querySelectorAll('.background-slider img');
+    if (!sliderImages || sliderImages.length === 0) {
+        console.error("Nie znaleziono obrazów w sliderze.");
+        return;
+    }
+
     if (Array.from(sliderImages).every(img => img.complete)) {
         activateFirstSlide();
         setInterval(changeSlide, 5000);
     } else {
-        setTimeout(startSlider, 100);
+        setTimeout(startSlider, 100); // Sprawdzaj co 100ms
     }
 }
 
@@ -169,6 +196,18 @@ window.addEventListener('scroll', function () {
         stickyHeader.classList.remove('show');
         isStickyVisible = false;
     }
+});
+
+// przewijanie po załadowaniu strony
+document.addEventListener('DOMContentLoaded', function() {
+    const h1Element = document.querySelector('h1');
+    
+    // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
+    gsap.to(window, {
+        scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
+        duration: 1, // Czas przewijania (możesz dostosować)
+        ease: "power2.out" // Płynne przewijanie
+    });
 });
 
 // przycisk to top
