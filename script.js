@@ -35,7 +35,7 @@ function checkAllImagesLoaded() {
 // Wywołanie funkcji po załadowaniu strony
 window.onload = function() {
     console.log("Strona załadowana, uruchamianie funkcji debugowania i sprawdzania obrazów");
-    debugImageLoading(); // Istniejąca funkcja
+    checkAllImagesLoaded(); // Istniejąca funkcja
     checkAllImagesLoaded(); // Sprawdzanie wszystkich obrazów
     handleImageSwap();
     startSlider();
@@ -166,7 +166,7 @@ window.addEventListener('scroll', function () {
     handleHeaderVisibility(scrollTop); // Ukrywanie/pokazywanie nagłówka
 });
 
-// slider hamburger
+// slider
 window.addEventListener("load", startSlider);
 
 // Obsługa kliknięcia na członka zespołu
