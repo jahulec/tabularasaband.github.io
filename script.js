@@ -33,12 +33,12 @@ function checkAllImagesLoaded() {
 }
 
 // Wywołanie funkcji po załadowaniu strony
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     console.log("Strona załadowana, uruchamianie funkcji debugowania i sprawdzania obrazów");
     checkAllImagesLoaded(); // Istniejąca funkcja
     handleImageSwap();
     startSlider();
-};
+});
 
 
 // 2. Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
@@ -96,6 +96,9 @@ function activateFirstSlide() {
     const sliderImages = document.querySelectorAll('.background-slider img');
     sliderImages[0].classList.add('active');
 }
+
+// 6. slider
+document.addEventListener("DOMContentLoaded", startSlider);
 
 // Reagowanie na zmianę rozmiaru okna
 window.addEventListener("resize", handleImageSwap);
@@ -159,27 +162,11 @@ function handleHeaderVisibility(scrollTop) {
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Aktualizacja wartości scrollTop
 }
 
+// obsługa scroll
 window.addEventListener('scroll', function () {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     adjustImageBrightness(scrollTop); // Zmiana jasności zdjęć przy scrollowaniu
     handleHeaderVisibility(scrollTop); // Ukrywanie/pokazywanie nagłówka
-});
-
-// slider
-window.addEventListener("load", startSlider);
-
-// Obsługa kliknięcia na członka zespołu
-document.querySelectorAll('.member').forEach(member => {
-    member.addEventListener('click', function() {
-        // Sprawdź, czy element już ma klasę 'active'
-        if (this.classList.contains('active')) {
-            this.classList.remove('active'); // Usuń efekt po ponownym kliknięciu
-        } else {
-            // Usuń klasę 'active' z innych członków
-            document.querySelectorAll('.member').forEach(m => m.classList.remove('active'));
-            this.classList.add('active'); // Dodaj efekt powiększenia i przyciemnienia
-        }
-    });
 });
 
 // dolny nagłówek
@@ -200,7 +187,7 @@ window.addEventListener('scroll', function () {
 });
 
 // przewijanie po załadowaniu strony
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const h1Element = document.querySelector('h1');
     
     // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
@@ -220,5 +207,19 @@ document.getElementById("scrollTopBtn").addEventListener("click", function() {
         scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
         duration: 1, // Czas przewijania (możesz dostosować)
         ease: "power2.out" // Płynne przewijanie
+    });
+});
+
+// Obsługa kliknięcia na członka zespołu
+document.querySelectorAll('.member').forEach(member => {
+    member.addEventListener('click', function() {
+        // Sprawdź, czy element już ma klasę 'active'
+        if (this.classList.contains('active')) {
+            this.classList.remove('active'); // Usuń efekt po ponownym kliknięciu
+        } else {
+            // Usuń klasę 'active' z innych członków
+            document.querySelectorAll('.member').forEach(m => m.classList.remove('active'));
+            this.classList.add('active'); // Dodaj efekt powiększenia i przyciemnienia
+        }
     });
 });
