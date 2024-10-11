@@ -105,16 +105,6 @@ window.addEventListener('load', function() {
     });
 });
 
-// Funkcja sprawdzająca co 0.1 sekundy, czy strona jest w pełni załadowana
-let checkInterval = setInterval(function() {
-    if (document.readyState === "complete") {
-        console.log("Strona w pełni załadowana.");
-        clearInterval(checkInterval); // Zatrzymanie sprawdzania po pełnym załadowaniu strony
-    } else {
-        console.log("Strona jeszcze nie jest załadowana.");
-    }
-}, 100); // Co 0.1 sekundy
-
 // zciemnianie
 function adjustImageBrightness(scrollTop) {
     const opacityFactor = Math.min(scrollTop / windowHeight, 1); // Im więcej przewiniemy, tym ciemniejsze stają się zdjęcia
