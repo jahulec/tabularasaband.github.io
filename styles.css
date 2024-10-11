@@ -89,8 +89,8 @@ img[src$="logo.png"] {
 }
 
 @font-face {
-    font-family: 'Gill Sans Nova';
-    src: url('GillSansNova.woff') format('woff');
+    font-family: 'PoppinsBlack';
+    src: url('PoppinsBlack.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -101,7 +101,7 @@ img[src$="logo.png"] {
 }
 body {
 	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
-    font-family: 'Gill Sans Nova', sans-serif;
+    font-family: 'PoppinsBlack', sans-serif;
     background-color: #00000;
     color: #f0f0f0;
     margin: 0;
@@ -351,14 +351,14 @@ header.hidden {
 .contact-form button,
 .form-group input,
 .contact-form textarea {
-    font-family: 'Gill Sans Nova', sans-serif;
+    font-family: 'PoppinsBlack', sans-serif;
 	width:100%
 	
 }
 
 .form-group input,
 .contact-form textarea {
-    font-family: 'Gill Sans Nova', sans-serif;
+    font-family: 'PoppinsBlack', sans-serif;
     width: 100%;
     resize: vertical; /* Pozwól na zmianę rozmiaru tylko w pionie */
 }
@@ -523,7 +523,7 @@ footer {
 
 .scroll-to-top button {
     color: #fff; /* Kolor tekstu w przycisku */
-    font-family: 'Gill Sans Nova';
+    font-family: 'PoppinsBlack';
     background-color: #e60023; /* Tło przycisku */
     padding: 15px; /* Mniejsze paddingi, aby przycisk był bardziej kwadratowy */
     border: none;
