@@ -10,98 +10,132 @@ let stickyHeader = document.querySelector('.mobile-sticky-header');
 let isStickyVisible = false;
 const maxOpacityScroll = window.innerHeight; // Maksymalna wartość scrolla, po której zdjęcia są w pełni przyciemnione
 
-
 // Funkcja sprawdzająca, czy wszystkie obrazy zostały poprawnie załadowane
 function checkAllImagesLoaded() {
-    const images = document.querySelectorAll('.background-slider img');
-    let allImagesLoaded = true;
+    try {
+        console.log("Uruchomienie funkcji checkAllImagesLoaded");
+        const images = document.querySelectorAll('.background-slider img');
+        let allImagesLoaded = true;
 
-    images.forEach((img, index) => {
-        if (!img.complete || img.naturalWidth === 0) {
-            console.error(`Obraz ${index + 1} (${img.src}) nie został poprawnie załadowany.`);
-            allImagesLoaded = false;
+        images.forEach((img, index) => {
+            if (!img.complete || img.naturalWidth === 0) {
+                console.error(`Obraz ${index + 1} (${img.src}) nie został poprawnie załadowany.`);
+                allImagesLoaded = false;
+            } else {
+                console.log(`Obraz ${index + 1} (${img.src}) załadowany poprawnie.`);
+            }
+        });
+
+        if (allImagesLoaded) {
+            console.log("Wszystkie obrazy zostały poprawnie załadowane.");
         } else {
-            console.log(`Obraz ${index + 1} (${img.src}) załadowany poprawnie.`);
+            console.error("Niektóre obrazy nie zostały poprawnie załadowane.");
         }
-    });
-
-    if (allImagesLoaded) {
-        console.log("Wszystkie obrazy zostały poprawnie załadowane.");
-    } else {
-        console.error("Niektóre obrazy nie zostały poprawnie załadowane.");
+    } catch (error) {
+        console.error("Błąd w funkcji checkAllImagesLoaded:", error);
     }
 }
 
-// Wywołanie funkcji po załadowaniu strony
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Strona załadowana, uruchamianie funkcji debugowania i sprawdzania obrazów");
-    checkAllImagesLoaded(); // Istniejąca funkcja
-    handleImageSwap();
-    startSlider();
-});
-
-
-// 2. Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
+// Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
 function handleImageSwap() {
-    console.log("Funkcja handleImageSwap uruchomiona");
-    const sliderImages = document.querySelectorAll('.background-slider img');
+    try {
+        console.log("Uruchomienie funkcji handleImageSwap");
+        const sliderImages = document.querySelectorAll('.background-slider img');
     
-    sliderImages.forEach(img => {
-        if (window.innerWidth <= 768) {
-            img.src = img.getAttribute('data-mobile-src');
-        } else {
-            img.src = img.getAttribute('data-desktop-src');
-        }
-    });
-    console.log("Funkcja handleImageSwap zakończona");
+        sliderImages.forEach(img => {
+            if (window.innerWidth <= 768) {
+                img.src = img.getAttribute('data-mobile-src');
+            } else {
+                img.src = img.getAttribute('data-desktop-src');
+            }
+        });
+        console.log("Funkcja handleImageSwap zakończona poprawnie");
+    } catch (error) {
+        console.error("Błąd w funkcji handleImageSwap:", error);
+    }
 }
 
-// 3. Funkcja zmiany obrazów
+// Funkcja zmiany obrazów
 let isChangingSlide = false; // Blokada
 
 function changeSlide() {
-    if (isChangingSlide) return; // Sprawdzamy, czy zmiana slajdu już trwa
-    isChangingSlide = true; // Ustawiamy blokadę
+    try {
+        if (isChangingSlide) return; // Sprawdzamy, czy zmiana slajdu już trwa
+        isChangingSlide = true; // Ustawiamy blokadę
 
-    console.log("Funkcja changeSlide uruchomiona");
-    sliderImages.forEach((img, index) => {
-        img.classList.remove('active');
-    });
+        console.log("Uruchomienie funkcji changeSlide");
+        sliderImages.forEach((img, index) => {
+            img.classList.remove('active');
+        });
 
-    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
-    sliderImages[currentImageIndex].classList.add('active');
-    console.log(`Aktywny slajd: ${currentImageIndex + 1}`);
+        currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
+        sliderImages[currentImageIndex].classList.add('active');
+        console.log(`Aktywny slajd: ${currentImageIndex + 1}`);
 
-    setTimeout(() => { 
-        isChangingSlide = false; // Zdejmujemy blokadę po krótkim czasie
-    }, 1000); // 1 sekunda, można dostosować
-}
-
-// 4. Funkcja uruchamiająca slider
-function startSlider() {
-    console.log("Funkcja startSlider uruchomiona");
-    const sliderImages = document.querySelectorAll('.background-slider img');
-    if (Array.from(sliderImages).every(img => img.complete)) {
-        activateFirstSlide();
-        setInterval(changeSlide, 5000);
-    } else {
-        setTimeout(startSlider, 100);
+        setTimeout(() => { 
+            isChangingSlide = false; // Zdejmujemy blokadę po krótkim czasie
+        }, 1000); // 1 sekunda, można dostosować
+    } catch (error) {
+        console.error("Błąd w funkcji changeSlide:", error);
     }
-    console.log("Funkcja startSlider zakończona");
 }
 
-// 5. Funkcja aktywująca pierwszy slajd
+// Funkcja uruchamiająca slider
+function startSlider() {
+    try {
+        console.log("Uruchomienie funkcji startSlider");
+        const sliderImages = document.querySelectorAll('.background-slider img');
+        if (Array.from(sliderImages).every(img => img.complete)) {
+            activateFirstSlide();
+            setInterval(changeSlide, 5000);
+        } else {
+            setTimeout(startSlider, 100);
+        }
+        console.log("Funkcja startSlider zakończona poprawnie");
+    } catch (error) {
+        console.error("Błąd w funkcji startSlider:", error);
+    }
+}
+
+// Funkcja aktywująca pierwszy slajd
 function activateFirstSlide() {
-    console.log("Funkcja activateFirstSlide uruchomiona");
-    const sliderImages = document.querySelectorAll('.background-slider img');
-    sliderImages[0].classList.add('active');
+    try {
+        console.log("Uruchomienie funkcji activateFirstSlide");
+        const sliderImages = document.querySelectorAll('.background-slider img');
+        sliderImages[0].classList.add('active');
+        console.log("Pierwszy slajd aktywowany poprawnie");
+    } catch (error) {
+        console.error("Błąd w funkcji activateFirstSlide:", error);
+    }
 }
 
-// 6. slider
-document.addEventListener("DOMContentLoaded", startSlider);
+// slider
+document.addEventListener("DOMContentLoaded", function() {
+    try {
+        console.log("Uruchomienie slidera podczas DOMContentLoaded");
+        startSlider();
+    } catch (error) {
+        console.error("Błąd podczas uruchamiania slidera:", error);
+    }
+});
 
-// Reagowanie na zmianę rozmiaru okna
-window.addEventListener("resize", handleImageSwap);
+// przewijanie po załadowaniu strony
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        console.log("Uruchomienie przewijania po załadowaniu strony");
+        const h1Element = document.querySelector('h1');
+        
+        // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
+        gsap.to(window, {
+            scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
+            duration: 1, // Czas przewijania (możesz dostosować)
+            ease: "power2.out" // Płynne przewijanie
+        });
+        console.log("Przewijanie do H1 zakończone");
+    } catch (error) {
+        console.error("Błąd podczas przewijania:", error);
+    }
+});
 
 // zciemnianie
 function adjustImageBrightness(scrollTop) {
@@ -184,18 +218,6 @@ window.addEventListener('scroll', function () {
         stickyHeader.classList.remove('show');
         isStickyVisible = false;
     }
-});
-
-// przewijanie po załadowaniu strony
-document.addEventListener('DOMContentLoaded', function() {
-    const h1Element = document.querySelector('h1');
-    
-    // Użycie GSAP ScrollToPlugin do płynnego przewijania do H1
-    gsap.to(window, {
-        scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 }, // Przewiń do H1 na środku ekranu
-        duration: 1, // Czas przewijania (możesz dostosować)
-        ease: "power2.out" // Płynne przewijanie
-    });
 });
 
 // przycisk to top
