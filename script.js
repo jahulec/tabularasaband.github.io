@@ -42,10 +42,13 @@ function handleImageSwap() {
         const mobileSrc = img.getAttribute('data-mobile-src');
         const desktopSrc = img.getAttribute('data-desktop-src');
 
-        if (window.innerWidth <= 768) {
-            img.src = mobileSrc;
-        } else {
-            img.src = desktopSrc;
+        if (mobileSrc && desktopSrc) {
+            // Sprawdza czy istnieją atrybuty mobile i desktop przed zmianą
+            if (window.innerWidth <= 768) {
+                img.src = mobileSrc;
+            } else {
+                img.src = desktopSrc;
+            }
         }
     });
 }
