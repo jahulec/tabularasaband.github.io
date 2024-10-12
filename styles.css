@@ -913,16 +913,6 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
 	
 	
 /* sekcja o nas */
-.member.active img {
-    transform: scale(1.1); /* Powiększenie zdjęcia dla aktywnego elementu */
-    filter: brightness(0.7); /* Przyciemnienie aktywnego elementu */
-}
-
-.member:not(.active) img {
-    transform: scale(1);
-    filter: brightness(1); /* Resetowanie jasności dla nieaktywnych elementów */
-}
-
 .members-container {
     display: flex;
     flex-shrink: 0;
@@ -936,6 +926,7 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
     width: 100%;
     height: 300px; /* Stała wysokość kontenera */
     scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
+    scroll-padding: 0 30vw; /* Dodanie przestrzeni, aby ostatnie zdjęcie mogło być wyśrodkowane */
     -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
     scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
 }
@@ -954,7 +945,7 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
 }
 
 .member:first-child {
-    margin-left: 10vw; /* Dodanie wcięcia po prawej stronie dla ostatniego elementu */
+    margin-left: 10vw; /* Dodanie wcięcia po lewej stronie dla pierwszego elementu */
 }
 
 .member img {
@@ -964,7 +955,6 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
     border-radius: 10px; /* Zaokrąglone rogi */
     transition: transform 0.5s ease, filter 0.5s ease;
 }
-
 .member::after {
         content: attr(data-member); /* Wyświetlanie opisu */
         position: absolute;
