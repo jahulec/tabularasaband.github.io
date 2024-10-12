@@ -36,16 +36,23 @@ function checkImagesLoaded() {
 
 // Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
 function handleImageSwap() {
-    const sliderImages = document.querySelectorAll('.background-slider img');
-    
-    sliderImages.forEach(img => {
+    const images = document.querySelectorAll('.background-slider img');
+
+    images.forEach((img) => {
+        const mobileSrc = img.getAttribute('data-mobile-src');
+        const desktopSrc = img.getAttribute('data-desktop-src');
+
         if (window.innerWidth <= 768) {
-            img.src = img.getAttribute('data-mobile-src');
+            img.src = mobileSrc;
         } else {
-            img.src = img.getAttribute('data-desktop-src');
+            img.src = desktopSrc;
         }
     });
 }
+
+// Zmieniaj źródła obrazów przy ładowaniu strony i przy zmianie rozmiaru okna
+window.addEventListener('load', handleImageSwap);
+window.addEventListener('resize', handleImageSwap);
 
 // Funkcja zmiany obrazów
 function changeSlide() {
