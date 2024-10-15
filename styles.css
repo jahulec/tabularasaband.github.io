@@ -677,46 +677,50 @@ footer {
 }
 
 /* Style dla zdjęć w galerii */
+.gallery-grid img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    object-fit: cover; /* Utrzymuje proporcje zdjęć */
+    border-radius: 5px; /* Zaokrąglone rogi */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
+}
+/* Styl dla powiększonego obrazu */
 .expanded-image {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: 999;
+    z-index: 9999; /* Ustawienie większego z-indexu, aby obraz pojawiał się nad wszystkim */
+    opacity: 1;
     transition: opacity 0.3s ease;
-    padding: 0 20px; /* Dodatkowe wcięcie dla obrazu */
 }
 
+/* Styl dla powiększonego obrazu */
 .expanded-image img {
-    max-height: 90vh; /* Dopasowanie do wysokości ekranu */
+    max-height: 90vh;
     max-width: 90vw;
     object-fit: contain;
-    transition: transform 0.3s ease; /* Animacja powiększenia */
 }
 
+/* Efekt rozmycia na reszcie strony */
 .blurred {
     filter: blur(8px);
-    pointer-events: none;
+    pointer-events: none; /* Blokowanie interakcji z rozmytą stroną */
 }
 
-/* Zapobiega rozmyciu powiększonego obrazu */
-.expanded-image img {
-    filter: none;
+/* Ukrywanie powiększonego obrazu */
+.expanded-image.hide {
+    display: none;
 }
 
-/* Dodanie efektu skalowania */
-.expanded-image img {
-    transform: scale(0.9);
-}
 
-.expanded-image.show img {
-    transform: scale(1);
-}
 .strzalka {
         display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
     }

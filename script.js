@@ -236,18 +236,17 @@ galleryImages.forEach(image => {
         // Ustaw źródło powiększonego obrazu
         expandedImage.src = image.src;
 
-        // Pokaż powiększony obraz i dodaj animację
-        expandedImageContainer.classList.add('show');
+        // Pokaż powiększony obraz
         expandedImageContainer.style.display = 'flex';
 
-        // Dodaj efekt rozmycia do strony
+        // Dodaj efekt rozmycia do reszty strony
         body.classList.add('blurred');
     });
 });
 
-// Ukryj powiększony obraz po kliknięciu
+// Ukrywanie powiększonego obrazu po kliknięciu
 expandedImageContainer.addEventListener('click', () => {
     expandedImageContainer.style.display = 'none';
     body.classList.remove('blurred');
-    expandedImageContainer.classList.remove('show');
 });
+
