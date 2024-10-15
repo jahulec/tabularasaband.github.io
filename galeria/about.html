@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Oficjalna strona zespołu Tabula Rasa Band. Sprawdź naszą muzykę, koncerty oraz najnowsze aktualności. Posłuchaj naszych utworów i poznaj członków zespołu.">
+	<meta name="keywords" content="Tabula Rasa zespół, Tabula Rasa Band, zespół Tabula Rasa, Tabula Rasa muzyka, Tabula Rasa koncerty, Tabula Rasa rock, Tabula Rasa piosenki, Tabula Rasa zespół rockowy, polski zespół rockowy, polski rock, Tabula Rasa Warszawa, Tabula Rasa album, zespół rockowy Polska, koncerty Tabula Rasa, zespół rockowy koncerty, nowe piosenki Tabula Rasa, Tabula Rasa bilety, Tabula Rasa streaming, Tabula Rasa Spotify, Tabula Rasa YouTube, Tabula Rasa Instagram, Tabula Rasa TikTok, Tabula Rasa media społecznościowe, Tabula Rasa nowa muzyka, Tabula Rasa teksty piosenek, Tabula Rasa skład zespołu, Tabula Rasa live, Tabula Rasa na żywo, Tabula Rasa merch, Tabula Rasa gadżety, Tabula Rasa koszulki, Tabula Rasa płyty, zespół rockowy polska, polski zespół muzyczny, zespół Tabula Rasa biografia, Tabula Rasa wywiady, Tabula Rasa trasa koncertowa, Tabula Rasa Band, Tabula Rasa music, Tabula Rasa rock band, Tabula Rasa songs, Tabula Rasa live, Tabula Rasa concerts, Tabula Rasa Polish rock band, Tabula Rasa Poland, Tabula Rasa new album, Tabula Rasa new songs, Tabula Rasa lyrics, Tabula Rasa on Spotify, Tabula Rasa on YouTube, Tabula Rasa on Instagram, Tabula Rasa on TikTok, Tabula Rasa rock music, Polish rock music, Tabula Rasa band biography, Tabula Rasa live performance, Tabula Rasa tickets, Tabula Rasa tour dates, Tabula Rasa band members, Tabula Rasa merchandise, Tabula Rasa t-shirts, Tabula Rasa albums, Tabula Rasa vinyl, Tabula Rasa streaming, Tabula Rasa social media, Polish rock concerts, rock concerts Poland, Tabula Rasa interviews, Tabula Rasa tour Poland, Tabula Rasa live in Warsaw.">
+	<meta name="author" content="Jan Mitrowski">
+	<meta name="theme-color" content="#000000">
+    
+	<title>Zespół Tabula Rasa - Oficjalna Strona</title>
+    
+	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
+	<link rel="icon" href="logo.ico" type="image/x-icon">
+    <link rel="canonical" href="https://tabularasaband.pl/about.html" />
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZG11TY745"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7ZG11TY745');
+</script>
+
+<body>
+
+<header>
+    <!-- Desktopowa wersja nagłówka (pozostaje bez zmian) -->
+    <div class="desktop-header">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="about">O nas</a></li>
+                <li><a href="music">Muzyka</a></li>
+                <li><a href="shows">Koncerty</a></li>
+                <li class="logo-container">
+                    <a href="/"><img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="logo"></a>
+                </li>
+                <li><a href="gallery">Galeria</a></li>
+                <li><a href="press">Press</a></li>
+                <li><a href="contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Mobilna wersja nagłówka (tylko dla urządzeń mobilnych) -->
+    <div class="mobile-header">
+        <div class="logo-container">
+            <a href="/"><img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="logo"></a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-mobile" id="nav-mobile">
+            <ul>
+                <li><a href="about">O nas</a></li>
+                <li><a href="music">Muzyka</a></li>
+                <li><a href="shows">Koncerty</a></li>
+                <li><a href="gallery">Galeria</a></li>
+                <li><a href="press">Press</a></li>
+                <li><a href="contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="mobile-sticky-header">
+    <nav class="mobile-sticky-nav">
+        <ul>
+            <li><a href="about">O nas</a></li>
+            <li><a href="music">Muzyka</a></li>
+            <li><a href="shows">Koncerty</a></li>
+            <li><a href="/"><img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="sticky-logo"></a></li>
+            <li><a href="gallery">Galeria</a></li>
+            <li><a href="press">Press</a></li>
+            <li><a href="contact">Kontakt</a></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
+<div class="background-slider">
+    <img src="zdjecie1.jpg" alt="Tabula Rasa - koncert 1" data-mobile-src="zdjecie1-mobile.webp" data-desktop-src="zdjecie1.webp">
+    <img src="zdjecie2.jpg" alt="Tabula Rasa - koncert 2" data-mobile-src="zdjecie2-mobile.webp" data-desktop-src="zdjecie2.webp">
+    <img src="zdjecie3.jpg" alt="Tabula Rasa - koncert 3" data-mobile-src="zdjecie3-mobile.webp" data-desktop-src="zdjecie3.webp">
+    <img src="zdjecie4.jpg" alt="Tabula Rasa - koncert 4" data-mobile-src="zdjecie4-mobile.webp" data-desktop-src="zdjecie4.webp">
+    <img src="zdjecie5.jpg" alt="Tabula Rasa - koncert 5" data-mobile-src="zdjecie5-mobile.webp" data-desktop-src="zdjecie5.webp">
+    <img src="zdjecie6.jpg" alt="Tabula Rasa - koncert 6" data-mobile-src="zdjecie6-mobile.webp" data-desktop-src="zdjecie6.webp">
+</div>
+
+
+<section id="news">
+	    <h1 id="welcome">O nas</h1>
+		<h2 style="text-align: center; margin-bottom: 30px;">Członkowie</h2>
+  <!-- Członkowie zespołu -->
+    <div class="members-container">
+        <div class="member" data-member="Benek">
+            <picture>
+				<source srcset="osoby/ben (1).webp 1024w, osoby/ben.webp 320w" type="image/webp">
+				<source srcset="osoby/ben.jpg" type="image/jpeg">
+				<img src="osoby/ben.jpg" alt="Zdjęcie 1" width="1024" loading="lazy">
+			</picture>
+        </div>
+		        <div class="member" data-member="Johnny">
+            <picture>
+				<source srcset="osoby/john (1).webp 1024w, osoby/john.webp 320w" type="image/webp">
+				<source srcset="osoby/john.jpg" type="image/jpeg">
+				<img src="osoby/john.jpg" alt="Zdjęcie 1" width="1024" loading="lazy">
+			</picture>
+        </div>
+        <div class="member" data-member="Delia">
+            <picture>
+				<source srcset="osoby/dela (1).webp 1024w, osoby/dela.webp 320w" type="image/webp">
+				<source srcset="osoby/dela.jpg" type="image/jpeg">
+				<img src="osoby/dela.jpg" alt="Zdjęcie 1" width="1024" loading="lazy">
+			</picture>
+        </div>
+        <div class="member" data-member="Carlos">
+            <picture>
+				<source srcset="osoby/carl (1).webp 1024w, osoby/carl.webp 320w" type="image/webp">
+				<source srcset="osoby/carl.jpg" type="image/jpeg">
+				<img src="osoby/carl.jpg" alt="Zdjęcie 1" width="1024" loading="lazy">
+			</picture>
+        </div>
+        <div class="member" data-member="Bartek">
+            <picture>
+				<source srcset="osoby/bart (1).webp 1024w, osoby/bart.webp 320w" type="image/webp">
+				<source srcset="osoby/bart.jpg" type="image/jpeg">
+				<img src="osoby/bart.jpg" alt="Zdjęcie 1" width="1024" loading="lazy">
+			</picture>
+        </div>
+    </div>
+
+
+
+    <!-- Historia zespołu -->
+    <div class="history">
+        <h2>Kim Jesteśmy</h2>
+        <p>Tabula Rasa to dynamiczny zespół rockowy z Warszawy, który szybko zdobywa uznanie na polskiej scenie muzycznej. Nazwa zespołu, inspirowana koncepcją "czystej tablicy", symbolizuje nieograniczony potencjał, kreatywność i odwagę do eksperymentowania. Od momentu założenia w 2023 roku, nasza muzyka przyciągnęła uwagę fanów i krytyków, a nasze występy na prestiżowych wydarzeniach oraz festiwalach potwierdzają rosnącą popularność.
+Nasze brzmienie to unikalna mieszanka melodyjnych dźwięków i mocnych riffów, które tworzą harmonijną całość, wprowadzając słuchaczy w emocjonalną podróż. Każdy nasz utwór to połączenie głębokich tekstów i wyrazistego wykonania, które dotyka serc i pozostaje w pamięci na długo po zakończeniu koncertu.
+Tabula Rasa to nie tylko muzyka – to doświadczenie, które porusza i inspiruje. Mamy na swoim koncie zwycięstwa w prestiżowych konkursach oraz współpracę z uznanymi markami. Gramy na największych scenach, od klubów po festiwale, zawsze dostarczając niezapomnianych emocji.
+Jesteśmy zespołem, który wciąż się rozwija, a nasze koncerty to wydarzenia pełne pasji i energii. Zapraszamy Cię do odkrycia naszej muzyki i dołączenia do naszej rockowej podróży. Tabula Rasa to zespół, który przekracza granice konwencji, a jego potencjał dopiero zaczyna się realizować.</p>
+    </div>
+</section>
+
+<!-- Stopka -->
+<footer>
+    <!-- Desktopowa wersja stopki -->
+    <div class="desktop-footer">
+        <hr class="footer-divider">
+        <div class="footer-container">
+            <div class="footer-section logo-description">
+                <img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="footer-logo" loading="lazy">
+                <p>Tabula Rasa - zespół rockowy, który redefiniuje granice muzyki. Odkryj naszą twórczość!</p>
+            </div>
+					<div class="scroll-to-top">
+			<button id="scrollTopBtn">↑</button>
+		</div>
+            <div class="footer-section social-media">
+                <ul>
+                    <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="ikony/youtube.webp" alt="YouTube - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="ikony/facebook.webp" alt="Facebook - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
+                </ul>
+				<p>Nasze social media<br>Znajdź nas!</p>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tabula Rasa. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+
+    <!-- Mobilna wersja stopki (tylko dla urządzeń mobilnych) -->
+    <div class="mobile-footer">
+        <hr class="footer-divider">
+        <div class="footer-section logo-description">
+            <img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="footer-logo" loading="lazy">
+        </div>
+        <div class="footer-section social-media">
+                <ul>
+                    <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.youtube.com/@TabulaRasa.zespol" target="_blank"><img src="ikony/youtube.webp" alt="YouTube - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank"><img src="ikony/facebook.webp" alt="Facebook - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
+                    <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
+                </ul>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tabula Rasa. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Ładowanie pliku JavaScript -->
+<script src="script.js" defer</script>
+
+</body>
+
+</html>
