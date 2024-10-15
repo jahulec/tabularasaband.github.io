@@ -229,7 +229,7 @@ document.querySelectorAll('.member').forEach(member => {
 const galleryImages = document.querySelectorAll('.gallery-grid img');
 const expandedImageContainer = document.getElementById('expandedImageContainer');
 const expandedImage = document.getElementById('expandedImage');
-const body = document.querySelector('body');
+const galleryGrid = document.querySelector('.gallery-grid'); // Zamiast body, wybrano .gallery-grid
 
 galleryImages.forEach(image => {
     image.addEventListener('click', () => {
@@ -239,14 +239,14 @@ galleryImages.forEach(image => {
         // Pokaż powiększony obraz
         expandedImageContainer.style.display = 'flex';
 
-        // Dodaj efekt rozmycia do reszty strony
-        body.classList.add('blurred');
+        // Dodaj efekt rozmycia do galerii
+        galleryGrid.classList.add('blurred');
     });
 });
 
 // Ukrywanie powiększonego obrazu po kliknięciu
 expandedImageContainer.addEventListener('click', () => {
     expandedImageContainer.style.display = 'none';
-    body.classList.remove('blurred');
+    galleryGrid.classList.remove('blurred');
 });
 
