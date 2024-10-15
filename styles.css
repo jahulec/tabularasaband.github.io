@@ -686,41 +686,35 @@ footer {
     border-radius: 5px; /* Zaokrąglone rogi */
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
 }
+
 /* Styl dla powiększonego obrazu */
 .expanded-image {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999; /* Ustawienie większego z-indexu, aby obraz pojawiał się nad wszystkim */
-    opacity: 1;
-    transition: opacity 0.3s ease;
+    z-index: 999;
+    overflow: hidden;
+    transition: opacity 0.7s ease;
 }
 
-/* Styl dla powiększonego obrazu */
+/* Obraz powiększony */
 .expanded-image img {
-    max-height: 90vh;
-    max-width: 90vw;
+    max-height: 90vh; /* Dopasowanie do wysokości strony */
+    max-width: 80vw;
     object-fit: contain;
 }
 
-/* Efekt rozmycia na reszcie strony */
+/* Efekt rozmycia tła */
 .blurred {
     filter: blur(8px);
-    pointer-events: none; /* Blokowanie interakcji z rozmytą stroną */
+    pointer-events: none;
 }
-
-/* Ukrywanie powiększonego obrazu */
-.expanded-image.hide {
-    display: none;
-}
-
-
 .strzalka {
         display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
     }
