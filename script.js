@@ -233,8 +233,11 @@ const galleryGrid = document.querySelector('.gallery-grid'); // Zamiast body, wy
 
 galleryImages.forEach(image => {
     image.addEventListener('click', () => {
-        // Ustaw źródło powiększonego obrazu
-        expandedImage.src = image.src;
+        // Znajdź odpowiedni WebP dla powiększenia
+        const webpSrc = image.closest('picture').querySelector('source[type="image/webp"]').srcset.split(', ')[0].split(' ')[0];
+        
+        // Ustaw źródło powiększonego obrazu na najwyższą rozdzielczość WebP
+        expandedImage.src = webpSrc;
 
         // Pokaż powiększony obraz
         expandedImageContainer.style.display = 'flex';
@@ -243,10 +246,3 @@ galleryImages.forEach(image => {
         galleryGrid.classList.add('blurred');
     });
 });
-
-// Ukrywanie powiększonego obrazu po kliknięciu
-expandedImageContainer.addEventListener('click', () => {
-    expandedImageContainer.style.display = 'none';
-    galleryGrid.classList.remove('blurred');
-});
-
