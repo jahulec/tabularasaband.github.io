@@ -42,13 +42,13 @@ h2 {
     margin-bottom: 10px; /* Odstęp między nagłówkiem a linią */
 }
 
+h3::after,
 h2::after {
  content: '';
     display: block;
     width: 100%; /* Szerokość linii - możesz dostosować */
     height: 2px;
     background-color: #444; /* Kolor linii */
-    margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
 }
 
 h3 {
@@ -57,14 +57,6 @@ h3 {
     margin-bottom: 10px; /* Odstęp między nagłówkiem a linią */
 }
 
-h3::after {
- content: '';
-    display: block;
-    width: 100%; /* Szerokość linii - możesz dostosować */
-    height: 2px;
-    background-color: #444; /* Kolor linii */
-    margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
-}
 
 img {
     max-width: 100%; /* Obrazy nie będą wychodzić poza szerokość kontenera */
@@ -274,34 +266,14 @@ header.hidden {
 }
 
 
-/* Sekcja galerii - ogólny styl */
-.gallery-grid {
-    display: grid;
-    grid-gap: 10px; /* Odstępy między zdjęciami */
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsywne kolumny */
-    grid-auto-rows: 200px; /* Wysokość wiersza */
-    grid-auto-flow: dense; /* Zapewnia nieregularny układ */
-    margin: 0 auto;
-    width: 100%;
-}
-
-/* Style dla zdjęć w galerii */
-.gallery-grid img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Utrzymuje proporcje zdjęć */
-    border-radius: 5px; /* Zaokrąglone rogi */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
-}
-
-/* Nieregularne rozmiary niektórych zdjęć (dla efektu kolażu) */
-.gallery-grid img:nth-child(2n) {
-    grid-column: span 2;
-}
-
-.gallery-grid img:nth-child(3n) {
-    grid-row: span 2;
-}
+/* sekcja galeria */
+    .gallery-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
+        width: 100%;
+    }
+    
 
 
 /* Sekcja Aktualności */
@@ -694,17 +666,38 @@ footer {
 
 
 /* sekcja galeria */
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        grid-auto-rows: 250px;
-    }
-    
-    .gallery-grid img:nth-child(2n) {
-        grid-column: span 3;
-    }
+.gallery-grid {
+    display: grid;
+    grid-gap: 10px; /* Odstępy między zdjęciami */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsywne kolumny */
+    grid-auto-rows: 200px; /* Wysokość wiersza */
+    grid-auto-flow: dense; /* Zapewnia nieregularny układ */
+    margin: 0 auto;
+    width: 100%;
+}
 
-    .gallery-grid img:nth-child(3n) {
-        grid-row: span 3;
+/* Style dla zdjęć w galerii */
+.gallery-grid img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    object-fit: cover; /* Utrzymuje proporcje zdjęć */
+    border-radius: 5px; /* Zaokrąglone rogi */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
+}
+
+.gallery-grid img.expanded {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2); /* Powiększ obraz */
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.strzalka {
+        display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
     }
 }
 
@@ -909,12 +902,37 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
     }
 
 
-/* galeria */
-    .gallery-grid {
-        grid-template-columns: 1fr; /* Jedna kolumna na bardzo małych ekranach */
-        grid-auto-rows: 150px;
-    }
-	
+
+/* sekcja galeia */
+.gallery-grid {
+    display: flex;
+    overflow-x: auto; /* Pozwala na przewijanie w poziomie */
+    scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
+    scrollbar-width: thin;
+    gap: 10px; /* Odstęp między zdjęciami */
+    padding: 10px;
+    width: 100%; /* Kontener zajmuje całą szerokość strony */
+}
+
+.gallery-grid picture {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    height: 250px; /* Wysokość każdego obrazu */
+    max-width: calc(100vw - 20px); /* Szerokość obrazu na pełną szerokość okna przeglądarki z odstępem */
+}
+
+.gallery-grid img {
+    height: 100%;
+    width: 100%; /* Dopasowanie szerokości obrazka do kontenera */
+    object-fit: cover; /* Zapewnia, że obrazek wypełnia cały kontener bez deformacji */
+    border-radius: 10px;
+}
+
+
+.gallery-grid img:hover {
+    transform: none;
+    box-shadow: none;
+}	
 	
 /* sekcja o nas */
 .members-container {

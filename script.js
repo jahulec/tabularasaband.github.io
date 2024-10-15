@@ -36,26 +36,16 @@ function checkImagesLoaded() {
 
 // Funkcja do obsługi zmiany obrazów mobilnych/desktopowych
 function handleImageSwap() {
-    const images = document.querySelectorAll('.background-slider img');
-
-    images.forEach((img) => {
-        const mobileSrc = img.getAttribute('data-mobile-src');
-        const desktopSrc = img.getAttribute('data-desktop-src');
-
-        if (mobileSrc && desktopSrc) {
-            // Sprawdza czy istnieją atrybuty mobile i desktop przed zmianą
-            if (window.innerWidth <= 768) {
-                img.src = mobileSrc;
-            } else {
-                img.src = desktopSrc;
-            }
+    const sliderImages = document.querySelectorAll('.background-slider img');
+    
+    sliderImages.forEach(img => {
+        if (window.innerWidth <= 768) {
+            img.src = img.getAttribute('data-mobile-src');
+        } else {
+            img.src = img.getAttribute('data-desktop-src');
         }
     });
 }
-
-// Zmieniaj źródła obrazów przy ładowaniu strony i przy zmianie rozmiaru okna
-window.addEventListener('load', handleImageSwap);
-window.addEventListener('resize', handleImageSwap);
 
 // Funkcja zmiany obrazów
 function changeSlide() {
@@ -233,5 +223,13 @@ document.querySelectorAll('.member').forEach(member => {
             document.querySelectorAll('.member').forEach(m => m.classList.remove('active'));
             this.classList.add('active'); // Dodaj efekt powiększenia i przyciemnienia
         }
+    });
+});
+
+const galleryImages = document.querySelectorAll('.gallery-grid img');
+
+galleryImages.forEach(image => {
+    image.addEventListener('click', () => {
+        image.classList.toggle('expanded');
     });
 });
