@@ -227,9 +227,25 @@ document.querySelectorAll('.member').forEach(member => {
 });
 
 const galleryImages = document.querySelectorAll('.gallery-grid img');
+const expandedImageContainer = document.getElementById('expandedImageContainer');
+const expandedImage = document.getElementById('expandedImage');
+const body = document.querySelector('body');
 
 galleryImages.forEach(image => {
     image.addEventListener('click', () => {
-        image.classList.toggle('expanded');
+        // Ustaw źródło powiększonego obrazu
+        expandedImage.src = image.src;
+
+        // Pokaż powiększony obraz
+        expandedImageContainer.style.display = 'flex';
+
+        // Dodaj efekt rozmycia do strony
+        body.classList.add('blurred');
     });
+});
+
+// Ukryj powiększony obraz po kliknięciu
+expandedImageContainer.addEventListener('click', () => {
+    expandedImageContainer.style.display = 'none';
+    body.classList.remove('blurred');
 });
