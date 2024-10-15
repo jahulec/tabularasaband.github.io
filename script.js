@@ -233,10 +233,10 @@ const galleryGrid = document.querySelector('.gallery-grid'); // Zamiast body, wy
 
 galleryImages.forEach(image => {
     image.addEventListener('click', () => {
-        // Znajdź odpowiedni WebP dla powiększenia
-        const webpSrc = image.closest('picture').querySelector('source[type="image/webp"]').srcset.split(', ')[0].split(' ')[0];
-        
-        // Ustaw źródło powiększonego obrazu na najwyższą rozdzielczość WebP
+        // Znajdź najwyższej rozdzielczości WebP w atrybucie srcset
+        const webpSrc = image.closest('picture').querySelector('source[type="image/webp"]').srcset.split(', ').pop().split(' ')[0];
+
+        // Ustaw źródło powiększonego obrazu
         expandedImage.src = webpSrc;
 
         // Pokaż powiększony obraz
