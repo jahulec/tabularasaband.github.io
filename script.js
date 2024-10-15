@@ -236,7 +236,8 @@ galleryImages.forEach(image => {
         // Ustaw źródło powiększonego obrazu
         expandedImage.src = image.src;
 
-        // Pokaż powiększony obraz
+        // Pokaż powiększony obraz i dodaj animację
+        expandedImageContainer.classList.add('show');
         expandedImageContainer.style.display = 'flex';
 
         // Dodaj efekt rozmycia do strony
@@ -248,4 +249,5 @@ galleryImages.forEach(image => {
 expandedImageContainer.addEventListener('click', () => {
     expandedImageContainer.style.display = 'none';
     body.classList.remove('blurred');
+    expandedImageContainer.classList.remove('show');
 });
