@@ -705,16 +705,22 @@ footer {
 
 /* Obraz powiększony */
 .expanded-image img {
-    max-height: 90vh; /* Dopasowanie do wysokości strony */
+    max-height: 80vh; /* Dopasowanie do wysokości strony */
     max-width: 80vw;
     object-fit: contain;
+}
+
+.expanded-image img:hover {
+	transform: none;
 }
 
 /* Efekt rozmycia tła */
 .blurred {
     filter: blur(8px);
     pointer-events: none;
+    transition: filter 0.3s ease;
 }
+
 .strzalka {
         display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
     }
