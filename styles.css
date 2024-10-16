@@ -685,6 +685,8 @@ footer {
     object-fit: cover; /* Utrzymuje proporcje zdjęć */
     border-radius: 5px; /* Zaokrąglone rogi */
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 /* Styl dla powiększonego obrazu */
@@ -706,18 +708,32 @@ footer {
 /* Obraz powiększony */
 .expanded-image img {
     max-height: 80vh; /* Dopasowanie do wysokości strony */
-    max-width: 80vw;
+    max-width: auto;
     object-fit: contain;
+    transition: transform 0.5s ease;
 }
 
 .expanded-image img:hover {
 	transform: none;
 }
 
+.expanding {
+    transform: scale(1.1);
+}
+
+.closing {
+    transform: scale(1);
+}
+
 /* Efekt rozmycia tła */
 .blurred {
     filter: blur(8px);
     pointer-events: none;
+    transition: filter 0.5s ease;
+}
+
+.unblurred {
+    filter: blur(0);
     transition: filter 0.5s ease;
 }
 

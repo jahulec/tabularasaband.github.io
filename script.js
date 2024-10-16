@@ -229,20 +229,16 @@ document.querySelectorAll('.member').forEach(member => {
 const galleryImages = document.querySelectorAll('.gallery-grid img');
 const expandedImageContainer = document.getElementById('expandedImageContainer');
 const expandedImage = document.getElementById('expandedImage');
-const galleryGrid = document.querySelector('.gallery-grid'); // Zamiast body, wybrano .gallery-grid
+const galleryGrid = document.querySelector('.gallery-grid');
 
+// Obsługa kliknięcia na zdjęcie
 galleryImages.forEach(image => {
     image.addEventListener('click', () => {
-        // Znajdź największe WebP w atrybucie srcset
-        const webpSrc = image.closest('picture').querySelector('source[type="image/webp"]').srcset.split(', ').pop().split(' ')[0];
-
-        // Ustaw największe źródło obrazu
-        expandedImage.src = webpSrc;
-
+        // Ustaw odpowiedni src dla obrazka
+        expandedImage.src = image.dataset.desktopSrc || image.src;  // Używa desktopowego src dla dużych obrazów
+        
         // Pokaż powiększony obraz
         expandedImageContainer.style.display = 'flex';
-
-        // Dodaj efekt rozmycia do galerii
         galleryGrid.classList.add('blurred');
     });
 });
@@ -250,5 +246,5 @@ galleryImages.forEach(image => {
 // Ukrywanie powiększonego obrazu po kliknięciu
 expandedImageContainer.addEventListener('click', () => {
     expandedImageContainer.style.display = 'none';
-    galleryGrid.classList.remove('blurred');
+    galleryGrid.classList.remove('blurred');  // Usunięcie rozmycia
 });
