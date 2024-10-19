@@ -231,20 +231,75 @@ const expandedImageContainer = document.getElementById('expandedImageContainer')
 const expandedImage = document.getElementById('expandedImage');
 const galleryGrid = document.querySelector('.gallery-grid');
 
-// Obsługa kliknięcia na zdjęcie
+// Obsługa kliknięcia na obrazek
 galleryImages.forEach(image => {
     image.addEventListener('click', () => {
-        // Ustaw odpowiedni src dla obrazka
-        expandedImage.src = image.dataset.desktopSrc || image.src;  // Używa desktopowego src dla dużych obrazów
-        
-        // Pokaż powiększony obraz
+        // Ustawienie źródła obrazka
+        expandedImage.src = image.src;
+
+        // Wyświetlenie kontenera i rozpoczęcie rozmycia
         expandedImageContainer.style.display = 'flex';
-        galleryGrid.classList.add('blurred');
+        setTimeout(() => {
+            expandedImageContainer.style.opacity = '1'; // Pojawienie się kontenera
+            expandedImage.classList.add('expanded'); // Powiększenie obrazka
+            galleryGrid.classList.add('blurred'); // Rozmycie i przyciemnienie galerii
+        }); // Małe opóźnienie dla płynności
     });
 });
 
-// Ukrywanie powiększonego obrazu po kliknięciu
+// Obsługa kliknięcia na powiększony obrazek (zamykanie)
 expandedImageContainer.addEventListener('click', () => {
-    expandedImageContainer.style.display = 'none';
-    galleryGrid.classList.remove('blurred');  // Usunięcie rozmycia
+    // Zresetowanie obrazka i rozpoczęcie odblurowania
+    expandedImage.classList.remove('expanded');
+    expandedImageContainer.style.opacity = '0'; // Ukrywanie kontenera
+    galleryGrid.classList.remove('blurred');
+    galleryGrid.classList.add('unblurred'); // Rozjaśnienie i odblurowanie galerii
+
+    // Zatrzymanie blur po zakończeniu animacji
+    setTimeout(() => {
+        expandedImageContainer.style.display = 'none';
+        galleryGrid.classList.remove('unblurred'); // Usunięcie unblur po zamknięciu
+    }, 300); // Czas dopasowany do animacji CSS
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const firstImage = document.getElementById("firstImage");
+
+    // Funkcja ładująca pierwszy obrazek w zależności od szerokości ekranu
+    function preloadFirstImage() {
+        const mobileSrc = firstImage.getAttribute('data-mobile-src');
+        const desktopSrc = firstImage.getAttribute('data-desktop-src');
+
+        if (window.innerWidth <= 768) {
+            firstImage.src = mobileSrc;  // Ładowanie obrazu mobilnego
+        } else {
+            firstImage.src = desktopSrc;  // Ładowanie obrazu desktopowego
+        }
+
+        firstImage.onload = function () {
+            console.log("First image loaded");
+            loadRemainingImages();  // Po załadowaniu pierwszego obrazu, załaduj resztę galerii
+        };
+    }
+
+    // Funkcja do ładowania pozostałych obrazów dynamicznej galerii
+    function loadRemainingImages() {
+        const images = document.querySelectorAll('.background-slider img:not(#firstImage)');
+        images.forEach(img => {
+            const mobileSrc = img.getAttribute('data-mobile-src');
+            const desktopSrc = img.getAttribute('data-desktop-src');
+
+            if (window.innerWidth <= 768) {
+                img.src = mobileSrc;  // Ładuj obrazy mobilne
+            } else {
+                img.src = desktopSrc;  // Ładuj obrazy desktopowe
+            }
+        });
+    }
+
+    // Preload pierwszego obrazu na starcie
+    preloadFirstImage();
+
+    // Opcjonalnie: ponowne ładowanie przy zmianie rozmiaru okna (ponownie ładuje tylko pierwszy obraz)
+    window.addEventListener('resize', preloadFirstImage);
 });

@@ -67,7 +67,7 @@ img {
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animacja przy najechaniu */
 }
 
-img:hover {
+img:not(.expanded):hover {
     transform: scale(1.05); /* Powiększenie obrazu przy najechaniu */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Wzmocnienie cienia przy najechaniu */
 }
@@ -659,13 +659,8 @@ footer {
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Płynna animacja */
 }
 
-#news img:hover {
-    transform: scale(1.02); /* Subtelne powiększenie (zmniejszenie efektu) */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Delikatny cień dla podkreślenia */
-}
 
-
-/* sekcja galeria */
+/* Sekcja galeria */
 .gallery-grid {
     display: grid;
     grid-gap: 10px; /* Odstępy między zdjęciami */
@@ -685,56 +680,55 @@ footer {
     object-fit: cover; /* Utrzymuje proporcje zdjęć */
     border-radius: 5px; /* Zaokrąglone rogi */
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
-    transition: transform 0.3s ease;
     cursor: pointer;
 }
 
-/* Styl dla powiększonego obrazu */
-.expanded-image {
+/* Kontener powiększonego obrazu */
+#expandedImageContainer {
+    display: flex; /* Ukryty na początku */
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: 999;
-    overflow: hidden;
-    transition: opacity 0.5s ease;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Animacja opacity */
 }
 
-/* Obraz powiększony */
-.expanded-image img {
-    max-height: 80vh; /* Dopasowanie do wysokości strony */
-    max-width: auto;
-    object-fit: contain;
-    transition: transform 0.5s ease;
+/* Ustawienia dla obrazka */
+#expandedImage {
+    position: absolute;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+    width: 0;
+    height: auto;
+    opacity: 0;
 }
 
-.expanded-image img:hover {
-	transform: none;
+/* Obrazek powiększony */
+#expandedImage.expanded {
+    width: auto;
+    max-width: 80vw;
+    max-height: 80vh;
+    opacity: 1;
 }
 
-.expanding {
-    transform: scale(1.1);
+/* Blur i opacity dla sekcji galerii */
+.gallery-grid.blurred {
+    filter: blur(10px);
+    opacity: 0.5; /* Przyciemnienie podczas blur */
+    transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne przejście */
 }
 
-.closing {
-    transform: scale(1);
-}
-
-/* Efekt rozmycia tła */
-.blurred {
-    filter: blur(8px);
-    pointer-events: none;
-    transition: filter 0.5s ease;
-}
-
-.unblurred {
-    filter: blur(0);
-    transition: filter 0.5s ease;
+/* Resetowanie blur i opacity */
+.gallery-grid.unblurred {
+    filter: blur(0px); /* Reset blur */
+    opacity: 1; /* Rozjaśnienie */
+    transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne odblurowanie */
 }
 
 .strzalka {
@@ -969,11 +963,17 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
     border-radius: 10px;
 }
 
-
 .gallery-grid img:hover {
     transform: none;
     box-shadow: none;
 }	
+	
+    #expandedImageContainer {
+        display: none !important; /* Ukrywa kontener na mobilnych ekranach */
+    }
+    #expandedImage {
+        display: none !important; /* Ukrywa powiększony obrazek na mobilnych ekranach */
+    }
 	
 /* sekcja o nas */
 .members-container {
