@@ -293,43 +293,16 @@ header.hidden {
 
 /* sekcja press */
 .rider-section {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        width: 100%;
-    }
-
-.rider-text {
-        max-width: 100%;
-        padding: 0 20px;
-        text-align: left;
-    }
-
-.rider-image {
-        max-width: 100%;
-        width: 100%;
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-.rider-image img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-
-.music-section .song {
-        width: 100%; /* Ustawienie szerokości na 100% */
-        text-align: center; /* Wyśrodkowanie zawartości */
-    }
+    text-align: center; /* Wyśrodkowanie zawartości, w tym przycisku */
+    padding: 20px 0;
+    width: 100%;
+}
 
 .rider-download-btn {
     display: inline-block;
     margin: 20px auto; /* Wyśrodkowanie przycisku */
     padding: 10px 20px;
     background-color: #e60023; /* Kolor tła zgodny z kolorystyką strony */
-	
     color: #fff; /* Kolor tekstu */
     text-decoration: none;
     font-weight: bold;
@@ -337,13 +310,18 @@ header.hidden {
     transition: background-color 0.3s ease, transform 0.3s ease; /* Animacja */
 }
 
-.rider-section {
-    text-align: center; /* Wyśrodkowanie zawartości, w tym przycisku */
-}
-
 .rider-download-btn:hover {
     transform: scale(1.05); /* Lekkie powiększenie przy najechaniu */
 }
+
+
+
+.music-section .song {
+        width: 100%; /* Ustawienie szerokości na 100% */
+        text-align: center; /* Wyśrodkowanie zawartości */
+    }
+
+
 
 
 /* sekcja kontakt*/
