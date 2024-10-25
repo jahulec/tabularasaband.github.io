@@ -87,7 +87,7 @@ function activateFirstSlide() {
 }
 
 // Funkcja aktywująca wszystko po page onload
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
     console.log("Strona została w pełni załadowana, uruchamiam wszystkie skrypty.");
 
     // Uruchomienie wymiany obrazów
