@@ -1,4 +1,11 @@
 /* ogólne style */
+
+* {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
     height: 100vh;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
@@ -34,6 +41,8 @@ h1 {
     font-size: 3em;
     text-align: center;
     margin-bottom: 100px; /* Zaczyna na środku ekranu */
+	margin-left: none;
+	margin-right: none;
 }
 
 h2 {
@@ -46,7 +55,7 @@ h3::after,
 h2::after {
  content: '';
     display: block;
-    width: 100%; /* Szerokość linii - możesz dostosować */
+    width: auto; /* Szerokość linii - możesz dostosować */
     height: 2px;
     background-color: #444; /* Kolor linii */
 }
@@ -186,6 +195,8 @@ header.hidden {
 }
 
 
+
+
 /* Dla linków w sticky mobile header */
 .mobile-sticky-nav a.active {
     position: relative;
@@ -216,6 +227,12 @@ header.hidden {
     height: 2px; /* Grubość linii podkreślenia */
     background-color: #ffffff; /* Kolor linii */
 }
+
+
+
+
+
+
 
 
 /* Dynamiczna galeria zdjęć jako tło */
@@ -288,6 +305,66 @@ header.hidden {
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
     flex-direction: column; /* Ustawienie elementów w kolumnie */
+}
+
+/* Stylizacja sekcji news */
+.news-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Artykuł - układ dla desktop */
+.article-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; /* Odstęp między tekstem a zdjęciem */
+    margin-bottom: 40px; /* Odstęp między artykułami */
+}
+
+/* Tekst z lewej strony */
+.article-content p {
+    flex: 1;
+    width: 60%; /* Maksymalna szerokość dla tekstu */
+    text-align: left;
+}
+
+/* Zdjęcie z prawej strony */
+.article-content picture {
+    flex: 1;
+    width: 30%; /* Szerokość obrazu */
+    max-height: 100%; /* Dopasowanie wysokości obrazu do tekstu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.article-content img {
+    max-height: 100%; /* Ograniczenie maksymalnej wysokości obrazu */
+    height: auto;
+    max-width: 100%; /* Zachowanie proporcji obrazka */
+    border-radius: 8px; /* Opcjonalne zaokrąglenie narożników */
+    object-fit: contain; /* Dopasowanie obrazka w ramach kontenera */
+}
+
+
+
+.text-above-image {
+    width: 80%; /* Szerokość tekstu, aby był mniejszy niż szerokość sekcji */
+    max-width: 600px; /* Maksymalna szerokość tekstu */
+}
+
+.smaller-image {
+    max-width: 400px; /* Maksymalna szerokość obrazka */
+    margin: 0 auto; /* Wyśrodkowanie obrazka */
+}
+
+.smaller-image img {
+    width: 100%; /* Szerokość obrazka na 100% kontenera */
+    height: auto;
+    border-radius: 8px; /* Opcjonalne zaokrąglenie narożników */
 }
 
 
@@ -426,99 +503,74 @@ header.hidden {
 
 /* Kontener stopki */
 footer {
-    font-size: clamp(16px, 2vw, 24px); /* Dynamiczny rozmiar tekstu w zależności od ekranu */
-    display: flex;
-    justify-content: center; /* Wyśrodkowanie w poziomie */
-    align-items: center; /* Wyśrodkowanie w pionie */
-    flex-direction: column; /* Elementy w stopce ustawione w kolumnie */
-    background-color: transparent; /* Ogólne transparentne tło */
-    width: 100vw; /* Zajmuje całą szerokość ekranu */
+    background-color: transparent; /* Przezroczyste tło */
+    padding-right: 20px;
+    padding-left: 20px;
     text-align: center;
+	border-bottom: none;
 }
 
 .footer-container {
     display: flex;
-    justify-content: space-between; /* Równomierne rozmieszczenie sekcji */
+    justify-content: space-between; /* Elementy w jednym rzędzie */
     align-items: center;
-    width: 100%; /* Zajmuje całą szerokość stopki */
-    flex-wrap: wrap; /* Zawijanie wierszy na mniejszych ekranach */
+    width: 100%;
+    max-width: 1200px; /* Maksymalna szerokość */
+    margin: 0 auto;
+    transition: transform 0.3s ease-in-out; /* Animacja skalowania */
 }
 
 .footer-section {
-    flex: 1 1 33.33%; /* Każda sekcja zajmuje 1/3 szerokości */
-    padding: 10px;
-    box-sizing: border-box;
+    flex: 1;
     text-align: center;
-}
-
-.footer-section.social-media ul {
-    display: flex;
-    justify-content: space-around; /* Równomierne rozmieszczenie ikon */
-    align-items: center;
-    padding: 0;
-    list-style: none;
-    width: 100%; /* Ikony zajmują 100% szerokości stopki */
-}
-
-.footer-section.social-media ul li {
-    flex: 1; /* Każda ikona zajmuje równo szerokość */
-    margin: 0 15px; /* Odstęp między ikonami */
-}
-
-.footer-section.social-media ul li a img {
-    width: 100%; /* Ikony zajmują pełną szerokość li */
-    height: auto;
-    max-width: 60px; /* Maksymalna wielkość ikony */
-    transition: transform 0.3s ease;
-}
-
-.footer-section.social-media ul li a:hover img {
-    transform: scale(1.2); /* Powiększenie ikon przy najechaniu */
 }
 
 .footer-logo {
-    width: 120px;
-    display: block;
-    margin: 0 auto 15px;
+    width: 120px; /* Wycentrowane logo o stałej szerokości */
+    height: auto;
+}
+
+.footer-section.scroll-up {
+    position: relative;
+}
+
+#scrollTopBtn {
+    background-color: #e60023;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+#scrollTopBtn:hover {
+    background-color: #ff4050;
+}
+
+.footer-section.social-media ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.footer-section.social-media img {
+    width: 30px;
+    height: auto;
+}
+
+.footer-section.social-media p {
+    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
 .footer-bottom {
-    text-align: center;
-    padding: 5px 0;
-    font-size: 0.8em;
-    color: #666;
-}
-
-.footer-bottom p {
-    margin: 0;
-}
-
-.scroll-to-top {
-    margin-top: 40px; /* Dodanie odstępu między przyciskiem a pozostałymi sekcjami */
-    text-align: center;
-}
-
-.scroll-to-top button {
-    color: #fff; /* Kolor tekstu w przycisku */
-    font-family: 'PoppinsBlack';
-    background-color: #e60023; /* Tło przycisku */
-    padding: 15px; /* Mniejsze paddingi, aby przycisk był bardziej kwadratowy */
-    border: none;
-    border-radius: 50%; /* Okrągły przycisk */
-    cursor: pointer;
-	margin-left: 5vw; /* Margines po lewej stronie to 5% szerokości okna widoku */
-    margin-right: 5vw; /* Margines po prawej stronie to 5% szerokości okna widoku */
-    font-size: 24px; /* Rozmiar strzałki */
-    width: 60px; /* Szerokość przycisku */
-    height: 60px; /* Wysokość przycisku */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease;
-}
-
-.scroll-to-top button:hover {
-    transform: scale(1.05);
+    font-size: 0.9rem;
+    padding-top: 10px;
 }
 
 .footer-divider {
@@ -528,6 +580,11 @@ footer {
     width: 100%;
     background-color: transparent; /* Upewniamy się, że tło dividera jest przezroczyste */
 }
+
+
+
+
+
 
 
 /* Style desktop only */
@@ -607,28 +664,55 @@ footer {
     }
 
 
-/* sekcja muzyka */
-	.song {
-        flex: 1;
-        max-width: 45%;
-        text-align: center;
-    }
+/* Sekcja muzyka */
+.music-section {
+    width: 100%; /* Cała szerokość ekranu */
+    max-width: 1200px; /* Maksymalna szerokość zawartości */
+    margin: 0 auto; /* Wyśrodkowanie sekcji */
+    padding: 20px 0;
+}
 
-	.music-section .videos {
+.music-section .videos {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap; /* Zawijanie elementów w mniejszych szerokościach */
     gap: 20px; /* Odstęp między wideo */
+    width: 100%;
 }
 
-	.music-section .video-container {
+.song {
     flex: 1;
     min-width: 300px; /* Minimalna szerokość, aby wideo nie nachodziły na siebie */
+    max-width: 45%;
+    text-align: center;
 }
 
-	iframe {
+.video-container {
+    position: relative;
     width: 100%;
+    padding-bottom: 56.25%; /* Ustawienie proporcji 16:9 */
+    height: 0;
+    overflow: hidden;
+}
 
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Stylizacja Spotify */
+.spotify-wrapper {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.spotify-wrapper iframe {
+    width: 100%;
+    height: 80px; /* Wysokość odtwarzacza Spotify */
+    border: none;
 }
 
 
@@ -649,7 +733,6 @@ footer {
     width: 100%;
 }
 
-/* Style dla zdjęć w galerii */
 .gallery-grid img {
     width: 100%;
     height: 100%;
@@ -661,7 +744,6 @@ footer {
     cursor: pointer;
 }
 
-/* Kontener powiększonego obrazu */
 #expandedImageContainer {
     display: flex; /* Ukryty na początku */
     justify-content: center;
@@ -677,7 +759,6 @@ footer {
     transition: opacity 0.3s ease; /* Animacja opacity */
 }
 
-/* Ustawienia dla obrazka */
 #expandedImage {
     position: absolute;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -687,7 +768,6 @@ footer {
     opacity: 0;
 }
 
-/* Obrazek powiększony */
 #expandedImage.expanded {
     width: auto;
     max-width: 80vw;
@@ -695,14 +775,12 @@ footer {
     opacity: 1;
 }
 
-/* Blur i opacity dla sekcji galerii */
 .gallery-grid.blurred {
     filter: blur(10px);
     opacity: 0.5; /* Przyciemnienie podczas blur */
     transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne przejście */
 }
 
-/* Resetowanie blur i opacity */
 .gallery-grid.unblurred {
     filter: blur(0px); /* Reset blur */
     opacity: 1; /* Rozjaśnienie */
@@ -724,6 +802,7 @@ p {
 	}
 	
 	
+	
 .desktop-header, .desktop-footer {
         display: none;
     }
@@ -731,6 +810,25 @@ p {
         display: block;
     }
 	
+/* Stylizacja przycisku językowego */
+.language-switcher {
+	        position: absolute;
+        left: 15px;
+        top: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.language-switcher a {
+    font-size: 1rem; /* Dostosuj wielkość tekstu */
+    color: #fff; /* Kolor tekstu */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
 	
 /* Styl dla dolnego paska nagłówka */
 .mobile-sticky-header {
@@ -770,12 +868,12 @@ p {
 
 .mobile-sticky-nav ul {
     display: flex;
-    justify-content: space-between; /* Utrzymanie równomiernego rozłożenia */
+    justify-content: center; /* Wyśrodkowanie elementów w poziomie */
     align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 100%; /* Rozciąga listę na całą szerokość */
+    gap: 10px; /* Ustal równe odstępy między linkami */
 }
 
 .mobile-sticky-nav ul li {
@@ -798,66 +896,88 @@ p {
 
 
 /* stopka */
-.mobile-footer {
-    width: 100%; /* Zajmuje całą szerokość strony */
-    max-width: 1200px; /* Maksymalna szerokość, aby nie rozciągać stopki */
-    margin: 0 auto; /* Wyśrodkowanie w poziomie */
-    margin-bottom: 40px; /* Poprawna składnia */
-    padding: 20px; /* Dodanie wewnętrznego odstępu */
-box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokość */
-}
 
-.footer-container {
-        display: flex;
-        flex-direction: column; /* Ułóż elementy w kolumnie na urządzeniach mobilnych */
-        align-items: center; /* Wyśrodkuj wszystkie elementy w pionie */
-        justify-content: center;
+#footer {
+	width: 100%;
+	padding-right: 20px;
+}
+    .footer-container {
+		
+        flex-direction: column;
+        width: 100%; /* Pełna szerokość dla elementów w wersji mobilnej */
     }
 
-.footer-section {
-        width: 100%;
+    .footer-section {
         text-align: center;
     }
-	
-.footer-section.logo-description {
-    text-align: center;
-    max-width: 100%; /* Zmiana na 100%, aby sekcja zajmowała całą szerokość */
-    line-height: 1.6;
-}
 
-.footer-logo {
-    width: 120px; /* Możesz dostosować szerokość logo */
-    display: block;
-    margin: 0 auto 15px; /* Wyśrodkowanie logo */
-}
+    /* Dodanie marginesu dolnego, aby sticky nav nie zasłaniał */
+    .footer-bottom {
+        margin-bottom: 60px; 
+    }
 
+    /* Ukrywanie przycisku "scroll to top" w wersji mobilnej */
+    #scrollTopBtn {
+        display: none;
+    }
 
 /* Hamburger menu */
-    .mobile-header .hamburger {
-        position: absolute;
-        right: 15px;
-        top: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-        z-index: 999;
-        transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Animacja obracania */
-    }
+.mobile-header .hamburger {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Animacja obracania */
+}
 
-    .hamburger.active {
-        transform: rotate(-90deg); /* Obracanie o 90 stopni w lewo */
-    }
+/* Linie hamburgera */
+.hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: #ffffff;
+    transition: opacity 0.8s ease; /* Dopasowanie do animacji zjeżdżania menu */
+}
 
-    .hamburger span {
-        display: block;
-        width: 100%;
-        height: 3px;
-        background-color: #ffffff;
-        transition: all 0.3s ease;
-    }
+/* Pseudo-elementy tworzące X */
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 30px;
+    height: 3px;
+    background-color: #ffffff;
+    opacity: 0; /* Początkowo niewidoczne */
+    transition: transform 0.8s ease, opacity 0.8s ease; /* Dopasowanie do animacji zjeżdżania menu */
+    transform-origin: center;
+}
+
+/* Tworzenie X po aktywacji */
+.hamburger.active span {
+    opacity: 0; /* Znikają oryginalne paski */
+}
+
+/* Animacja X po aktywacji */
+.hamburger.active::before {
+    opacity: 1;
+    transform: rotate(45deg); /* Pierwsza linia X */
+}
+
+.hamburger.active::after {
+    opacity: 1;
+    transform: rotate(-45deg); /* Druga linia X */
+}
+
+
+
 
     .nav-mobile {
         display: flex;
@@ -953,6 +1073,7 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
         display: none !important; /* Ukrywa powiększony obrazek na mobilnych ekranach */
     }
 	
+	
 /* sekcja o nas */
 .members-container {
     display: flex;
@@ -1029,16 +1150,43 @@ box-sizing: border-box; /* Upewniamy się, że padding jest wliczany w szerokoś
     }
 
 
+/* sekcja news */
+    .article-content {
+        flex-direction: column; /* Układ w kolumnie na mobile */
+        gap: 10px; /* Mniejszy odstęp między elementami */
+        text-align: center; /* Wycentrowanie tekstu */
+    }
+
+    .article-content p {
+        width: 100%; /* Tekst zajmuje całą szerokość */
+    }
+
+    .article-content picture {
+        width: 100%; /* Obraz zajmuje całą szerokość na mobile */
+        max-height: unset; /* Usunięcie ograniczenia wysokości */
+        margin-top: 10px; /* Dodanie odstępu od tekstu */
+    }
+
+    .article-content img {
+        width: 100%; /* Szerokość obrazu na 100% */
+        height: auto;
+        object-fit: cover; /* Wypełnienie obrazka bez zachowania proporcji */
+    }
+
 /* sekcja muzyka */
-.music-section iframe {
-    top: 0;
-    left: 0;
-    width: 80%; /* Ustawienie szerokości na 80%, co daje marginesy po bokach */
-    height: 100%;
-    border: none; /* Usuń ramki */
-    margin: 0 auto; /* Wyśrodkowanie w poziomie */
-    max-width: 1000px; /* Maksymalna szerokość wideo, aby zachować proporcje */
-}
+    .video-container, .spotify-wrapper {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .music-section {
+        text-align: center;
+    }
+
+    .song {
+        margin-bottom: 20px;
+    }
+
 
 /* sekcja kontakt */
     .contact-form input[type="text"],
