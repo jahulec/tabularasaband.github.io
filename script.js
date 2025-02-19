@@ -303,3 +303,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Opcjonalnie: ponowne ładowanie przy zmianie rozmiaru okna (ponownie ładuje tylko pierwszy obraz)
     window.addEventListener('resize', preloadFirstImage);
 });
+
+function downloadFile() {
+        setTimeout(() => {
+            const link = document.createElement("a");
+            link.href = "press.pdf";
+            link.download = "press.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, 500); // Drobne opóźnienie, żeby najpierw otworzyło nową kartę
+    }
