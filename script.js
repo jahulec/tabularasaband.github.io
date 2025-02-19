@@ -304,11 +304,22 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener('resize', preloadFirstImage);
 });
 
-function downloadFile() {
+function downloadpress() {
         setTimeout(() => {
             const link = document.createElement("a");
             link.href = "press.pdf";
             link.download = "press.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, 500); // Drobne opóźnienie, żeby najpierw otworzyło nową kartę
+    }
+
+function downloadrider() {
+        setTimeout(() => {
+            const link = document.createElement("a");
+            link.href = "rider.pdf";
+            link.download = "rider.pdf";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
