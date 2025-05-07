@@ -123,48 +123,82 @@
 </div>
 
 <section id="news" class="concerts-section">
-    <h1 id="welcome">Koncerty</h1>
-    <!-- Lista koncertów -->
+  <h1 id="welcome">Live</h1>
 
+  <!-- Przyciski filtrów -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="filterConcerts('all')">Wszystkie</button>
+    <button onclick="filterConcerts('festiwal')">Festiwale</button>
+    <button onclick="filterConcerts('koncert')">Koncerty</button>
+  </div>
 
-	    <div class="concert-list"; style="text-align: center">
+  <!-- Lista koncertów -->
+  <div class="concert-list" style="text-align: center;">
 
+    <article class="concert-item festiwal">
+      <h3>9 maja 2025 Rzeszowskie Juwenalia</h3>
+      <p>Miejsce: Rzeszów</p>
+    </article>
 
-<article class="concert-item">
-            <h3>6 maja 2025 Road to Juwe</h3>
-            <p>Miejsce: Płocki Ośrodek Klutury i Sztuki</p>
-        </article>
-								<article class="concert-item">
-            <h3>9 maja 2025 Rzeszowskie Juwenalia</h3>
-            <p>Miejsce: Rzeszów</p>
-        </article>
-	<article class="concert-item">
-            <h3>15 maja 2025 Elkonalia</h3>
-            <p>Miejsce: Politechnika Warszawska</p>
-        </article>
-	<article class="concert-item">
-            <h3>23 maja 2025 w/ 2 Tea to Room 2, Aporema</h3>
-            <p>Miejsce: Klub Potok Warszawa</p>
-        </article>
-	<article class="concert-item">
-            <h3>7 czerwca 2025 Knurowisko</h3>
-            <p>Miejsce: Art CK Knurów / Gwiazda Wieczoru</p>
-        </article>
-        <article class="concert-item">
-            <h3>11 lipca 2025 Festiwal Wielki Ogień </h3>
-            <p>Miejsce: Ostrowski dom kultury / Laureaci poprzedniej edycji</p>
-        </article>
-		            <article class="concert-item">
-            <h3>12 lipca 2025 Zlot Motocyklowy Rock Blues & Motocykle </h3>
-            <p>Miejsce: Łagów</p>
-        </article>
-								<article class="concert-item">
-            <h3>16 lipca 2025 Rock am Palast</h3>
-            <p>Miejsce: Rozkochów</p>
-        </article>
+    <article class="concert-item koncert">
+      <h3>15 maja 2025 Elkonalia</h3>
+      <p>Miejsce: Politechnika Warszawska</p>
+    </article>
 
-    </div>
+    <article class="concert-item festiwal">
+      <h3>16 maja 2025 Bydgoskie Juwenalia</h3>
+      <p>Miejsce: Bydgoszcz</p>
+    </article>
+
+    <article class="concert-item festiwal">
+      <h3>22 maja 2025 Płockie Juwenalia</h3>
+      <p>Miejsce: Płock</p>
+    </article>
+
+    <article class="concert-item koncert">
+      <h3>23 maja 2025 w/ 2 Tea to Room 2, Aporema</h3>
+      <p>Miejsce: Klub Potok Warszawa</p>
+    </article>
+
+    <article class="concert-item koncert">
+      <h3>7 czerwca 2025 Knurowisko</h3>
+      <p>Miejsce: Art CK Knurów / Gwiazda Wieczoru</p>
+    </article>
+
+    <article class="concert-item festiwal">
+      <h3>11 lipca 2025 Festiwal Wielki Ogień</h3>
+      <p>Miejsce: Ostrowski dom kultury / Laureaci poprzedniej edycji</p>
+    </article>
+
+    <article class="concert-item festiwal">
+      <h3>12 lipca 2025 Zlot Motocyklowy Rock Blues & Motocykle</h3>
+      <p>Miejsce: Łagów</p>
+    </article>
+
+    <article class="concert-item festiwal">
+      <h3>16 lipca 2025 Rock am Palast</h3>
+      <p>Miejsce: Rozkochów</p>
+    </article>
+
+  </div>
 </section>
+
+<!-- Skrypt JS do filtrowania -->
+<script>
+  function filterConcerts(category) {
+    const items = document.querySelectorAll('.concert-item');
+    items.forEach(item => {
+      if (category === 'all') {
+        item.style.display = 'block';
+      } else if (item.classList.contains(category)) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+</script>
+
 
 <!-- Stopka -->
 <footer>
