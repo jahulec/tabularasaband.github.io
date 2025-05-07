@@ -307,6 +307,28 @@ header.hidden {
     flex-direction: column; /* Ustawienie elementów w kolumnie */
 }
 
+
+/* Styl przycisków filtrów */
+.concerts-section button {
+  background-color: #222;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 8px 10px 8px;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.concerts-section button:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+
+.concerts-section button.active {
+  background-color: #ff3366;
+}  
 /* Stylizacja sekcji news */
 .news-section {
     width: 100%;
