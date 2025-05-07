@@ -342,7 +342,7 @@ header.hidden {
 }
 
 .article-content img {
-    max-height: 100%; /* Ograniczenie maksymalnej wysokości obrazu */
+    max-height: 500px; /* Ograniczenie maksymalnej wysokości obrazu */
     height: auto;
     max-width: 100%; /* Zachowanie proporcji obrazka */
     border-radius: 8px; /* Opcjonalne zaokrąglenie narożników */
