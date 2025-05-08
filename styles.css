@@ -282,6 +282,25 @@ header.hidden {
     margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
 }
 
+/* filtry produktów */
+#product-filters button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #222;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#product-filters button:hover {
+    background-color: #FF5733;
+}
+
+#product-filters button.active {
+    background-color: #FF5733;
+}
+
 
 /* sekcja galeria */
     .gallery-container {
