@@ -318,8 +318,8 @@ function downloadpress() {
 function downloadrider() {
         setTimeout(() => {
             const link = document.createElement("a");
-            link.href = "rider.pdf";
-            link.download = "rider.pdf";
+            link.href = "RiderTabulaRasa.pdf";
+            link.download = "RiderTabulaRasa.pdf";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
