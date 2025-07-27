@@ -248,7 +248,9 @@ galleryImages.forEach(image => {
 });
 
 // Obsługa kliknięcia na powiększony obrazek (zamykanie)
-expandedImageContainer.addEventListener('click', () => {
+const expandedImageContainer = document.querySelector('.expanded-image-container');
+if (expandedImageContainer) {
+  expandedImageContainer.addEventListener('click', () => {
     // Zresetowanie obrazka i rozpoczęcie odblurowania
     expandedImage.classList.remove('expanded');
     expandedImageContainer.style.opacity = '0'; // Ukrywanie kontenera
