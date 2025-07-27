@@ -247,9 +247,7 @@ galleryImages.forEach(image => {
     });
 });
 
-// Obsługa kliknięcia na powiększony obrazek (zamykanie)
-const expandedImageContainer = document.querySelector('.expanded-image-container');
-if (expandedImageContainer) {
+
   expandedImageContainer.addEventListener('click', () => {
     // Zresetowanie obrazka i rozpoczęcie odblurowania
     expandedImage.classList.remove('expanded');
