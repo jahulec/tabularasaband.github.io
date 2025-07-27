@@ -248,7 +248,7 @@ galleryImages.forEach(image => {
 });
 
 
-if (expandedImageContainer) {
+
   expandedImageContainer.addEventListener('click', () => {
     // Zresetowanie obrazka i rozpoczęcie odblurowania
     expandedImage.classList.remove('expanded');
