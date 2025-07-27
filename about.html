@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Oficjalna strona zespołu Tabula Rasa Band. Sprawdź naszą muzykę, koncerty oraz najnowsze aktualności. Posłuchaj naszych utworów i poznaj członków zespołu.">
+    	<meta name="description" content="Oficjalna strona zespołu Tabula Rasa Band. Sprawdź naszą muzykę, koncerty oraz najnowsze aktualności. Posłuchaj naszych utworów i poznaj członków zespołu.">
 	<meta name="keywords" content="Tabula Rasa o nas, historia zespołu Tabula Rasa, członkowie zespołu Tabula Rasa, biografia Tabula Rasa, zespół Tabula Rasa, Tabula Rasa skład, Tabula Rasa Warszawa, zespół rockowy biografia, polski zespół rockowy, Tabula Rasa historia, polski rock, polski zespół muzyczny">
 	<meta name="author" content="Jan Mitrowski">
 	<meta name="theme-color" content="#000000">
@@ -14,27 +14,49 @@
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
 	<link rel="icon" href="logo.png">
 	
-    <link rel="canonical" href="https://tabularasaband.pl/about.html" />
-    <link rel="alternate" href="/about.html" hreflang="pl">
-    <link rel="alternate" href="/about-en.html" hreflang="en">
+    	<link rel="canonical" href="https://tabularasaband.pl/about.html" />
+    	<link rel="alternate" href="/about.html" hreflang="pl">
+    	<link rel="alternate" href="/about-en.html" hreflang="en">
 	
 	<link id="preloadFirstImage" rel="preload" as="image" href="galeria/zdjecia_desktop/75d.webp" media="(min-width: 769px)">
-    <link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/zdjecia_mobile/80m.webp" media="(max-width: 768px)">
+    	<link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/zdjecia_mobile/80m.webp" media="(max-width: 768px)">
 
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
-    <!-- Google Tag Manager -->
-    <script>
-    (function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');</script>
-    <!-- End Google Tag Manager -->
+	
+	    <!-- Google Tag Manager -->
+	    <script>
+	    (function (w, d, s, l, i) {
+	            w[l] = w[l] || []; w[l].push({
+	                'gtm.start':
+	                    new Date().getTime(), event: 'gtm.js'
+	            }); var f = d.getElementsByTagName(s)[0],
+	                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+	                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+	        })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');</script>
+
+	<!-- w <head> lub tuż przed </body> -->
+<script>
+  // dynamiczna injekcja, żeby nie wyrzucać błędów gdy ad-block
+  (function(d, s, id){
+    if (d.getElementById(id)) return;
+    var js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/fbevents.js";
+    js.async = true;
+    js.onload = function(){
+      fbq('init', 'TWÓJ_PIXEL_ID');
+      fbq('track', 'PageView');
+    };
+    js.onerror = function(){
+      console.warn('Facebook Pixel zablokowany');
+    };
+    d.getElementsByTagName('head')[0].appendChild(js);
+  })(document, 'script', 'facebook-jssdk');
+</script>
+
+	
 
 </head>
 
