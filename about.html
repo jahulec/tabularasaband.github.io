@@ -36,25 +36,6 @@
 	                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
 	        })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');</script>
 
-	<!-- w <head> lub tuż przed </body> -->
-<script>
-  // dynamiczna injekcja, żeby nie wyrzucać błędów gdy ad-block
-  (function(d, s, id){
-    if (d.getElementById(id)) return;
-    var js = d.createElement(s);
-    js.id = id;
-    js.src = "https://connect.facebook.net/en_US/fbevents.js";
-    js.async = true;
-    js.onload = function(){
-      fbq('init', 'TWÓJ_PIXEL_ID');
-      fbq('track', 'PageView');
-    };
-    js.onerror = function(){
-      console.warn('Facebook Pixel zablokowany');
-    };
-    d.getElementsByTagName('head')[0].appendChild(js);
-  })(document, 'script', 'facebook-jssdk');
-</script>
 
 	
 
