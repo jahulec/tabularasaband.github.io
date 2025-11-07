@@ -136,93 +136,140 @@
   </div>
 </dialog>
 
-<script>
-  // 0) Stałe
+
+	<script>
+  // 1) Ustaw stały slug wydarzenia dla całej trasy
   const EVENT_SLUG = 'tabula-rasa-przebudzenie-tour-2026';
-  const ALLOWED_ORIGINS = new Set(['https://goingapp.pl','https://queue.goingapp.pl']);
 
-  // 1) Załaduj skrypt Going tylko raz
-  (function (G,o,i,n,g){
-    G.going = G.going || function(){ [].push.apply((G.goingQ = G.goingQ || []), arguments); };
-    G.goingSettings = { gv: '1.0.7' };
-    n = o.getElementsByTagName('head')[0];
-    g = o.createElement('script'); g.async = true; g.src = i + '?gv=' + G.goingSettings.gv;
-    n.appendChild(g);
-  })(window, document, 'https://places-script.goingapp.pl/script.js');
+  // 2) Jednorazowe ładowanie biblioteki Going + kolejka wywołań zanim się załaduje
+  function loadGoingScriptOnce() {
+    return new Promise((resolve, reject) => {
+      if (window.__goingScriptLoaded) return resolve();
 
-  // 2) Listener do kolejki i sprzątania loadera
-  window.addEventListener('message', (event) => {
-    if (!ALLOWED_ORIGINS.has(event.origin)) return;
-    let data = event.data;
-    if (typeof data === 'string') { try { data = JSON.parse(data); } catch { /* ignore */ } }
-    if (!data || typeof data !== 'object') return;
+      // kolejka gdyby ktoś odpalił before ready
+      window.going = window.going || function() {
+        [].push.apply((window.goingQ = window.goingQ || []), arguments);
+      };
+      window.goingSettings = window.goingSettings || { gv: '1.0.7' };
 
-    const isQueueInAddress = window.location.href.includes('queue=true');
-    if (data.queue && !isQueueInAddress) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('queue','true');
-      window.location.assign(url.toString());
-      return;
-    }
-    // usuń „Trwa ładowanie…”
-    document.getElementById("loading-prompt")?.remove();
-  });
-
-  // 3) Prosta funkcja do otwierania konkretnego rundate
-  function openGoingFor(rundateSlug) {
-    const modal = document.getElementById('goingModal');
-    const frame = document.getElementById('going_frame');
-
-    // loader
-    frame.innerHTML = '';
-    const loading = document.createElement('div');
-    loading.id = 'loading-element';
-    loading.style = "font-family:Helvetica, sans-serif; text-align:center; padding:16px;";
-    loading.innerHTML = `
-      <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
-      <h3>Formularz nie działa? Kup bilety w
-        <a href="https://goingapp.pl/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup" target="_blank" rel="nofollow noopener">Going</a>.
-      </h3>`;
-    frame.append(loading);
-
-    // domena z kolejką
-    const isQueue = window.location.href.includes('queue=true');
-    const domain = isQueue ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
-    const appUrl = `${domain}/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup`;
-
-    // pełna konfiguracja jak u Ciebie
-    going(
-      { type: 'SET_PARENT', payload: 'going_frame' },
-      { type: 'SET_APP_URL', payload: appUrl },
-      { type: 'GET_ERROR_FROM_URL', payload: 'error' },
-      { type: 'SET_CURRENT_URL', payload: window.location.href },
-      { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' },
-      { type: 'SET_LANGUAGE', payload: 'pl' },
-      { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
-      { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
-      { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' }
-    );
-
-    if (typeof modal.showModal === 'function') modal.showModal();
-
-    // fallback: jak widget nie wstawi nic w 3 sekundy, otwórz w nowej karcie
-    setTimeout(() => {
-      // jeśli w kontenerze dalej tylko loader, jedziemy fallbackiem
-      const hasIframe = !!frame.querySelector('iframe');
-      if (!hasIframe) window.open(appUrl, '_blank', 'noopener');
-    }, 3000);
+      const s = document.createElement('script');
+      s.src = 'https://places-script.goingapp.pl/script.js?gv=1.0.7';
+      s.async = true;
+      s.onload = () => { window.__goingScriptLoaded = true; resolve(); };
+      s.onerror = () => reject(new Error('Nie udało się załadować script.js Going.'));
+      document.head.appendChild(s);
+    });
   }
 
-  // 4) zamykanie
-  document.getElementById('goingClose').addEventListener('click', () => {
-    document.getElementById('going_frame').innerHTML = '';
-    document.getElementById('goingModal').close();
-  });
-  document.getElementById('goingModal').addEventListener('click', (e) => {
-    const d = e.currentTarget.getBoundingClientRect();
-    const outside = e.clientY < d.top || e.clientY > d.bottom || e.clientX < d.left || e.clientX > d.right;
-    if (outside) { document.getElementById('going_frame').innerHTML = ''; e.currentTarget.close(); }
-  });
+  // 3) Placeholder ładowania i fallback, żeby user nie patrzył w pustkę
+  function mountLoading(container) {
+    let loading = document.getElementById('loading-element');
+    if (!loading) {
+      loading = document.createElement('div');
+      loading.id = 'loading-element';
+      loading.style.fontFamily = 'Helvetica, Arial, sans-serif';
+      loading.style.textAlign = 'center';
+      loading.style.padding = '16px';
+      loading.innerHTML = `
+        <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
+        <h3>Nie działa? Kup bilety w <a href="https://goingapp.pl/" rel="noreferrer noopener">Going</a>.</h3>
+      `;
+    }
+    container.append(loading);
+    return loading;
+  }
+
+  function teardownModal() {
+    const frame = document.getElementById('going_frame');
+    if (frame) frame.replaceChildren();
+  }
+
+  // 4) Główna funkcja używana przez onclick w przyciskach
+  async function openGoingFor(rundateSlug) {
+    const modal = document.getElementById('goingModal');
+    const frame = document.getElementById('going_frame');
+    if (!modal || !frame) return;
+
+    if (!modal.open) modal.showModal();
+    const loadingEl = mountLoading(frame);
+
+    const isQueueInAddress = window.location.href.includes('queue=true');
+    const domain = isQueueInAddress ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
+
+    // Listener na komunikaty z widgetu
+    const onMessage = (event) => {
+      try {
+        const data = typeof event.data !== 'object' ? JSON.parse(event.data) : event.data;
+        if (!data) return;
+
+        // Przekierowanie do kolejki (jeden raz)
+        if (data.queue && !isQueueInAddress) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('queue', 'true');
+          window.location.assign(url.origin + url.pathname + url.search);
+        }
+
+        // Zdejmij prompt po pierwszym sygnale życia
+        if (document.getElementById('loading-prompt') && frame.contains(loadingEl)) {
+          document.getElementById('loading-prompt')?.remove();
+          frame.append(loadingEl);
+        }
+      } catch {}
+    };
+    window.addEventListener('message', onMessage);
+
+    // Awaryjny timeout jak widget śpi
+    const failTimer = setTimeout(() => {
+      const p = document.createElement('p');
+      p.style.fontSize = '12px';
+      p.style.opacity = '.8';
+      p.style.marginTop = '6px';
+      p.textContent = 'To trwa za długo. Użyj linku Going powyżej.';
+      loadingEl.appendChild(p);
+    }, 15000);
+
+    try {
+      await loadGoingScriptOnce();
+
+      // Inicjalizacja widgetu w kontenerze modala
+      window.going(
+        { type: 'SET_PARENT', payload: 'going_frame' },
+        { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup` },
+        { type: 'GET_ERROR_FROM_URL', payload: 'error' },
+        { type: 'SET_CURRENT_URL', payload: window.location.href },
+        { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' },
+        { type: 'SET_LANGUAGE', payload: 'pl' },
+        { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
+        { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
+        { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' },
+      );
+
+      if (window.location.href.includes('transactionId')) {
+        document.getElementById('loading-element')?.remove();
+      }
+    } catch (e) {
+      const err = document.createElement('p');
+      err.style.color = '#f66';
+      err.style.fontSize = '12px';
+      err.textContent = 'Błąd inicjalizacji widgetu Going.';
+      loadingEl.appendChild(err);
+    } finally {
+      clearTimeout(failTimer);
+      const closeBtn = document.getElementById('goingClose');
+      const onClose = () => {
+        window.removeEventListener('message', onMessage);
+        teardownModal();
+        modal.close();
+      };
+      closeBtn.onclick = onClose;
+      modal.addEventListener('close', () => {
+        window.removeEventListener('message', onMessage);
+        teardownModal();
+      }, { once: true });
+    }
+  }
+
+  // nic nie ruszaj więcej; onclick na przyciskach już woła openGoingFor('rslug')
 </script>
 
 
@@ -241,7 +288,7 @@
 
 <article class="concert-item koncert">
   <h3>Kraków — Confession</h3>
-  <p>styczeń 2026</p>
+  <p>14 styczeń 2026</p>
   <button onclick="openGoingFor('krakow-styczen-2026')">Kup bilet</button>
 </article>
 <!-- …i tak 11 razy, tylko rSlug inny -->
@@ -296,6 +343,7 @@
 </body>
 
 </html>
+
 
 
 
