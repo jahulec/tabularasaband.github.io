@@ -121,190 +121,148 @@
 	<img src="" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/zdjecia_mobile/84m.webp" data-desktop-src="galeria/zdjecia_desktop/72d.webp">
 </div>
 
+<!-- LISTA KONCERTÓW -->
 <section id="news" class="concerts-section">
   <h1 id="welcome">Live</h1>
 
-	 
+  <article class="concert-item koncert">
+    <h3>Poznań — Pod Minogą</h3>
+    <p>Luty 2026</p>
+    <button onclick="openGoingFor('poznan-luty-2026')">Kup bilet</button>
+  </article>
 
+  <article class="concert-item koncert">
+    <h3>Szczecin — Krzywy Gryf</h3>
+    <p>Luty 2026</p>
+    <button onclick="openGoingFor('szczecin-luty-2026')">Kup bilet</button>
+  </article>
 
+  <article class="concert-item koncert">
+    <h3>Kraków — Confession</h3>
+    <p>14 Styczeń 2026</p>
+    <button onclick="openGoingFor('krakow-styczen-2026')">Kup bilet</button>
+  </article>
 
-<article class="concert-item koncert">
-  <h3>Poznań — Pod Minogą</h3>
-  <p>Luty 2026</p>
-  <button onclick="openGoingFor('poznan-luty-2026')">Kup bilet</button>
-</article>
-	
-<article class="concert-item koncert">
-  <h3>Szczecin - Krzywy Gryf</h3>
-  <p>luty 2026</p>
-  <button onclick="openGoingFor('szczecin-styczen-2026')">Kup bilet</button>
-</article>
+  <!-- więcej miast... -->
 
-<article class="concert-item koncert">
-  <h3>Kraków — Confession</h3>
-  <p>14 styczeń 2026</p>
-  <button onclick="openGoingFor('krakow-styczen-2026')">Kup bilet</button>
-</article>
-<!-- …i tak 11 razy, tylko rSlug inny -->
-
-
-
-
-
+  <div id="going_frame"></div>
 </section>
 
+<!-- SKRYPT -->
 <script>
-  // --------- KONFIG ---------
-  const EVENT_SLUG = 'tabula-rasa-przebudzenie-tour-2026';
+  // --- KONFIGURACJA ---
+  const eventSlug = 'tabula-rasa-przebudzenie-tour-2026';
+  let rundateSlug = null;
 
-  // Jednorazowe ładowanie biblioteki Going zgodnie z ich zaleceniem (na końcu body),
-  // plus kolejka wywołań zanim skrypt dojedzie.
-  function loadGoingScriptOnce() {
-    return new Promise((resolve, reject) => {
-      if (window.__goingScriptLoaded) return resolve();
-
-      // Kolejka before-ready zgodnie z patternem Going
-      window.going = window.going || function () {
-        [].push.apply((window.goingQ = window.goingQ || []), arguments);
-      };
-      window.goingSettings = window.goingSettings || { gv: '1.0.7' };
-
-      const s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://places-script.goingapp.pl/script.js?gv=' + window.goingSettings.gv;
-      s.onload = () => { window.__goingScriptLoaded = true; resolve(); };
-      s.onerror = () => reject(new Error('Nie udało się załadować places-script.goingapp.pl.'));
-      document.head.appendChild(s);
-    });
+  // funkcja uruchamiana po kliknięciu przycisku
+  function openGoingFor(slug) {
+    rundateSlug = slug;
+    startGoing();
   }
 
-  // Placeholder ładowania (dokładnie jak chcą: kontener #going_frame + tekst)
-  function mountLoading(container) {
-    let el = document.getElementById('loading-element');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'loading-element';
-      el.style.fontFamily = 'Helvetica, Arial, sans-serif';
-      el.style.textAlign = 'center';
-      el.style.padding = '16px';
-      el.innerHTML = `
+  // właściwy kod Going
+  function startGoing() {
+    // placeholder „ładowanie formularza”
+    const iframeContainer = document.getElementById('going_frame');
+    const loadingElement = document.createElement("div");
+
+    if (!document.getElementById("loading-element")) {
+      loadingElement.innerHTML = `
         <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
-        <h3>Formularz nie działa? Kup bilety w
-          <a href="https://goingapp.pl/" rel="noreferrer noopener">Going</a>.
-        </h3>`;
+        <h3>Formularz nie działa? Kup bilety w <a href="https://goingapp.pl/" rel="dofollow">Going.</a></h3>
+      `;
+      loadingElement.id = "loading-element";
+      loadingElement.style.fontFamily = "Helvetica, sans-serif";
+      loadingElement.style.textAlign = "center";
+      loadingElement.style.padding = "16px";
+      iframeContainer.append(loadingElement);
     }
-    container.append(el);
-    return el;
-  }
 
-  function teardownModal() {
-    const frame = document.getElementById('going_frame');
-    if (frame) frame.replaceChildren();
-  }
+    // inicjalizacja biblioteki Going (wg dokumentacji)
+    (function (G, o, i, n, g) {
+      G.going =
+        G.going ||
+        function () {
+          [].push.apply((G.goingQ = G.goingQ || []), arguments);
+        };
+      G.goingSettings = { gv: '1.0.7' };
+      n = o.getElementsByTagName('head')[0];
+      g = o.createElement('script');
+      g.async = true;
+      g.src = i + '?gv=' + G.goingSettings.gv;
+      n.appendChild(g);
+    })(window, document, 'https://places-script.goingapp.pl/script.js');
 
-  // GŁÓWNA FUNKCJA: wywołuj z onclick w przycisku, np. openGoingFor('krakow-styczen-2026')
-  async function openGoingFor(rundateSlug) {
-    const modal = document.getElementById('goingModal');
-    const frame = document.getElementById('going_frame');
-    if (!modal || !frame) return;
-
-    // pokaż modal od razu, żeby user widział że coś się dzieje
-    if (!modal.open) modal.showModal();
-    const loadingEl = mountLoading(frame);
-
-    // zgodnie z zaleceniami: gdy pojawia się kolejka, przełączamy domenę i odświeżamy z ?queue=true
     const isQueueInAddress = window.location.href.includes('queue=true');
     const domain = isQueueInAddress ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
 
-    // nasłuch na postMessage: zdejmujemy prompt i obsługujemy kolejkę
-    const onMessage = (event) => {
-      try {
-        const data = typeof event.data !== 'object' ? JSON.parse(event.data) : event.data;
-        if (!data) return;
-
-        if (data.queue && !isQueueInAddress) {
-          const url = new URL(window.location.href);
-          url.searchParams.set('queue', 'true');
-          window.location.assign(url.origin + url.pathname + url.search);
-        }
-
-        if (document.getElementById('loading-prompt') && frame.contains(loadingEl)) {
-          document.getElementById('loading-prompt')?.remove();
-          frame.append(loadingEl);
-        }
-      } catch {}
-    };
-    window.addEventListener('message', onMessage);
-
-    // awaryjny timeout jak widget się obrazi
-    const failTimer = setTimeout(() => {
-      const p = document.createElement('p');
-      p.style.fontSize = '12px';
-      p.style.opacity = '.8';
-      p.style.marginTop = '6px';
-      p.textContent = 'To trwa za długo. Otwórz sprzedaż w nowej karcie (link Going powyżej).';
-      loadingEl.appendChild(p);
-    }, 15000);
-
-    try {
-      await loadGoingScriptOnce();
-
-      // ZGODNIE Z DOKUMENTACJĄ GOING:
-      // — SET_PARENT -> kontener #going_frame
-      // — SET_APP_URL -> /pinRundate/{eventSlug}/{rundateSlug}/zakup
-      // — GET_ERROR_FROM_URL -> 'error'
-      // — SET_CURRENT_URL -> window.location.href
-      // — GET_TRANSACTION_FROM_URL -> 'transactionId' (albo 'transactional' jeśli masz tak w generatorze)
-      // — GET_EVENT_SLUG_FROM_URL -> 'eSlug'
-      // — GET_RUNDATE_SLUG_FROM_URL -> 'rSlug'
-      // — GET_EVENT_ID_FROM_URL -> 'rid'
-      window.going(
-        { type: 'SET_PARENT', payload: 'going_frame' },
-        { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup` },
-        { type: 'GET_ERROR_FROM_URL', payload: 'error' },
-        { type: 'SET_CURRENT_URL', payload: window.location.href },
-        { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' }, // jeśli generator zwraca 'transactional', podmień tu
-        { type: 'SET_LANGUAGE', payload: 'pl' },
-        { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
-        { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
-        { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' },
-      );
-
-      // zgodnie z ich tipem: jak jesteśmy na URL z transactionId, zabierz loader
-      if (window.location.href.includes('transactionId')) {
-        document.getElementById('loading-element')?.remove();
+    // nasłuchiwanie wiadomości z iframe
+    window.addEventListener('message', (event) => {
+      const data = typeof event.data !== 'object' ? JSON.parse(event.data) : event.data;
+      if (data.queue && !isQueueInAddress) {
+        const url = new URL(window.location.href);
+        url.searchParams.append('queue', 'true');
+        window.location.assign(url.origin + url.pathname + url.search);
       }
 
-      // Jeśli w panelu Going włączysz „Analitykę (GTM)”, eventy zaczną lecieć do dataLayer.
-      // Ty GTM już masz osadzone, więc nie musisz tu nic dopisywać.
-    } catch (e) {
-      const err = document.createElement('p');
-      err.style.color = '#f66';
-      err.style.fontSize = '12px';
-      err.textContent = 'Błąd inicjalizacji widgetu Going.';
-      loadingEl.appendChild(err);
-    } finally {
-      clearTimeout(failTimer);
+      if (
+        data &&
+        document.getElementById("loading-prompt") &&
+        document.getElementById('going_frame')
+      ) {
+        document.getElementById("loading-prompt")?.remove();
+        document
+          .getElementById('going_frame')
+          .append(document.getElementById("loading-element"));
+      }
+    });
 
-      const closeBtn = document.getElementById('goingClose');
-      const onClose = () => {
-        window.removeEventListener('message', onMessage);
-        teardownModal();
-        modal.close();
-      };
-      closeBtn.onclick = onClose;
+    // wywołanie funkcji going() – otwarcie formularza sprzedaży
+    going(
+      {
+        type: 'SET_PARENT',
+        payload: 'going_frame',
+      },
+      {
+        type: 'SET_APP_URL',
+        payload: `${domain}/pinRundate/${eventSlug}/${rundateSlug}/zakup`,
+      },
+      {
+        type: 'GET_ERROR_FROM_URL',
+        payload: 'error',
+      },
+      {
+        type: 'SET_CURRENT_URL',
+        payload: window.location.href,
+      },
+      {
+        type: 'GET_TRANSACTION_FROM_URL',
+        payload: 'transactionId', // jeśli generator w Going ma 'transactional', podmień tutaj
+      },
+      {
+        type: 'SET_LANGUAGE',
+        payload: 'pl',
+      },
+      {
+        type: 'GET_EVENT_SLUG_FROM_URL',
+        payload: 'eSlug',
+      },
+      {
+        type: 'GET_RUNDATE_SLUG_FROM_URL',
+        payload: 'rSlug',
+      },
+      {
+        type: 'GET_EVENT_ID_FROM_URL',
+        payload: 'rid',
+      },
+    );
 
-      modal.addEventListener('close', () => {
-        window.removeEventListener('message', onMessage);
-        teardownModal();
-      }, { once: true });
+    // jeśli na URL jest transactionId – usuń loader
+    if (window.location.href.includes("transactionId")) {
+      document.getElementById("loading-element").remove();
     }
   }
-
-  // Ekspozycja dla onclick w HTML
-  window.openGoingFor = openGoingFor;
 </script>
-
 
 
 <!-- Stopka -->
@@ -348,6 +306,7 @@
 </body>
 
 </html>
+
 
 
 
