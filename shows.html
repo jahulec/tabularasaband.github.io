@@ -122,7 +122,7 @@
 </div>
 
 <!-- LISTA KONCERTÓW -->
-<section id="news" class="concerts-section" style="align-items: left";>
+<section id="news" class="concerts-section" style="align-items: left:">
   <h1 id="welcome">Live</h1>
 
   <article class="concert-item koncert">
@@ -257,16 +257,22 @@
 </style>
 
 <script>
-  // KONFIG
   const eventSlug = 'tabula-rasa-przebudzenie-tour-2026';
   let rundateSlug = null;
   let __goingMsgListener = null;
   let __goingScriptLoaded = false;
 
-  // Lazy-load biblioteki Going tylko raz
+  function openGoingFor(slug) {
+    rundateSlug = slug;
+    openOverlayAndMount();
+  }
+
+  // Ładuje bibliotekę Going tylko raz i czeka aż faktycznie się załaduje
   function loadGoingScriptOnce() {
     return new Promise((resolve, reject) => {
-      if (__goingScriptLoaded) return resolve();
+      if (__goingScriptLoaded && window.going) return resolve();
+
+      // zainicjuj kolejkę zanim skrypt się pojawi
       window.going = window.going || function () {
         [].push.apply((window.goingQ = window.goingQ || []), arguments);
       };
@@ -275,16 +281,19 @@
       const s = document.createElement('script');
       s.async = true;
       s.src = 'https://places-script.goingapp.pl/script.js?gv=' + window.goingSettings.gv;
-      s.onload = () => { __goingScriptLoaded = true; resolve(); };
+      s.onload = () => {
+        __goingScriptLoaded = true;
+        // bezpieczeństwo – czekaj aż window.going naprawdę istnieje
+        const check = setInterval(() => {
+          if (typeof window.going === 'function') {
+            clearInterval(check);
+            resolve();
+          }
+        }, 50);
+      };
       s.onerror = () => reject(new Error('Nie udało się załadować places-script.goingapp.pl'));
       document.head.appendChild(s);
     });
-  }
-
-  // Publiczna funkcja z przycisków
-  function openGoingFor(slug) {
-    rundateSlug = slug;
-    openOverlayAndMount();
   }
 
   function openOverlayAndMount() {
@@ -292,10 +301,8 @@
     const frame   = document.getElementById('going_frame');
     const section = document.querySelector('.concerts-section');
 
-    // wyczyść poprzedni render
     frame.replaceChildren();
 
-    // loader
     const loading = document.createElement('div');
     loading.id = 'loading-element';
     loading.innerHTML = `
@@ -305,20 +312,17 @@
       </h3>`;
     frame.appendChild(loading);
 
-    // otwórz overlay + animacje jak w galerii
     overlay.style.display = 'flex';
-    // trick na kolejkę animacji
     requestAnimationFrame(() => {
       overlay.style.opacity = '1';
       frame.classList.add('expanded');
       section?.classList.add('blurred');
     });
 
-    // Załaduj widget
     const isQueueInAddress = window.location.href.includes('queue=true');
     const domain = isQueueInAddress ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
 
-    // Zdejmij stary listener postMessage
+    // usuń poprzedni nasłuch
     if (__goingMsgListener) {
       window.removeEventListener('message', __goingMsgListener);
       __goingMsgListener = null;
@@ -342,14 +346,17 @@
     };
     window.addEventListener('message', __goingMsgListener);
 
+    // teraz najważniejsze: czekamy aż biblioteka się załaduje
     loadGoingScriptOnce().then(() => {
-      // wywołania zgodne z dokumentacją Going
+      console.log('Going script ready, mounting widget...');
+
+      // Teraz dopiero wołamy going(...)
       window.going(
         { type: 'SET_PARENT', payload: 'going_frame' },
         { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${eventSlug}/${rundateSlug}/zakup` },
         { type: 'GET_ERROR_FROM_URL', payload: 'error' },
         { type: 'SET_CURRENT_URL', payload: window.location.href },
-        { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' }, // podmień tu na 'transactional' jeśli tak daje generator
+        { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' },
         { type: 'SET_LANGUAGE', payload: 'pl' },
         { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
         { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
@@ -359,15 +366,16 @@
       if (window.location.href.includes('transactionId')) {
         document.getElementById('loading-element')?.remove();
       }
+    }).catch((err) => {
+      console.error('Błąd ładowania Going:', err);
+      loading.innerHTML = `<p style="color:#f66;">Nie udało się załadować sprzedaży Going.</p>`;
     });
 
-    // Zamknięcie overlay kliknięciem w tło
+    // Zamknięcie po kliknięciu tła / ESC
     overlay.addEventListener('click', onOverlayClick);
-    // ESC też zamyka
     document.addEventListener('keydown', onEscClose);
 
     function onOverlayClick(e) {
-      // zamykamy tylko przy kliknięciu w tło, nie w sam widget
       if (e.target.id !== 'goingOverlay') return;
       closeOverlay();
     }
@@ -388,10 +396,9 @@
           window.removeEventListener('message', __goingMsgListener);
           __goingMsgListener = null;
         }
-        // odpinamy listenery zamykania
         overlay.removeEventListener('click', onOverlayClick);
         document.removeEventListener('keydown', onEscClose);
-      }, 300); // zgodnie z transition 0.3s
+      }, 300);
     }
   }
 </script>
@@ -439,6 +446,7 @@
 </body>
 
 </html>
+
 
 
 
