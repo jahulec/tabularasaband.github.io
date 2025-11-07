@@ -204,67 +204,62 @@
   </div>
 </dialog>
 
-	<script>
+<script>
+  // ─── KONFIG ───────────────────────────────────────────────────────────────
   const eventSlug = 'tabula-rasa-przebudzenie-tour-2026';
+
+  // ─── STAN GLOBALNY (nie ruszać podczas klikania) ─────────────────────────
   let rundateSlug = null;
   let __goingMsgListener = null;
-  let __goingScriptReady = false;
+  let __goingBootstrapped = false;
 
-  // publiczne – z przycisków
+  // ─── BOOTSTRAP: załaduj places-script.goingapp.pl TYLKO RAZ ──────────────
+  (function bootstrapGoing() {
+    if (__goingBootstrapped) return;
+    __goingBootstrapped = true;
+
+    // Kolejka przed załadowaniem – TYLKO jeśli nie istnieje.
+    if (typeof window.going !== 'function') {
+      window.going = function () {
+        [].push.apply((window.goingQ = window.goingQ || []), arguments);
+      };
+    }
+    window.goingSettings = window.goingSettings || { gv: '1.0.7' };
+
+    // Nie wstrzykuj drugi raz
+    if (!document.querySelector('script[data-going-script="1"]')) {
+      const s = document.createElement('script');
+      s.async = true;
+      s.dataset.goingScript = '1';
+      s.src = 'https://places-script.goingapp.pl/script.js?gv=' + window.goingSettings.gv;
+      document.head.appendChild(s);
+    }
+  })();
+
+  // ─── API dla przycisków: openGoingFor('miasto-miesiac-rok') ──────────────
   function openGoingFor(slug) {
     rundateSlug = slug;
     startGoing();
   }
+  window.openGoingFor = openGoingFor; // udostępnij dla onclick w HTML
 
-  // 1) Ładowanie skryptu Going TYLKO RAZ
-  function loadGoingScriptOnce() {
-    return new Promise((resolve, reject) => {
-      // jeśli prawdziwy going już jest – gotowe
-      if (typeof window.going === 'function' && __goingScriptReady) return resolve();
-
-      // jeśli go nie ma, ustaw kolejkę TYLKO jeśli jeszcze nie istnieje
-      if (typeof window.going !== 'function') {
-        window.going = function () {
-          [].push.apply((window.goingQ = window.goingQ || []), arguments);
-        };
-      }
-      window.goingSettings = window.goingSettings || { gv: '1.0.7' };
-
-      // nie wstrzykuj drugi raz tego samego skryptu
-      if (!document.querySelector('script[data-going-script="1"]')) {
-        const s = document.createElement('script');
-        s.async = true;
-        s.dataset.goingScript = '1';
-        s.src = 'https://places-script.goingapp.pl/script.js?gv=' + window.goingSettings.gv;
-        s.onload = () => { __goingScriptReady = true; resolve(); };
-        s.onerror = () => reject(new Error('Nie udało się załadować places-script.goingapp.pl'));
-        document.head.appendChild(s);
-      } else {
-        // już w DOM – daj mu moment na inicjalizację
-        const check = setInterval(() => {
-          if (typeof window.going === 'function') {
-            clearInterval(check);
-            __goingScriptReady = true;
-            resolve();
-          }
-        }, 50);
-        setTimeout(() => { clearInterval(check); resolve(); }, 1500);
-      }
-    });
-  }
-
+  // ─── GŁÓWNY PRZEBIEG ──────────────────────────────────────────────────────
   function startGoing() {
     const modal = document.getElementById('goingModal');
     const frame = document.getElementById('going_frame');
     const closeBtn = document.getElementById('goingClose');
+    if (!modal || !frame) return;
 
+    // pokaż modal
     if (!modal.open) modal.showModal();
+
+    // sprzątanie starej zawartości
     frame.replaceChildren();
 
     // loader
     const loadingElement = document.createElement('div');
     loadingElement.id = 'loading-element';
-    loadingElement.style.fontFamily = 'Helvetica, sans-serif';
+    loadingElement.style.fontFamily = 'Helvetica, Arial, sans-serif';
     loadingElement.style.textAlign = 'center';
     loadingElement.style.padding = '16px';
     loadingElement.innerHTML = `
@@ -274,10 +269,11 @@
       </h3>`;
     frame.append(loadingElement);
 
+    // domena kolejki
     const isQueueInAddress = window.location.href.includes('queue=true');
     const domain = isQueueInAddress ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
 
-    // zdejmij poprzedni listener postMessage, żeby nie mnożyć
+    // zdejmij poprzedni listener 'message' żeby nie mnożyć
     if (__goingMsgListener) {
       window.removeEventListener('message', __goingMsgListener);
       __goingMsgListener = null;
@@ -301,26 +297,24 @@
     };
     window.addEventListener('message', __goingMsgListener);
 
-    // 2) czekamy aż skrypt Going JEST gotowy, potem dopiero wołamy going(...)
-    loadGoingScriptOnce().then(() => {
-      window.going(
-        { type: 'SET_PARENT', payload: 'going_frame' },
-        { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${eventSlug}/${rundateSlug}/zakup` },
-        { type: 'GET_ERROR_FROM_URL', payload: 'error' },
-        { type: 'SET_CURRENT_URL', payload: window.location.href },
-        { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' }, // ewentualnie 'transactional' jeśli tak daje generator
-        { type: 'SET_LANGUAGE', payload: 'pl' },
-        { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
-        { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
-        { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' },
-      );
+    // KLUCZ: używamy KOLEJKI. Możemy wołać going(...) od razu.
+    // Jeśli skrypt już jest gotowy, strzeli natychmiast.
+    // Jeśli jeszcze się ładuje, wykona się, gdy tylko dojedzie.
+    window.going(
+      { type: 'SET_PARENT', payload: 'going_frame' },
+      { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${eventSlug}/${rundateSlug}/zakup` },
+      { type: 'GET_ERROR_FROM_URL', payload: 'error' },
+      { type: 'SET_CURRENT_URL', payload: window.location.href },
+      { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' }, // podmień na 'transactional' jeśli tak masz w generatorze
+      { type: 'SET_LANGUAGE', payload: 'pl' },
+      { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
+      { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
+      { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' },
+    );
 
-      if (window.location.href.includes('transactionId')) {
-        document.getElementById('loading-element')?.remove();
-      }
-    }).catch(() => {
-      loadingElement.innerHTML = `<p style="color:#f66">Nie udało się załadować sprzedaży Going.</p>`;
-    });
+    if (window.location.href.includes('transactionId')) {
+      document.getElementById('loading-element')?.remove();
+    }
 
     // zamknięcie modala + sprzątanie
     closeBtn.onclick = () => {
@@ -379,6 +373,7 @@
 </body>
 
 </html>
+
 
 
 
