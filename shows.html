@@ -122,7 +122,7 @@
 </div>
 
 <!-- LISTA KONCERTÓW -->
-<section id="news" class="concerts-section" style="align-items: left:">
+<section id="news" class="concerts-section" style="text-align: left:">
   <h1 id="welcome">Live</h1>
 
   <article class="concert-item koncert">
@@ -204,6 +204,42 @@
   </div>
 </dialog>
 
+	<style>
+		/* Ciemne tło i fade */
+#goingModal::backdrop{
+  background: rgba(0,0,0,.72);
+  animation: gmBackIn .25s ease forwards;
+}
+@keyframes gmBackIn { from{ opacity:0 } to{ opacity:1 } }
+
+/* Animacja okna: lekki zoom-in + fade jak w twoim lightboxie */
+#goingModal[open] > div{
+  animation: gmIn .25s cubic-bezier(.2,.8,.2,1) forwards;
+  transform-origin: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  border-radius: 12px;
+}
+@keyframes gmIn {
+  from { transform: scale(.98); opacity: 0 }
+  to   { transform: scale(1);   opacity: 1 }
+}
+
+/* Wnętrze, żeby nie migało */
+#going_frame{
+  background:#111;
+  border-top: 1px solid #222;
+  position: relative;
+}
+
+/* Loader w modalu */
+#loading-element{
+  font-family: Helvetica, Arial, sans-serif;
+  text-align:center;
+  padding:16px;
+  color:#eee;
+}
+
+	</style>
 <!-- SKRYPT -->
 <script>
   const eventSlug = 'tabula-rasa-przebudzenie-tour-2026';
@@ -338,6 +374,7 @@
 </body>
 
 </html>
+
 
 
 
