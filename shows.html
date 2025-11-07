@@ -204,50 +204,53 @@
   </div>
 </dialog>
 
-	<style>
-		/* Ciemne tło i fade */
-#goingModal::backdrop{
-  background: rgba(0,0,0,.72);
-  animation: gmBackIn .25s ease forwards;
-}
-@keyframes gmBackIn { from{ opacity:0 } to{ opacity:1 } }
-
-/* Animacja okna: lekki zoom-in + fade jak w twoim lightboxie */
-#goingModal[open] > div{
-  animation: gmIn .25s cubic-bezier(.2,.8,.2,1) forwards;
-  transform-origin: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,.6);
-  border-radius: 12px;
-}
-@keyframes gmIn {
-  from { transform: scale(.98); opacity: 0 }
-  to   { transform: scale(1);   opacity: 1 }
-}
-
-/* Wnętrze, żeby nie migało */
-#going_frame{
-  background:#111;
-  border-top: 1px solid #222;
-  position: relative;
-}
-
-/* Loader w modalu */
-#loading-element{
-  font-family: Helvetica, Arial, sans-serif;
-  text-align:center;
-  padding:16px;
-  color:#eee;
-}
-
-	</style>
-<!-- SKRYPT -->
-<script>
+	<script>
   const eventSlug = 'tabula-rasa-przebudzenie-tour-2026';
   let rundateSlug = null;
+  let __goingMsgListener = null;
+  let __goingScriptReady = false;
 
+  // publiczne – z przycisków
   function openGoingFor(slug) {
     rundateSlug = slug;
     startGoing();
+  }
+
+  // 1) Ładowanie skryptu Going TYLKO RAZ
+  function loadGoingScriptOnce() {
+    return new Promise((resolve, reject) => {
+      // jeśli prawdziwy going już jest – gotowe
+      if (typeof window.going === 'function' && __goingScriptReady) return resolve();
+
+      // jeśli go nie ma, ustaw kolejkę TYLKO jeśli jeszcze nie istnieje
+      if (typeof window.going !== 'function') {
+        window.going = function () {
+          [].push.apply((window.goingQ = window.goingQ || []), arguments);
+        };
+      }
+      window.goingSettings = window.goingSettings || { gv: '1.0.7' };
+
+      // nie wstrzykuj drugi raz tego samego skryptu
+      if (!document.querySelector('script[data-going-script="1"]')) {
+        const s = document.createElement('script');
+        s.async = true;
+        s.dataset.goingScript = '1';
+        s.src = 'https://places-script.goingapp.pl/script.js?gv=' + window.goingSettings.gv;
+        s.onload = () => { __goingScriptReady = true; resolve(); };
+        s.onerror = () => reject(new Error('Nie udało się załadować places-script.goingapp.pl'));
+        document.head.appendChild(s);
+      } else {
+        // już w DOM – daj mu moment na inicjalizację
+        const check = setInterval(() => {
+          if (typeof window.going === 'function') {
+            clearInterval(check);
+            __goingScriptReady = true;
+            resolve();
+          }
+        }, 50);
+        setTimeout(() => { clearInterval(check); resolve(); }, 1500);
+      }
+    });
   }
 
   function startGoing() {
@@ -255,80 +258,82 @@
     const frame = document.getElementById('going_frame');
     const closeBtn = document.getElementById('goingClose');
 
-    // pokaż modal
     if (!modal.open) modal.showModal();
-
-    // usuń poprzednią zawartość (żeby nie nakładały się widgety)
     frame.replaceChildren();
 
-    // placeholder ładowania
-    const loadingElement = document.createElement("div");
+    // loader
+    const loadingElement = document.createElement('div');
+    loadingElement.id = 'loading-element';
+    loadingElement.style.fontFamily = 'Helvetica, sans-serif';
+    loadingElement.style.textAlign = 'center';
+    loadingElement.style.padding = '16px';
     loadingElement.innerHTML = `
       <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
-      <h3>Formularz nie działa? Kup bilety w <a href="https://goingapp.pl/" rel="dofollow">Going.</a></h3>
-    `;
-    loadingElement.id = "loading-element";
-    loadingElement.style.fontFamily = "Helvetica, sans-serif";
-    loadingElement.style.textAlign = "center";
-    loadingElement.style.padding = "16px";
+      <h3>Formularz nie działa? Kup bilety w
+        <a href="https://goingapp.pl/" rel="noreferrer noopener">Going</a>.
+      </h3>`;
     frame.append(loadingElement);
-
-    // biblioteka Going
-    (function (G, o, i, n, g) {
-      G.going =
-        G.going ||
-        function () {
-          [].push.apply((G.goingQ = G.goingQ || []), arguments);
-        };
-      G.goingSettings = { gv: '1.0.7' };
-      n = o.getElementsByTagName('head')[0];
-      g = o.createElement('script');
-      g.async = true;
-      g.src = i + '?gv=' + G.goingSettings.gv;
-      n.appendChild(g);
-    })(window, document, 'https://places-script.goingapp.pl/script.js');
 
     const isQueueInAddress = window.location.href.includes('queue=true');
     const domain = isQueueInAddress ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
 
-    // nasłuch komunikacji z iframe
-    window.addEventListener('message', (event) => {
-      const data = typeof event.data !== 'object' ? JSON.parse(event.data) : event.data;
-      if (data.queue && !isQueueInAddress) {
-        const url = new URL(window.location.href);
-        url.searchParams.append('queue', 'true');
-        window.location.assign(url.origin + url.pathname + url.search);
+    // zdejmij poprzedni listener postMessage, żeby nie mnożyć
+    if (__goingMsgListener) {
+      window.removeEventListener('message', __goingMsgListener);
+      __goingMsgListener = null;
+    }
+    __goingMsgListener = (event) => {
+      try {
+        const data = typeof event.data !== 'object' ? JSON.parse(event.data) : event.data;
+        if (!data) return;
+
+        if (data.queue && !isQueueInAddress) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('queue', 'true');
+          window.location.assign(url.origin + url.pathname + url.search);
+        }
+
+        if (document.getElementById('loading-prompt')) {
+          document.getElementById('loading-prompt')?.remove();
+          frame.append(document.getElementById('loading-element'));
+        }
+      } catch {}
+    };
+    window.addEventListener('message', __goingMsgListener);
+
+    // 2) czekamy aż skrypt Going JEST gotowy, potem dopiero wołamy going(...)
+    loadGoingScriptOnce().then(() => {
+      window.going(
+        { type: 'SET_PARENT', payload: 'going_frame' },
+        { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${eventSlug}/${rundateSlug}/zakup` },
+        { type: 'GET_ERROR_FROM_URL', payload: 'error' },
+        { type: 'SET_CURRENT_URL', payload: window.location.href },
+        { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' }, // ewentualnie 'transactional' jeśli tak daje generator
+        { type: 'SET_LANGUAGE', payload: 'pl' },
+        { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
+        { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
+        { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' },
+      );
+
+      if (window.location.href.includes('transactionId')) {
+        document.getElementById('loading-element')?.remove();
       }
-      if (data && document.getElementById("loading-prompt") && frame) {
-        document.getElementById("loading-prompt")?.remove();
-        frame.append(document.getElementById("loading-element"));
-      }
+    }).catch(() => {
+      loadingElement.innerHTML = `<p style="color:#f66">Nie udało się załadować sprzedaży Going.</p>`;
     });
 
-    // wywołanie funkcji going() – formularz w modalu
-    going(
-      { type: 'SET_PARENT', payload: 'going_frame' },
-      { type: 'SET_APP_URL', payload: `${domain}/pinRundate/${eventSlug}/${rundateSlug}/zakup` },
-      { type: 'GET_ERROR_FROM_URL', payload: 'error' },
-      { type: 'SET_CURRENT_URL', payload: window.location.href },
-      { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' },
-      { type: 'SET_LANGUAGE', payload: 'pl' },
-      { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
-      { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
-      { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' },
-    );
-
-    if (window.location.href.includes("transactionId")) {
-      document.getElementById("loading-element").remove();
-    }
-
-    // zamknięcie modala
+    // zamknięcie modala + sprzątanie
     closeBtn.onclick = () => {
+      if (__goingMsgListener) {
+        window.removeEventListener('message', __goingMsgListener);
+        __goingMsgListener = null;
+      }
       frame.replaceChildren();
       modal.close();
     };
   }
 </script>
+
 	
 
 
@@ -374,6 +379,7 @@
 </body>
 
 </html>
+
 
 
 
