@@ -125,7 +125,7 @@
   <h1 id="welcome">Live</h1>
 
 
-<!-- MODAL GOING -->
+<!-- MODAL (raz na stronie) -->
 <dialog id="goingModal" style="width:min(920px,95vw);border:none;padding:0;">
   <div style="display:flex;flex-direction:column;height:min(85vh,820px);background:#111;color:#eee;">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #222;">
@@ -135,6 +135,94 @@
     <div id="going_frame" style="flex:1;width:100%;position:relative;"></div>
   </div>
 </dialog>
+
+<script>
+  // stały slug wydarzenia – nie zmieniasz
+  const EVENT_SLUG = 'tabula-rasa-przebudzenie-tour-2026';
+
+  // załaduj skrypt Going raz
+  (function (G,o,i,n,g){
+    G.going = G.going || function(){ [].push.apply((G.goingQ = G.goingQ || []), arguments); };
+    G.goingSettings = { gv: '1.0.7' };
+    n = o.getElementsByTagName('head')[0];
+    g = o.createElement('script'); g.async = true; g.src = i + '?gv=' + G.goingSettings.gv;
+    n.appendChild(g);
+  })(window, document, 'https://places-script.goingapp.pl/script.js');
+
+  // bezpieczeństwo + kolejka
+  const ALLOWED_ORIGINS = new Set(['https://goingapp.pl','https://queue.goingapp.pl']);
+  window.addEventListener('message', (event) => {
+    if (!ALLOWED_ORIGINS.has(event.origin)) return;
+    let data = event.data;
+    if (typeof data === 'string') { try { data = JSON.parse(data); } catch {} }
+    if (!data || typeof data !== 'object') return;
+
+    const isQueueInAddress = location.search.includes('queue=true');
+    if (data.queue && !isQueueInAddress) {
+      const url = new URL(location.href);
+      url.searchParams.set('queue','true');
+      location.assign(url.toString());
+      return;
+    }
+    // zdejmij tekst "Trwa ładowanie…"
+    document.getElementById('loading-prompt')?.remove();
+  });
+
+  // FUNKCJA DO KLIKNIĘCIA
+  function openGoingFor(rundateSlug) {
+    const modal = document.getElementById('goingModal');
+    const frame = document.getElementById('going_frame');
+
+    // prosty loader
+    frame.innerHTML = '';
+    const loading = document.createElement('div');
+    loading.id = 'loading-element';
+    loading.style = "font-family:Helvetica, sans-serif; text-align:center; padding:16px;";
+    loading.innerHTML = `
+      <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
+      <h3>Formularz nie działa? Kup bilety w
+        <a href="https://goingapp.pl/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup" target="_blank" rel="nofollow noopener">Going</a>.
+      </h3>`;
+    frame.append(loading);
+
+    // domena (obsługa kolejki)
+    const isQueue = location.search.includes('queue=true');
+    const domain = isQueue ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
+    const appUrl = `${domain}/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup`;
+
+    // pełna konfiguracja instancji
+    going(
+      { type: 'SET_PARENT', payload: 'going_frame' },
+      { type: 'SET_APP_URL', payload: appUrl },
+      { type: 'GET_ERROR_FROM_URL', payload: 'error' },
+      { type: 'SET_CURRENT_URL', payload: location.href },
+      { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' },
+      { type: 'SET_LANGUAGE', payload: 'pl' },
+      { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
+      { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
+      { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' }
+    );
+
+    if (typeof modal.showModal === 'function') modal.showModal();
+    else window.open(appUrl, '_blank', 'noopener');
+
+    // awaryjny fallback po 3 s gdyby widget się nie osadził
+    setTimeout(() => {
+      if (!frame.querySelector('iframe')) window.open(appUrl, '_blank', 'noopener');
+    }, 3000);
+  }
+
+  // zamykanie i sprzątanie
+  document.getElementById('goingClose').addEventListener('click', () => {
+    document.getElementById('going_frame').innerHTML = '';
+    document.getElementById('goingModal').close();
+  });
+  document.getElementById('goingModal').addEventListener('click', (e) => {
+    const d = e.currentTarget.getBoundingClientRect();
+    const outside = e.clientY < d.top || e.clientY > d.bottom || e.clientX < d.left || e.clientX > d.right;
+    if (outside) { document.getElementById('going_frame').innerHTML=''; e.currentTarget.close(); }
+  });
+</script>
 
 	<article class="concert-item koncert">
   <h3>Poznań — Pod Minogą</h3>
@@ -147,97 +235,8 @@
   <p>styczeń 2026</p>
   <button onclick="openGoingFor('krakow-styczen-2026')">Kup bilet</button>
 </article>
-<!-- ...pozostałe 9 sztuk -->
+<!-- …i tak 11 razy, tylko rSlug inny -->
 
-
-<script>
-  // 0) Stałe
-  const EVENT_SLUG = 'tabula-rasa-przebudzenie-tour-2026';
-  const ALLOWED_ORIGINS = new Set(['https://goingapp.pl','https://queue.goingapp.pl']);
-
-  // 1) Załaduj skrypt Going tylko raz
-  (function (G,o,i,n,g){
-    G.going = G.going || function(){ [].push.apply((G.goingQ = G.goingQ || []), arguments); };
-    G.goingSettings = { gv: '1.0.7' };
-    n = o.getElementsByTagName('head')[0];
-    g = o.createElement('script'); g.async = true; g.src = i + '?gv=' + G.goingSettings.gv;
-    n.appendChild(g);
-  })(window, document, 'https://places-script.goingapp.pl/script.js');
-
-  // 2) Listener do kolejki i sprzątania loadera
-  window.addEventListener('message', (event) => {
-    if (!ALLOWED_ORIGINS.has(event.origin)) return;
-    let data = event.data;
-    if (typeof data === 'string') { try { data = JSON.parse(data); } catch { /* ignore */ } }
-    if (!data || typeof data !== 'object') return;
-
-    const isQueueInAddress = window.location.href.includes('queue=true');
-    if (data.queue && !isQueueInAddress) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('queue','true');
-      window.location.assign(url.toString());
-      return;
-    }
-    // usuń „Trwa ładowanie…”
-    document.getElementById("loading-prompt")?.remove();
-  });
-
-  // 3) Prosta funkcja do otwierania konkretnego rundate
-  function openGoingFor(rundateSlug) {
-    const modal = document.getElementById('goingModal');
-    const frame = document.getElementById('going_frame');
-
-    // loader
-    frame.innerHTML = '';
-    const loading = document.createElement('div');
-    loading.id = 'loading-element';
-    loading.style = "font-family:Helvetica, sans-serif; text-align:center; padding:16px;";
-    loading.innerHTML = `
-      <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
-      <h3>Formularz nie działa? Kup bilety w
-        <a href="https://goingapp.pl/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup" target="_blank" rel="nofollow noopener">Going</a>.
-      </h3>`;
-    frame.append(loading);
-
-    // domena z kolejką
-    const isQueue = window.location.href.includes('queue=true');
-    const domain = isQueue ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
-    const appUrl = `${domain}/pinRundate/${EVENT_SLUG}/${rundateSlug}/zakup`;
-
-    // pełna konfiguracja jak u Ciebie
-    going(
-      { type: 'SET_PARENT', payload: 'going_frame' },
-      { type: 'SET_APP_URL', payload: appUrl },
-      { type: 'GET_ERROR_FROM_URL', payload: 'error' },
-      { type: 'SET_CURRENT_URL', payload: window.location.href },
-      { type: 'GET_TRANSACTION_FROM_URL', payload: 'transactionId' },
-      { type: 'SET_LANGUAGE', payload: 'pl' },
-      { type: 'GET_EVENT_SLUG_FROM_URL', payload: 'eSlug' },
-      { type: 'GET_RUNDATE_SLUG_FROM_URL', payload: 'rSlug' },
-      { type: 'GET_EVENT_ID_FROM_URL', payload: 'rid' }
-    );
-
-    if (typeof modal.showModal === 'function') modal.showModal();
-
-    // fallback: jak widget nie wstawi nic w 3 sekundy, otwórz w nowej karcie
-    setTimeout(() => {
-      // jeśli w kontenerze dalej tylko loader, jedziemy fallbackiem
-      const hasIframe = !!frame.querySelector('iframe');
-      if (!hasIframe) window.open(appUrl, '_blank', 'noopener');
-    }, 3000);
-  }
-
-  // 4) zamykanie
-  document.getElementById('goingClose').addEventListener('click', () => {
-    document.getElementById('going_frame').innerHTML = '';
-    document.getElementById('goingModal').close();
-  });
-  document.getElementById('goingModal').addEventListener('click', (e) => {
-    const d = e.currentTarget.getBoundingClientRect();
-    const outside = e.clientY < d.top || e.clientY > d.bottom || e.clientX < d.left || e.clientX > d.right;
-    if (outside) { document.getElementById('going_frame').innerHTML = ''; e.currentTarget.close(); }
-  });
-</script>
 
 
 
@@ -288,6 +287,7 @@
 </body>
 
 </html>
+
 
 
 
