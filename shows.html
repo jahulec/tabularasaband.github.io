@@ -124,30 +124,94 @@
 <section id="news" class="concerts-section">
   <h1 id="welcome">Live</h1>
 
-  <!-- Przyciski filtrów -->
-  <div id="product-filters" style="margin-bottom: 20px; text-align: center;">
-    <button onclick="filterConcerts('all')">Wszystkie</button>
-    <button onclick="filterConcerts('festiwal')">Festiwale</button>
-    <button onclick="filterConcerts('koncert')">Koncerty</button>
+
+<!-- MODAL GOING (wspólny dla wszystkich koncertów) -->
+<dialog id="goingModal" style="width:min(920px,95vw); border:none; padding:0;">
+  <div style="display:flex; flex-direction:column; height:min(85vh,820px); background:#111; color:#eee;">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-bottom:1px solid #222;">
+      <strong>Zakup biletów</strong>
+      <button id="goingClose" aria-label="Zamknij" style="background:#222; color:#eee; border:0; padding:6px 10px; cursor:pointer;">✕</button>
+    </div>
+    <div id="going_frame" style="flex:1; width:100%; position:relative;"></div>
   </div>
+</dialog>
 
-  <!-- Lista koncertów -->
-  <div class="concert-list" style="text-align: center;">
+	<!-- PRZYKŁADY: wklej w Twojej .concert-list i skopiuj 11 razy -->
+<article class="concert-item koncert">
+  <h3>Kraków — Confession</h3>
+  <p>23 stycznia 2026</p>
+  <button onclick="openGoing('https://goingapp.pl/pinRundate/tabula-rasa-przebudzenie-tour-2026/krakow-styczen-2026/zakup')">
+    Kup bilet
+  </button>
+</article>
+
+<article class="concert-item koncert">
+  <h3>Warszawa — Voodoo</h3>
+  <p>24 stycznia 2026</p>
+  <button onclick="openGoing('https://goingapp.pl/pinRundate/tabula-rasa-przebudzenie-tour-2026/warszawa-styczen-2026/zakup')">
+    Kup bilet
+  </button>
+</article>
+
+<!-- ...pozostałe 9 miast z ich URL -->
+
+<!-- Skrypt Going: wstaw raz -->
+<script>
+  (function (G, o, i, n, g) {
+    G.going = G.going || function () { [].push.apply((G.goingQ = G.goingQ || []), arguments); };
+    G.goingSettings = { gv: '1.0.7' };
+    n = o.getElementsByTagName('head')[0];
+    g = o.createElement('script');
+    g.async = true;
+    g.src = i + '?gv=' + G.goingSettings.gv;
+    n.appendChild(g);
+  })(window, document, 'https://places-script.goingapp.pl/script.js');
+
+  // ultra-proste otwieranie widżetu Going w modalu
+  function openGoing(url) {
+    const modal = document.getElementById('goingModal');
+    const frame = document.getElementById('going_frame');
+
+    // prosty loader
+    frame.innerHTML = '';
+    const loading = document.createElement('div');
+    loading.id = 'loading-element';
+    loading.style = "font-family:Helvetica, sans-serif; text-align:center; padding:16px;";
+    loading.innerHTML = `
+      <h2 id="loading-prompt">Trwa ładowanie formularza sprzedaży.</h2>
+      <h3>Formularz nie działa? Kup bilety w <a href="https://goingapp.pl/" rel="nofollow noopener" target="_blank">Going</a>.</h3>
+    `;
+    frame.append(loading);
+
+    // jeśli Going wrzuci kolejkę, przełącz domenę
+    const isQueue = window.location.href.includes('queue=true');
+    const domain = isQueue ? 'https://queue.goingapp.pl' : 'https://goingapp.pl';
+    const finalUrl = url.replace('https://goingapp.pl', domain);
+
+    // inicjalizacja instancji dla tego linku
+    going(
+      { type: 'SET_PARENT', payload: 'going_frame' },
+      { type: 'SET_APP_URL', payload: finalUrl },
+      { type: 'SET_LANGUAGE', payload: 'pl' }
+    );
+
+    if (typeof modal.showModal === 'function') modal.showModal();
+    else window.open(finalUrl, '_blank', 'noopener'); // stary iOS fallback
+  }
+
+  // zamykanie modalu i sprzątanie
+  document.getElementById('goingClose').addEventListener('click', () => {
+    document.getElementById('going_frame').innerHTML = '';
+    document.getElementById('goingModal').close();
+  });
+  document.getElementById('goingModal').addEventListener('click', (e) => {
+    const d = e.currentTarget.getBoundingClientRect();
+    const outside = e.clientY < d.top || e.clientY > d.bottom || e.clientX < d.left || e.clientX > d.right;
+    if (outside) { document.getElementById('going_frame').innerHTML = ''; e.currentTarget.close(); }
+  });
+</script>
 
 
-
-
-  
-
-    <article class="concert-item koncert">
-      <h3>Smolna 38 Warszawa</h3>
-      <p>27 listopada Wstęp Wolny</p>
-		<p></p>
-    </article>
-
-  
-
-  </div>
 </section>
 
 <!-- Skrypt JS do filtrowania -->
@@ -208,5 +272,6 @@
 </body>
 
 </html>
+
 
 
