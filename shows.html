@@ -199,62 +199,7 @@
   <div id="going_frame"></div>
 </div>
 
-<style>
-  /* Overlay jak w Twojej galerii */
-  #goingOverlay {
-    display: none;             /* ukryty na starcie */
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.8);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease; /* fade in/out */
-  }
 
-  /* Sam kontener widgetu animujemy jak obrazek */
-  #going_frame {
-    position: relative;
-    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
-    transform-origin: center;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    background: #111;           /* żeby nie migało przy starcie */
-    border: 1px solid #222;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  #going_frame.expanded {
-    width: min(920px, 90vw);
-    height: min(820px, 85vh);
-    opacity: 1;
-  }
-
-  /* Rozmycie sekcji koncertów jak w .gallery-grid */
-  .concerts-section.blurred {
-    filter: blur(10px);
-    opacity: 0.5;
-    transition: filter 0.3s ease, opacity 0.3s ease;
-  }
-  .concerts-section.unblurred {
-    filter: blur(0px);
-    opacity: 1;
-    transition: filter 0.3s ease, opacity 0.3s ease;
-  }
-
-  /* Prosty loader w środku */
-  #loading-element {
-    font-family: Helvetica, Arial, sans-serif;
-    text-align: center;
-    padding: 16px;
-    color: #eee;
-  }
-</style>
 
 <script>
   const eventSlug = 'tabula-rasa-przebudzenie-tour-2026';
@@ -446,6 +391,7 @@
 </body>
 
 </html>
+
 
 
 
