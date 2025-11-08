@@ -268,19 +268,45 @@ header.hidden {
 }
 
 
-/* Sekcja koncerty */
-.concerts-section h3::after {
-	display: none;
+.concerts-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* centruje sekcję na stronie */
+  text-align: left;          /* tekst w środku sekcji wyrównany do lewej */
+  padding: 40px 0;
 }
 
-.concerts-section .concert-item:not(:last-child)::after {
-    content: '';
-    display: block;
-    width: 100%; /* Szerokość linii - możesz dostosować */
-    height: 2px;
-    background-color: #444; /* Kolor linii */
-    margin: 10px auto 20px auto; /* Wyśrodkowanie linii i odstępy: góra, boki, dół */
+.concert-item {
+  width: min(800px, 90%);    /* szerokość bloku koncertu – max 800px, ale nie więcej niż 90% okna */
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 24px;
 }
+
+.concert-item h3 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.concert-item p {
+  margin: 4px 0;
+  opacity: 0.9;
+}
+
+.concert-item button {
+  margin-top: 12px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.concert-item button:hover {
+  background: #333;
+}
+
 
 /* filtry produktów */
 #product-filters button {
@@ -1239,3 +1265,4 @@ p {
     }
 
 }
+
