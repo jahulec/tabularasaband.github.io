@@ -286,7 +286,7 @@ header.hidden {
   display: flex;
   flex-direction: column;
   align-items: center;       /* centruje sekcję na stronie */
-  text-align: left;          /* tekst w środku sekcji wyrównany do lewej */
+  text-align: center;          /* tekst w środku sekcji wyrównany do lewej */
   padding: 40px 0;
 }
 
@@ -1279,5 +1279,6 @@ p {
     }
 
 }
+
 
 
