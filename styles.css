@@ -252,7 +252,7 @@ header.hidden {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1; /* Tło za innymi elementami */
+    z-index: 0; /* Tło za innymi elementami */
     background-color: black;
 }
 
