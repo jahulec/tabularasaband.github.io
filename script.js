@@ -12,7 +12,8 @@ let isStickyVisible = false;
 let isChangingSlide = false;
 let sliderIntervalId = null;
 let hasAutoScrolled = false;
-let autoScrollTween = null;
+let autoScrollRaf = null;
+let autoScrollCanceled = false;
 const maxOpacityScroll = window.innerHeight;
 
 function scrollToHeadline() {
@@ -31,6 +32,7 @@ function autoScrollToHeadlineOnLoad() {
     if (!h1Element) return;
     if (hasAutoScrolled) return;
     hasAutoScrolled = true;
+    autoScrollCanceled = false;
 
     if (history && 'scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -41,35 +43,50 @@ function autoScrollToHeadlineOnLoad() {
 
     const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const offset = Math.max(0, (window.innerHeight - h1Element.offsetHeight) / 2);
+    const target = h1Element.getBoundingClientRect().top + window.pageYOffset - offset;
 
-    if (typeof gsap !== 'undefined') {
-        if (autoScrollTween) {
-            autoScrollTween.kill();
-        }
-        autoScrollTween = gsap.to(window, {
-            scrollTo: { y: h1Element, offsetY: offset },
-            duration: prefersReduced ? 0 : 1,
-            ease: 'power2.out',
-            autoKill: true,
-            onComplete: () => {
-                autoScrollTween = null;
-                ensureScrollEnabled();
-            }
-        });
+    if (prefersReduced) {
+        window.scrollTo(0, target);
+        ensureScrollEnabled();
         return;
     }
 
-    if (prefersReduced) {
-        h1Element.scrollIntoView({ block: 'center' });
-    } else {
-        h1Element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const start = window.pageYOffset;
+    const distance = target - start;
+    const duration = 900;
+    const startTime = performance.now();
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const step = (now) => {
+        if (autoScrollCanceled) {
+            autoScrollRaf = null;
+            ensureScrollEnabled();
+            return;
+        }
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const y = start + distance * easeOutCubic(t);
+        window.scrollTo(0, y);
+        if (t < 1) {
+            autoScrollRaf = requestAnimationFrame(step);
+        } else {
+            autoScrollRaf = null;
+            ensureScrollEnabled();
+        }
+    };
+
+    if (autoScrollRaf) {
+        cancelAnimationFrame(autoScrollRaf);
     }
+    autoScrollRaf = requestAnimationFrame(step);
 }
 
 function cancelAutoScrollOnUserInput() {
-    if (autoScrollTween) {
-        autoScrollTween.kill();
-        autoScrollTween = null;
+    if (autoScrollRaf) {
+        autoScrollCanceled = true;
+        cancelAnimationFrame(autoScrollRaf);
+        autoScrollRaf = null;
     }
     ensureScrollEnabled();
 }
