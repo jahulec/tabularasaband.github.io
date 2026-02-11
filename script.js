@@ -16,9 +16,17 @@ let autoScrollRaf = null;
 let autoScrollCanceled = false;
 const maxOpacityScroll = window.innerHeight;
 
+if (typeof gsap !== 'undefined' && typeof ScrollToPlugin !== 'undefined') {
+    gsap.registerPlugin(ScrollToPlugin);
+}
+
 function scrollToHeadline() {
     const h1Element = document.querySelector('h1');
-    if (!h1Element || typeof gsap === 'undefined') return;
+    if (!h1Element) return;
+    if (typeof gsap === 'undefined' || typeof ScrollToPlugin === 'undefined') {
+        h1Element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
 
     gsap.to(window, {
         scrollTo: { y: h1Element, offsetY: window.innerHeight / 2 },
@@ -94,6 +102,10 @@ function cancelAutoScrollOnUserInput() {
 function ensureScrollEnabled() {
     document.documentElement.style.overflowY = 'auto';
     document.body.style.overflowY = 'auto';
+    document.documentElement.style.height = 'auto';
+    document.body.style.height = 'auto';
+    document.documentElement.style.position = 'static';
+    document.body.style.position = 'static';
 }
 
 function refreshSliderImages() {
@@ -244,6 +256,17 @@ window.addEventListener('keydown', (event) => {
         cancelAutoScrollOnUserInput();
     }
 });
+
+function enforceWheelScroll(event) {
+    const before = window.scrollY;
+    requestAnimationFrame(() => {
+        if (window.scrollY === before) {
+            window.scrollBy({ top: event.deltaY, behavior: 'auto' });
+        }
+    });
+}
+
+window.addEventListener('wheel', enforceWheelScroll, { passive: true });
 
 if (hamburger && navMobile) {
     hamburger.addEventListener('click', function () {
