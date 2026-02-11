@@ -122,6 +122,12 @@ function handleStickyHeader(scrollY) {
     }
 }
 
+function setBodyScrollEnabled(enabled) {
+    const value = enabled ? 'auto' : 'hidden';
+    document.documentElement.style.overflowY = value;
+    document.body.style.overflowY = value;
+}
+
 window.addEventListener('load', () => {
     ensureScrollEnabled();
     handleImageSwap();
@@ -183,6 +189,8 @@ if (galleryImages.length > 0 && expandedImageContainer && expandedImage && galle
         image.addEventListener('click', () => {
             expandedImage.src = image.getAttribute('data-full') || image.src;
             expandedImageContainer.style.display = 'flex';
+            expandedImageContainer.style.pointerEvents = 'auto';
+            setBodyScrollEnabled(false);
 
             setTimeout(() => {
                 expandedImageContainer.style.opacity = '1';
@@ -197,9 +205,11 @@ if (galleryImages.length > 0 && expandedImageContainer && expandedImage && galle
         expandedImageContainer.style.opacity = '0';
         galleryGrid.classList.remove('blurred');
         galleryGrid.classList.add('unblurred');
+        setBodyScrollEnabled(true);
 
         setTimeout(() => {
             expandedImageContainer.style.display = 'none';
+            expandedImageContainer.style.pointerEvents = 'none';
             galleryGrid.classList.remove('unblurred');
         }, 300);
     });

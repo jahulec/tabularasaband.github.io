@@ -840,6 +840,7 @@ footer {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease; /* Animacja opacity */
+    pointer-events: none;
 }
 
 #expandedImage {
