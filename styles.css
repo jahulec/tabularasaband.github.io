@@ -369,7 +369,8 @@ header.hidden {
     padding: 60px 20px;
     background-color: transparent;
     color: #f0f0f0;
-    margin-top: 100vh;
+    margin-top: 0;
+    padding-top: 100vh;
     display: flex;
     justify-content: center; /* Wyśrodkowanie w poziomie */
     align-items: center; /* Wyśrodkowanie w pionie */
