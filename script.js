@@ -12,6 +12,7 @@ let isStickyVisible = false;
 let isChangingSlide = false;
 let sliderIntervalId = null;
 let hasAutoScrolled = false;
+let autoScrollTween = null;
 const maxOpacityScroll = window.innerHeight;
 
 function scrollToHeadline() {
@@ -42,10 +43,18 @@ function autoScrollToHeadlineOnLoad() {
     const offset = Math.max(0, (window.innerHeight - h1Element.offsetHeight) / 2);
 
     if (typeof gsap !== 'undefined') {
-        gsap.to(window, {
+        if (autoScrollTween) {
+            autoScrollTween.kill();
+        }
+        autoScrollTween = gsap.to(window, {
             scrollTo: { y: h1Element, offsetY: offset },
             duration: prefersReduced ? 0 : 1,
-            ease: 'power2.out'
+            ease: 'power2.out',
+            autoKill: true,
+            onComplete: () => {
+                autoScrollTween = null;
+                ensureScrollEnabled();
+            }
         });
         return;
     }
@@ -55,6 +64,14 @@ function autoScrollToHeadlineOnLoad() {
     } else {
         h1Element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+}
+
+function cancelAutoScrollOnUserInput() {
+    if (autoScrollTween) {
+        autoScrollTween.kill();
+        autoScrollTween = null;
+    }
+    ensureScrollEnabled();
 }
 
 function ensureScrollEnabled() {
@@ -200,6 +217,15 @@ window.addEventListener('scroll', () => {
     adjustImageBrightness(scrollTop);
     handleHeaderVisibility(scrollTop);
     handleStickyHeader(window.scrollY);
+});
+
+window.addEventListener('wheel', cancelAutoScrollOnUserInput, { passive: true });
+window.addEventListener('touchmove', cancelAutoScrollOnUserInput, { passive: true });
+window.addEventListener('keydown', (event) => {
+    const keys = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', 'Space'];
+    if (keys.includes(event.code)) {
+        cancelAutoScrollOnUserInput();
+    }
 });
 
 if (hamburger && navMobile) {
