@@ -1,6 +1,6 @@
 ﻿let lastScrollTop = 0;
 const header = document.querySelector('header');
-const sliderImages = document.querySelectorAll('.background-slider img');
+let sliderImages = [];
 const windowHeight = window.innerHeight;
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
@@ -10,6 +10,7 @@ let currentImageIndex = 0;
 let isHeaderHidden = false;
 let isStickyVisible = false;
 let isChangingSlide = false;
+let sliderIntervalId = null;
 const maxOpacityScroll = window.innerHeight;
 
 function scrollToHeadline() {
@@ -28,8 +29,13 @@ function ensureScrollEnabled() {
     document.body.style.overflowY = 'auto';
 }
 
+function refreshSliderImages() {
+    sliderImages = Array.from(document.querySelectorAll('.background-slider img'));
+}
+
 function handleImageSwap() {
-    const images = document.querySelectorAll('.background-slider img');
+    refreshSliderImages();
+    const images = sliderImages;
     const isMobile = window.innerWidth <= 768;
     images.forEach((img) => {
         const src = isMobile
@@ -49,6 +55,9 @@ function handleImageSwap() {
 }
 
 function changeSlide() {
+    if (sliderImages.length === 0) {
+        refreshSliderImages();
+    }
     if (isChangingSlide || sliderImages.length === 0) return;
     isChangingSlide = true;
 
@@ -62,21 +71,29 @@ function changeSlide() {
 }
 
 function activateFirstSlide() {
-    const images = document.querySelectorAll('.background-slider img');
-    if (images.length > 0) {
-        images[0].classList.add('active');
+    if (sliderImages.length === 0) {
+        refreshSliderImages();
+    }
+    if (sliderImages.length > 0) {
+        sliderImages[0].classList.add('active');
     }
 }
 
 function startSlider() {
-    const images = document.querySelectorAll('.background-slider img');
-    if (images.length === 0) return;
+    refreshSliderImages();
+    if (sliderImages.length === 0) return;
 
     activateFirstSlide();
-    setInterval(changeSlide, 5000);
+    if (sliderIntervalId !== null) {
+        clearInterval(sliderIntervalId);
+    }
+    sliderIntervalId = setInterval(changeSlide, 5000);
 }
 
 function adjustImageBrightness(scrollTop) {
+    if (sliderImages.length === 0) {
+        refreshSliderImages();
+    }
     const opacityFactor = Math.min(scrollTop / windowHeight, 1);
     sliderImages.forEach((img) => {
         const brightness = Math.max(1 - opacityFactor, 0.1);
