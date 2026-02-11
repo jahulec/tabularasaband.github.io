@@ -129,7 +129,6 @@ function handleStickyHeader(scrollY) {
 window.addEventListener('load', () => {
     handleImageSwap();
     startSlider();
-    scrollToHeadline();
 });
 
 window.addEventListener('scroll', () => {

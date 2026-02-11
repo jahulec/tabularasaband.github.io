@@ -14,16 +14,19 @@
 
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
-    height: 100vh;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
+	min-height: 100%;
+	height: auto;
 	-webkit-overflow-scrolling: touch;
 }	
 
 html, body {
-		background-color: #000;
-    height: 100%;
+	background-color: #000;
+	min-height: 100%;
+	height: auto;
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
+	overflow-y: auto;
 }	
 
 @media (prefers-color-scheme: dark) {
