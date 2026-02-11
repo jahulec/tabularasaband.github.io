@@ -11,6 +11,7 @@ let isHeaderHidden = false;
 let isStickyVisible = false;
 let isChangingSlide = false;
 let sliderIntervalId = null;
+const AUTO_SCROLL_KEY = 'autoScrollHeadlineDone';
 const maxOpacityScroll = window.innerHeight;
 
 function scrollToHeadline() {
@@ -28,6 +29,9 @@ function autoScrollToHeadlineOnLoad() {
     const h1Element = document.querySelector('h1');
     if (!h1Element) return;
     if (window.scrollY > 10) return;
+    if (sessionStorage.getItem(AUTO_SCROLL_KEY) === '1') return;
+
+    sessionStorage.setItem(AUTO_SCROLL_KEY, '1');
 
     const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const offset = Math.max(0, (window.innerHeight - h1Element.offsetHeight) / 2);

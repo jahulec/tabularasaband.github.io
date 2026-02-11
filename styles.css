@@ -254,6 +254,7 @@ header.hidden {
     height: 100vh;
     z-index: 0; /* Tło za innymi elementami */
     background-color: black;
+    pointer-events: none;
 }
 
 .background-slider img {
