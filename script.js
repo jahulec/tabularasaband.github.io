@@ -23,6 +23,11 @@ function scrollToHeadline() {
     });
 }
 
+function ensureScrollEnabled() {
+    document.documentElement.style.overflowY = 'auto';
+    document.body.style.overflowY = 'auto';
+}
+
 function handleImageSwap() {
     const images = document.querySelectorAll('.background-slider img');
     const isMobile = window.innerWidth <= 768;
@@ -118,13 +123,17 @@ function handleStickyHeader(scrollY) {
 }
 
 window.addEventListener('load', () => {
+    ensureScrollEnabled();
     handleImageSwap();
     startSlider();
+    adjustImageBrightness(window.scrollY || 0);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    ensureScrollEnabled();
     handleImageSwap();
     activateFirstSlide();
+    adjustImageBrightness(window.scrollY || 0);
 });
 
 window.addEventListener('scroll', () => {

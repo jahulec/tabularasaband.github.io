@@ -63,7 +63,7 @@ h2 {
 
 h3::after,
 h2::after {
- content: '';
+    content: '';
     display: block;
     width: auto; /* Szerokość linii - możesz dostosować */
     height: 2px;
@@ -111,7 +111,7 @@ img[src$="logo.png"] {
 }
 
 body {
-	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
+    overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
     font-family: 'PoppinsBlack', sans-serif;
     background-color: #000;
     color: #f0f0f0;
@@ -246,7 +246,7 @@ header.hidden {
 
 /* Dynamiczna galeria zdjęć jako tło */
 .background-slider {
-	overflow: hidden; /* Zapobiega wyciekaniu obrazów poza kontener */
+    overflow: hidden; /* Zapobiega wyciekaniu obrazów poza kontener */
     position: fixed;
     top: 0;
     left: 0;
@@ -820,7 +820,6 @@ footer {
 .gallery-grid img {
     width: 100%;
     height: 100%;
-    cursor: pointer;
     transition: transform 0.3s ease, z-index 0.3s ease;
     object-fit: cover; /* Utrzymuje proporcje zdjęć */
     border-radius: 5px; /* Zaokrąglone rogi */
