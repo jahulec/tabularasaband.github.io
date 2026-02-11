@@ -1,4 +1,4 @@
-/* ogólne style */
+﻿/* ogólne style */
 
 * {
     outline: none !important;
@@ -14,8 +14,9 @@
 
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
-	min-height: 100%;
-	height: auto;
+    min-height: 100%;
+    height: auto;
+    overflow-y: auto !important;
 	-webkit-overflow-scrolling: touch;
 }	
 
@@ -26,7 +27,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: auto !important;
 }	
 
 @media (prefers-color-scheme: dark) {
@@ -689,17 +690,11 @@ footer {
 
 
 /* margines 80% */
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Wycentrowanie zawartości */
-    }
-
     #news, footer {
         width: 80%; /* Zajmowanie 80% szerokości */
+        margin-left: auto;
+        margin-right: auto;
     }
-
-
 /* sekcja o nas */
     .members-container {
         display: flex;
@@ -1287,5 +1282,7 @@ p {
     }
 
 }
+
+
 
 

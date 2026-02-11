@@ -23,11 +23,6 @@ function scrollToHeadline() {
     });
 }
 
-function checkImagesLoaded() {
-    const images = document.querySelectorAll('.background-slider img');
-    return Array.from(images).every((img) => img.complete && img.naturalWidth !== 0);
-}
-
 function handleImageSwap() {
     const images = document.querySelectorAll('.background-slider img');
     const isMobile = window.innerWidth <= 768;
@@ -72,12 +67,8 @@ function startSlider() {
     const images = document.querySelectorAll('.background-slider img');
     if (images.length === 0) return;
 
-    if (Array.from(images).every((img) => img.complete)) {
-        activateFirstSlide();
-        setInterval(changeSlide, 5000);
-    } else {
-        setTimeout(startSlider, 100);
-    }
+    activateFirstSlide();
+    setInterval(changeSlide, 5000);
 }
 
 function adjustImageBrightness(scrollTop) {
@@ -129,6 +120,11 @@ function handleStickyHeader(scrollY) {
 window.addEventListener('load', () => {
     handleImageSwap();
     startSlider();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    handleImageSwap();
+    activateFirstSlide();
 });
 
 window.addEventListener('scroll', () => {
@@ -199,59 +195,6 @@ if (galleryImages.length > 0 && expandedImageContainer && expandedImage && galle
         }, 300);
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const firstImage = document.getElementById('firstImage');
-    if (!firstImage) return;
-
-    function preloadFirstImage() {
-        const mobileSrc = firstImage.getAttribute('data-mobile-src');
-        const desktopSrc = firstImage.getAttribute('data-desktop-src');
-        const mobileSrcset = firstImage.getAttribute('data-mobile-srcset');
-        const desktopSrcset = firstImage.getAttribute('data-desktop-srcset');
-
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile && mobileSrcset) {
-            firstImage.srcset = mobileSrcset;
-            firstImage.sizes = '(max-width: 768px) 100vw, 100vw';
-        }
-        if (!isMobile && desktopSrcset) {
-            firstImage.srcset = desktopSrcset;
-            firstImage.sizes = '(max-width: 768px) 100vw, 100vw';
-        }
-
-        firstImage.src = isMobile ? mobileSrc : desktopSrc;
-
-        firstImage.onload = () => {
-            loadRemainingImages();
-        };
-    }
-
-    function loadRemainingImages() {
-        const images = document.querySelectorAll('.background-slider img:not(#firstImage)');
-        images.forEach((img) => {
-            const mobileSrc = img.getAttribute('data-mobile-src');
-            const desktopSrc = img.getAttribute('data-desktop-src');
-            const mobileSrcset = img.getAttribute('data-mobile-srcset');
-            const desktopSrcset = img.getAttribute('data-desktop-srcset');
-
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile && mobileSrcset) {
-                img.srcset = mobileSrcset;
-                img.sizes = '(max-width: 768px) 100vw, 100vw';
-            }
-            if (!isMobile && desktopSrcset) {
-                img.srcset = desktopSrcset;
-                img.sizes = '(max-width: 768px) 100vw, 100vw';
-            }
-
-            img.src = isMobile ? mobileSrc : desktopSrc;
-        });
-    }
-
-    preloadFirstImage();
-    window.addEventListener('resize', preloadFirstImage);
-});
 
 function downloadpress() {
     setTimeout(() => {
