@@ -6,6 +6,12 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+
+*:focus-visible {
+    outline: 2px solid #ffffff !important;
+    outline-offset: 2px;
+}
+
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
     height: 100vh;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
@@ -13,7 +19,7 @@ html {
 }	
 
 html, body {
-	background-color: #000
+		background-color: #000;
     height: 100%;
 	margin: 0;
 	padding: 0;
@@ -41,8 +47,8 @@ h1 {
     font-size: 3em;
     text-align: center;
     margin-bottom: 100px; /* Zaczyna na środku ekranu */
-	margin-left: none;
-	margin-right: none;
+	margin-left: 0;
+	margin-right: 0;
 }
 
 h2 {
@@ -103,12 +109,11 @@ img[src$="logo.png"] {
 body {
 	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
     font-family: 'PoppinsBlack', sans-serif;
-    background-color: #00000;
+    background-color: #000;
     color: #f0f0f0;
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    transition: scroll-behavior 2s ease-out;
 }
 
 /* Logo */
@@ -494,8 +499,8 @@ header.hidden {
 .form-group input,
 .contact-form textarea {
     font-family: 'PoppinsBlack', sans-serif;
-	width:100%
-	
+	width: 100%;
+		
 }
 
 .form-group input,
@@ -1279,6 +1284,5 @@ p {
     }
 
 }
-
 
 
