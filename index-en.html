@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    	<meta name="description" content="Official website of Tabula Rasa. Check out the latest concerts, music, and information about us.">
+	<meta name="keywords" content="Tabula Rasa, Tabula Rasa homepage, Tabula Rasa rock band, Polish rock band, Tabula Rasa music, rock band Warsaw, Polish rock music, Tabula Rasa concerts, Tabula Rasa album, Polish band, Tabula Rasa live, Tabula Rasa tickets, Tabula Rasa new album, Tabula Rasa streaming, Tabula Rasa social media, Polish rock, rock in Poland, music band Poland">
+	<meta name="author" content="Jan Mitrowski">
+	<meta name="theme-color" content="#000000">
+    
+	<title>Tabula Rasa - Official Website</title>
+
+    
+	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
+	<link rel="icon" href="logo.ico" type="image/x-icon">
+	
+    	<link rel="canonical" href="https://tabularasaband.pl/index-en.html" />
+    	<link rel="alternate" href="/index.html" hreflang="pl">
+    	<link rel="alternate" href="/index-en.html" hreflang="en">
+	
+	<link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" media="(min-width: 769px)">
+    	<link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(max-width: 768px)">
+
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
+    <!-- Google Tag Manager -->
+    <script>
+    (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+
+
+
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MK42J45H"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+<header>
+    <!-- Desktopowa wersja nagłówka (pozostaje bez zmian) -->
+    <div class="desktop-header">
+        <nav class="main-nav">
+            <ul>
+            <li class="language-switcher">
+                <a href="/index.html">PL</a>
+            </li>
+		<li><a href="https://tabularasaband-7686a.web.app/">Shop</a></li>
+                <li><a href="music-en.html">Music</a></li>
+                <li><a href="shows-en.html">Shows</a></li>
+                <li class="logo-container">
+                    <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="logo"></a>
+                </li>
+                <li><a href="gallery-en.html">Gallery</a></li>
+                <li><a href="press-en.html">Press</a></li>
+		<li><a href="about-en.html">About</a></li>
+                <li><a href="contact-en.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Mobilna wersja nagłówka (tylko dla urządzeń mobilnych) -->
+    <div class="mobile-header">
+	<div class="language-switcher">
+                <a href="/index.html">PL</a>
+        </div>
+        <div class="logo-container">
+            <a href="index.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="logo"></a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-mobile" id="nav-mobile">
+            <ul>
+		<li><a href="https://tabularasaband-7686a.web.app/">Shop</a></li>
+                <li><a href="music-en.html">Music</a></li>
+                <li><a href="shows-en.html">Shows</a></li>
+                <li><a href="gallery-en.html">Gallery</a></li>
+                <li><a href="press-en.html">Press</a></li>
+		<li><a href="about-en.html">About</a></li>
+                <li><a href="contact-en.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="mobile-sticky-header">
+    <nav class="mobile-sticky-nav">
+        <ul>
+                <li><a href="music-en.html">Music</a></li>
+                <li><a href="shows-en.html">Shows</a></li>
+            <li><a href="index-en.html" class="active"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="sticky-logo"></a></li>
+		<li><a href="https://tabularasaband-7686a.web.app/">Shop</a></li>
+                <li><a href="gallery-en.html">Gallery</a></li>
+
+        </ul>
+    </nav>
+</div>
+
+
+
+<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
+<div class="background-slider">
+	<img id="firstImage"  src="" alt="Tabula Rasa - koncert 1" data-mobile-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/80m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/75d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/75d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp 2560w">
+	<img src="" alt="Tabula Rasa - koncert 2" data-mobile-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/81m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/81m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/73d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/73d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/73d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/73d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/73d-w2560.webp 2560w">
+	<img src="" alt="Tabula Rasa - koncert 3" data-mobile-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/82m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/82m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/71d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/71d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/71d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/71d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/71d-w2560.webp 2560w">
+	<img src="" alt="Tabula Rasa - koncert 4" data-mobile-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/83m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/83m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/70d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/70d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/70d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/70d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/70d-w2560.webp 2560w">
+	<img src="" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/84m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/84m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/72d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/72d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/72d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/72d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/72d-w2560.webp 2560w">
+</div>
+
+<section id="news">
+    <h1 id="welcome">News</h1>
+
+	<article class="article-with-image">
+    <h3>We are going on Tour!</h3>
+    <div class="article-content">
+        <p>In the new year, we're embarking on our Przebudzie (Awakening) tour, visiting 11 cities across Poland. Expect both previously released songs and new material available exclusively on our tour. Prepare for an energetic show, plenty of audience interaction, and songs that are both emotional and energetic. Tickets are available in the concerts tab.</p>
+
+            <picture>
+                <source srcset="artykul/trasa.webp" type="image/webp">
+                <source srcset="artykul/trasa.jpg" type="image/jpeg">
+                <img src="artykul/trasa.jpg" alt="trasa 2026" loading="lazy">
+            </picture>
+    </div>
+</article>
+	<article class="article-with-image">
+    <h3>We won the Road To Juwe contest in Płock!</h3>
+    <div class="article-content">
+        <p>At the beginning of May, we took part in the Road to Juwe contest in Płock, where we won a performance at the Płock Juwenalia on May 22! This is already our 3rd juwenalia this year! Big congratulations to rapper Kayak for co-winning this showcase!</p>
+
+        <picture>
+            <source srcset="artykul/plock.webp" type="image/webp">
+            <img src="artykul/plock.webp" alt="kill me with music" loading="lazy">
+        </picture>
+    </div>
+</article>
+
+<article class="article-with-image">
+    <h3>We're playing at the Bydgoszcz Juwenalia!</h3>
+    <div class="article-content">
+        <p>We have another performance at juwenalia, this time in Bydgoszcz! We’ll be sharing the stage with legends like Dżem and Lej mi Pół. You can check all juwenalia gigs in the concerts tab.</p>
+
+        <picture>
+            <source srcset="artykul/bydgoszcz.webp" type="image/webp">
+            <img src="artykul/bydgoszcz.webp" alt="kill me with music" loading="lazy">
+        </picture>
+    </div>
+</article>
+
+<article class="article-with-image">
+    <h3>We won the Kill Me With Music contest in Rzeszów!</h3>
+    <div class="article-content">
+        <p>In April, we took part in the Kill Me With Music contest in Rzeszów and won a performance at the Rzeszów Juwenalia! We’re incredibly thrilled with this recognition! We'll play on May 9 on the biggest stage alongside Lady Pank, Ich Troje, and Pidżama Porno!</p>
+
+        <picture>
+            <source srcset="artykul/rzesza.webp" type="image/webp">
+            <img src="artykul/rzesza.webp" alt="kill me with music" loading="lazy">
+        </picture>
+    </div>
+</article>
+
+<article class="article-with-image">
+    <h3>The album is now available for pre-order!</h3>
+    <div class="article-content">
+        <div class="text-above-image">
+            <p>We’re about to release our debut album. You can already pre-order it now by clicking on the album below:</p>
+        </div>
+
+        <a href="https://tabularasaband-7686a.web.app/">
+            <picture>
+                <source srcset="artykul/cd.webp" type="image/webp">
+                <img src="artykul/cd.webp" alt="cd" loading="lazy">
+            </picture>
+        </a>
+    </div>
+</article>
+
+<article class="article-with-image">
+    <h3>New track “Hybryda” out now!</h3>
+    <div class="article-content">
+        <p>We’ve released our new single “Hybryda”, which tells the story of breaking away from toxic people and finding peace in solitude — a time to focus on yourself. The music video was filmed at the best rock school — Akademia Rocka in Warsaw (Targowa), portraying a futuristic version of a human — the Hybrid.</p>
+
+        <picture>
+            <source srcset="artykul/hybryda.webp" type="image/webp">
+            <source srcset="artykul/hybryda.jpg" type="image/jpeg">
+            <img src="artykul/hybryda.jpg" alt="hybryda" loading="lazy">
+        </picture>
+    </div>
+</article>
+
+<article class="article-with-image">
+    <h3>We took 2nd place at PKS Lublin 2025!</h3>
+    <div class="article-content">
+        <p>In March, we took part in the Student Bands Review in Lublin, where we performed among other high-level bands. We managed to secure 2nd place, which we’re really proud of — especially since we played this show without Delia ;) Congrats to the winners — Kwazzy Live Band!</p>
+
+        <picture>
+            <source srcset="artykul/lublinPKS.webp" type="image/webp">
+            <source srcset="artykul/lublinPKS.jpg" type="image/jpeg">
+            <img src="artykul/lublinPKS.jpg" alt="Band photo from the concert in Lublin" loading="lazy">
+        </picture>
+    </div>
+</article>
+
+<article class="article-with-image">
+    <h3>New track “Offline” out now!</h3>
+    <div class="article-content">
+        <p>We’ve officially released another single, “Offline”. The song is about disconnecting from media and electronics. It presents a world where everyone is glued to their phones. The main character encourages us to break free and shows what the world looks like when we do. The music video was shot in the Warsaw metro.</p>
+
+        <picture>
+            <source srcset="artykul/Offline.webp" type="image/webp">
+            <source srcset="artykul/Offline.jpg" type="image/jpeg">
+            <img src="artykul/Offline.jpg" alt="Offline premiere" loading="lazy">
+        </picture>
+    </div>
+</article>
+
+	<!-- Article with image -->
+<article class="article-with-image">
+    <h3>Tabula Rasa in the Finals of the IGRY 2025 Festival!</h3>
+    <div class="article-content">
+        <p>In January, we had the incredible pleasure of performing at the Spirala student club in Silesia, where we took part in the IGRY 2025 festival qualifiers. Together with the band Viadomo, we managed to advance to the finals, which is a huge honor for us. Now, the next stage awaits us – the grand final of the qualifiers, which will determine who gets to perform at the IGRY 2025 Festival!</p>
+
+            <picture>
+                <source srcset="artykul/pks.webp" type="image/webp">
+                <source srcset="artykul/pks.jpg" type="image/jpeg">
+                <img src="artykul/pks.jpg" alt="Photo of the band performing at the Spirala club" loading="lazy">
+            </picture>
+    </div>
+</article>
+
+    <!-- Artykuł ze zdjęciem -->
+    <article class="article-with-image">
+        <h3>Premiere of the song Ostatni Raz!</h3>
+        <div class="article-content">
+            <p>Our latest single Ostatni Raz is now available on all streaming platforms, you can also watch the music video on YouTube.</p>
+            <picture>
+				<source srcset="artykul/art1 (1).webp 1024w, artykul/art1.webp 320w" type="image/webp">
+				<source srcset="artykul/art1.jpg" type="image/jpeg">
+				<img src="artykul/art1.jpg" alt="Zdjęcie 1" loading="lazy">
+			</picture>
+        </div>
+    </article>
+
+    <!-- Artykuł ze zdjęciem -->
+    <article class="article-with-image">
+        <h3>Our first single!</h3>
+        <div class="article-content">
+            <p>Our first single gained great popularity and was warmly received by listeners. We are glad that our music has reached so many people!</p>
+            <picture>
+				<source srcset="artykul/art2 (1).webp 1024w, artykul/art2.webp 320w" type="image/webp">
+				<source srcset="artykul/art2.jpg" type="image/jpeg">
+				<img src="artykul/art2.jpg" alt="Zdjęcie 1" loading="lazy">
+			</picture>
+        </div>
+    </article>
+
+
+</section>
+
+<footer>
+	        <hr class="footer-divider">
+    <div class="footer-container">
+        <!-- Logo po lewej stronie -->
+        <div class="footer-section logo-description">
+            <img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="footer-logo" loading="lazy">
+            <p>Tabula Rasa - a rock band that redefines the boundaries of music. Discover our work!</p>
+        </div>
+
+        <!-- Strzałka na środek -->
+        <div class="footer-section scroll-up">
+            <button id="scrollTopBtn">↑</button>
+        </div>
+
+        <!-- Ikony social media po prawej stronie -->
+        <div class="footer-section social-media">
+            <ul>
+                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank" rel="noopener noreferrer"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
+                <li><a href="https://www.youtube.com/@tabula_rasa_band" target="_blank" rel="noopener noreferrer"><img src="ikony/youtube.webp" alt="YouTube - Tabula Rasa" loading="lazy"></a></li>
+                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank" rel="noopener noreferrer"><img src="ikony/facebook.webp" alt="Facebook - Tabula Rasa" loading="lazy"></a></li>
+                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank" rel="noopener noreferrer"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
+                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank" rel="noopener noreferrer"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
+            </ul>
+            <p>Our social media<br>Find us!</p>
+        </div>
+    </div>
+
+    <!-- Copyright na dole -->
+    <div class="footer-bottom">
+        <hr class="footer-divider">
+        <p>&copy; 2025 Tabula Rasa. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Ładowanie pliku JavaScript -->
+<script src="script.js" defer></script>
+
+</body>
+
+</html>
+

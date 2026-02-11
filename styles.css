@@ -1,0 +1,1288 @@
+/* ogólne style */
+
+* {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+*:focus-visible {
+    outline: 2px solid #ffffff !important;
+    outline-offset: 2px;
+}
+
+html {
+	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
+    height: 100vh;               /* Upewnia się, że body zajmuje całą wysokość ekranu */
+	-webkit-overflow-scrolling: touch;
+}	
+
+html, body {
+		background-color: #000;
+    height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}	
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #000;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #000;
+    }
+}
+
+#content {
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+
+h1 {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 100px; /* Zaczyna na środku ekranu */
+	margin-left: 0;
+	margin-right: 0;
+}
+
+h2 {
+    text-align: center; /* Wyśrodkowanie nagłówka */
+    font-size: 2.5em; /* Standardowy rozmiar dla h2 */
+    margin-bottom: 10px; /* Odstęp między nagłówkiem a linią */
+}
+
+h3::after,
+h2::after {
+ content: '';
+    display: block;
+    width: auto; /* Szerokość linii - możesz dostosować */
+    height: 2px;
+    background-color: #444; /* Kolor linii */
+}
+
+h3 {
+    text-align: center; /* Wyśrodkowanie nagłówka */
+    font-size: 2em; /* Standardowy rozmiar dla h3 */
+    margin-bottom: 10px; /* Odstęp między nagłówkiem a linią */
+}
+
+
+img {
+    max-width: 100%; /* Obrazy nie będą wychodzić poza szerokość kontenera */
+    height: auto; /* Zachowanie proporcji obrazu */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    object-fit: cover; /* Dopasowanie obrazów bez zniekształceń */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Delikatny cień dla estetyki */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animacja przy najechaniu */
+}
+
+img:not(.expanded):hover {
+    transform: scale(1.05); /* Powiększenie obrazu przy najechaniu */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Wzmocnienie cienia przy najechaniu */
+}
+
+img[src$="logo.png"] {
+    border-radius: 0; /* Usuń zaokrąglone rogi dla logo */
+    box-shadow: none; /* Brak cienia dla logo */
+    transform: none; /* Brak powiększenia dla logo */
+    transition: none; /* Brak animacji dla logo */
+}
+
+@font-face {
+    font-family: 'PoppinsBlack';
+    src: url('PoppinsBlack.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+#news, #footer {
+	font-size: clamp(16px, 2vw, 24px);
+}
+
+body {
+	 overscroll-behavior: none; /* Zapobiega domyślnemu zachowaniu przewijania */
+    font-family: 'PoppinsBlack', sans-serif;
+    background-color: #000;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Logo */
+.logo-container {
+    text-align: center;
+    height: 100%;
+}
+
+.logo {
+    height: 100%;
+    max-height: 80px;
+    transition: transform 0.3s ease;
+}
+
+.logo-container img:hover {
+    transform: translateY(0); /* Zablokowanie wychodzenia poza stronę */
+    transition: transform 0.3s ease-in-out;
+    margin-top: 0; /* Upewnij się, że logo ma odpowiedni margines */
+}
+
+
+/* nagłowek */
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    height: 85px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie całego nagłówka w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    transition: top 0.3s ease-in-out;
+}
+
+header.hidden {
+    top: -100px; /* Ukrycie nagłówka przy przewinięciu */
+    transition: top 0.3s ease-in-out;
+}
+
+.desktop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Maksymalna szerokość nagłówka */
+}
+
+.desktop-header .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px; /* Stała szerokość logo */
+}
+
+.desktop-header .logo {
+    max-width: 100%;
+    height: auto;
+}
+
+.desktop-header nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%; /* Cała dostępna szerokość */
+    justify-content: space-around; /* Równomierne rozmieszczenie linków */
+    align-items: center; /* Wyśrodkowanie linków w pionie */
+}
+
+.desktop-header nav ul li {
+    margin: 0 20px; /* Odstęp między linkami */
+}
+
+.desktop-header nav ul li a {
+    text-decoration: none;
+    color: #fff; /* Kolor linków */
+    font-weight: bold;
+    transition: transform 0.3s ease; /* Płynna animacja zoom */
+    display: inline-block;
+}
+
+.desktop-header nav ul li a:hover {
+    transform: scale(1.1); /* Efekt zoom na hover */
+}
+
+
+
+
+/* Dla linków w sticky mobile header */
+.mobile-sticky-nav a.active {
+    position: relative;
+    text-decoration: none; /* Usunięcie domyślnego podkreślenia */
+}
+
+.mobile-sticky-nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; /* Mały odstęp od tekstu */
+    width: 100%;
+    height: 2px; /* Grubość linii podkreślenia */
+    background-color: #ffffff; /* Kolor linii */
+}
+
+.main-nav a.active {
+    position: relative;
+    text-decoration: none; /* Usunięcie domyślnego podkreślenia */
+}
+
+.main-nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; /* Mały odstęp od tekstu */
+    width: 100%;
+    height: 2px; /* Grubość linii podkreślenia */
+    background-color: #ffffff; /* Kolor linii */
+}
+
+
+
+
+
+
+
+
+/* Dynamiczna galeria zdjęć jako tło */
+.background-slider {
+	overflow: hidden; /* Zapobiega wyciekaniu obrazów poza kontener */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Tło za innymi elementami */
+    background-color: black;
+}
+
+.background-slider img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0; /* Ustawia rogi jako niezaokrąglone */
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 12s ease-in-out;
+}
+
+.background-slider img.active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.background-slider img.zoom {
+    transform: scale(1.1); /* Powiększenie obrazu */
+    transition: transform 5s ease; /* Powolne powiększanie obrazu */
+}
+
+
+.ticket-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #fff;
+  text-decoration: none;
+  color: #fff;
+  background: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ticket-btn:hover {
+  background: #fff;
+  color: #000;
+}
+.concerts-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* centruje sekcję na stronie */
+  text-align: center;          /* tekst w środku sekcji wyrównany do lewej */
+  padding: 40px 0;
+}
+
+.concert-item {
+  width: min(800px, 90%);    /* szerokość bloku koncertu – max 800px, ale nie więcej niż 90% okna */
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 24px;
+}
+
+.concert-item h3 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.concert-item p {
+  margin: 4px 0;
+  opacity: 0.9;
+}
+
+.concert-item button {
+  margin-top: 12px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.concert-item button:hover {
+  background: #333;
+}
+
+
+/* filtry produktów */
+#product-filters button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #222;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#product-filters button:hover {
+    background-color: #FF5733;
+}
+
+#product-filters button.active {
+    background-color: #FF5733;
+}
+
+
+/* sekcja galeria */
+    .gallery-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Wyśrodkowanie całej zawartości sekcji */
+        width: 100%;
+    }
+    
+
+
+/* Sekcja Aktualności */
+#news {
+    position: relative;
+    z-index: 2;
+    padding: 60px 20px;
+    background-color: transparent;
+    color: #f0f0f0;
+    margin-top: 100vh;
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie w poziomie */
+    align-items: center; /* Wyśrodkowanie w pionie */
+    flex-direction: column; /* Ustawienie elementów w kolumnie */
+}
+
+
+/* Styl przycisków filtrów */
+.concerts-section button {
+  background-color: #222;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 8px 10px 8px;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.concerts-section button:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+
+.concerts-section button.active {
+  background-color: #ff3366;
+}  
+/* Stylizacja sekcji news */
+.news-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Artykuł - układ dla desktop */
+.article-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; /* Odstęp między tekstem a zdjęciem */
+    margin-bottom: 40px; /* Odstęp między artykułami */
+}
+
+/* Tekst z lewej strony */
+.article-content p {
+    flex: 1;
+    width: 60%; /* Maksymalna szerokość dla tekstu */
+    text-align: left;
+}
+
+/* Zdjęcie z prawej strony */
+.article-content picture {
+    flex: 1;
+    width: 30%; /* Szerokość obrazu */
+    max-height: 100%; /* Dopasowanie wysokości obrazu do tekstu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.article-content img {
+    max-height: 500px; /* Ograniczenie maksymalnej wysokości obrazu */
+    height: auto;
+    max-width: 100%; /* Zachowanie proporcji obrazka */
+    border-radius: 8px; /* Opcjonalne zaokrąglenie narożników */
+    object-fit: contain; /* Dopasowanie obrazka w ramach kontenera */
+}
+
+
+
+.text-above-image {
+    width: 80%; /* Szerokość tekstu, aby był mniejszy niż szerokość sekcji */
+    max-width: 600px; /* Maksymalna szerokość tekstu */
+}
+
+.smaller-image {
+    max-width: 400px; /* Maksymalna szerokość obrazka */
+    margin: 0 auto; /* Wyśrodkowanie obrazka */
+}
+
+.smaller-image img {
+    width: 100%; /* Szerokość obrazka na 100% kontenera */
+    height: auto;
+    border-radius: 8px; /* Opcjonalne zaokrąglenie narożników */
+}
+
+
+/* sekcja press */
+.rider-section {
+    text-align: center; /* Wyśrodkowanie zawartości, w tym przycisku */
+    padding: 20px 0;
+    width: 100%;
+}
+
+.rider-download-btn {
+    display: inline-block;
+    margin: 20px auto; /* Wyśrodkowanie przycisku */
+    padding: 10px 20px;
+    background-color: #e60023; /* Kolor tła zgodny z kolorystyką strony */
+    color: #fff; /* Kolor tekstu */
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px; /* Zaokrąglone rogi */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Animacja */
+}
+
+.rider-download-btn:hover {
+    transform: scale(1.05); /* Lekkie powiększenie przy najechaniu */
+}
+
+
+
+.music-section .song {
+        width: 100%; /* Ustawienie szerokości na 100% */
+        text-align: center; /* Wyśrodkowanie zawartości */
+    }
+
+
+
+
+/* sekcja kontakt*/
+#kontakt {
+    padding: 60px 20px;
+    color: #f0f0f0;
+    background-color: black;
+    text-align: center;
+}
+
+.contact-form button,
+.form-group input,
+.contact-form textarea {
+    font-family: 'PoppinsBlack', sans-serif;
+	width: 100%;
+		
+}
+
+.form-group input,
+.contact-form textarea {
+    font-family: 'PoppinsBlack', sans-serif;
+    width: 100%;
+    resize: vertical; /* Pozwól na zmianę rozmiaru tylko w pionie */
+}
+
+.contact-form button {
+    color: #fff; /* Kolor tekstu w przycisku */
+    font-size: 1.2em;
+    background-color: #e60023; /* Tło przycisku */
+    width: auto; /* Zmieniamy szerokość na auto, aby przycisk nie zajmował całej szerokości */
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin: 0 auto; /* Wyśrodkowanie przycisku */
+}
+
+.contact-form button:hover {
+    transform: scale(1.1);
+}
+
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-group label {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+}
+
+.contact-submit {
+    background-color: #e60023;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.contact-submit button:hover {
+    transform: scale(1.1);
+}
+
+.contact-info a {
+        color: #e60023; /* Czerwony kolor linków */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+.contact-info a:hover {
+        color: #d94336; /* Ciemniejszy czerwony po najechaniu */
+        text-decoration: underline;
+    }
+
+
+/* Kontener stopki */
+footer {
+    background-color: transparent; /* Przezroczyste tło */
+    padding-right: 20px;
+    padding-left: 20px;
+    text-align: center;
+	border-bottom: none;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between; /* Elementy w jednym rzędzie */
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* Maksymalna szerokość */
+    margin: 0 auto;
+    transition: transform 0.3s ease-in-out; /* Animacja skalowania */
+}
+
+.footer-section {
+    flex: 1;
+    text-align: center;
+}
+
+.footer-logo {
+    width: 120px; /* Wycentrowane logo o stałej szerokości */
+    height: auto;
+}
+
+.footer-section.scroll-up {
+    position: relative;
+}
+
+#scrollTopBtn {
+    background-color: #e60023;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+#scrollTopBtn:hover {
+    background-color: #ff4050;
+}
+
+.footer-section.social-media ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.footer-section.social-media img {
+    width: 30px;
+    height: auto;
+}
+
+.footer-section.social-media p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.footer-bottom {
+    font-size: 0.9rem;
+    padding-top: 10px;
+}
+
+.footer-divider {
+    border: 0; /* Usuwamy jakiekolwiek domyślne obramowanie */
+    border-top: 2px solid #444; /* Ustawienie koloru linii na #444 */
+    margin: 20px 0;
+    width: 100%;
+    background-color: transparent; /* Upewniamy się, że tło dividera jest przezroczyste */
+}
+
+
+
+
+
+
+
+/* Style desktop only */
+@media only screen and (min-width: 768px) {
+
+/* ukrywanie mobile */
+    .desktop-header, .desktop-footer {
+        display: block;
+    }
+    .mobile-header, .mobile-footer, .mobile-sticky-header {
+        display: none;
+    }
+
+
+/* margines 80% */
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Wycentrowanie zawartości */
+    }
+
+    #news, footer {
+        width: 80%; /* Zajmowanie 80% szerokości */
+    }
+
+
+/* sekcja o nas */
+    .members-container {
+        display: flex;
+        justify-content: space-between; /* Równomierne rozmieszczenie zdjęć */
+        gap: 10px; /* Odstęp między zdjęciami */
+        flex-wrap: wrap; /* Dostosowanie do szerokości ekranu */
+    }
+
+    .member {
+        flex: 1 1 calc(20% - 10px); /* Każde zdjęcie zajmuje 25% szerokości, minus odstęp */
+        position: relative;
+        margin-bottom: 10px; /* Odstęp między rzędami zdjęć */
+        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
+    }
+
+    .member img {
+        width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+        height: 100%;
+        object-fit: cover; /* Dopasowanie zdjęcia, bez ucięcia */
+        border-radius: 10px; /* Zaokrąglone rogi */
+        transition: transform 0.5s ease; /* Płynne powiększanie/zmniejszanie */
+    }
+
+    .member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out; /* Płynna zmiana widoczności */
+    }
+
+	.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+    .member:hover::after {
+        opacity: 1; /* Pojawienie się tekstu na hover */
+    }
+    
+	.slider-container img {
+        display: block;
+    }
+
+
+/* Sekcja muzyka */
+.music-section {
+    width: 100%; /* Cała szerokość ekranu */
+    max-width: 1200px; /* Maksymalna szerokość zawartości */
+    margin: 0 auto; /* Wyśrodkowanie sekcji */
+    padding: 20px 0;
+}
+
+.music-section .videos {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Zawijanie elementów w mniejszych szerokościach */
+    gap: 20px; /* Odstęp między wideo */
+    width: 100%;
+}
+
+.song {
+    flex: 1;
+    min-width: 300px; /* Minimalna szerokość, aby wideo nie nachodziły na siebie */
+    max-width: 45%;
+    text-align: center;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Ustawienie proporcji 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Stylizacja Spotify */
+.spotify-wrapper {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.spotify-wrapper iframe {
+    width: 100%;
+    height: 80px; /* Wysokość odtwarzacza Spotify */
+    border: none;
+}
+
+
+/* sekcja aktualności */
+#news img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Płynna animacja */
+}
+
+
+/* Sekcja galeria */
+.gallery-grid {
+    display: grid;
+    grid-gap: 10px; /* Odstępy między zdjęciami */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsywne kolumny */
+    grid-auto-rows: 200px; /* Wysokość wiersza */
+    grid-auto-flow: dense; /* Zapewnia nieregularny układ */
+    margin: 0 auto;
+    width: 100%;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    object-fit: cover; /* Utrzymuje proporcje zdjęć */
+    border-radius: 5px; /* Zaokrąglone rogi */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
+    cursor: pointer;
+}
+
+#expandedImageContainer {
+    display: flex; /* Ukryty na początku */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Animacja opacity */
+}
+
+#expandedImage {
+    position: absolute;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+    width: 0;
+    height: auto;
+    opacity: 0;
+}
+
+#expandedImage.expanded {
+    width: auto;
+    max-width: 80vw;
+    max-height: 80vh;
+    opacity: 1;
+}
+
+.gallery-grid.blurred {
+    filter: blur(10px);
+    opacity: 0.5; /* Przyciemnienie podczas blur */
+    transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne przejście */
+}
+
+.gallery-grid.unblurred {
+    filter: blur(0px); /* Reset blur */
+    opacity: 1; /* Rozjaśnienie */
+    transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne odblurowanie */
+}
+
+.strzalka {
+        display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
+    }
+}
+
+/* Style Mobile only */
+@media (max-width: 768px) {
+
+
+/* tekst wyśrodkowany */
+p {
+		text-align: center;
+	}
+	
+	
+	
+.desktop-header, .desktop-footer {
+        display: none;
+    }
+.mobile-header, .mobile-footer, .mobile-sticky-header {
+        display: block;
+    }
+	
+/* Stylizacja przycisku językowego */
+.language-switcher {
+	        position: absolute;
+        left: 15px;
+        top: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.language-switcher a {
+    font-size: 1rem; /* Dostosuj wielkość tekstu */
+    color: #fff; /* Kolor tekstu */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+	
+/* Styl dla dolnego paska nagłówka */
+.mobile-sticky-header {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    color: black;
+    padding: 10px 0;
+    z-index: 999;
+    height: 30px;
+    border-top: 1px solid #444; /* Dodanie linii na górze */
+    transform: translateY(100%); /* Ukryty poza ekranem na początku */
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie elementów */
+    align-items: center;
+    transition: transform 0.5s ease-out; /* Płynna animacja */
+    overflow: hidden; /* Zapobiega wyciekaniu elementów */
+}
+
+.mobile-sticky-header.show {
+    transform: translateY(0); /* Wjeżdża na ekran */
+    display: block;
+    bottom: 0;
+}
+
+.mobile-sticky-header.hide {
+    transform: translateY(100%); /* Zjeżdża z ekranu */
+	
+}
+
+.mobile-sticky-nav  {
+    width: 100%; /* Rozciąga listę na całą szerokość */
+}
+
+.mobile-sticky-nav ul {
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie elementów w poziomie */
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 10px; /* Ustal równe odstępy między linkami */
+}
+
+.mobile-sticky-nav ul li {
+    flex: 1; /* Każdy element ma równą szerokość */
+    text-align: center;
+}
+
+.mobile-sticky-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.sticky-logo {
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+    width: auto; /* Zachowanie proporcji logo */
+}
+
+
+/* stopka */
+
+#footer {
+	width: 100%;
+	padding-right: 20px;
+}
+    .footer-container {
+		
+        flex-direction: column;
+        width: 100%; /* Pełna szerokość dla elementów w wersji mobilnej */
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    /* Dodanie marginesu dolnego, aby sticky nav nie zasłaniał */
+    .footer-bottom {
+        margin-bottom: 60px; 
+    }
+
+    /* Ukrywanie przycisku "scroll to top" w wersji mobilnej */
+    #scrollTopBtn {
+        display: none;
+    }
+
+/* Hamburger menu */
+.mobile-header .hamburger {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 999;
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Animacja obracania */
+}
+
+/* Linie hamburgera */
+.hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: #ffffff;
+    transition: opacity 0.8s ease; /* Dopasowanie do animacji zjeżdżania menu */
+}
+
+/* Pseudo-elementy tworzące X */
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 30px;
+    height: 3px;
+    background-color: #ffffff;
+    opacity: 0; /* Początkowo niewidoczne */
+    transition: transform 0.8s ease, opacity 0.8s ease; /* Dopasowanie do animacji zjeżdżania menu */
+    transform-origin: center;
+}
+
+/* Tworzenie X po aktywacji */
+.hamburger.active span {
+    opacity: 0; /* Znikają oryginalne paski */
+}
+
+/* Animacja X po aktywacji */
+.hamburger.active::before {
+    opacity: 1;
+    transform: rotate(45deg); /* Pierwsza linia X */
+}
+
+.hamburger.active::after {
+    opacity: 1;
+    transform: rotate(-45deg); /* Druga linia X */
+}
+
+
+
+
+    .nav-mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        top: -100vh; /* Zaczyna poza ekranem */
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.6); /* Ciemne, przeźroczyste tło */
+        backdrop-filter: blur(0px); /* Brak rozmycia na początku */
+        text-align: center;
+        z-index: 998;
+        transition: top 0.8s cubic-bezier(0.65, 0, 0.35, 1), /* Stopniowe zjeżdżanie z wyraźnym zwolnieniem */
+                    backdrop-filter 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Synchronizacja rozmycia z animacją */
+    }
+
+    .nav-mobile.active {
+        top: 0;
+        backdrop-filter: blur(10px); /* Stopniowe zwiększanie rozmycia tła */
+    }
+
+    .nav-mobile ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: calc(100% - 80px); /* Rozciągnięcie linków na całą wysokość, pomniejszoną o wysokość hamburgera */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly; /* Równomierne rozmieszczenie linków w pionie */
+        align-items: center;
+    }
+
+    .nav-mobile ul li {
+        width: 100%; /* Każdy link na całą szerokość ekranu */
+        text-align: center; /* Wyśrodkowanie tekstu */
+    }
+
+    .nav-mobile ul li a {
+        display: block;
+        width: 100%;
+        padding: 20px 0;
+        text-decoration: none;
+        color: #ffffff; /* Kolor tekstu */
+        font-size: 1.8em; /* Większe linki */
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-mobile ul li a:hover {
+        background-color: rgba(255, 255, 255, 0.2); /* Podświetlenie po najechaniu */
+    }
+
+
+
+/* sekcja galeia */
+.gallery-grid {
+    display: flex;
+    overflow-x: auto; /* Pozwala na przewijanie w poziomie */
+    scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
+    scrollbar-width: thin;
+    gap: 10px; /* Odstęp między zdjęciami */
+    padding: 10px;
+    width: 100%; /* Kontener zajmuje całą szerokość strony */
+}
+
+.gallery-grid picture {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    height: 250px; /* Wysokość każdego obrazu */
+    max-width: calc(100vw - 20px); /* Szerokość obrazu na pełną szerokość okna przeglądarki z odstępem */
+}
+
+.gallery-grid img {
+    height: 100%;
+    width: 100%; /* Dopasowanie szerokości obrazka do kontenera */
+    object-fit: cover; /* Zapewnia, że obrazek wypełnia cały kontener bez deformacji */
+    border-radius: 10px;
+}
+
+.gallery-grid img:hover {
+    transform: none;
+    box-shadow: none;
+}	
+	
+    #expandedImageContainer {
+        display: none !important; /* Ukrywa kontener na mobilnych ekranach */
+    }
+    #expandedImage {
+        display: none !important; /* Ukrywa powiększony obrazek na mobilnych ekranach */
+    }
+	
+	
+/* sekcja o nas */
+.members-container {
+    display: flex;
+    flex-shrink: 0;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch; /* Lepsza obsługa przewijania na mobile */
+    flex-direction: row; /* Ustawienie galerii w poziomie */
+    overflow-x: auto; /* Umożliwienie przewijania w poziomie */
+    overflow-y: hidden; /* Blokowanie przewijania w pionie */
+    gap: 20px; /* Odstęp między zdjęciami */
+    padding: 10px;
+    width: 100%;
+    height: 300px; /* Stała wysokość kontenera */
+    scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
+    scroll-padding: 0 30vw; /* Dodanie przestrzeni, aby ostatnie zdjęcie mogło być wyśrodkowane */
+    -ms-overflow-style: none;  /* Ukrycie paska przewijania w IE i Edge */
+    scrollbar-width: none;  /* Ukrycie paska przewijania w Firefox */
+}
+
+.member {
+    flex: 0 0 70%; /* Każdy element zajmuje 70% szerokości ekranu */
+    position: relative;
+    cursor: pointer;
+    height: 100%; /* Każdy element ma wypełniać całą wysokość kontenera */
+    transition: transform 0.5s ease, filter 0.5s ease;
+    scroll-snap-align: center; /* Wyśrodkowanie zdjęć podczas przewijania */
+}
+
+.member:last-child {
+    margin-right: 30vw; /* Dodanie wcięcia po prawej stronie dla ostatniego elementu */
+}
+
+.member:first-child {
+    margin-left: 10vw; /* Dodanie wcięcia po lewej stronie dla pierwszego elementu */
+}
+
+.member img {
+    width: 100%; /* Zdjęcie zajmuje całą szerokość kontenera */
+    height: 100%; /* Dopasowanie zdjęcia do wysokości kontenera */
+    object-fit: cover; /* Zapewnia dopasowanie do kontenera bez deformacji */
+    border-radius: 10px; /* Zaokrąglone rogi */
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+.member::after {
+        content: attr(data-member); /* Wyświetlanie opisu */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        color: #fff;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 50%; /* Wyśrodkowanie tekstu w pionie */
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+
+.member:hover img {
+		transform: scale(1.1); /* Powiększenie zdjęcia */
+		filter: brightness(0.7); /* Przyciemnienie zdjęcia */
+}	
+
+.member.active::after {
+        opacity: 1; /* Wyświetlenie tekstu */
+    }
+
+.member:not(.active) img {
+        transform: scale(1);
+				filter: brightness(1); /* Przyciemnienie zdjęcia */
+				
+    }
+
+
+/* sekcja news */
+    .article-content {
+        flex-direction: column; /* Układ w kolumnie na mobile */
+        gap: 10px; /* Mniejszy odstęp między elementami */
+        text-align: center; /* Wycentrowanie tekstu */
+    }
+
+    .article-content p {
+        width: 100%; /* Tekst zajmuje całą szerokość */
+    }
+
+    .article-content picture {
+        width: 100%; /* Obraz zajmuje całą szerokość na mobile */
+        max-height: unset; /* Usunięcie ograniczenia wysokości */
+        margin-top: 10px; /* Dodanie odstępu od tekstu */
+    }
+
+    .article-content img {
+        width: 100%; /* Szerokość obrazu na 100% */
+        height: auto;
+        object-fit: cover; /* Wypełnienie obrazka bez zachowania proporcji */
+    }
+
+/* sekcja muzyka */
+    .video-container, .spotify-wrapper {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .music-section {
+        text-align: center;
+    }
+
+    .song {
+        margin-bottom: 20px;
+    }
+
+
+/* sekcja kontakt */
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+}
+
+
