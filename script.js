@@ -24,6 +24,30 @@ function scrollToHeadline() {
     });
 }
 
+function autoScrollToHeadlineOnLoad() {
+    const h1Element = document.querySelector('h1');
+    if (!h1Element) return;
+    if (window.scrollY > 10) return;
+
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const offset = Math.max(0, (window.innerHeight - h1Element.offsetHeight) / 2);
+
+    if (typeof gsap !== 'undefined') {
+        gsap.to(window, {
+            scrollTo: { y: h1Element, offsetY: offset },
+            duration: prefersReduced ? 0 : 1,
+            ease: 'power2.out'
+        });
+        return;
+    }
+
+    if (prefersReduced) {
+        h1Element.scrollIntoView({ block: 'center' });
+    } else {
+        h1Element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
 function ensureScrollEnabled() {
     document.documentElement.style.overflowY = 'auto';
     document.body.style.overflowY = 'auto';
@@ -150,6 +174,9 @@ window.addEventListener('load', () => {
     handleImageSwap();
     startSlider();
     adjustImageBrightness(window.scrollY || 0);
+    setTimeout(() => {
+        autoScrollToHeadlineOnLoad();
+    }, 200);
 });
 
 document.addEventListener('DOMContentLoaded', () => {

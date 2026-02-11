@@ -598,6 +598,8 @@ footer {
     padding-left: 20px;
     text-align: center;
 	border-bottom: none;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-container {
