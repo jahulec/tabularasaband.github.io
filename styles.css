@@ -1024,6 +1024,44 @@ p {
     transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Animacja obracania */
 }
 
+/* === Hamburger -> "rysowanie" menu (mobile) === */
+@media (max-width: 768px) {
+  /* Paski hamburgera: będą się rozsuwać i wydłużać */
+  .mobile-header .hamburger span {
+    transform-origin: right center;
+    will-change: transform, opacity;
+  }
+
+  /* Linki w menu: przygotowanie pod line + reveal text */
+  .nav-mobile ul li a {
+    position: relative;
+    overflow: visible;
+  }
+
+  /* Tekst, który "rysujemy" (odsłaniamy od lewej) */
+  .nav-mobile .nav-link__text {
+    display: inline-block;
+    white-space: nowrap;
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    will-change: clip-path;
+  }
+
+  /* Linia, która „rysuje” pod tekstem */
+  .nav-mobile .nav-link__line {
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 12px;
+    height: 2px;
+    background: rgba(255,255,255,0.9);
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+    pointer-events: none;
+  }
+}
+
 /* Linie hamburgera */
 .hamburger span {
     display: block;

@@ -268,17 +268,123 @@ function enforceWheelScroll(event) {
 
 window.addEventListener('wheel', enforceWheelScroll, { passive: true });
 
-if (hamburger && navMobile) {
-    hamburger.addEventListener('click', function () {
-        this.classList.toggle('active');
-        navMobile.classList.toggle('active');
+document.addEventListener('DOMContentLoaded', () => {
+    const menuHamburger = document.getElementById('hamburger');
+    const menuNav = document.getElementById('nav-mobile');
+    if (!menuHamburger || !menuNav || typeof gsap === 'undefined') return;
 
-        if (this.classList.contains('active') && header) {
+    // Upewnij się, że start jest "zamknięty" (żadnych flashów po odświeżeniu)
+    menuHamburger.classList.remove('active');
+    menuNav.classList.remove('active');
+    menuNav.style.pointerEvents = 'none';
+
+    // Owiń tekst linków w span + dodaj linię (bez ręcznej edycji HTML)
+    menuNav.querySelectorAll('a').forEach((a) => {
+        if (a.querySelector('.nav-link__text')) return;
+
+        const label = (a.textContent || '').trim();
+        a.textContent = '';
+
+        const text = document.createElement('span');
+        text.className = 'nav-link__text';
+        text.textContent = label;
+
+        const line = document.createElement('span');
+        line.className = 'nav-link__line';
+
+        a.appendChild(text);
+        a.appendChild(line);
+    });
+
+    const bars = Array.from(menuHamburger.querySelectorAll('span'));
+    const linkTexts = Array.from(menuNav.querySelectorAll('.nav-link__text'));
+    const linkLines = Array.from(menuNav.querySelectorAll('.nav-link__line'));
+    const links = Array.from(menuNav.querySelectorAll('a'));
+
+    // Stan początkowy animowanych elementów
+    gsap.set(linkTexts, {
+        clipPath: 'inset(0 100% 0 0)',
+        webkitClipPath: 'inset(0 100% 0 0)',
+    });
+    gsap.set(linkLines, { scaleX: 0 });
+    gsap.set(bars, { opacity: 1, scaleX: 1, y: 0 });
+
+    let isOpen = false;
+
+    const lockScroll = (lock) => {
+        if (lock) {
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
+    };
+
+    const barScale = () => {
+        return Math.min(22, Math.max(10, window.innerWidth / 30));
+    };
+
+    const tl = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'power3.out' },
+        onReverseComplete: () => {
+            menuNav.classList.remove('active');
+            menuNav.style.pointerEvents = 'none';
+            lockScroll(false);
+            isOpen = false;
+        },
+    });
+
+    // OPEN
+    tl.add(() => {
+        menuNav.classList.add('active');
+        menuNav.style.pointerEvents = 'auto';
+        lockScroll(true);
+        if (header) {
             header.classList.remove('hidden');
             isHeaderHidden = false;
         }
+    }, 0)
+        .to(bars, { duration: 0.18, y: (i) => (i - 1) * 7 }, 0)
+        .to(bars, { duration: 0.35, scaleX: barScale, transformOrigin: 'right center' }, 0.05)
+        .to(bars, { duration: 0.18, opacity: 0 }, 0.18)
+        .to(linkLines, { duration: 0.5, scaleX: 1, stagger: 0.06 }, 0.25)
+        .to(linkTexts, {
+            duration: 0.55,
+            clipPath: 'inset(0 0% 0 0)',
+            webkitClipPath: 'inset(0 0% 0 0)',
+            stagger: 0.06,
+            ease: 'power2.out',
+        }, 0.28);
+
+    const openMenu = () => {
+        if (isOpen) return;
+        isOpen = true;
+        tl.play(0);
+    };
+
+    const closeMenu = () => {
+        if (!isOpen) return;
+        gsap.set(bars, { opacity: 1 });
+        tl.reverse();
+    };
+
+    menuHamburger.addEventListener('click', (e) => {
+        e.preventDefault();
+        isOpen ? closeMenu() : openMenu();
     });
-}
+
+    links.forEach((a) => a.addEventListener('click', () => closeMenu()));
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+    });
+
+    menuNav.addEventListener('click', (e) => {
+        if (e.target === menuNav) closeMenu();
+    });
+});
 
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 if (scrollTopBtn) {
