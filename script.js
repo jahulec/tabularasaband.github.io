@@ -440,11 +440,11 @@ if (galleryImages.length > 0 && expandedImageContainer && expandedImage && galle
     });
 }
 
-function downloadpress() {
+function downloadpress(file = 'press.pdf', downloadName = 'press.pdf') {
     setTimeout(() => {
         const link = document.createElement('a');
-        link.href = 'press.pdf';
-        link.download = 'press.pdf';
+        link.href = file;
+        link.download = downloadName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
