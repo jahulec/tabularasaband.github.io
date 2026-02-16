@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,46 +13,26 @@
 
     
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
+	<link rel="stylesheet" href="styles-gallery.css">
 	<link rel="icon" href="logo.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="logo.ico" type="image/x-icon">
 	
     	<link rel="canonical" href="https://tabularasaband.pl/gallery-en.html" />
-    	<link rel="alternate" href="/gallery.html" hreflang="pl">
-   	<link rel="alternate" href="/gallery-en.html" hreflang="en">
+    	<link rel="alternate" href="https://tabularasaband.pl/gallery.html" hreflang="pl">
+   	<link rel="alternate" href="https://tabularasaband.pl/gallery-en.html" hreflang="en">
 	
-	<link id="preloadFirstImage" rel="preload" as="image" href="galeria/zdjecia_desktop/875d.webp" media="(min-width: 769px)">
+	<link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" media="(min-width: 769px)">
     	<link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(max-width: 768px)">
 
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js"></script>
-    <!-- Google Tag Manager -->
-    <script>
-    (function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');</script>
-    <!-- End Google Tag Manager -->
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js" defer></script>
 </head>
 
 
-
-
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MK42J45H"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
 <header>
-    <!-- Desktopowa wersja nagłówka (pozostaje bez zmian) -->
+    <!-- Desktop header version (unchanged) -->
     <div class="desktop-header">
         <nav class="main-nav">
             <ul>
@@ -63,7 +43,7 @@
                 <li><a href="music-en.html">Music</a></li>
                 <li><a href="shows-en.html">Shows</a></li>
                 <li class="logo-container">
-                    <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="logo"></a>
+                    <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - rock band" class="logo"></a>
                 </li>
                 <li><a href="gallery-en.html" class="active">Gallery</a></li>
                 <li><a href="press-en.html">Press</a></li>
@@ -73,13 +53,13 @@
         </nav>
     </div>
 
-    <!-- Mobilna wersja nagłówka (tylko dla urządzeń mobilnych) -->
+    <!-- Mobile header version (for mobile devices only) -->
     <div class="mobile-header">
 	<div class="language-switcher">
                 <a href="/gallery.html">PL</a>
         </div>
         <div class="logo-container">
-            <a href="index.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="logo"></a>
+            <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="logo"></a>
         </div>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -114,7 +94,7 @@
 </div>
 
 
-<!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
+<!-- Dynamic Photo Gallery (single section for desktop and mobile) -->
 <div class="background-slider">
 	<img id="firstImage" class="active" src="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" alt="Tabula Rasa - koncert 1" data-mobile-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/80m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/75d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/75d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp 2560w">
 	<img src="galeria/_responsive/zdjecia_desktop/73d-w1280.webp" alt="Tabula Rasa - koncert 2" data-mobile-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/81m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/81m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/73d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/73d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/73d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/73d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/73d-w2560.webp 2560w">
@@ -127,120 +107,120 @@
 	<p class="strzalka">&#x2192;</p>
 
 	<div class="expanded-image" id="expandedImageContainer" style="display: none;">
-    <img id="expandedImage" src="" alt="Powiększone zdjęcie">
+    <img id="expandedImage" src="" alt="Enlarged photo">
 </div>
 
 
 <div class="gallery-grid">
-<img src="galeria/_responsive/148Plik_-w320.webp" srcset="galeria/_responsive/148Plik_-w320.webp 320w, galeria/_responsive/148Plik_-w640.webp 640w, galeria/_responsive/148Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/148Plik_-w1280.webp">
-<img src="galeria/_responsive/147Plik_-w320.webp" srcset="galeria/_responsive/147Plik_-w320.webp 320w, galeria/_responsive/147Plik_-w640.webp 640w, galeria/_responsive/147Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/147Plik_-w1280.webp">
-<img src="galeria/_responsive/146Plik_-w320.webp" srcset="galeria/_responsive/146Plik_-w320.webp 320w, galeria/_responsive/146Plik_-w640.webp 640w, galeria/_responsive/146Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/146Plik_-w1280.webp">
-<img src="galeria/_responsive/145Plik_-w320.webp" srcset="galeria/_responsive/145Plik_-w320.webp 320w, galeria/_responsive/145Plik_-w640.webp 640w, galeria/_responsive/145Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/145Plik_-w1280.webp">
-<img src="galeria/_responsive/144Plik_-w320.webp" srcset="galeria/_responsive/144Plik_-w320.webp 320w, galeria/_responsive/144Plik_-w640.webp 640w, galeria/_responsive/144Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/144Plik_-w1280.webp">
-<img src="galeria/_responsive/143Plik_-w320.webp" srcset="galeria/_responsive/143Plik_-w320.webp 320w, galeria/_responsive/143Plik_-w640.webp 640w, galeria/_responsive/143Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/143Plik_-w1280.webp">
-<img src="galeria/_responsive/142Plik_-w320.webp" srcset="galeria/_responsive/142Plik_-w320.webp 320w, galeria/_responsive/142Plik_-w640.webp 640w, galeria/_responsive/142Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/142Plik_-w1280.webp">
-<img src="galeria/_responsive/141Plik_-w320.webp" srcset="galeria/_responsive/141Plik_-w320.webp 320w, galeria/_responsive/141Plik_-w640.webp 640w, galeria/_responsive/141Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/141Plik_-w1280.webp">
-<img src="galeria/_responsive/141-w320.webp" srcset="galeria/_responsive/141-w320.webp 320w, galeria/_responsive/141-w640.webp 640w, galeria/_responsive/141-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/141-w1280.webp">
-<img src="galeria/_responsive/140Plik_-w320.webp" srcset="galeria/_responsive/140Plik_-w320.webp 320w, galeria/_responsive/140Plik_-w640.webp 640w, galeria/_responsive/140Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/140Plik_-w1280.webp">
-<img src="galeria/_responsive/140-w320.webp" srcset="galeria/_responsive/140-w320.webp 320w, galeria/_responsive/140-w640.webp 640w, galeria/_responsive/140-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/140-w1280.webp">
-<img src="galeria/_responsive/139Plik_-w320.webp" srcset="galeria/_responsive/139Plik_-w320.webp 320w, galeria/_responsive/139Plik_-w640.webp 640w, galeria/_responsive/139Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/139Plik_-w1280.webp">
-<img src="galeria/_responsive/139-w320.webp" srcset="galeria/_responsive/139-w320.webp 320w, galeria/_responsive/139-w640.webp 640w, galeria/_responsive/139-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/139-w1280.webp">
-<img src="galeria/_responsive/138Plik_-w320.webp" srcset="galeria/_responsive/138Plik_-w320.webp 320w, galeria/_responsive/138Plik_-w640.webp 640w, galeria/_responsive/138Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/138Plik_-w1280.webp">
-<img src="galeria/_responsive/137Plik_-w320.webp" srcset="galeria/_responsive/137Plik_-w320.webp 320w, galeria/_responsive/137Plik_-w640.webp 640w, galeria/_responsive/137Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/137Plik_-w1280.webp">
-<img src="galeria/_responsive/136Plik_-w320.webp" srcset="galeria/_responsive/136Plik_-w320.webp 320w, galeria/_responsive/136Plik_-w640.webp 640w, galeria/_responsive/136Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/136Plik_-w1280.webp">
-<img src="galeria/_responsive/135Plik_-w320.webp" srcset="galeria/_responsive/135Plik_-w320.webp 320w, galeria/_responsive/135Plik_-w640.webp 640w, galeria/_responsive/135Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/135Plik_-w1280.webp">
-<img src="galeria/_responsive/134Plik_-w320.webp" srcset="galeria/_responsive/134Plik_-w320.webp 320w, galeria/_responsive/134Plik_-w640.webp 640w, galeria/_responsive/134Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/134Plik_-w1280.webp">
-<img src="galeria/_responsive/133Plik_-w320.webp" srcset="galeria/_responsive/133Plik_-w320.webp 320w, galeria/_responsive/133Plik_-w640.webp 640w, galeria/_responsive/133Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/133Plik_-w1280.webp">
-<img src="galeria/_responsive/132Plik_-w320.webp" srcset="galeria/_responsive/132Plik_-w320.webp 320w, galeria/_responsive/132Plik_-w640.webp 640w, galeria/_responsive/132Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/132Plik_-w1280.webp">
-<img src="galeria/_responsive/131Plik_-w320.webp" srcset="galeria/_responsive/131Plik_-w320.webp 320w, galeria/_responsive/131Plik_-w640.webp 640w, galeria/_responsive/131Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/131Plik_-w1280.webp">
-<img src="galeria/_responsive/131-w320.webp" srcset="galeria/_responsive/131-w320.webp 320w, galeria/_responsive/131-w640.webp 640w, galeria/_responsive/131-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/131-w1280.webp">
-<img src="galeria/_responsive/130Plik_-w320.webp" srcset="galeria/_responsive/130Plik_-w320.webp 320w, galeria/_responsive/130Plik_-w640.webp 640w, galeria/_responsive/130Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/130Plik_-w1280.webp">
-<img src="galeria/_responsive/129Plik_-w320.webp" srcset="galeria/_responsive/129Plik_-w320.webp 320w, galeria/_responsive/129Plik_-w640.webp 640w, galeria/_responsive/129Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/129Plik_-w1280.webp">
-<img src="galeria/_responsive/128Plik_-w320.webp" srcset="galeria/_responsive/128Plik_-w320.webp 320w, galeria/_responsive/128Plik_-w640.webp 640w, galeria/_responsive/128Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/128Plik_-w1280.webp">
-<img src="galeria/_responsive/127Plik_-w320.webp" srcset="galeria/_responsive/127Plik_-w320.webp 320w, galeria/_responsive/127Plik_-w640.webp 640w, galeria/_responsive/127Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/127Plik_-w1280.webp">
-<img src="galeria/_responsive/127-w320.webp" srcset="galeria/_responsive/127-w320.webp 320w, galeria/_responsive/127-w640.webp 640w, galeria/_responsive/127-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/127-w1280.webp">
-<img src="galeria/_responsive/126Plik_-w320.webp" srcset="galeria/_responsive/126Plik_-w320.webp 320w, galeria/_responsive/126Plik_-w640.webp 640w, galeria/_responsive/126Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/126Plik_-w1280.webp">
-<img src="galeria/_responsive/126-w320.webp" srcset="galeria/_responsive/126-w320.webp 320w, galeria/_responsive/126-w640.webp 640w, galeria/_responsive/126-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/126-w1280.webp">
-<img src="galeria/_responsive/125Plik_-w320.webp" srcset="galeria/_responsive/125Plik_-w320.webp 320w, galeria/_responsive/125Plik_-w640.webp 640w, galeria/_responsive/125Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/125Plik_-w1280.webp">
-<img src="galeria/_responsive/125-w320.webp" srcset="galeria/_responsive/125-w320.webp 320w, galeria/_responsive/125-w640.webp 640w, galeria/_responsive/125-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/125-w1280.webp">
-<img src="galeria/_responsive/124Plik_-w320.webp" srcset="galeria/_responsive/124Plik_-w320.webp 320w, galeria/_responsive/124Plik_-w640.webp 640w, galeria/_responsive/124Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/124Plik_-w1280.webp">
-<img src="galeria/_responsive/124-w320.webp" srcset="galeria/_responsive/124-w320.webp 320w, galeria/_responsive/124-w640.webp 640w, galeria/_responsive/124-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/124-w1280.webp">
-<img src="galeria/_responsive/123Plik_-w320.webp" srcset="galeria/_responsive/123Plik_-w320.webp 320w, galeria/_responsive/123Plik_-w640.webp 640w, galeria/_responsive/123Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/123Plik_-w1280.webp">
-<img src="galeria/_responsive/123-w320.webp" srcset="galeria/_responsive/123-w320.webp 320w, galeria/_responsive/123-w640.webp 640w, galeria/_responsive/123-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/123-w1280.webp">
-<img src="galeria/_responsive/122Plik_-w320.webp" srcset="galeria/_responsive/122Plik_-w320.webp 320w, galeria/_responsive/122Plik_-w640.webp 640w, galeria/_responsive/122Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/122Plik_-w1280.webp">
-<img src="galeria/_responsive/122-w320.webp" srcset="galeria/_responsive/122-w320.webp 320w, galeria/_responsive/122-w640.webp 640w, galeria/_responsive/122-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/122-w1280.webp">
-<img src="galeria/_responsive/121Plik_-w320.webp" srcset="galeria/_responsive/121Plik_-w320.webp 320w, galeria/_responsive/121Plik_-w640.webp 640w, galeria/_responsive/121Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/121Plik_-w1280.webp">
-<img src="galeria/_responsive/121-w320.webp" srcset="galeria/_responsive/121-w320.webp 320w, galeria/_responsive/121-w640.webp 640w, galeria/_responsive/121-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/121-w1280.webp">
-<img src="galeria/_responsive/120Plik_-w320.webp" srcset="galeria/_responsive/120Plik_-w320.webp 320w, galeria/_responsive/120Plik_-w640.webp 640w, galeria/_responsive/120Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/120Plik_-w1280.webp">
-<img src="galeria/_responsive/120-w320.webp" srcset="galeria/_responsive/120-w320.webp 320w, galeria/_responsive/120-w640.webp 640w, galeria/_responsive/120-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/120-w1280.webp">
-<img src="galeria/_responsive/119Plik_-w320.webp" srcset="galeria/_responsive/119Plik_-w320.webp 320w, galeria/_responsive/119Plik_-w640.webp 640w, galeria/_responsive/119Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/119Plik_-w1280.webp">
-<img src="galeria/_responsive/118Plik_-w320.webp" srcset="galeria/_responsive/118Plik_-w320.webp 320w, galeria/_responsive/118Plik_-w640.webp 640w, galeria/_responsive/118Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/118Plik_-w1280.webp">
-<img src="galeria/_responsive/117Plik_-w320.webp" srcset="galeria/_responsive/117Plik_-w320.webp 320w, galeria/_responsive/117Plik_-w640.webp 640w, galeria/_responsive/117Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/117Plik_-w1280.webp">
-<img src="galeria/_responsive/116Plik_-w320.webp" srcset="galeria/_responsive/116Plik_-w320.webp 320w, galeria/_responsive/116Plik_-w640.webp 640w, galeria/_responsive/116Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/116Plik_-w1280.webp">
-<img src="galeria/_responsive/115Plik_-w320.webp" srcset="galeria/_responsive/115Plik_-w320.webp 320w, galeria/_responsive/115Plik_-w640.webp 640w, galeria/_responsive/115Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/115Plik_-w1280.webp">
-<img src="galeria/_responsive/114Plik_-w320.webp" srcset="galeria/_responsive/114Plik_-w320.webp 320w, galeria/_responsive/114Plik_-w640.webp 640w, galeria/_responsive/114Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/114Plik_-w1280.webp">
-<img src="galeria/_responsive/114-w320.webp" srcset="galeria/_responsive/114-w320.webp 320w, galeria/_responsive/114-w640.webp 640w, galeria/_responsive/114-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/114-w1280.webp">
-<img src="galeria/_responsive/113Plik_-w320.webp" srcset="galeria/_responsive/113Plik_-w320.webp 320w, galeria/_responsive/113Plik_-w640.webp 640w, galeria/_responsive/113Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/113Plik_-w1280.webp">
-<img src="galeria/_responsive/113-w320.webp" srcset="galeria/_responsive/113-w320.webp 320w, galeria/_responsive/113-w640.webp 640w, galeria/_responsive/113-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/113-w1280.webp">
-<img src="galeria/_responsive/112Plik_-w320.webp" srcset="galeria/_responsive/112Plik_-w320.webp 320w, galeria/_responsive/112Plik_-w640.webp 640w, galeria/_responsive/112Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/112Plik_-w1280.webp">
-<img src="galeria/_responsive/111Plik_-w320.webp" srcset="galeria/_responsive/111Plik_-w320.webp 320w, galeria/_responsive/111Plik_-w640.webp 640w, galeria/_responsive/111Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/111Plik_-w1280.webp">
-<img src="galeria/_responsive/111-w320.webp" srcset="galeria/_responsive/111-w320.webp 320w, galeria/_responsive/111-w640.webp 640w, galeria/_responsive/111-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/111-w1280.webp">
-<img src="galeria/_responsive/110Plik_-w320.webp" srcset="galeria/_responsive/110Plik_-w320.webp 320w, galeria/_responsive/110Plik_-w640.webp 640w, galeria/_responsive/110Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/110Plik_-w1280.webp">
-<img src="galeria/_responsive/110-w320.webp" srcset="galeria/_responsive/110-w320.webp 320w, galeria/_responsive/110-w640.webp 640w, galeria/_responsive/110-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/110-w1280.webp">
-<img src="galeria/_responsive/109Plik_-w320.webp" srcset="galeria/_responsive/109Plik_-w320.webp 320w, galeria/_responsive/109Plik_-w640.webp 640w, galeria/_responsive/109Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/109Plik_-w1280.webp">
-<img src="galeria/_responsive/108Plik_-w320.webp" srcset="galeria/_responsive/108Plik_-w320.webp 320w, galeria/_responsive/108Plik_-w640.webp 640w, galeria/_responsive/108Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/108Plik_-w1280.webp">
-<img src="galeria/_responsive/108-w320.webp" srcset="galeria/_responsive/108-w320.webp 320w, galeria/_responsive/108-w640.webp 640w, galeria/_responsive/108-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/108-w1280.webp">
-<img src="galeria/_responsive/107Plik_-w320.webp" srcset="galeria/_responsive/107Plik_-w320.webp 320w, galeria/_responsive/107Plik_-w640.webp 640w, galeria/_responsive/107Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/107Plik_-w1280.webp">
-<img src="galeria/_responsive/106Plik_-w320.webp" srcset="galeria/_responsive/106Plik_-w320.webp 320w, galeria/_responsive/106Plik_-w640.webp 640w, galeria/_responsive/106Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/106Plik_-w1280.webp">
-<img src="galeria/_responsive/106-w320.webp" srcset="galeria/_responsive/106-w320.webp 320w, galeria/_responsive/106-w640.webp 640w, galeria/_responsive/106-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/106-w1280.webp">
-<img src="galeria/_responsive/105Plik_-w320.webp" srcset="galeria/_responsive/105Plik_-w320.webp 320w, galeria/_responsive/105Plik_-w640.webp 640w, galeria/_responsive/105Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/105Plik_-w1280.webp">
-<img src="galeria/_responsive/104Plik_-w320.webp" srcset="galeria/_responsive/104Plik_-w320.webp 320w, galeria/_responsive/104Plik_-w640.webp 640w, galeria/_responsive/104Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/104Plik_-w1280.webp">
-<img src="galeria/_responsive/104-w320.webp" srcset="galeria/_responsive/104-w320.webp 320w, galeria/_responsive/104-w640.webp 640w, galeria/_responsive/104-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/104-w1280.webp">
-<img src="galeria/_responsive/103Plik_-w320.webp" srcset="galeria/_responsive/103Plik_-w320.webp 320w, galeria/_responsive/103Plik_-w640.webp 640w, galeria/_responsive/103Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/103Plik_-w1280.webp">
-<img src="galeria/_responsive/103-w320.webp" srcset="galeria/_responsive/103-w320.webp 320w, galeria/_responsive/103-w640.webp 640w, galeria/_responsive/103-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/103-w1280.webp">
-<img src="galeria/_responsive/102Plik_-w320.webp" srcset="galeria/_responsive/102Plik_-w320.webp 320w, galeria/_responsive/102Plik_-w640.webp 640w, galeria/_responsive/102Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/102Plik_-w1280.webp">
-<img src="galeria/_responsive/102-w320.webp" srcset="galeria/_responsive/102-w320.webp 320w, galeria/_responsive/102-w640.webp 640w, galeria/_responsive/102-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/102-w1280.webp">
-<img src="galeria/_responsive/101Plik_-w320.webp" srcset="galeria/_responsive/101Plik_-w320.webp 320w, galeria/_responsive/101Plik_-w640.webp 640w, galeria/_responsive/101Plik_-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/101Plik_-w1280.webp">
-<img src="galeria/_responsive/100Plik-w320.webp" srcset="galeria/_responsive/100Plik-w320.webp 320w, galeria/_responsive/100Plik-w640.webp 640w, galeria/_responsive/100Plik-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/100Plik-w1280.webp">
-<img src="galeria/_responsive/91-w320.webp" srcset="galeria/_responsive/91-w320.webp 320w, galeria/_responsive/91-w640.webp 640w, galeria/_responsive/91-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/91-w1280.webp">
-<img src="galeria/_responsive/90-w320.webp" srcset="galeria/_responsive/90-w320.webp 320w, galeria/_responsive/90-w640.webp 640w, galeria/_responsive/90-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/90-w1280.webp">
-<img src="galeria/_responsive/89-w320.webp" srcset="galeria/_responsive/89-w320.webp 320w, galeria/_responsive/89-w640.webp 640w, galeria/_responsive/89-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/89-w1280.webp">
-<img src="galeria/_responsive/87-w320.webp" srcset="galeria/_responsive/87-w320.webp 320w, galeria/_responsive/87-w640.webp 640w, galeria/_responsive/87-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/87-w1280.webp">
-<img src="galeria/_responsive/86-w320.webp" srcset="galeria/_responsive/86-w320.webp 320w, galeria/_responsive/86-w640.webp 640w, galeria/_responsive/86-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/86-w1280.webp">
-<img src="galeria/_responsive/85-w320.webp" srcset="galeria/_responsive/85-w320.webp 320w, galeria/_responsive/85-w640.webp 640w, galeria/_responsive/85-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/85-w1280.webp">
-<img src="galeria/_responsive/84-w320.webp" srcset="galeria/_responsive/84-w320.webp 320w, galeria/_responsive/84-w640.webp 640w, galeria/_responsive/84-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/84-w1280.webp">
-<img src="galeria/_responsive/83-w320.webp" srcset="galeria/_responsive/83-w320.webp 320w, galeria/_responsive/83-w640.webp 640w, galeria/_responsive/83-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/83-w1280.webp">
-<img src="galeria/_responsive/82-w320.webp" srcset="galeria/_responsive/82-w320.webp 320w, galeria/_responsive/82-w640.webp 640w, galeria/_responsive/82-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/82-w1280.webp">
-<img src="galeria/_responsive/81-w320.webp" srcset="galeria/_responsive/81-w320.webp 320w, galeria/_responsive/81-w640.webp 640w, galeria/_responsive/81-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/81-w1280.webp">
-<img src="galeria/_responsive/80-w320.webp" srcset="galeria/_responsive/80-w320.webp 320w, galeria/_responsive/80-w640.webp 640w, galeria/_responsive/80-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/80-w1280.webp">
-<img src="galeria/_responsive/79-w320.webp" srcset="galeria/_responsive/79-w320.webp 320w, galeria/_responsive/79-w640.webp 640w, galeria/_responsive/79-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/79-w1280.webp">
-<img src="galeria/_responsive/78-w320.webp" srcset="galeria/_responsive/78-w320.webp 320w, galeria/_responsive/78-w640.webp 640w, galeria/_responsive/78-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/78-w1280.webp">
-<img src="galeria/_responsive/77-w320.webp" srcset="galeria/_responsive/77-w320.webp 320w, galeria/_responsive/77-w640.webp 640w, galeria/_responsive/77-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/77-w1280.webp">
-<img src="galeria/_responsive/76-w320.webp" srcset="galeria/_responsive/76-w320.webp 320w, galeria/_responsive/76-w640.webp 640w, galeria/_responsive/76-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/76-w1280.webp">
-<img src="galeria/_responsive/75-w320.webp" srcset="galeria/_responsive/75-w320.webp 320w, galeria/_responsive/75-w640.webp 640w, galeria/_responsive/75-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/75-w1280.webp">
-<img src="galeria/_responsive/74-w320.webp" srcset="galeria/_responsive/74-w320.webp 320w, galeria/_responsive/74-w640.webp 640w, galeria/_responsive/74-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/74-w1280.webp">
-<img src="galeria/_responsive/73-w320.webp" srcset="galeria/_responsive/73-w320.webp 320w, galeria/_responsive/73-w640.webp 640w, galeria/_responsive/73-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/73-w1280.webp">
-<img src="galeria/_responsive/72-w320.webp" srcset="galeria/_responsive/72-w320.webp 320w, galeria/_responsive/72-w640.webp 640w, galeria/_responsive/72-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/72-w1280.webp">
-<img src="galeria/_responsive/71-w320.webp" srcset="galeria/_responsive/71-w320.webp 320w, galeria/_responsive/71-w640.webp 640w, galeria/_responsive/71-w1280.webp 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdj?cie Tabula Rasa" loading="lazy" decoding="async" data-full="galeria/_responsive/71-w1280.webp">
+<img src="galeria/_responsive/148Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/148Plik_-w1280.webp">
+<img src="galeria/_responsive/147Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/147Plik_-w1280.webp">
+<img src="galeria/_responsive/146Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/146Plik_-w1280.webp">
+<img src="galeria/_responsive/145Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/145Plik_-w1280.webp">
+<img src="galeria/_responsive/144Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/144Plik_-w1280.webp">
+<img src="galeria/_responsive/143Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/143Plik_-w1280.webp">
+<img src="galeria/_responsive/142Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/142Plik_-w1280.webp">
+<img src="galeria/_responsive/141Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/141Plik_-w1280.webp">
+<img src="galeria/_responsive/141-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/141-w1280.webp">
+<img src="galeria/_responsive/140Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/140Plik_-w1280.webp">
+<img src="galeria/_responsive/140-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/140-w1280.webp">
+<img src="galeria/_responsive/139Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/139Plik_-w1280.webp">
+<img src="galeria/_responsive/139-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/139-w1280.webp">
+<img src="galeria/_responsive/138Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/138Plik_-w1280.webp">
+<img src="galeria/_responsive/137Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/137Plik_-w1280.webp">
+<img src="galeria/_responsive/136Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/136Plik_-w1280.webp">
+<img src="galeria/_responsive/135Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/135Plik_-w1280.webp">
+<img src="galeria/_responsive/134Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/134Plik_-w1280.webp">
+<img src="galeria/_responsive/133Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/133Plik_-w1280.webp">
+<img src="galeria/_responsive/132Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/132Plik_-w1280.webp">
+<img src="galeria/_responsive/131Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/131Plik_-w1280.webp">
+<img src="galeria/_responsive/131-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/131-w1280.webp">
+<img src="galeria/_responsive/130Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/130Plik_-w1280.webp">
+<img src="galeria/_responsive/129Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/129Plik_-w1280.webp">
+<img src="galeria/_responsive/128Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/128Plik_-w1280.webp">
+<img src="galeria/_responsive/127Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/127Plik_-w1280.webp">
+<img src="galeria/_responsive/127-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/127-w1280.webp">
+<img src="galeria/_responsive/126Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/126Plik_-w1280.webp">
+<img src="galeria/_responsive/126-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/126-w1280.webp">
+<img src="galeria/_responsive/125Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/125Plik_-w1280.webp">
+<img src="galeria/_responsive/125-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/125-w1280.webp">
+<img src="galeria/_responsive/124Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/124Plik_-w1280.webp">
+<img src="galeria/_responsive/124-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/124-w1280.webp">
+<img src="galeria/_responsive/123Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/123Plik_-w1280.webp">
+<img src="galeria/_responsive/123-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/123-w1280.webp">
+<img src="galeria/_responsive/122Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/122Plik_-w1280.webp">
+<img src="galeria/_responsive/122-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/122-w1280.webp">
+<img src="galeria/_responsive/121Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/121Plik_-w1280.webp">
+<img src="galeria/_responsive/121-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/121-w1280.webp">
+<img src="galeria/_responsive/120Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/120Plik_-w1280.webp">
+<img src="galeria/_responsive/120-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/120-w1280.webp">
+<img src="galeria/_responsive/119Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/119Plik_-w1280.webp">
+<img src="galeria/_responsive/118Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/118Plik_-w1280.webp">
+<img src="galeria/_responsive/117Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/117Plik_-w1280.webp">
+<img src="galeria/_responsive/116Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/116Plik_-w1280.webp">
+<img src="galeria/_responsive/115Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/115Plik_-w1280.webp">
+<img src="galeria/_responsive/114Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/114Plik_-w1280.webp">
+<img src="galeria/_responsive/114-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/114-w1280.webp">
+<img src="galeria/_responsive/113Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/113Plik_-w1280.webp">
+<img src="galeria/_responsive/113-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/113-w1280.webp">
+<img src="galeria/_responsive/112Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/112Plik_-w1280.webp">
+<img src="galeria/_responsive/111Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/111Plik_-w1280.webp">
+<img src="galeria/_responsive/111-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/111-w1280.webp">
+<img src="galeria/_responsive/110Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/110Plik_-w1280.webp">
+<img src="galeria/_responsive/110-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/110-w1280.webp">
+<img src="galeria/_responsive/109Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/109Plik_-w1280.webp">
+<img src="galeria/_responsive/108Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/108Plik_-w1280.webp">
+<img src="galeria/_responsive/108-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/108-w1280.webp">
+<img src="galeria/_responsive/107Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/107Plik_-w1280.webp">
+<img src="galeria/_responsive/106Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/106Plik_-w1280.webp">
+<img src="galeria/_responsive/106-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/106-w1280.webp">
+<img src="galeria/_responsive/105Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/105Plik_-w1280.webp">
+<img src="galeria/_responsive/104Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/104Plik_-w1280.webp">
+<img src="galeria/_responsive/104-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/104-w1280.webp">
+<img src="galeria/_responsive/103Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/103Plik_-w1280.webp">
+<img src="galeria/_responsive/103-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/103-w1280.webp">
+<img src="galeria/_responsive/102Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/102Plik_-w1280.webp">
+<img src="galeria/_responsive/102-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/102-w1280.webp">
+<img src="galeria/_responsive/101Plik_-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/101Plik_-w1280.webp">
+<img src="galeria/_responsive/100Plik-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/100Plik-w1280.webp">
+<img src="galeria/_responsive/91-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/91-w1280.webp">
+<img src="galeria/_responsive/90-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/90-w1280.webp">
+<img src="galeria/_responsive/89-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/89-w1280.webp">
+<img src="galeria/_responsive/87-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/87-w1280.webp">
+<img src="galeria/_responsive/86-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/86-w1280.webp">
+<img src="galeria/_responsive/85-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/85-w1280.webp">
+<img src="galeria/_responsive/84-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/84-w1280.webp">
+<img src="galeria/_responsive/83-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/83-w1280.webp">
+<img src="galeria/_responsive/82-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/82-w1280.webp">
+<img src="galeria/_responsive/81-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/81-w1280.webp">
+<img src="galeria/_responsive/80-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/80-w1280.webp">
+<img src="galeria/_responsive/79-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/79-w1280.webp">
+<img src="galeria/_responsive/78-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/78-w1280.webp">
+<img src="galeria/_responsive/77-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/77-w1280.webp">
+<img src="galeria/_responsive/76-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/76-w1280.webp">
+<img src="galeria/_responsive/75-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/75-w1280.webp">
+<img src="galeria/_responsive/74-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/74-w1280.webp">
+<img src="galeria/_responsive/73-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/73-w1280.webp">
+<img src="galeria/_responsive/72-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/72-w1280.webp">
+<img src="galeria/_responsive/71-w640.webp" alt="Tabula Rasa photo" loading="lazy" decoding="async" fetchpriority="low" data-full="galeria/_responsive/71-w1280.webp">
 </div>
 </section>
 
-<!-- Stopka -->
+<!-- Footer -->
 <footer>
 	        <hr class="footer-divider">
     <div class="footer-container">
-        <!-- Logo po lewej stronie -->
+        <!-- Logo on the left -->
         <div class="footer-section logo-description">
             <img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="footer-logo" loading="lazy">
-            <p>Tabula Rasa - zespół rockowy, który redefiniuje granice muzyki. Odkryj naszą twórczość!</p>
+            <p>Tabula Rasa - a rock band redefining the boundaries of music. Discover our work!</p>
         </div>
 
-        <!-- Strzałka na środek -->
+        <!-- Arrow in the center -->
         <div class="footer-section scroll-up">
             <button id="scrollTopBtn">↑</button>
         </div>
 
-        <!-- Ikony social media po prawej stronie -->
+        <!-- Social media icons on the right -->
         <div class="footer-section social-media">
             <ul>
                 <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank" rel="noopener noreferrer"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
@@ -249,19 +229,20 @@
                 <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank" rel="noopener noreferrer"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
                 <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank" rel="noopener noreferrer"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
             </ul>
-            <p>Nasze social media<br>Znajdź nas!</p>
+            <p>Our social media<br>Find us!</p>
         </div>
     </div>
 
-    <!-- Copyright na dole -->
+    <!-- Copyright at the bottom -->
     <div class="footer-bottom">
         <hr class="footer-divider">
-        <p>&copy; 2026 Tabula Rasa. Wszelkie prawa zastrzeżone.</p>
+        <p>&copy; 2026 Tabula Rasa. All rights reserved.</p>
     </div>
 </footer>
 
-<!-- �?adowanie pliku JavaScript -->
+<!-- Loading JavaScript file -->
 <script src="script.js" defer></script>
+<script src="script-gallery.js" defer></script>
 
 </body>
 

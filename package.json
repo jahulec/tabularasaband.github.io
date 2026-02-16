@@ -4,6 +4,7 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:smoke": "playwright test tests/smoke.spec.js",
     "optimize-images": "node scripts/optimize-images.mjs",
     "update-slider": "node scripts/update-slider.mjs",
     "rebuild-gallery": "node scripts/rebuild-gallery.mjs"
@@ -15,5 +16,8 @@
   "dependencies": {
     "iconv-lite": "^0.7.2",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
   }
 }

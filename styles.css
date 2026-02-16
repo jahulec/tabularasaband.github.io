@@ -12,6 +12,10 @@
     outline-offset: 2px;
 }
 
+:root {
+    --bg-dim: 0;
+}
+
 html {
 	overscroll-behavior: none; /* Zapobiega ukrywaniu paska nawigacji */
     min-height: 100%;
@@ -103,6 +107,7 @@ img[src$="logo.png"] {
     src: url('PoppinsBlack.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
 }
 
 
@@ -130,6 +135,13 @@ body {
     height: 100%;
     max-height: 80px;
     transition: transform 0.3s ease;
+}
+
+/* GIF logo in header: compensate square canvas and hide black matte on dark bg */
+.logo.logo-animated {
+    transform: scale(1.16) !important;
+    transform-origin: center;
+    mix-blend-mode: screen;
 }
 
 .logo-container img:hover {
@@ -203,9 +215,6 @@ header.hidden {
     transform: scale(1.1); /* Efekt zoom na hover */
 }
 
-
-
-
 /* Dla linków w sticky mobile header */
 .mobile-sticky-nav a.active {
     position: relative;
@@ -215,9 +224,10 @@ header.hidden {
 .mobile-sticky-nav a.active::after {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: -5px; /* Mały odstęp od tekstu */
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -4px; /* Mały odstęp od tekstu */
+    width: calc(100% - 2px);
     height: 2px; /* Grubość linii podkreślenia */
     background-color: #ffffff; /* Kolor linii */
 }
@@ -240,6 +250,26 @@ header.hidden {
 
 
 
+@media (min-width: 430px) and (max-width: 768px) {
+    .mobile-sticky-header {
+        display: flex;
+    }
+
+    .footer-bottom {
+        margin-bottom: 72px;
+    }
+}
+
+@media (max-width: 429px) {
+    .mobile-sticky-header {
+        display: none !important;
+    }
+
+    .footer-bottom {
+        margin-bottom: 0;
+    }
+}
+
 
 
 
@@ -257,6 +287,17 @@ header.hidden {
     pointer-events: none;
 }
 
+.background-slider::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: var(--bg-dim, 0);
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.12s linear;
+}
+
 .background-slider img {
     position: absolute;
     width: 100%;
@@ -264,6 +305,8 @@ header.hidden {
     object-fit: cover;
     border-radius: 0; /* Ustawia rogi jako niezaokrąglone */
     opacity: 0;
+    z-index: 0;
+    will-change: opacity, transform;
     transition: opacity 1s ease-in-out, transform 12s ease-in-out;
 }
 
@@ -481,6 +524,20 @@ header.hidden {
 
 .rider-download-btn:hover {
     transform: scale(1.05); /* Lekkie powiększenie przy najechaniu */
+}
+
+.press-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin: 10px auto 20px;
+    max-width: 900px;
+}
+
+.press-links .rider-download-btn {
+    min-width: 160px;
+    text-align: center;
 }
 
 
@@ -853,71 +910,6 @@ footer {
 }
 
 
-/* Sekcja galeria */
-.gallery-grid {
-    display: grid;
-    grid-gap: 10px; /* Odstępy między zdjęciami */
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsywne kolumny */
-    grid-auto-rows: 200px; /* Wysokość wiersza */
-    grid-auto-flow: dense; /* Zapewnia nieregularny układ */
-    margin: 0 auto;
-    width: 100%;
-}
-
-.gallery-grid img {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.3s ease, z-index 0.3s ease;
-    object-fit: cover; /* Utrzymuje proporcje zdjęć */
-    border-radius: 5px; /* Zaokrąglone rogi */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Delikatny cień */
-    cursor: pointer;
-}
-
-#expandedImageContainer {
-    display: flex; /* Ukryty na początku */
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease; /* Animacja opacity */
-    pointer-events: none;
-}
-
-#expandedImage {
-    position: absolute;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    transform-origin: center;
-    width: 0;
-    height: auto;
-    opacity: 0;
-}
-
-#expandedImage.expanded {
-    width: auto;
-    max-width: 80vw;
-    max-height: 80vh;
-    opacity: 1;
-}
-
-.gallery-grid.blurred {
-    filter: blur(10px);
-    opacity: 0.5; /* Przyciemnienie podczas blur */
-    transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne przejście */
-}
-
-.gallery-grid.unblurred {
-    filter: blur(0px); /* Reset blur */
-    opacity: 1; /* Rozjaśnienie */
-    transition: filter 0.3s ease, opacity 0.3s ease; /* Płynne odblurowanie */
-}
-
 .strzalka {
         display: none; /* Pokazuj strzałkę tylko na urządzeniach mobilnych */
     }
@@ -937,8 +929,11 @@ p {
 .desktop-header, .desktop-footer {
         display: none;
     }
-.mobile-header, .mobile-footer, .mobile-sticky-header {
+.mobile-header, .mobile-footer {
         display: block;
+    }
+.mobile-sticky-header {
+        display: none;
     }
 	
 /* Stylizacja przycisku językowego */
@@ -964,285 +959,251 @@ p {
 /* Styl dla dolnego paska nagłówka */
 .mobile-sticky-header {
     position: fixed;
-    width: 100%;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #000;
-    color: black;
-    padding: 10px 0;
-    z-index: 999;
-    height: 30px;
-    border-top: 1px solid #444; /* Dodanie linii na górze */
-    transform: translateY(100%); /* Ukryty poza ekranem na początku */
-    display: flex;
-    justify-content: center; /* Wyśrodkowanie elementów */
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid #444;
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+    min-height: 50px;
+    z-index: 990;
+    transform: translateY(120%);
+    opacity: 0;
+    display: none;
+    justify-content: center;
     align-items: center;
-    transition: transform 0.5s ease-out; /* Płynna animacja */
-    overflow: hidden; /* Zapobiega wyciekaniu elementów */
+    transition: transform 0.3s ease-out, opacity 0.2s ease-out;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .mobile-sticky-header.show {
-    transform: translateY(0); /* Wjeżdża na ekran */
-    display: block;
-    bottom: 0;
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .mobile-sticky-header.hide {
-    transform: translateY(100%); /* Zjeżdża z ekranu */
-	
+    transform: translateY(120%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .mobile-sticky-nav  {
-    width: 100%; /* Rozciąga listę na całą szerokość */
+    width: 100%;
 }
 
 .mobile-sticky-nav ul {
     display: flex;
-    justify-content: center; /* Wyśrodkowanie elementów w poziomie */
+    justify-content: space-evenly;
     align-items: center;
     list-style: none;
     margin: 0;
-    padding: 0;
-    gap: 10px; /* Ustal równe odstępy między linkami */
+    padding: 0 10px;
+    gap: 4px;
 }
 
 .mobile-sticky-nav ul li {
-    flex: 1; /* Każdy element ma równą szerokość */
+    flex: 1;
     text-align: center;
+    min-width: 0;
 }
 
 .mobile-sticky-nav ul li a {
     color: white;
     text-decoration: none;
-    font-size: 12px;
+    font-size: clamp(11px, 2.75vw, 13px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    width: max-content;
+    margin: 0 auto;
+    padding: 2px 0;
+    position: relative;
 }
 
 .sticky-logo {
-    height: 30px;
+    height: 22px;
     display: block;
     margin: 0 auto;
-    width: auto; /* Zachowanie proporcji logo */
+    width: auto;
 }
 
 
 /* stopka (mobile overrides) */
-@media (max-width: 768px) {
-    #footer {
-        width: 100%;
-        padding-right: 20px;
-    }
-    .footer-container {
-        flex-direction: column;
-        width: 100%; /* Pełna szerokość dla elementów w wersji mobilnej */
-    }
+footer {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+}
 
-    .footer-section {
-        text-align: center;
-    }
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    gap: 18px;
+}
 
-    /* Dodanie marginesu dolnego, aby sticky nav nie zasłaniał */
-    .footer-bottom {
-        margin-bottom: 60px; 
-    }
+.footer-section {
+    text-align: center;
+}
 
-    /* Ukrywanie przycisku "scroll to top" w wersji mobilnej */
-    #scrollTopBtn {
-        display: none;
-    }
+.footer-logo {
+    width: 96px;
+}
+
+.footer-section.scroll-up {
+    display: none;
+}
+
+.footer-section.logo-description p,
+.footer-section.social-media p {
+    max-width: 320px;
+    margin: 10px auto 0;
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+.footer-section.social-media ul {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.footer-section.social-media img {
+    width: 26px;
+}
+
+.footer-bottom {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    padding-top: 4px;
+}
+
+/* Ukrywanie przycisku "scroll to top" w wersji mobilnej */
+#scrollTopBtn {
+    display: none;
 }
 
 /* Hamburger menu */
 .mobile-header .hamburger {
     position: absolute;
-    right: 15px;
-    top: 20px;
+    right: 16px;
+    top: 24px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    width: 30px;
-    height: 30px;
+    justify-content: space-between;
+    width: 26px;
+    height: 20px;
     cursor: pointer;
-    z-index: 999;
-    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Animacja obracania */
+    z-index: 1001;
 }
 
-/* === Hamburger -> "rysowanie" menu (mobile) === */
-@media (max-width: 768px) {
-  /* Paski hamburgera: będą się rozsuwać i wydłużać */
-  .mobile-header .hamburger span {
-    transform-origin: right center;
-    will-change: transform, opacity;
-  }
-
-  /* Linki w menu: przygotowanie pod line + reveal text */
-  .nav-mobile ul li a {
-    position: relative;
-    overflow: visible;
-  }
-
-  /* Tekst, który "rysujemy" (odsłaniamy od lewej) */
-  .nav-mobile .nav-link__text {
-    display: inline-block;
-    white-space: nowrap;
-    clip-path: inset(0 100% 0 0);
-    -webkit-clip-path: inset(0 100% 0 0);
-    will-change: clip-path;
-  }
-
-  /* Linia, która „rysuje” pod tekstem */
-  .nav-mobile .nav-link__line {
-    position: absolute;
-    left: 12%;
-    right: 12%;
-    bottom: 12px;
-    height: 2px;
-    background: rgba(255,255,255,0.9);
-    transform: scaleX(0);
-    transform-origin: left center;
-    will-change: transform;
-    pointer-events: none;
-  }
-}
-
-/* Linie hamburgera */
 .hamburger span {
     display: block;
-    width: 30px;
+    width: 26px;
     height: 3px;
+    border-radius: 999px;
     background-color: #ffffff;
-    transition: opacity 0.8s ease; /* Dopasowanie do animacji zjeżdżania menu */
-}
-
-/* Pseudo-elementy tworzące X */
-.hamburger::before,
-.hamburger::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 30px;
-    height: 3px;
-    background-color: #ffffff;
-    opacity: 0; /* Początkowo niewidoczne */
-    transition: transform 0.8s ease, opacity 0.8s ease; /* Dopasowanie do animacji zjeżdżania menu */
+    transition: transform 0.32s ease, opacity 0.22s ease, background-color 0.32s ease;
     transform-origin: center;
 }
 
-/* Tworzenie X po aktywacji */
 .hamburger.active span {
-    opacity: 0; /* Znikają oryginalne paski */
+    background-color: #e60023;
 }
 
-/* Animacja X po aktywacji */
-.hamburger.active::before {
-    opacity: 1;
-    transform: rotate(45deg); /* Pierwsza linia X */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
 }
 
-.hamburger.active::after {
-    opacity: 1;
-    transform: rotate(-45deg); /* Druga linia X */
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
 }
 
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
+}
 
-
-
-    .nav-mobile {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        position: fixed;
-        top: -100vh; /* Zaczyna poza ekranem */
-        right: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.6); /* Ciemne, przeźroczyste tło */
-        backdrop-filter: blur(0px); /* Brak rozmycia na początku */
-        text-align: center;
-        z-index: 998;
-        transition: top 0.8s cubic-bezier(0.65, 0, 0.35, 1), /* Stopniowe zjeżdżanie z wyraźnym zwolnieniem */
-                    backdrop-filter 0.8s cubic-bezier(0.65, 0, 0.35, 1); /* Synchronizacja rozmycia z animacją */
-    }
-
-    .nav-mobile.active {
-        top: 0;
-        backdrop-filter: blur(10px); /* Stopniowe zwiększanie rozmycia tła */
-    }
-
-    .nav-mobile ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-        height: calc(100% - 80px); /* Rozciągnięcie linków na całą wysokość, pomniejszoną o wysokość hamburgera */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly; /* Równomierne rozmieszczenie linków w pionie */
-        align-items: center;
-    }
-
-    .nav-mobile ul li {
-        width: 100%; /* Każdy link na całą szerokość ekranu */
-        text-align: center; /* Wyśrodkowanie tekstu */
-    }
-
-    .nav-mobile ul li a {
-        display: block;
-        width: 100%;
-        padding: 20px 0;
-        text-decoration: none;
-        color: #ffffff; /* Kolor tekstu */
-        font-size: 1.8em; /* Większe linki */
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-
-    .nav-mobile ul li a:hover {
-        background-color: rgba(255, 255, 255, 0.2); /* Podświetlenie po najechaniu */
-    }
-
-
-
-/* sekcja galeia */
-.gallery-grid {
+.nav-mobile {
     display: flex;
-    overflow-x: auto; /* Pozwala na przewijanie w poziomie */
-    scroll-snap-type: x mandatory; /* Przyciąganie zdjęć */
-    scrollbar-width: thin;
-    gap: 10px; /* Odstęp między zdjęciami */
-    padding: 10px;
-    width: 100%; /* Kontener zajmuje całą szerokość strony */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    padding: 72px 0 calc(18px + env(safe-area-inset-bottom));
+    background-color: rgba(0, 0, 0, 0.74);
+    backdrop-filter: blur(0px);
+    text-align: center;
+    z-index: 998;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1),
+                opacity 0.25s ease,
+                backdrop-filter 0.45s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.gallery-grid picture {
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    height: 250px; /* Wysokość każdego obrazu */
-    max-width: calc(100vw - 20px); /* Szerokość obrazu na pełną szerokość okna przeglądarki z odstępem */
+.nav-mobile.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    backdrop-filter: blur(10px);
 }
 
-.gallery-grid img {
-    height: 100%;
-    width: 100%; /* Dopasowanie szerokości obrazka do kontenera */
-    object-fit: cover; /* Zapewnia, że obrazek wypełnia cały kontener bez deformacji */
-    border-radius: 10px;
+.nav-mobile ul {
+    list-style: none;
+    padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+    margin: 0;
+    width: 100%;
+    min-height: calc(100dvh - 96px - env(safe-area-inset-bottom));
+    max-height: calc(100dvh - 96px - env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    overflow-y: auto;
 }
 
-.gallery-grid img:hover {
-    transform: none;
-    box-shadow: none;
-}	
-	
-    #expandedImageContainer {
-        display: none !important; /* Ukrywa kontener na mobilnych ekranach */
-    }
-    #expandedImage {
-        display: none !important; /* Ukrywa powiększony obrazek na mobilnych ekranach */
-    }
-	
-	
+.nav-mobile ul li {
+    width: 100%;
+    text-align: center;
+}
+
+.nav-mobile ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(88%, 440px);
+    margin: 0 auto;
+    min-height: 44px;
+    padding: 8px 0;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: clamp(1.35rem, 5.4vw, 1.75rem);
+    line-height: 1.05;
+    font-weight: bold;
+    transition: background-color 0.25s ease;
+}
+
+.nav-mobile ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+body.menu-open .mobile-sticky-header {
+    transform: translateY(120%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
 /* sekcja o nas */
 .members-container {
     display: flex;

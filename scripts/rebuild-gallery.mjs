@@ -46,10 +46,9 @@ const unique = pickBest(images).sort(sortNatural);
 const gridHtml = unique
   .map((file) => {
     const base = baseName(file);
-    const src320 = `${OUTPUT_PREFIX}/${base}-w320.webp`;
     const src640 = `${OUTPUT_PREFIX}/${base}-w640.webp`;
     const src1280 = `${OUTPUT_PREFIX}/${base}-w1280.webp`;
-    return `<img src="${src320}" srcset="${src320} 320w, ${src640} 640w, ${src1280} 1280w" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw" alt="Zdjęcie Tabula Rasa" loading="lazy" decoding="async" data-full="${src1280}">`;
+    return `<img src="${src640}" alt="Zdjęcie Tabula Rasa" loading="lazy" decoding="async" fetchpriority="low" data-full="${src1280}">`;
   })
   .join("\n");
 
