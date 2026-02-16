@@ -147,13 +147,39 @@ function refreshSliderImages() {
     });
 }
 
+function applyImageSource(img, isMobile) {
+    if (!img) return;
+
+    const src = isMobile
+        ? img.getAttribute('data-mobile-src')
+        : img.getAttribute('data-desktop-src');
+    const srcset = isMobile
+        ? img.getAttribute('data-mobile-srcset')
+        : img.getAttribute('data-desktop-srcset');
+
+    if (srcset && img.getAttribute('srcset') !== srcset) {
+        img.srcset = srcset;
+        img.sizes = '(max-width: 768px) 100vw, 100vw';
+    }
+
+    if (src && img.getAttribute('src') !== src) {
+        img.src = src;
+    }
+}
+
 function applySliderLoadingHints() {
     if (sliderImages.length === 0) {
         refreshSliderImages();
     }
+    const nextIndex = sliderImages.length > 1
+        ? (currentImageIndex + 1) % sliderImages.length
+        : currentImageIndex;
+
     sliderImages.forEach((img, index) => {
-        img.loading = index === 0 ? 'eager' : 'lazy';
-        img.setAttribute('fetchpriority', index === 0 ? 'high' : 'low');
+        const isActive = index === currentImageIndex;
+        const isNext = index === nextIndex;
+        img.loading = isActive ? 'eager' : 'lazy';
+        img.setAttribute('fetchpriority', isActive ? 'high' : (isNext ? 'auto' : 'low'));
     });
 }
 
@@ -186,27 +212,19 @@ function preloadNextSlide() {
 
 function handleImageSwap() {
     refreshSliderImages();
-    const images = sliderImages;
+    if (sliderImages.length === 0) return;
+
+    const activeIndex = sliderImages.findIndex((img) => img.classList.contains('active'));
+    currentImageIndex = activeIndex >= 0 ? activeIndex : 0;
+    const nextIndex = sliderImages.length > 1
+        ? (currentImageIndex + 1) % sliderImages.length
+        : currentImageIndex;
+
     const isMobile = window.innerWidth <= 768;
-    images.forEach((img) => {
-        const src = isMobile
-            ? img.getAttribute('data-mobile-src')
-            : img.getAttribute('data-desktop-src');
-        const srcset = isMobile
-            ? img.getAttribute('data-mobile-srcset')
-            : img.getAttribute('data-desktop-srcset');
-        if (srcset) {
-            if (img.getAttribute('srcset') !== srcset) {
-                img.srcset = srcset;
-            }
-            img.sizes = '(max-width: 768px) 100vw, 100vw';
-        }
-        if (src) {
-            if (img.getAttribute('src') !== src) {
-                img.src = src;
-            }
-        }
-    });
+    applyImageSource(sliderImages[currentImageIndex], isMobile);
+    if (sliderImages.length > 1) {
+        applyImageSource(sliderImages[nextIndex], isMobile);
+    }
     applySliderLoadingHints();
     preloadNextSlide();
 }
@@ -359,7 +377,7 @@ function initHeaderLogoHoverAnimation() {
         const baseDir = baseDirEnd >= 0 ? staticSrc.slice(0, baseDirEnd + 1) : '';
         const candidates = explicitAnimSrc
             ? [explicitAnimSrc]
-            : [`${baseDir}logo-anim.gif`, `${baseDir}logo.gif`];
+            : [`${baseDir}logo.gif`, `${baseDir}logo-anim.gif`];
 
         findFirstReachableImage(candidates, (animSrc) => {
             let showingAnim = false;
@@ -394,16 +412,7 @@ window.addEventListener('load', () => {
     if (hasLoadInitialized) return;
     hasLoadInitialized = true;
 
-    updateViewportMetrics();
-    ensureScrollEnabled(true);
-    if (!hasBaseInitialized) {
-        initializeBaseState();
-    }
-    startSlider();
     adjustImageBrightness(window.scrollY || 0);
-    setTimeout(() => {
-        autoScrollToHeadlineOnLoad();
-    }, 200);
 });
 
 function initializeBaseState() {
@@ -412,8 +421,8 @@ function initializeBaseState() {
 
     updateViewportMetrics();
     ensureScrollEnabled(true);
-    handleImageSwap();
     activateFirstSlide();
+    handleImageSwap();
     adjustImageBrightness(window.scrollY || 0);
 }
 
@@ -498,9 +507,13 @@ function initScrollReveal() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeBaseState();
+    startSlider();
     ensureGsapScrollPlugin();
     initHeaderLogoHoverAnimation();
     initScrollReveal();
+    setTimeout(() => {
+        autoScrollToHeadlineOnLoad();
+    }, 200);
 });
 
 window.addEventListener('pageshow', () => {

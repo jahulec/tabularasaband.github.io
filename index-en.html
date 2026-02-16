@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -35,22 +35,37 @@
 	<meta name="twitter:title" content="Tabula Rasa - Official Band Website | Music and Shows">
 	<meta name="twitter:description" content="Official Tabula Rasa website: shows, music, news, gallery, press materials, and contact.">
 	<meta name="twitter:image" content="https://tabularasaband.pl/logo.png">
-<link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" media="(min-width: 769px)">
+<link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(min-width: 769px)">
     	<link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(max-width: 768px)">
-
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js" defer></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollToPlugin.min.js" defer></script>
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (deferred for better first render) -->
     <script>
     (function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');</script>
+        w[l] = w[l] || [];
+        var loaded = false;
+
+        function loadGtm() {
+            if (loaded) return;
+            loaded = true;
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0];
+            var j = d.createElement(s);
+            var dl = l !== 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        }
+
+        if ('requestIdleCallback' in w) {
+            w.addEventListener('load', function () {
+                w.requestIdleCallback(loadGtm, { timeout: 2500 });
+            }, { once: true });
+        } else {
+            w.addEventListener('load', function () {
+                setTimeout(loadGtm, 1200);
+            }, { once: true });
+        }
+    })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');
+    </script>
     <!-- End Google Tag Manager -->
 
 	<script type="application/ld+json">
@@ -157,11 +172,11 @@
 
 <!-- Dynamic Photo Gallery (single section for desktop and mobile) -->
 <div class="background-slider">
-	<img id="firstImage" class="active" src="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" alt="Tabula Rasa - koncert 1" data-mobile-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/80m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/75d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/75d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/75d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_desktop/73d-w1280.webp" alt="Tabula Rasa - koncert 2" data-mobile-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/81m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/81m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/73d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/73d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/73d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/73d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/73d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_desktop/71d-w1280.webp" alt="Tabula Rasa - koncert 3" data-mobile-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/82m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/82m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/71d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/71d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/71d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/71d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/71d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_desktop/70d-w1280.webp" alt="Tabula Rasa - koncert 4" data-mobile-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/83m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/83m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/70d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/70d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/70d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/70d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/70d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_desktop/72d-w1280.webp" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/84m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/84m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/72d-w1280.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/72d-w768.webp 768w, galeria/_responsive/zdjecia_desktop/72d-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/72d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/72d-w2560.webp 2560w">
+	<img id="firstImage" class="active" src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 1" data-mobile-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/80m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/75d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp 2560w">
+	<img src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 2" data-mobile-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/81m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/81m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/73d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/73d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/73d-w2560.webp 2560w">
+	<img src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 3" data-mobile-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/82m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/82m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/71d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/71d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/71d-w2560.webp 2560w">
+	<img src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 4" data-mobile-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/83m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/83m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/70d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/70d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/70d-w2560.webp 2560w">
+	<img src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/84m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/84m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/72d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/72d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/72d-w2560.webp 2560w">
 </div>
 
 <section id="news">
@@ -180,9 +195,9 @@
     </div>
 </article>
 	<article class="article-with-image">
-    <h3>We won the Road To Juwe contest in Płock!</h3>
+    <h3>We won the Road To Juwe contest in PĹ‚ock!</h3>
     <div class="article-content">
-        <p>At the beginning of May, we took part in the Road to Juwe contest in Płock, where we won a performance at the Płock Juwenalia on May 22! This is already our 3rd juwenalia this year! Big congratulations to rapper Kayak for co-winning this showcase!</p>
+        <p>At the beginning of May, we took part in the Road to Juwe contest in PĹ‚ock, where we won a performance at the PĹ‚ock Juwenalia on May 22! This is already our 3rd juwenalia this year! Big congratulations to rapper Kayak for co-winning this showcase!</p>
 
         <picture>
             <source srcset="artykul/plock.webp" type="image/webp">
@@ -194,7 +209,7 @@
 <article class="article-with-image">
     <h3>We're playing at the Bydgoszcz Juwenalia!</h3>
     <div class="article-content">
-        <p>We have another performance at juwenalia, this time in Bydgoszcz! We’ll be sharing the stage with legends like Dżem and Lej mi Pół. You can check all juwenalia gigs in the concerts tab.</p>
+        <p>We have another performance at juwenalia, this time in Bydgoszcz! Weâ€™ll be sharing the stage with legends like DĹĽem and Lej mi PĂłĹ‚. You can check all juwenalia gigs in the concerts tab.</p>
 
         <picture>
             <source srcset="artykul/bydgoszcz.webp" type="image/webp">
@@ -204,9 +219,9 @@
 </article>
 
 <article class="article-with-image">
-    <h3>We won the Kill Me With Music contest in Rzeszów!</h3>
+    <h3>We won the Kill Me With Music contest in RzeszĂłw!</h3>
     <div class="article-content">
-        <p>In April, we took part in the Kill Me With Music contest in Rzeszów and won a performance at the Rzeszów Juwenalia! We’re incredibly thrilled with this recognition! We'll play on May 9 on the biggest stage alongside Lady Pank, Ich Troje, and Pidżama Porno!</p>
+        <p>In April, we took part in the Kill Me With Music contest in RzeszĂłw and won a performance at the RzeszĂłw Juwenalia! Weâ€™re incredibly thrilled with this recognition! We'll play on May 9 on the biggest stage alongside Lady Pank, Ich Troje, and PidĹĽama Porno!</p>
 
         <picture>
             <source srcset="artykul/rzesza.webp" type="image/webp">
@@ -219,7 +234,7 @@
     <h3>The album is now available for pre-order!</h3>
     <div class="article-content">
         <div class="text-above-image">
-            <p>We’re about to release our debut album. You can already pre-order it now by clicking on the album below:</p>
+            <p>Weâ€™re about to release our debut album. You can already pre-order it now by clicking on the album below:</p>
         </div>
 
         <a href="https://tabularasaband-7686a.web.app/">
@@ -232,9 +247,9 @@
 </article>
 
 <article class="article-with-image">
-    <h3>New track “Hybryda” out now!</h3>
+    <h3>New track â€śHybrydaâ€ť out now!</h3>
     <div class="article-content">
-        <p>We’ve released our new single “Hybryda”, which tells the story of breaking away from toxic people and finding peace in solitude — a time to focus on yourself. The music video was filmed at the best rock school — Akademia Rocka in Warsaw (Targowa), portraying a futuristic version of a human — the Hybrid.</p>
+        <p>Weâ€™ve released our new single â€śHybrydaâ€ť, which tells the story of breaking away from toxic people and finding peace in solitude â€” a time to focus on yourself. The music video was filmed at the best rock school â€” Akademia Rocka in Warsaw (Targowa), portraying a futuristic version of a human â€” the Hybrid.</p>
 
         <picture>
             <source srcset="artykul/hybryda.webp" type="image/webp">
@@ -247,7 +262,7 @@
 <article class="article-with-image">
     <h3>We took 2nd place at PKS Lublin 2025!</h3>
     <div class="article-content">
-        <p>In March, we took part in the Student Bands Review in Lublin, where we performed among other high-level bands. We managed to secure 2nd place, which we’re really proud of — especially since we played this show without Delia ;) Congrats to the winners — Kwazzy Live Band!</p>
+        <p>In March, we took part in the Student Bands Review in Lublin, where we performed among other high-level bands. We managed to secure 2nd place, which weâ€™re really proud of â€” especially since we played this show without Delia ;) Congrats to the winners â€” Kwazzy Live Band!</p>
 
         <picture>
             <source srcset="artykul/lublinPKS.webp" type="image/webp">
@@ -258,9 +273,9 @@
 </article>
 
 <article class="article-with-image">
-    <h3>New track “Offline” out now!</h3>
+    <h3>New track â€śOfflineâ€ť out now!</h3>
     <div class="article-content">
-        <p>We’ve officially released another single, “Offline”. The song is about disconnecting from media and electronics. It presents a world where everyone is glued to their phones. The main character encourages us to break free and shows what the world looks like when we do. The music video was shot in the Warsaw metro.</p>
+        <p>Weâ€™ve officially released another single, â€śOfflineâ€ť. The song is about disconnecting from media and electronics. It presents a world where everyone is glued to their phones. The main character encourages us to break free and shows what the world looks like when we do. The music video was shot in the Warsaw metro.</p>
 
         <picture>
             <source srcset="artykul/Offline.webp" type="image/webp">
@@ -274,7 +289,7 @@
 <article class="article-with-image">
     <h3>Tabula Rasa in the Finals of the IGRY 2025 Festival!</h3>
     <div class="article-content">
-        <p>In January, we had the incredible pleasure of performing at the Spirala student club in Silesia, where we took part in the IGRY 2025 festival qualifiers. Together with the band Viadomo, we managed to advance to the finals, which is a huge honor for us. Now, the next stage awaits us – the grand final of the qualifiers, which will determine who gets to perform at the IGRY 2025 Festival!</p>
+        <p>In January, we had the incredible pleasure of performing at the Spirala student club in Silesia, where we took part in the IGRY 2025 festival qualifiers. Together with the band Viadomo, we managed to advance to the finals, which is a huge honor for us. Now, the next stage awaits us â€“ the grand final of the qualifiers, which will determine who gets to perform at the IGRY 2025 Festival!</p>
 
             <picture>
                 <source srcset="artykul/pks.webp" type="image/webp">
@@ -324,7 +339,7 @@
 
         <!-- Arrow in the center -->
         <div class="footer-section scroll-up">
-            <button id="scrollTopBtn">↑</button>
+            <button id="scrollTopBtn">â†‘</button>
         </div>
 
         <!-- Social media icons on the right -->
@@ -353,5 +368,8 @@
 </body>
 
 </html>
+
+
+
 
 
