@@ -311,6 +311,12 @@ header.hidden {
     z-index: 0; /* Tło za innymi elementami */
     background-color: black;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.18s ease-out;
+}
+
+.background-slider.is-ready {
+    opacity: 1;
 }
 
 .background-slider::after {
@@ -336,9 +342,17 @@ header.hidden {
     transition: opacity 1s ease-in-out, transform 12s ease-in-out;
 }
 
+.background-slider:not(.is-ready) img {
+    transition: none !important;
+}
+
 .background-slider img.active {
     opacity: 1;
     transform: scale(1.1);
+}
+
+.background-slider img.active.zoom-start {
+    transform: scale(1);
 }
 
 .background-slider img.zoom {

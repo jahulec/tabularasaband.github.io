@@ -17,6 +17,7 @@ let autoScrollCanceled = false;
 let maxOpacityScroll = window.innerHeight;
 let hasBaseInitialized = false;
 let hasLoadInitialized = false;
+const SLIDER_INDEX_KEY = 'tr_slider_index';
 
 function updateViewportMetrics() {
     windowHeight = window.innerHeight;
@@ -167,6 +168,25 @@ function applyImageSource(img, isMobile) {
     }
 }
 
+function saveSliderIndex() {
+    try {
+        sessionStorage.setItem(SLIDER_INDEX_KEY, String(currentImageIndex));
+    } catch (_) {
+        // ignore storage errors
+    }
+}
+
+function loadSavedSliderIndex() {
+    try {
+        const raw = sessionStorage.getItem(SLIDER_INDEX_KEY);
+        if (raw === null) return null;
+        const parsed = Number.parseInt(raw, 10);
+        return Number.isInteger(parsed) ? parsed : null;
+    } catch (_) {
+        return null;
+    }
+}
+
 function applySliderLoadingHints() {
     if (sliderImages.length === 0) {
         refreshSliderImages();
@@ -216,15 +236,10 @@ function handleImageSwap() {
 
     const activeIndex = sliderImages.findIndex((img) => img.classList.contains('active'));
     currentImageIndex = activeIndex >= 0 ? activeIndex : 0;
-    const nextIndex = sliderImages.length > 1
-        ? (currentImageIndex + 1) % sliderImages.length
-        : currentImageIndex;
-
     const isMobile = window.innerWidth <= 768;
-    applyImageSource(sliderImages[currentImageIndex], isMobile);
-    if (sliderImages.length > 1) {
-        applyImageSource(sliderImages[nextIndex], isMobile);
-    }
+    sliderImages.forEach((img) => {
+        applyImageSource(img, isMobile);
+    });
     applySliderLoadingHints();
     preloadNextSlide();
 }
@@ -239,6 +254,9 @@ function changeSlide() {
     sliderImages.forEach((img) => img.classList.remove('active'));
     currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
     sliderImages[currentImageIndex].classList.add('active');
+    const isMobile = window.innerWidth <= 768;
+    applyImageSource(sliderImages[currentImageIndex], isMobile);
+    saveSliderIndex();
     preloadNextSlide();
 
     setTimeout(() => {
@@ -246,32 +264,48 @@ function changeSlide() {
     }, 1000);
 }
 
-function activateFirstSlide() {
-    if (sliderImages.length === 0) {
-        refreshSliderImages();
-    }
-    if (sliderImages.length > 0) {
-        sliderImages[0].classList.add('active');
-    }
-}
-
 function startSlider() {
     refreshSliderImages();
     if (sliderImages.length === 0) return;
-
-    applySliderLoadingHints();
-    const activeIndex = sliderImages.findIndex((img) => img.classList.contains('active'));
-    if (activeIndex === -1) {
-        activateFirstSlide();
-        currentImageIndex = 0;
-    } else {
-        currentImageIndex = activeIndex;
+    const sliderRoot = document.querySelector('.background-slider');
+    if (sliderRoot) {
+        sliderRoot.classList.remove('is-ready');
     }
+
+    sliderImages.forEach((img) => {
+        img.classList.remove('active');
+        img.classList.remove('zoom-start');
+    });
+
+    const savedIndex = loadSavedSliderIndex();
+    if (savedIndex !== null && savedIndex >= 0 && savedIndex < sliderImages.length) {
+        currentImageIndex = savedIndex;
+    } else {
+        currentImageIndex = 0;
+    }
+
+    const initialSlide = sliderImages[currentImageIndex];
+    if (initialSlide) {
+        initialSlide.classList.add('active', 'zoom-start');
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                initialSlide.classList.remove('zoom-start');
+            });
+        });
+    }
+
+    handleImageSwap();
+    applySliderLoadingHints();
+    saveSliderIndex();
     preloadNextSlide();
     if (sliderIntervalId !== null) {
         clearInterval(sliderIntervalId);
     }
     sliderIntervalId = setInterval(changeSlide, 5000);
+
+    if (sliderRoot) {
+        sliderRoot.classList.add('is-ready');
+    }
 }
 
 function stopSlider() {
@@ -421,7 +455,6 @@ function initializeBaseState() {
 
     updateViewportMetrics();
     ensureScrollEnabled(true);
-    activateFirstSlide();
     handleImageSwap();
     adjustImageBrightness(window.scrollY || 0);
 }
