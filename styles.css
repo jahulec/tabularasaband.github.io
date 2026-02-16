@@ -125,6 +125,32 @@ body {
     line-height: 1.6;
 }
 
+/* Scroll reveal */
+.reveal {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition: opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.reveal-soft {
+    transform: translate3d(0, 12px, 0) scale(0.985);
+}
+
+.reveal.reveal-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
 /* Logo */
 .logo-container {
     text-align: center;
@@ -512,8 +538,8 @@ header.hidden {
 
 .rider-download-btn {
     display: inline-block;
-    margin: 20px auto; /* Wyśrodkowanie przycisku */
-    padding: 10px 20px;
+    margin: 14px auto; /* Wyśrodkowanie przycisku */
+    padding: 9px 18px;
     background-color: #e60023; /* Kolor tła zgodny z kolorystyką strony */
     color: #fff; /* Kolor tekstu */
     text-decoration: none;
@@ -530,8 +556,8 @@ header.hidden {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 16px;
-    margin: 10px auto 20px;
+    gap: 12px;
+    margin: 8px auto 16px;
     max-width: 900px;
 }
 
@@ -825,39 +851,53 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    margin: 16px 0 28px;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 22px;
+    flex-wrap: nowrap;
 }
 
 .music-platforms__link {
-    width: 48px;
-    height: 48px;
-    border-radius: 999px;
-    background: #fff;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.2);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+    box-shadow: none;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .music-platforms__link:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.48);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .music-platforms__icon {
-    width: 28px !important;
-    height: 28px !important;
-    max-width: 28px !important;
-    max-height: 28px !important;
-    object-fit: contain;
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    display: block;
+    object-fit: contain !important;
     background: transparent !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     transform: none !important;
     transition: none;
+}
+
+.music-platforms__link > img {
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    display: block;
+    object-fit: contain !important;
 }
 
 .music-section .videos {
@@ -1034,6 +1074,9 @@ p {
 /* stopka (mobile overrides) */
 footer {
     width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
@@ -1079,9 +1122,23 @@ footer {
 }
 
 .footer-bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 0;
     font-size: 0.95rem;
     padding-top: 4px;
+}
+
+.footer-bottom p {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 360px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
 /* Ukrywanie przycisku "scroll to top" w wersji mobilnej */
@@ -1304,6 +1361,66 @@ body.menu-open .mobile-sticky-header {
     }
 
 /* sekcja muzyka */
+    .music-platforms {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 10px;
+        margin: 14px 0 20px;
+    }
+
+    .music-platforms__link {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 auto;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        background: rgba(0, 0, 0, 0.2);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: none;
+    }
+
+    .music-platforms__icon,
+    .music-platforms__link > img {
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        min-height: 18px !important;
+        max-width: 18px !important;
+        max-height: 18px !important;
+        display: block;
+        object-fit: contain !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        transform: none !important;
+    }
+
+/* sekcja press (mobile) */
+    .rider-section {
+        padding: 8px 0;
+    }
+
+    .rider-download-btn {
+        margin: 8px auto;
+        padding: 8px 14px;
+        font-size: 0.92rem;
+        line-height: 1.15;
+    }
+
+    .press-links {
+        gap: 8px;
+        margin: 6px auto 10px;
+    }
+
+    .press-links .rider-download-btn {
+        min-width: 132px;
+    }
+
     .video-container, .spotify-wrapper {
         max-width: 100%;
         margin: 0;

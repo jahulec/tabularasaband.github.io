@@ -417,10 +417,90 @@ function initializeBaseState() {
     adjustImageBrightness(window.scrollY || 0);
 }
 
+function initScrollReveal() {
+    if (document.body.dataset.revealInit === '1') return;
+    document.body.dataset.revealInit = '1';
+
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealTargets = [
+        '#news > h1',
+        '#news > h2',
+        '#news > h3',
+        '#news > p',
+        '.article',
+        '.article-content',
+        '.song',
+        '.concert-item',
+        '.member',
+        '.gallery-grid img',
+        '.press-links .rider-download-btn',
+        '.contact-form .form-group',
+        '.contact-info',
+        'footer .footer-section',
+        'footer .footer-bottom'
+    ];
+
+    const allNodes = [];
+    const seen = new Set();
+    revealTargets.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((node) => {
+            if (seen.has(node)) return;
+            seen.add(node);
+            allNodes.push(node);
+        });
+    });
+
+    if (allNodes.length === 0) return;
+
+    allNodes.forEach((node) => {
+        node.classList.add('reveal');
+        if (node.matches('.article-content, .song, .concert-item, .gallery-grid img, .member')) {
+            node.classList.add('reveal-soft');
+        }
+    });
+
+    const staggerGroups = [
+        '.gallery-grid',
+        '.videos',
+        '.concerts-section',
+        '.press-links',
+        'footer .footer-container'
+    ];
+
+    staggerGroups.forEach((groupSelector) => {
+        document.querySelectorAll(groupSelector).forEach((group) => {
+            const children = Array.from(group.querySelectorAll('.reveal'));
+            children.forEach((el, index) => {
+                const delay = Math.min(index, 10) * 70;
+                el.style.transitionDelay = `${delay}ms`;
+            });
+        });
+    });
+
+    if (prefersReduced || typeof IntersectionObserver === 'undefined') {
+        allNodes.forEach((node) => node.classList.add('reveal-visible'));
+        return;
+    }
+
+    const io = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('reveal-visible');
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -10% 0px'
+    });
+
+    allNodes.forEach((node) => io.observe(node));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeBaseState();
     ensureGsapScrollPlugin();
     initHeaderLogoHoverAnimation();
+    initScrollReveal();
 });
 
 window.addEventListener('pageshow', () => {
