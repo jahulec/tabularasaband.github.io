@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,8 +13,8 @@
 
     
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
-	<link rel="icon" href="logo.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="logo.ico" type="image/x-icon">
+	<link rel="icon" href="logo-fav-fix.png" type="image/png">
+	<link rel="shortcut icon" href="logo-fav-fix.png" type="image/png">
 
 	<link rel="canonical" href="https://tabularasaband.pl/shows-en.html" />
 	<link rel="alternate" href="https://tabularasaband.pl/shows.html" hreflang="pl" />
@@ -180,68 +180,7 @@
 
 
 <body>
-<header>
-    <!-- Desktop header version (unchanged) -->
-    <div class="desktop-header">
-        <nav class="main-nav">
-            <ul>
-            <li class="language-switcher">
-                <a href="/shows.html">PL</a>
-            </li>
-		<li><a href="https://tabularasaband-7686a.web.app/">Shop</a></li>
-                <li><a href="music-en.html">Music</a></li>
-                <li><a href="shows-en.html" class="active">Shows</a></li>
-                <li class="logo-container">
-                    <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - rock band" class="logo"></a>
-                </li>
-                <li><a href="gallery-en.html">Gallery</a></li>
-                <li><a href="press-en.html">Press</a></li>
-		<li><a href="about-en.html">About</a></li>
-                <li><a href="contact-en.html">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Mobile header version (for mobile devices only) -->
-    <div class="mobile-header">
-	<div class="language-switcher">
-                <a href="/shows.html">PL</a>
-        </div>
-        <div class="logo-container">
-            <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="logo"></a>
-        </div>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <nav class="nav-mobile" id="nav-mobile">
-            <ul>
-		<li><a href="https://tabularasaband-7686a.web.app/">Shop</a></li>
-                <li><a href="music-en.html">Music</a></li>
-                <li><a href="shows-en.html" class="active">Shows</a></li>
-                <li><a href="gallery-en.html">Gallery</a></li>
-                <li><a href="press-en.html">Press</a></li>
-		<li><a href="about-en.html">About</a></li>
-                <li><a href="contact-en.html">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<div class="mobile-sticky-header">
-    <nav class="mobile-sticky-nav">
-        <ul>
-                <li><a href="music-en.html">Music</a></li>
-                <li><a href="shows-en.html" class="active">Shows</a></li>
-            <li><a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="sticky-logo"></a></li>
-		<li><a href="https://tabularasaband-7686a.web.app/">Shop</a></li>
-                <li><a href="gallery-en.html">Gallery</a></li>
-
-        </ul>
-    </nav>
-</div>
-
+<header class="shop-header" data-header-template="shared"></header>
 
 <!-- Dynamic Photo Gallery (single section for desktop and mobile) -->
 <div class="background-slider">
@@ -254,68 +193,38 @@
 
 <!-- SHOW LIST -->
 	
-<section id="news" class="concerts-section">
-<h1 id="welcome">LIVE</h1>
+<section id="news" class="concerts-section shows-page">
+<h1 id="welcome">Shows</h1>
+
+<div class="shows-list">
 
 	
 
 		  <article class="concert-item koncert">
-    <h3>Awakening | Warszawa - VooDoo Club</h3>
-    <p>20 February 2026</p>
- <a href="https://goingapp.pl/wydarzenie/tabula-rasa-przebudzenie-tour-2026/warszawa-styczen-2026" class="ticket-btn">Kup bilet</a>
-  </article>
-
-		  <article class="concert-item koncert">
-    <h3>Awakening | Poznań - Schron</h3>
-    <p>21 February 2026</p>
- <a href="https://goingapp.pl/wydarzenie/tabula-rasa-przebudzenie-tour-2026/poznan-luty-2026" class="ticket-btn">Kup bilet</a>
-  </article>
-
-		  <article class="concert-item koncert">
     <h3>Awakening | Łódź - Wooltura</h3>
-    <p>6 March 2026</p>
- <a href="https://goingapp.pl/wydarzenie/tabula-rasa-przebudzenie-tour-2026/lodz-styczen-2026" class="ticket-btn">Kup bilet</a>
+    <p class="concert-date">6 March 2026</p>
+ <a href="https://goingapp.pl/wydarzenie/tabula-rasa-przebudzenie-tour-2026/lodz-styczen-2026" class="ticket-btn">Get ticket</a>
   </article>
 		  <article class="concert-item koncert">
     <h3>Awakening | Gdańsk - Brama Nizinna</h3>
-    <p>7 March 2026</p>
- <a href="https://goingapp.pl/wydarzenie/tabula-rasa-przebudzenie-tour-2026/reszel-styczen-2026" class="ticket-btn">Kup bilet</a>
+    <p class="concert-date">7 March 2026</p>
+ <a href="https://goingapp.pl/wydarzenie/tabula-rasa-przebudzenie-tour-2026/reszel-styczen-2026" class="ticket-btn">Get ticket</a>
   </article>
+</div>
 </section>
 
 
 <!-- Footer -->
-<footer>
-	        <hr class="footer-divider">
-    <div class="footer-container">
-        <!-- Logo on the left -->
-        <div class="footer-section logo-description">
-            <img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="footer-logo" loading="lazy">
-            <p>Tabula Rasa - a rock band redefining the boundaries of music. Discover our work!</p>
-        </div>
+<footer class="shop-footer">
+    <div class="container shop-footer-compact">
 
-        <!-- Arrow in the center -->
-        <div class="footer-section scroll-up">
-            <button id="scrollTopBtn">↑</button>
-        </div>
+        <nav class="shop-footer-nav" aria-label="Footer navigation">
+            <a href="terms.html">Terms</a>
+            <a href="privacy-policy.html">Privacy policy</a>
+            <a href="contact-en.html">Contact</a>
+        </nav>
 
-        <!-- Social media icons on the right -->
-        <div class="footer-section social-media">
-            <ul>
-                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank" rel="noopener noreferrer"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.youtube.com/@tabula_rasa_band" target="_blank" rel="noopener noreferrer"><img src="ikony/youtube.webp" alt="YouTube - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank" rel="noopener noreferrer"><img src="ikony/facebook.webp" alt="Facebook - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank" rel="noopener noreferrer"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank" rel="noopener noreferrer"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
-            </ul>
-            <p>Our social media<br>Find us!</p>
-        </div>
-    </div>
-
-    <!-- Copyright at the bottom -->
-    <div class="footer-bottom">
-        <hr class="footer-divider">
-        <p>&copy; 2026 Tabula Rasa. All rights reserved.</p>
+        <p class="shop-footer-copy">&copy; 2026 Tabula Rasa. All rights reserved.</p>
     </div>
 </footer>
 

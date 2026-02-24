@@ -13,8 +13,8 @@
 
     
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
-	<link rel="icon" href="logo.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="logo.ico" type="image/x-icon">
+	<link rel="icon" href="logo-fav-fix.png" type="image/png">
+	<link rel="shortcut icon" href="logo-fav-fix.png" type="image/png">
 
 	<link rel="canonical" href="https://tabularasaband.pl/shop-en.html" />
 	<link rel="alternate" href="https://tabularasaband.pl/shop.html" hreflang="pl" />
@@ -22,7 +22,7 @@
 	<link rel="alternate" href="https://tabularasaband.pl/shop.html" hreflang="x-default" />
 
 
-	<meta name="robots" content="index, follow, max-image-preview:large">
+	<meta name="robots" content="noindex, follow, max-image-preview:large">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="Tabula Rasa">
 	<meta property="og:locale" content="en_US">
@@ -37,7 +37,7 @@
 	<meta name="twitter:image" content="https://tabularasaband.pl/logo.png">
 <link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(min-width: 769px)">
     <link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(max-width: 768px)">
-	<link rel="preload" href="/logo.ico" as="image" type="image/x-icon">
+	<link rel="preload" href="/logo-fav-fix.png" as="image" type="image/png">
 	<link rel="preload" href="/PoppinsBlack.woff" as="font" type="font/woff" crossorigin="anonymous">
 
 	<script type="application/ld+json">
@@ -94,68 +94,7 @@
 
 <body>
 
-<header>
-    <!-- Desktop header version (unchanged) -->
-    <div class="desktop-header">
-        <nav class="main-nav">
-            <ul>
-            <li class="language-switcher">
-                <a href="/shop.html">PL</a>
-            </li>
-                <li><a href="about-en.html">About</a></li>
-                <li><a href="music-en.html">Music</a></li>
-                <li><a href="shows-en.html">Shows</a></li>
-                <li class="logo-container">
-                    <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - rock band" class="logo"></a>
-                </li>
-                <li><a href="gallery-en.html">Gallery</a></li>
-                <li><a href="press-en.html">Press</a></li>
-                <li><a href="contact-en.html">Contact</a></li>
-                <li><a href="shop-en.html" class="active">Shop</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Mobile header version (for mobile devices only) -->
-    <div class="mobile-header">
-						<div class="language-switcher">
-                <a href="/shop.html">PL</a>
-            </div>
-        <div class="logo-container">
-            <a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="logo"></a>
-        </div>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <nav class="nav-mobile" id="nav-mobile">
-            <ul>
-                <li><a href="about-en.html">About</a></li>
-                <li><a href="music-en.html">Music</a></li>
-                <li><a href="shows-en.html">Shows</a></li>
-                <li><a href="gallery-en.html">Gallery</a></li>
-                <li><a href="press-en.html">Press</a></li>
-                <li><a href="contact-en.html">Contact</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<div class="mobile-sticky-header">
-    <nav class="mobile-sticky-nav">
-        <ul>
-                <li><a href="about-en.html">About</a></li>
-                <li><a href="music-en.html">Music</a></li>
-                <li><a href="shows-en.html">Shows</a></li>
-            <li><a href="index-en.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="sticky-logo"></a></li>
-                <li><a href="gallery-en.html">Gallery</a></li>
-                <li><a href="press-en.html">Press</a></li>
-                <li><a href="contact-en.html">Contact</a></li>
-        </ul>
-    </nav>
-</div>
-
+<header class="shop-header" data-header-template="shared"></header>
 
 <!-- Dynamic Photo Gallery (single section for desktop and mobile) -->
 <div class="background-slider">
@@ -167,41 +106,21 @@
 </div>
 
 <section id="news" class="concerts-section">
-    <h1 id="welcome">Coming Soon!</h1>
+    <h1 id="welcome">Shop</h1>
+    <p class="shop-status-message">Merch and CDs are available only at live shows.</p>
 </section>
 
 <!-- Footer -->
-<footer>
-	        <hr class="footer-divider">
-    <div class="footer-container">
-        <!-- Logo on the left -->
-        <div class="footer-section logo-description">
-            <img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="footer-logo" loading="lazy">
-            <p>Tabula Rasa - a rock band redefining the boundaries of music. Discover our work!</p>
-        </div>
+<footer class="shop-footer">
+    <div class="container shop-footer-compact">
 
-        <!-- Arrow in the center -->
-        <div class="footer-section scroll-up">
-            <button id="scrollTopBtn">↑</button>
-        </div>
+        <nav class="shop-footer-nav" aria-label="Footer navigation">
+            <a href="terms.html">Terms</a>
+            <a href="privacy-policy.html">Privacy policy</a>
+            <a href="contact-en.html">Contact</a>
+        </nav>
 
-        <!-- Social media icons on the right -->
-        <div class="footer-section social-media">
-            <ul>
-                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank" rel="noopener noreferrer"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.youtube.com/@tabula_rasa_band" target="_blank" rel="noopener noreferrer"><img src="ikony/youtube.webp" alt="YouTube - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank" rel="noopener noreferrer"><img src="ikony/facebook.webp" alt="Facebook - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank" rel="noopener noreferrer"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank" rel="noopener noreferrer"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
-            </ul>
-            <p>Our social media<br>Find us!</p>
-        </div>
-    </div>
-
-    <!-- Copyright at the bottom -->
-    <div class="footer-bottom">
-        <hr class="footer-divider">
-        <p>&copy; 2026 Tabula Rasa. All rights reserved.</p>
+        <p class="shop-footer-copy">&copy; 2026 Tabula Rasa. All rights reserved.</p>
     </div>
 </footer>
 
@@ -211,6 +130,8 @@
 </body>
 
 </html>
+
+
 
 
 

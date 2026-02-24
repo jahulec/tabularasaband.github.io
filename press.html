@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    	<meta name="description" content="Pobierz aktualny presspack i rider Tabula Rasa oraz materialy dla mediow i organizatorow.">
+    	<meta name="description" content="Pobierz aktualny presspack i rider Tabula Rasa oraz materiały dla mediów i organizatorów.">
 	<meta name="keywords" content="Tabula Rasa media, wywiady Tabula Rasa, Tabula Rasa artykuły prasowe, recenzje Tabula Rasa, zespół Tabula Rasa w mediach, Tabula Rasa news, polski zespół rockowy media, wywiady z zespołem Tabula Rasa, prasa rockowa Polska">
 	<meta name="author" content="Jan Mitrowski">
 	<meta name="theme-color" content="#000000">
@@ -12,8 +12,8 @@
 	<title>Press Tabula Rasa | Presspack i Rider</title>
     
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
-	<link rel="icon" href="logo.ico" type="image/x-icon">
-	<link rel="shortcut icon" href="logo.ico" type="image/x-icon">
+	<link rel="icon" href="logo-fav-fix.png" type="image/png">
+	<link rel="shortcut icon" href="logo-fav-fix.png" type="image/png">
 
 	<link rel="canonical" href="https://tabularasaband.pl/press.html" />
 	<link rel="alternate" href="https://tabularasaband.pl/press.html" hreflang="pl" />
@@ -27,12 +27,12 @@
 	<meta property="og:locale" content="pl_PL">
 	<meta property="og:locale:alternate" content="en_US">
 	<meta property="og:title" content="Press Tabula Rasa | Presspack i Rider">
-	<meta property="og:description" content="Pobierz aktualny presspack i rider Tabula Rasa oraz materialy dla mediow i organizatorow.">
+	<meta property="og:description" content="Pobierz aktualny presspack i rider Tabula Rasa oraz materiały dla mediów i organizatorów.">
 	<meta property="og:url" content="https://tabularasaband.pl/press.html">
 	<meta property="og:image" content="https://tabularasaband.pl/logo.png">
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="Press Tabula Rasa | Presspack i Rider">
-	<meta name="twitter:description" content="Pobierz aktualny presspack i rider Tabula Rasa oraz materialy dla mediow i organizatorow.">
+	<meta name="twitter:description" content="Pobierz aktualny presspack i rider Tabula Rasa oraz materiały dla mediów i organizatorów.">
 	<meta name="twitter:image" content="https://tabularasaband.pl/logo.png">
 <link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(min-width: 769px)">
    	<link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(max-width: 768px)">
@@ -91,68 +91,7 @@
 
 
 <body>
-<header>
-    <!-- Desktopowa wersja nagłówka (pozostaje bez zmian) -->
-    <div class="desktop-header">
-        <nav class="main-nav">
-            <ul>
-            <li class="language-switcher">
-                <a href="/press-en.html">EN</a>
-            </li>
-		<li><a href="https://tabularasaband-7686a.web.app/">Sklep</a></li>
-                <li><a href="music.html">Muzyka</a></li>
-                <li><a href="shows.html">Koncerty</a></li>
-                <li class="logo-container">
-                    <a href="index.html"><img src="logo.png" alt="Logo Tabula Rasa - zespół rockowy" class="logo"></a>
-                </li>
-                <li><a href="gallery.html">Galeria</a></li>
-                <li><a href="press.html" class="active">Press</a></li>
-		<li><a href="about.html">O nas</a></li>
-                <li><a href="contact.html">Kontakt</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Mobilna wersja nagłówka (tylko dla urządzeń mobilnych) -->
-    <div class="mobile-header">
-	<div class="language-switcher">
-        	<a href="/press-en.html">EN</a>
-        </div>
-        <div class="logo-container">
-            <a href="index.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="logo"></a>
-        </div>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <nav class="nav-mobile" id="nav-mobile">
-            <ul>
-		<li><a href="https://tabularasaband-7686a.web.app/">Sklep</a></li>
-                <li><a href="music.html">Muzyka</a></li>
-                <li><a href="shows.html">Koncerty</a></li>
-                <li><a href="gallery.html">Galeria</a></li>
-                <li><a href="press.html" class="active">Press</a></li>
-		<li><a href="about.html">O nas</a></li>
-                <li><a href="contact.html">Kontakt</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<div class="mobile-sticky-header">
-    <nav class="mobile-sticky-nav">
-        <ul>
-                <li><a href="music.html">Muzyka</a></li>
-                <li><a href="shows.html">Koncerty</a></li>
-            <li><a href="index.html"><img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="sticky-logo"></a></li>
-		<li><a href="https://tabularasaband-7686a.web.app/">Sklep</a></li>
-                <li><a href="gallery.html">Galeria</a></li>
-
-        </ul>
-    </nav>
-</div>
-
+<header class="shop-header" data-header-template="shared"></header>
 
 <!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="background-slider">
@@ -170,77 +109,72 @@
 	<div class="rider-section">
 	    <a href="Presspack.pdf" class="rider-download-btn" download="Presspack.pdf" rel="noopener noreferrer">Pobierz Press Pack PDF</a>
 	</div>
-            <h3 class="rider-title">Rider Tabula Rasa</h3>
+            <h2 class="rider-title">Rider Tabula Rasa</h2>
         <div class="rider-section">
             <a href="RiderTabulaRasa.pdf" class="rider-download-btn" download="RiderTabulaRasa.pdf" rel="noopener noreferrer">Pobierz Rider PDF</a>
         </div>
     <!-- Historia i osiągnięcia -->
     <div class="press-history">
-        <h3>Opis zespołu</h3>
-        <p>Tabula Rasa to zespół założony w 2023 roku eksplorujący nowe obszary rocka, tworząc unikalne połączenie rocka eksperymentalnego, elektronicznego i hard-rocka. Ich muzyka to fuzja potężnych, tłustych riffów gitarowych z nowoczesnymi syntezatorami, które nadają utworom hipnotyzujący, futurystyczny charakter.
-To muzyka pełna kontrastów i eksperymentów — od mocnych, hardrockowych uderzeń poprzez funk rock i post grunge po subtelne, nostalgiczne przestrzenie dźwiękowe. <br><br><h3>W skład zespołu wchodzą: </h3>
-									<ul>
+        <h2>Opis zespołu</h2>
+        <p>Tabula Rasa to zespół założony w 2023 roku eksplorujący nowe obszary rocka, tworząc unikalne połączenie rocka eksperymentalnego, elektronicznego i hard-rocka. Ich muzyka to fuzja potężnych, tłustych riffów gitarowych z nowoczesnymi syntezatorami, które nadają utworom hipnotyzujący, futurystyczny charakter.</p>
+<p>To muzyka pełna kontrastów i eksperymentów — od mocnych, hardrockowych uderzeń poprzez funk rock i post grunge po subtelne, nostalgiczne przestrzenie dźwiękowe.</p>
+<h3>W skład zespołu wchodzą: </h3>
+        <ul>
             <li>Beniamin Skoniecki - wokal i gitara</li>
             <li>Delia Janiszewska - instrumenty klawiszowe</li>
             <li>Johnny Mitrowski - gitara prowadząca</li>
             <li>Carlos Ceron Lara - gitara basowa</li>
             <li>Bartosz Kamiński - perkusja</li>
         </ul>
-								<br>
         <p>Od początku swojej działalności Tabula Rasa występowała na licznych prestiżowych wydarzeniach, zdobywając uznanie zarówno fanów, jak i krytyków muzycznych.</p>
 
 
-               <h3>Osiągnięcia</h3>
-        <ul>
-            <li>2023: Stodoła - <strong>I miejsce w konkursie Politechniki Warszawskiej.</strong></li>
-            <li>2023: <strong>Juwenalia PW razem z Waluś Kraksa Kryzys, Zalewski i Kult.</strong></li>
-            <li>2023: Żywiec - współpraca i występ na "Najmniejszej Scenie Świata".</li>
-            <li>2023: Rock Radio - Nagroda Publiczności w Konkursie Klasyki Rocka.</li>
-            <li>2023: Festiwal Akademii Rocka - wystąpienie jako gość specjalny.</li>
-            <li>2024: WOŚP - 2 charytatywne koncerty w Warszawie.</li>
-            <li>2024: Rock May Festiwal - nagroda publiczności.</li>
-            <li>2024: Knurowisko - <strong>II miejsce.</strong></li>
-            <li>2024: Wielki Ogień im. Miry Kubasińskiej - <strong>I miejsce.</strong></li>
-            <li>2024: Śmigasówka Festiwal.</li>
-            <li>2024: Teleexpress - promocja nowego singla ,,Wszystko To Co Mam".</li>
-            <li>2024: Rock And Love Festival.</li>
-            <li>2024: TVP Kielce - promocja nowego singla ,,Ostatni Raz".</li>
-            <li>2024: Zaproszenie na festiwal Akademii Rocka jako gwiazda wieczoru.</li>
-	    <li>2025: WOŚP - koncert charytatywny na dużej scenie w Będzinie.</li>
-		<li>2025: Przegląd kapel studenckich Gliwice - finaliści</li>
-		<li>2025: Przegląd kapel studenckich Lublin - <strong>II miejsce.</strong></li>
-		<li>2025: Kill me with music - <strong>I miejsce.</strong></li>
-		<li>2025: Road to Juwe - <strong>I miejsce.</strong></li>
-		<li>2025: <strong>Rzeszowskie Juwenalia razem z Kortez, Lady Pank, Ich Troje.</strong></li>
-		<li>2025: <strong>Bygdoskie Juwenalia razem z Wiktor Dyduła, Tribbs, Dżem.</strong></li>
-		<li>2025: <strong>Płockie Juwenalia razem z Modelki, Happysad.</strong></li>
-		<li>2025: Nasz utwór Hybryda na Turbo Top Antyradia: top 20 przez 2 tygodnie.</li>
-		<li>2025: Zaproszenie na przegląd Knurowisko jako gwiazda wieczoru.</li>
-		<li>2025: przegląd Brzmienia Jelcza - <strong>I miejsce.</strong></li>
-        </ul>
+               <h2>Osiągnięcia</h2>
+        <div class="press-achievements">
+            <div class="achievement-group">
+                <h3 class="achievement-year">2025</h3>
+                <ul>
+                    <li>Przegląd kapel studenckich Gliwice - finaliści.</li>
+                    <li>Przegląd kapel studenckich Lublin - <strong>II miejsce.</strong></li>
+                    <li>Kill Me With Music - <strong>I miejsce.</strong></li>
+                    <li>Road to Juwe - <strong>I miejsce.</strong></li>
+                    <li><strong>Rzeszowskie Juwenalia razem z Kortez, Lady Pank, Ich Troje.</strong></li>
+                    <li><strong>Bydgoskie Juwenalia razem z Wiktor Dyduła, Tribbs, Dżem.</strong></li>
+                    <li><strong>Płockie Juwenalia razem z Modelki, Happysad.</strong></li>
+                    <li>Nasz utwór "Hybryda" na Turbo Top Antyradia: top 20 przez 2 tygodnie.</li>
+                    <li>Przegląd Brzmienia Jelcza - <strong>I miejsce.</strong></li>
+                </ul>
+            </div>
+            <div class="achievement-group">
+                <h3 class="achievement-year">2024</h3>
+                <ul>
+                    <li>Rock May Festiwal - nagroda publiczności.</li>
+                    <li>Knurowisko - <strong>II miejsce.</strong></li>
+                    <li>Wielki Ogień im. Miry Kubasińskiej - <strong>I miejsce.</strong></li>
+                </ul>
+            </div>
+            <div class="achievement-group">
+                <h3 class="achievement-year">2023</h3>
+                <ul>
+                    <li>Stodoła - <strong>I miejsce w konkursie Politechniki Warszawskiej.</strong></li>
+                    <li><strong>Juwenalia PW razem z Waluś Kraksa Kryzys, Zalewski i Kult.</strong></li>
+                    <li>Żywiec - współpraca i występ na "Najmniejszej Scenie Świata".</li>
+                    <li>Rock Radio - Nagroda Publiczności w Konkursie Klasyki Rocka.</li>
+                </ul>
+            </div>
+        </div>
 
-                <h3>Zobacz więcej</h3>
+                <h2>Zobacz więcej</h2>
         <div class="rider-section">
             <a href="https://drive.google.com/drive/folders/1z4jJb7IR9YiT9bcUC6urNvg0pVTT4qN5?usp=share_link" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Pobierz zdjęcia zespołu</a>
         </div>
 		<div class="rider-section">
-            <a href="https://drive.google.com/file/d/1fjJm0eRwqulICMqxgjYwkMOQTcH7pqYn/view?usp=drivesdk" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Pobierz animację na koncerty</a>
+            <a href="https://drive.google.com/file/d/1fjJm0eRwqulICMqxgjYwkMOQTcH7pqYn/view?usp=drivesdk" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Animacja na koncerty</a>
         </div>
 		<div class="rider-section">
             <a href="https://www.youtube.com/shorts/IvHaag9rfwY" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Link do wywiadu</a>
         </div>
         
-     <h3>Linki</h3>
-    <div class="press-links">
-            <a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Spotify</a>
-                <a href="https://www.youtube.com/@tabula_rasa_band" target="_blank" class="rider-download-btn" rel="noopener noreferrer">YouTube</a>
-                <a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Facebook</a>
-                <a href="https://www.instagram.com/tabula_rasa_band/" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Instagram</a>
-                <a href="https://www.tiktok.com/@tabularasaband" target="_blank" class="rider-download-btn" rel="noopener noreferrer">TikTok</a>
-				<a href="https://music.apple.com/pl/album/lewitacja/1818832965" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Apple Music</a>
-				<a href="https://tidal.com/album/440460109" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Tidal</a>
-				<a href="https://linktr.ee/tabularasa.music?fbclid=IwY2xjawKvrmRleHRuA2FlbQIxMQBicmlkETA2SWFPQjZnWUplUkFoTGZ2AR7Hr_JbHbs4mgWktX5pioUcqdghHYQwJEnw54APzxJaoLFNoiUw7SvG1_AOhw_aem_eaHLIBol-oBTETV8PoInTw" target="_blank" class="rider-download-btn" rel="noopener noreferrer">Linktr.ee</a>
-        </div>
 		
 
 	    
@@ -249,37 +183,16 @@ To muzyka pełna kontrastów i eksperymentów — od mocnych, hardrockowych uder
 </section>
     
 <!-- Stopka -->
-<footer>
-	        <hr class="footer-divider">
-    <div class="footer-container">
-        <!-- Logo po lewej stronie -->
-        <div class="footer-section logo-description">
-            <img src="logo.png" alt="Logo Tabula Rasa - Rock Band" class="footer-logo" loading="lazy">
-            <p>Tabula Rasa - zesp&#243;&#322; rockowy, kt&#243;ry redefiniuje granice muzyki. Odkryj nasz&#261; tw&#243;rczo&#347;&#263;!</p>
-        </div>
+<footer class="shop-footer">
+    <div class="container shop-footer-compact">
 
-        <!-- Strzałka na środek -->
-        <div class="footer-section scroll-up">
-            <button id="scrollTopBtn">↑</button>
-        </div>
+        <nav class="shop-footer-nav" aria-label="Nawigacja stopki">
+            <a href="regulamin.html">Regulamin</a>
+            <a href="polityka-prywatnosci.html">Polityka prywatnosci</a>
+            <a href="contact.html">Kontakt</a>
+        </nav>
 
-        <!-- Ikony social media po prawej stronie -->
-        <div class="footer-section social-media">
-            <ul>
-                <li><a href="https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3" target="_blank" rel="noopener noreferrer"><img src="ikony/spotify.webp" alt="Spotify - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.youtube.com/@tabula_rasa_band" target="_blank" rel="noopener noreferrer"><img src="ikony/youtube.webp" alt="YouTube - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.facebook.com/ZespolTabulaRasa/" target="_blank" rel="noopener noreferrer"><img src="ikony/facebook.webp" alt="Facebook - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.instagram.com/tabula_rasa_band/" target="_blank" rel="noopener noreferrer"><img src="ikony/instagram.webp" alt="Instagram - Tabula Rasa" loading="lazy"></a></li>
-                <li><a href="https://www.tiktok.com/@tabularasaband" target="_blank" rel="noopener noreferrer"><img src="ikony/tiktok.webp" alt="TikTok - Tabula Rasa" loading="lazy"></a></li>
-            </ul>
-            <p>Nasze social media<br>Znajd&#378; nas!</p>
-        </div>
-    </div>
-
-    <!-- Copyright na dole -->
-    <div class="footer-bottom">
-        <hr class="footer-divider">
-        <p>&copy; 2026 Tabula Rasa. Wszelkie prawa zastrze&#380;one.</p>
+        <p class="shop-footer-copy">&copy; 2026 Tabula Rasa. Wszelkie prawa zastrzezone.</p>
     </div>
 </footer>
 
@@ -289,8 +202,6 @@ To muzyka pełna kontrastów i eksperymentów — od mocnych, hardrockowych uder
 </body>
 
 </html>
-
-
 
 
 
