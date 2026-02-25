@@ -46,6 +46,11 @@
     pointer-events: none;
 }
 
+#expandedImageContainer:focus,
+#expandedImageContainer:focus-visible {
+    outline: none !important;
+}
+
 #expandedImageContainer::before {
     content: "";
     position: absolute;
@@ -66,6 +71,14 @@
     transform-origin: center;
     transition: transform 0.22s ease, opacity 0.22s ease;
     border-radius: 10px;
+    border: 0;
+    box-shadow: none;
+    outline: none !important;
+}
+
+#expandedImage:focus,
+#expandedImage:focus-visible {
+    outline: none !important;
 }
 
 #expandedImage.expanded {

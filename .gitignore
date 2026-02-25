@@ -4,4 +4,10 @@ playwright-report/
 test-results/
 tmp-*
 tmp-perf-audit/
-archive/audits/
+archive/
+legacy/
+temp/
+tmp/
+*.tmp
+*.temp
+*.bak
