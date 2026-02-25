@@ -3714,9 +3714,9 @@ body > footer.shop-footer .shop-footer-social {
 }
 
 #news.about-page > h2 {
-    text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 @media (max-width: 900px) {
