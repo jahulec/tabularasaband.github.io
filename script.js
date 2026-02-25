@@ -83,7 +83,7 @@ const PAGE_HERO_COPY = {
     'shop.html': {
         eyebrow: 'MERCH I WYDAWNICTWA',
         title: 'Sklep',
-        subtitle: 'Merch i płyty cd są dostępne tylko na koncertach live.'
+        subtitle: 'Merch i p\u0142yty cd s\u0105 dost\u0119pne tylko na koncertach live.'
     },
     'regulamin.html': {
         eyebrow: 'INFORMACJE PRAWNE',
@@ -186,6 +186,13 @@ const LANGUAGE_SWITCH_MAP = {
     'polityka-prywatnosci.html': 'privacy-policy.html',
     'privacy-policy.html': 'polityka-prywatnosci.html'
 };
+const GTM_CONTAINER_ID = 'GTM-MK42J45H';
+const GTM_DEFER_TIMEOUT_MS = 15000;
+const COOKIE_CONSENT_STORAGE_KEY = 'tr_cookie_consent_v1';
+const COOKIE_CONSENT_MAX_AGE_DAYS = 180;
+const COOKIE_CONSENT_VERSION = '2026-02-25';
+const COOKIE_BANNER_ID = 'trCookieConsentBanner';
+const COOKIE_SETTINGS_BUTTON_ID = 'trCookieSettingsButton';
 
 let floatingUtilities = null;
 let floatingSocial = null;
@@ -280,7 +287,7 @@ renderSharedHeader();
 function getHeroTitleForViewport(pageName, baseTitle) {
     const isMobileViewport = window.matchMedia('(max-width: 900px)').matches;
     if (!isMobileViewport) return baseTitle;
-    if (pageName === 'index.html') return 'Aktualności';
+    if (pageName === 'index.html') return 'Aktualno\u015Bci';
     if (pageName === 'index-en.html') return 'News';
     return baseTitle;
 }
@@ -349,6 +356,552 @@ function refreshResponsiveHeroTitle() {
         heading.textContent = responsiveTitle;
     }
 }
+
+function hasGtmScript(containerId = GTM_CONTAINER_ID) {
+    const expectedSrc = `googletagmanager.com/gtm.js?id=${containerId}`;
+    return Array.from(document.scripts).some((script) => (script.src || '').includes(expectedSrc));
+}
+
+function hasGtmStartEvent() {
+    if (!Array.isArray(window.dataLayer)) return false;
+    return window.dataLayer.some((entry) => (
+        entry &&
+        typeof entry === 'object' &&
+        (entry.event === 'gtm.js' || Object.prototype.hasOwnProperty.call(entry, 'gtm.start'))
+    ));
+}
+
+function initDeferredGtmBootstrap() {
+    if (!GTM_CONTAINER_ID || window.__trDeferredGtmSetup) return;
+    window.__trDeferredGtmSetup = true;
+    window.dataLayer = window.dataLayer || [];
+
+    let loaded = false;
+
+    const loadGtm = () => {
+        if (loaded || hasGtmScript(GTM_CONTAINER_ID)) return;
+        loaded = true;
+
+        if (!hasGtmStartEvent()) {
+            window.dataLayer.push({
+                'gtm.start': Date.now(),
+                event: 'gtm.js'
+            });
+        }
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_CONTAINER_ID}`;
+
+        const firstScript = document.getElementsByTagName('script')[0];
+        if (firstScript && firstScript.parentNode) {
+            firstScript.parentNode.insertBefore(script, firstScript);
+        } else if (document.head) {
+            document.head.appendChild(script);
+        } else {
+            document.documentElement.appendChild(script);
+        }
+    };
+
+    const intentEvents = ['pointerdown', 'keydown', 'touchstart'];
+    const listenerOptions = { passive: true };
+
+    const onFirstIntent = () => {
+        loadGtm();
+        intentEvents.forEach((eventName) => {
+            window.removeEventListener(eventName, onFirstIntent, listenerOptions);
+        });
+    };
+
+    intentEvents.forEach((eventName) => {
+        window.addEventListener(eventName, onFirstIntent, listenerOptions);
+    });
+
+    window.addEventListener('load', () => {
+        window.setTimeout(loadGtm, GTM_DEFER_TIMEOUT_MS);
+    }, { once: true });
+}
+
+function pushDataLayerEvent(eventName, payload = {}) {
+    if (!eventName) return;
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: eventName,
+        ...payload
+    });
+}
+
+function getNormalizedLanguageCode() {
+    const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+    if (htmlLang.startsWith('en')) return 'en';
+    if (htmlLang.startsWith('pl')) return 'pl';
+    return htmlLang || 'pl';
+}
+
+function getCookieConsentCopy() {
+    const language = getNormalizedLanguageCode();
+    if (language === 'en') {
+        return {
+            title: 'Privacy settings',
+            description: 'We use necessary cookies and optional analytics and marketing tools only with your consent.',
+            acceptAll: 'Accept all',
+            rejectOptional: 'Reject optional',
+            settings: 'Settings',
+            saveSettings: 'Save settings',
+            closeSettings: 'Close',
+            requiredLabel: 'Necessary',
+            requiredHint: 'Always active',
+            analyticsLabel: 'Analytics',
+            analyticsHint: 'Traffic and performance measurement',
+            marketingLabel: 'Marketing',
+            marketingHint: 'Ad and social media measurement',
+            privacyLabel: 'Privacy policy',
+            termsLabel: 'Terms',
+            manageLabel: 'Cookies'
+        };
+    }
+
+    return {
+        title: 'Ustawienia prywatnosci',
+        description: 'Uzywamy cookies niezbednych oraz opcjonalnych narzedzi analitycznych i marketingowych tylko po Twojej zgodzie.',
+        acceptAll: 'Akceptuj wszystkie',
+        rejectOptional: 'Odrzuc opcjonalne',
+        settings: 'Ustawienia',
+        saveSettings: 'Zapisz ustawienia',
+        closeSettings: 'Zamknij',
+        requiredLabel: 'Niezbedne',
+        requiredHint: 'Zawsze aktywne',
+        analyticsLabel: 'Analityczne',
+        analyticsHint: 'Pomiar ruchu i wydajnosci',
+        marketingLabel: 'Marketingowe',
+        marketingHint: 'Pomiar reklam i social media',
+        privacyLabel: 'Polityka prywatnosci',
+        termsLabel: 'Regulamin',
+        manageLabel: 'Cookies'
+    };
+}
+
+function getCookieLegalLinks() {
+    const language = getNormalizedLanguageCode();
+    if (language === 'en') {
+        return {
+            privacy: 'privacy-policy.html',
+            terms: 'terms.html'
+        };
+    }
+
+    return {
+        privacy: 'polityka-prywatnosci.html',
+        terms: 'regulamin.html'
+    };
+}
+
+function ensureGtagApiStub() {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== 'function') {
+        window.gtag = function gtag() {
+            window.dataLayer.push(arguments);
+        };
+    }
+}
+
+function normalizeCookieConsentState(value) {
+    const fallback = {
+        necessary: true,
+        analytics: false,
+        marketing: false,
+        updatedAt: new Date().toISOString(),
+        version: COOKIE_CONSENT_VERSION
+    };
+
+    if (!value || typeof value !== 'object') return fallback;
+
+    return {
+        necessary: true,
+        analytics: Boolean(value.analytics),
+        marketing: Boolean(value.marketing),
+        updatedAt: typeof value.updatedAt === 'string' ? value.updatedAt : fallback.updatedAt,
+        version: typeof value.version === 'string' ? value.version : COOKIE_CONSENT_VERSION
+    };
+}
+
+function readStoredCookieConsent() {
+    try {
+        const raw = window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        const normalized = normalizeCookieConsentState(parsed);
+        const updatedAt = Date.parse(normalized.updatedAt);
+        if (Number.isFinite(updatedAt)) {
+            const ageMs = Date.now() - updatedAt;
+            const maxAgeMs = COOKIE_CONSENT_MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
+            if (ageMs > maxAgeMs) {
+                window.localStorage.removeItem(COOKIE_CONSENT_STORAGE_KEY);
+                return null;
+            }
+        }
+        return normalized;
+    } catch {
+        return null;
+    }
+}
+
+function writeStoredCookieConsent(consentState) {
+    const normalized = normalizeCookieConsentState(consentState);
+    try {
+        window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, JSON.stringify(normalized));
+    } catch {
+        // Ignore storage errors (private mode, quota, etc.).
+    }
+    return normalized;
+}
+
+function buildConsentModePayload(consentState, includeWaitForUpdate = false) {
+    const analyticsStorage = consentState.analytics ? 'granted' : 'denied';
+    const adStorage = consentState.marketing ? 'granted' : 'denied';
+
+    const payload = {
+        ad_storage: adStorage,
+        analytics_storage: analyticsStorage,
+        ad_user_data: adStorage,
+        ad_personalization: adStorage,
+        personalization_storage: adStorage,
+        functionality_storage: 'granted',
+        security_storage: 'granted'
+    };
+
+    if (includeWaitForUpdate) {
+        payload.wait_for_update = 500;
+    }
+
+    return payload;
+}
+
+function applyConsentModeState(consentState, mode = 'update') {
+    ensureGtagApiStub();
+    const includeWaitForUpdate = mode === 'default';
+    window.gtag('consent', mode, buildConsentModePayload(consentState, includeWaitForUpdate));
+}
+
+function initConsentModeDefaults() {
+    if (window.__trConsentModeInit) return;
+    window.__trConsentModeInit = true;
+
+    const deniedByDefault = normalizeCookieConsentState({
+        analytics: false,
+        marketing: false
+    });
+    applyConsentModeState(deniedByDefault, 'default');
+
+    const stored = readStoredCookieConsent();
+    if (stored) {
+        window.__trCookieConsentState = stored;
+        applyConsentModeState(stored, 'update');
+    } else {
+        window.__trCookieConsentState = deniedByDefault;
+    }
+}
+
+function setCookieBannerVisibility(isVisible, showSettings = false) {
+    const banner = document.getElementById(COOKIE_BANNER_ID);
+    if (!banner) return;
+
+    banner.classList.toggle('is-visible', isVisible);
+    banner.classList.toggle('is-settings-open', isVisible && showSettings);
+    banner.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+
+    const fab = document.getElementById(COOKIE_SETTINGS_BUTTON_ID);
+    if (fab) {
+        fab.classList.toggle('is-hidden', isVisible);
+    }
+}
+
+function syncCookieConsentInputs(consentState) {
+    const banner = document.getElementById(COOKIE_BANNER_ID);
+    if (!banner) return;
+
+    const analyticsInput = banner.querySelector('[data-cookie-field="analytics"]');
+    const marketingInput = banner.querySelector('[data-cookie-field="marketing"]');
+    if (analyticsInput) analyticsInput.checked = Boolean(consentState.analytics);
+    if (marketingInput) marketingInput.checked = Boolean(consentState.marketing);
+}
+
+function readCookieConsentInputs() {
+    const banner = document.getElementById(COOKIE_BANNER_ID);
+    if (!banner) {
+        return normalizeCookieConsentState({ analytics: false, marketing: false });
+    }
+
+    const analyticsInput = banner.querySelector('[data-cookie-field="analytics"]');
+    const marketingInput = banner.querySelector('[data-cookie-field="marketing"]');
+    return normalizeCookieConsentState({
+        analytics: Boolean(analyticsInput && analyticsInput.checked),
+        marketing: Boolean(marketingInput && marketingInput.checked)
+    });
+}
+
+function applyAndStoreCookieConsent(consentState, source = 'banner') {
+    const normalized = writeStoredCookieConsent({
+        ...consentState,
+        updatedAt: new Date().toISOString(),
+        version: COOKIE_CONSENT_VERSION
+    });
+
+    window.__trCookieConsentState = normalized;
+    applyConsentModeState(normalized, 'update');
+
+    const pageName = getCurrentPageName();
+    const pageLanguage = getNormalizedLanguageCode();
+
+    pushDataLayerEvent('tr_consent_update', {
+        consent_source: source,
+        consent_analytics: normalized.analytics ? 'granted' : 'denied',
+        consent_marketing: normalized.marketing ? 'granted' : 'denied',
+        consent_version: normalized.version,
+        page_name: pageName,
+        page_language: pageLanguage
+    });
+
+    setCookieBannerVisibility(false, false);
+    syncCookieConsentInputs(normalized);
+}
+
+function openCookieConsentManager(openSettings = true) {
+    const currentState = window.__trCookieConsentState || readStoredCookieConsent() || normalizeCookieConsentState({
+        analytics: false,
+        marketing: false
+    });
+    syncCookieConsentInputs(currentState);
+    setCookieBannerVisibility(true, openSettings);
+}
+
+function buildCookieBannerMarkup(copy, links, consentState) {
+    const analyticsChecked = consentState.analytics ? 'checked' : '';
+    const marketingChecked = consentState.marketing ? 'checked' : '';
+
+    return `
+        <div class="cookie-consent-inner">
+            <div class="cookie-consent-copy">
+                <h2>${copy.title}</h2>
+                <p>${copy.description}</p>
+            </div>
+            <div class="cookie-consent-actions">
+                <button type="button" class="cookie-btn cookie-btn-primary" data-cookie-action="accept-all">${copy.acceptAll}</button>
+                <button type="button" class="cookie-btn cookie-btn-ghost" data-cookie-action="reject-optional">${copy.rejectOptional}</button>
+                <button type="button" class="cookie-btn cookie-btn-link" data-cookie-action="toggle-settings">${copy.settings}</button>
+                <div class="cookie-consent-links">
+                    <a href="${links.privacy}">${copy.privacyLabel}</a>
+                    <span aria-hidden="true">·</span>
+                    <a href="${links.terms}">${copy.termsLabel}</a>
+                </div>
+            </div>
+            <div class="cookie-consent-settings">
+                <label class="cookie-switch-row cookie-switch-row-required">
+                    <span class="cookie-switch-copy">
+                        <strong>${copy.requiredLabel}</strong>
+                        <small>${copy.requiredHint}</small>
+                    </span>
+                    <input type="checkbox" checked disabled>
+                </label>
+                <label class="cookie-switch-row">
+                    <span class="cookie-switch-copy">
+                        <strong>${copy.analyticsLabel}</strong>
+                        <small>${copy.analyticsHint}</small>
+                    </span>
+                    <input type="checkbox" data-cookie-field="analytics" ${analyticsChecked}>
+                </label>
+                <label class="cookie-switch-row">
+                    <span class="cookie-switch-copy">
+                        <strong>${copy.marketingLabel}</strong>
+                        <small>${copy.marketingHint}</small>
+                    </span>
+                    <input type="checkbox" data-cookie-field="marketing" ${marketingChecked}>
+                </label>
+                <div class="cookie-settings-actions">
+                    <button type="button" class="cookie-btn cookie-btn-primary" data-cookie-action="save-settings">${copy.saveSettings}</button>
+                    <button type="button" class="cookie-btn cookie-btn-link" data-cookie-action="close-settings">${copy.closeSettings}</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function ensureCookieSettingsFab(copy) {
+    let button = document.getElementById(COOKIE_SETTINGS_BUTTON_ID);
+    if (!button) {
+        button = document.createElement('button');
+        button.id = COOKIE_SETTINGS_BUTTON_ID;
+        button.type = 'button';
+        button.className = 'cookie-settings-fab';
+        button.setAttribute('aria-label', copy.manageLabel);
+        document.body.appendChild(button);
+    }
+
+    button.textContent = copy.manageLabel;
+    button.addEventListener('click', () => {
+        openCookieConsentManager(true);
+    });
+}
+
+function ensureFooterCookieSettingsLinks(copy) {
+    const footerNavs = Array.from(document.querySelectorAll('footer.shop-footer .shop-footer-nav'));
+    if (footerNavs.length === 0) return;
+
+    footerNavs.forEach((nav) => {
+        if (nav.querySelector('.shop-footer-cookie-link')) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'shop-footer-cookie-link';
+        button.setAttribute('data-cookie-settings-open', '1');
+        button.textContent = copy.manageLabel;
+        nav.appendChild(button);
+    });
+}
+
+function initCookieConsentUi() {
+    if (window.__trCookieConsentUiInit) return;
+    window.__trCookieConsentUiInit = true;
+
+    const copy = getCookieConsentCopy();
+    const links = getCookieLegalLinks();
+    const storedConsent = readStoredCookieConsent();
+    const initialConsent = storedConsent || normalizeCookieConsentState({
+        analytics: false,
+        marketing: false
+    });
+
+    let banner = document.getElementById(COOKIE_BANNER_ID);
+    if (!banner) {
+        banner = document.createElement('section');
+        banner.id = COOKIE_BANNER_ID;
+        banner.className = 'cookie-consent-banner';
+        banner.setAttribute('role', 'dialog');
+        banner.setAttribute('aria-live', 'polite');
+        banner.setAttribute('aria-hidden', 'true');
+        banner.innerHTML = buildCookieBannerMarkup(copy, links, initialConsent);
+        document.body.appendChild(banner);
+    }
+
+    ensureCookieSettingsFab(copy);
+    ensureFooterCookieSettingsLinks(copy);
+    syncCookieConsentInputs(initialConsent);
+
+    if (!storedConsent) {
+        setCookieBannerVisibility(true, false);
+    } else {
+        setCookieBannerVisibility(false, false);
+    }
+
+    banner.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('[data-cookie-action]');
+        if (!actionButton) return;
+
+        const action = actionButton.getAttribute('data-cookie-action');
+        if (action === 'accept-all') {
+            applyAndStoreCookieConsent({ analytics: true, marketing: true }, 'accept_all');
+            return;
+        }
+        if (action === 'reject-optional') {
+            applyAndStoreCookieConsent({ analytics: false, marketing: false }, 'reject_optional');
+            return;
+        }
+        if (action === 'toggle-settings') {
+            banner.classList.toggle('is-settings-open');
+            return;
+        }
+        if (action === 'close-settings') {
+            banner.classList.remove('is-settings-open');
+            return;
+        }
+        if (action === 'save-settings') {
+            const selected = readCookieConsentInputs();
+            applyAndStoreCookieConsent(selected, 'custom_save');
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        const opener = event.target.closest('[data-cookie-settings-open]');
+        if (!opener) return;
+        event.preventDefault();
+        openCookieConsentManager(true);
+    });
+}
+
+function initMarketingEventTracking() {
+    if (window.__trMarketingEventsInit) return;
+    window.__trMarketingEventsInit = true;
+
+    const pageName = getCurrentPageName();
+    const pagePath = window.location.pathname || '/';
+    const pageLanguage = getNormalizedLanguageCode();
+    const pageTitle = (document.title || '').trim();
+
+    pushDataLayerEvent('tr_page_view', {
+        page_name: pageName,
+        page_path: pagePath,
+        page_language: pageLanguage,
+        page_title: pageTitle
+    });
+
+    const ticketButtons = Array.from(document.querySelectorAll('.ticket-btn'));
+    ticketButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const concertNameNode = button.closest('.concert-item') && button.closest('.concert-item').querySelector('h3');
+            const concertName = concertNameNode ? concertNameNode.textContent.trim() : '';
+            const ticketUrl = button.getAttribute('href') || '';
+
+            pushDataLayerEvent('tr_ticket_click', {
+                page_name: pageName,
+                page_language: pageLanguage,
+                concert_name: concertName,
+                ticket_url: ticketUrl
+            });
+        });
+    });
+
+    const contactForms = Array.from(document.querySelectorAll('form.contact-form'));
+    contactForms.forEach((form) => {
+        form.addEventListener('submit', () => {
+            const formAction = form.getAttribute('action') || '';
+            pushDataLayerEvent('tr_contact_submit', {
+                page_name: pageName,
+                page_language: pageLanguage,
+                form_action: formAction
+            });
+        });
+    });
+
+    const menuLinks = Array.from(document.querySelectorAll('.header-nav a, .mobile-nav-link'));
+    menuLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const target = getLinkPageName(link);
+            const navType = link.classList.contains('mobile-nav-link') ? 'mobile' : 'desktop';
+
+            pushDataLayerEvent('tr_navigation_click', {
+                page_name: pageName,
+                page_language: pageLanguage,
+                nav_type: navType,
+                nav_target: target
+            });
+        });
+    });
+
+    const langLinks = Array.from(document.querySelectorAll('.header-lang-link, .header-mobile-lang'));
+    langLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            const targetPath = link.getAttribute('href') || '';
+
+            pushDataLayerEvent('tr_language_switch_click', {
+                page_name: pageName,
+                page_language: pageLanguage,
+                target_path: targetPath
+            });
+        });
+    });
+}
+
+initConsentModeDefaults();
+initDeferredGtmBootstrap();
 
 function ensureAccessibleIframes() {
     const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
@@ -1252,6 +1805,8 @@ function initAboutMemberCards() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeBaseState();
     injectPageHeroCopy();
+    initCookieConsentUi();
+    initMarketingEventTracking();
     ensureAccessibleIframes();
     refreshResponsiveHeroTitle();
     ensureFooterSocialLinks();
@@ -1511,3 +2066,4 @@ if (scrollTopBtn) {
         scrollToHeadline();
     });
 }
+

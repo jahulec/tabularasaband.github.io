@@ -14,7 +14,8 @@
     
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
 	<link rel="preload" href="PoppinsBlack.woff" as="font" type="font/woff" crossorigin>
-	<link rel="icon" href="logo-fav-fix.png" type="image/png">
+	<link rel="manifest" href="manifest.json">
+    <link rel="icon" href="logo-fav-fix.png" type="image/png">
 	<link rel="shortcut icon" href="logo-fav-fix.png" type="image/png">
 
 	<link rel="canonical" href="https://tabularasaband.pl/index-en.html" />
@@ -38,54 +39,6 @@
 	<meta name="twitter:image" content="https://tabularasaband.pl/logo.png">
 <link id="preloadFirstImage" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(min-width: 769px)">
     	<link id="preloadFirstImageMobile" rel="preload" as="image" href="galeria/_responsive/zdjecia_mobile/80m-w640.webp" media="(max-width: 768px)">
-    <!-- Google Tag Manager (deferred for better first render) -->
-    <script>
-    (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        var loaded = false;
-
-        function loadGtm() {
-            if (loaded) return;
-            loaded = true;
-            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-            var f = d.getElementsByTagName(s)[0];
-            var j = d.createElement(s);
-            var dl = l !== 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        }
-
-        function initDeferredGtm() {
-            if (initDeferredGtm.initialized) return;
-            initDeferredGtm.initialized = true;
-
-            var events = ['pointerdown', 'keydown', 'touchstart'];
-            var onFirstIntent = function () {
-                loadGtm();
-                cleanup();
-            };
-            var cleanup = function () {
-                events.forEach(function (evt) {
-                    w.removeEventListener(evt, onFirstIntent, listenerOptions);
-                });
-            };
-            var listenerOptions = { passive: true };
-
-            events.forEach(function (evt) {
-                w.addEventListener(evt, onFirstIntent, listenerOptions);
-            });
-
-            w.addEventListener('load', function () {
-                w.setTimeout(loadGtm, 15000);
-            }, { once: true });
-        }
-
-        initDeferredGtm();
-    })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');
-    </script>
-    <!-- End Google Tag Manager -->
-
 	<script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -117,13 +70,6 @@
 
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MK42J45H"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
 <header class="shop-header" data-header-template="shared"></header>
 
 <!-- Dynamic Photo Gallery (single section for desktop and mobile) -->

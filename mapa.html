@@ -3,34 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Mapa koncertów i zespołów powiązanych z Tabula Rasa.">
+  <meta name="description" content="Mapa koncertow i zespolow powiazanych z Tabula Rasa.">
   <meta name="robots" content="noindex, follow">
-  <title>Mapa zespołów | Tabula Rasa</title>
+  <meta name="theme-color" content="#000000">
+  <title>Mapa zespolow | Tabula Rasa</title>
   <link rel="canonical" href="https://tabularasaband.pl/mapa.html">
-  <link rel="icon" href="logo-fav-fix.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tabula Rasa">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:title" content="Mapa zespolow | Tabula Rasa">
+  <meta property="og:description" content="Mapa koncertow i zespolow powiazanych z Tabula Rasa.">
+  <meta property="og:url" content="https://tabularasaband.pl/mapa.html">
+  <meta property="og:image" content="https://tabularasaband.pl/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mapa zespolow | Tabula Rasa">
+  <meta name="twitter:description" content="Mapa koncertow i zespolow powiazanych z Tabula Rasa.">
+  <meta name="twitter:image" content="https://tabularasaband.pl/logo.png">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Mapa zespolow",
+  "url": "https://tabularasaband.pl/mapa.html",
+  "inLanguage": "pl-PL"
+}
+  </script>
+
+  <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="logo-fav-fix.png" type="image/png">
   <link rel="shortcut icon" href="logo-fav-fix.png" type="image/png">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f5f5f5;
+    :root {
+      color-scheme: dark;
     }
 
-    iframe {
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: "PoppinsBlack", "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(230, 0, 35, 0.28), rgba(0, 0, 0, 0) 44%),
+        radial-gradient(circle at 82% 84%, rgba(52, 98, 172, 0.22), rgba(0, 0, 0, 0) 40%),
+        #000;
+    }
+
+    .map-shell {
+      width: min(1100px, 100%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      background: rgba(5, 8, 16, 0.92);
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.45);
+      padding: clamp(16px, 3vw, 28px);
+      backdrop-filter: blur(8px);
+    }
+
+    .map-shell h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      line-height: 1.15;
+    }
+
+    .map-shell p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      max-width: 75ch;
+    }
+
+    .map-controls {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .map-load-btn {
+      appearance: none;
       border: 0;
-      width: 90%;
-      height: 90vh;
-      max-width: 1200px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      min-height: 40px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: #e60023;
+      color: #fff;
+      font: inherit;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: transform 0.16s ease, background-color 0.16s ease;
+    }
+
+    .map-load-btn:hover,
+    .map-load-btn:focus-visible {
+      transform: translateY(-1px);
+      background: #f4002f;
+    }
+
+    .map-status {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.8rem;
+    }
+
+    .map-frame-wrap {
+      margin-top: 16px;
       border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+      min-height: min(72vh, 720px);
+    }
+
+    .map-frame-wrap iframe {
+      width: 100%;
+      height: min(72vh, 720px);
+      border: 0;
+      display: block;
+      background: #01050e;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 10px;
+      }
+
+      .map-shell {
+        border-radius: 14px;
+        padding: 14px;
+      }
+
+      .map-frame-wrap,
+      .map-frame-wrap iframe {
+        height: 70vh;
+        min-height: 70vh;
+      }
     }
   </style>
 </head>
 <body>
-  <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1Iz0fjl4jeNDIk8WJ4QsewqDqVEabHLE&ehbc=2E312F" title="Mapa zespołów Tabula Rasa" allowfullscreen></iframe>
+  <main class="map-shell">
+    <h1>Mapa zespolow</h1>
+    <p>Aby zaladowac mape Google, kliknij przycisk ponizej. Po uruchomieniu mapy dostawca moze zapisywac dodatkowe cookies i przetwarzac dane techniczne.</p>
+
+    <div class="map-controls">
+      <button id="loadMapBtn" class="map-load-btn" type="button">Wczytaj mape Google</button>
+      <span id="mapStatus" class="map-status" aria-live="polite">Mapa nie jest jeszcze zaladowana.</span>
+    </div>
+
+    <div class="map-frame-wrap">
+      <iframe
+        id="mapFrame"
+        src="about:blank"
+        data-src="https://www.google.com/maps/d/u/0/embed?mid=1Iz0fjl4jeNDIk8WJ4QsewqDqVEabHLE&ehbc=2E312F"
+        title="Mapa zespolow Tabula Rasa"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var storageKey = 'tr_map_embed_consent_v1';
+      var button = document.getElementById('loadMapBtn');
+      var status = document.getElementById('mapStatus');
+      var frame = document.getElementById('mapFrame');
+
+      function loadMap() {
+        if (!frame || frame.dataset.loaded === '1') return;
+        var targetSrc = frame.getAttribute('data-src');
+        if (!targetSrc) return;
+
+        frame.src = targetSrc;
+        frame.dataset.loaded = '1';
+        button.disabled = true;
+        button.textContent = 'Mapa zaladowana';
+        status.textContent = 'Mapa Google jest aktywna.';
+        try {
+          window.localStorage.setItem(storageKey, '1');
+        } catch (_) {
+          // Ignore storage errors.
+        }
+      }
+
+      button.addEventListener('click', loadMap);
+
+      try {
+        if (window.localStorage.getItem(storageKey) === '1') {
+          loadMap();
+        }
+      } catch (_) {
+        // Ignore storage errors.
+      }
+    })();
+  </script>
 </body>
 </html>
