@@ -373,6 +373,7 @@ function hasGtmStartEvent() {
 
 function initDeferredGtmBootstrap() {
     if (!GTM_CONTAINER_ID || window.__trDeferredGtmSetup) return;
+    if (hasGtmScript(GTM_CONTAINER_ID)) return;
     window.__trDeferredGtmSetup = true;
     window.dataLayer = window.dataLayer || [];
 
@@ -591,7 +592,10 @@ function initConsentModeDefaults() {
         analytics: false,
         marketing: false
     });
-    applyConsentModeState(deniedByDefault, 'default');
+    const hasHeadConsentDefault = Boolean(window.__trConsentDefaultFromHead);
+    if (!hasHeadConsentDefault) {
+        applyConsentModeState(deniedByDefault, 'default');
+    }
 
     const stored = readStoredCookieConsent();
     if (stored) {
