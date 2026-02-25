@@ -523,6 +523,33 @@ function applyImageSource(img, isMobile) {
     }
 }
 
+function clearImageSource(img) {
+    if (!img) return;
+    img.removeAttribute('srcset');
+    img.removeAttribute('sizes');
+    if (!img.classList.contains('active')) {
+        img.removeAttribute('src');
+    }
+}
+
+function syncSliderImageSources() {
+    if (sliderImages.length === 0) return;
+
+    const isMobile = window.innerWidth <= 768;
+    const nextIndex = sliderImages.length > 1
+        ? (currentImageIndex + 1) % sliderImages.length
+        : currentImageIndex;
+
+    sliderImages.forEach((img, index) => {
+        const shouldLoad = index === currentImageIndex || index === nextIndex;
+        if (shouldLoad) {
+            applyImageSource(img, isMobile);
+        } else {
+            clearImageSource(img);
+        }
+    });
+}
+
 function saveSliderIndex() {
     try {
         sessionStorage.setItem(SLIDER_INDEX_KEY, String(currentImageIndex));
@@ -591,10 +618,7 @@ function handleImageSwap() {
 
     const activeIndex = sliderImages.findIndex((img) => img.classList.contains('active'));
     currentImageIndex = activeIndex >= 0 ? activeIndex : 0;
-    const isMobile = window.innerWidth <= 768;
-    sliderImages.forEach((img) => {
-        applyImageSource(img, isMobile);
-    });
+    syncSliderImageSources();
     applySliderLoadingHints();
     preloadNextSlide();
 }
@@ -609,8 +633,7 @@ function changeSlide() {
     sliderImages.forEach((img) => img.classList.remove('active'));
     currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
     sliderImages[currentImageIndex].classList.add('active');
-    const isMobile = window.innerWidth <= 768;
-    applyImageSource(sliderImages[currentImageIndex], isMobile);
+    syncSliderImageSources();
     saveSliderIndex();
     preloadNextSlide();
 
@@ -1109,6 +1132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeaderLogoHoverAnimation();
     initScrollReveal();
     initAboutMemberCards();
+    initDeferredShowsEmbed();
     updateFloatingUtilities();
 });
 
@@ -1237,6 +1261,44 @@ function ensureFooterSocialLinks() {
         } else {
             container.appendChild(social);
         }
+    });
+}
+
+function initDeferredShowsEmbed() {
+    const placeholder = document.getElementById('goingModalEmbed');
+    if (!placeholder) return;
+
+    const scriptSrc = placeholder.getAttribute('data-deferred-src');
+    if (!scriptSrc) return;
+
+    let hasLoaded = false;
+    let isLoading = false;
+
+    const loadEmbedScript = () => {
+        if (hasLoaded || isLoading) return;
+        isLoading = true;
+
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.async = true;
+        script.onload = () => {
+            hasLoaded = true;
+            isLoading = false;
+        };
+        script.onerror = () => {
+            isLoading = false;
+        };
+
+        document.body.appendChild(script);
+    };
+
+    const ticketLinks = Array.from(document.querySelectorAll('.ticket-btn'));
+    if (ticketLinks.length === 0) return;
+
+    ticketLinks.forEach((link) => {
+        link.addEventListener('pointerenter', loadEmbedScript, { once: true, passive: true });
+        link.addEventListener('touchstart', loadEmbedScript, { once: true, passive: true });
+        link.addEventListener('focus', loadEmbedScript, { once: true });
     });
 }
 

@@ -3032,6 +3032,18 @@ body.menu-open {
     margin-top: 30px !important;
 }
 
+#news.home-page .article-with-image {
+    content-visibility: auto;
+    contain-intrinsic-size: 900px;
+}
+
+#news.home-page .article-with-image picture,
+#news.home-page .article-with-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 #news .article-content {
     gap: 24px !important;
     margin-bottom: 28px !important;

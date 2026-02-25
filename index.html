@@ -12,6 +12,7 @@
 	<title>Tabula Rasa - Oficjalna Strona Zespołu | Koncerty i Muzyka</title>
     
 	<link rel="stylesheet" href="styles.css"> <!-- Zminifikowany CSS -->
+	<link rel="preload" href="PoppinsBlack.woff" as="font" type="font/woff" crossorigin>
 	<link rel="icon" href="logo-fav-fix.png" type="image/png">
 	<link rel="shortcut icon" href="logo-fav-fix.png" type="image/png">
 
@@ -55,15 +56,32 @@
             f.parentNode.insertBefore(j, f);
         }
 
-        if ('requestIdleCallback' in w) {
+        function initDeferredGtm() {
+            if (initDeferredGtm.initialized) return;
+            initDeferredGtm.initialized = true;
+
+            var events = ['pointerdown', 'keydown', 'touchstart'];
+            var onFirstIntent = function () {
+                loadGtm();
+                cleanup();
+            };
+            var cleanup = function () {
+                events.forEach(function (evt) {
+                    w.removeEventListener(evt, onFirstIntent, listenerOptions);
+                });
+            };
+            var listenerOptions = { passive: true };
+
+            events.forEach(function (evt) {
+                w.addEventListener(evt, onFirstIntent, listenerOptions);
+            });
+
             w.addEventListener('load', function () {
-                w.requestIdleCallback(loadGtm, { timeout: 2500 });
-            }, { once: true });
-        } else {
-            w.addEventListener('load', function () {
-                setTimeout(loadGtm, 1200);
+                w.setTimeout(loadGtm, 15000);
             }, { once: true });
         }
+
+        initDeferredGtm();
     })(window, document, 'script', 'dataLayer', 'GTM-MK42J45H');
     </script>
     <!-- End Google Tag Manager -->
@@ -110,11 +128,11 @@
 
 <!-- Dynamiczna Galeria Zdjęć (jedna sekcja dla desktop i mobile) -->
 <div class="background-slider">
-	<img id="firstImage" src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 1" data-mobile-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/80m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/75d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" alt="Tabula Rasa - koncert 2" data-mobile-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/81m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/81m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/73d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/73d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/73d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" alt="Tabula Rasa - koncert 3" data-mobile-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/82m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/82m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/71d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/71d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/71d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" alt="Tabula Rasa - koncert 4" data-mobile-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/83m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/83m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/70d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/70d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/70d-w2560.webp 2560w">
-	<img src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/84m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/84m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/72d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/72d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/72d-w2560.webp 2560w">
+	<img id="firstImage" src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" alt="Tabula Rasa - koncert 1" fetchpriority="high" decoding="async" data-mobile-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/80m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/80m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/75d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/80m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp 2560w">
+	<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Tabula Rasa - koncert 2" data-mobile-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/81m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/81m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/81m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/73d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/81m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/73d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/73d-w2560.webp 2560w">
+	<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Tabula Rasa - koncert 3" data-mobile-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/82m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/82m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/82m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/71d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/82m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/71d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/71d-w2560.webp 2560w">
+	<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Tabula Rasa - koncert 4" data-mobile-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/83m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/83m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/83m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/70d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/83m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/70d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/70d-w2560.webp 2560w">
+	<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/84m-w360.webp 360w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 640w, galeria/_responsive/zdjecia_mobile/84m-w960.webp 960w" data-desktop-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/72d-w768.webp 768w, galeria/_responsive/zdjecia_mobile/84m-w640.webp 1280w, galeria/_responsive/zdjecia_desktop/72d-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/72d-w2560.webp 2560w">
 </div>
 
 <section id="news" class="home-page">
@@ -126,9 +144,10 @@
         <p>W nowym roku jedziemy w trasę Przebudzenie, 11 miast w całej Polsce. Czekają was zarówno wydane utwory, jak i nowy materiał dostępny tylko na naszej trasie. Przygotujcie się na eneretyczny show, dużo interakcji z publiką, na zarówno emocjonalne jak i energetyczne utwory. Bilety dostępne w zakładce koncerty.</p>
 
             <picture>
-                <source srcset="artykul/trasa.webp" type="image/webp">
+                <source media="(max-width: 768px)" srcset="artykul/trasa-w420.webp 420w, artykul/trasa-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/trasa-w760.webp 760w, artykul/trasa.webp 1134w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
                 <source srcset="artykul/trasa.jpg" type="image/jpeg">
-                <img src="artykul/trasa.jpg" alt="trasa 2026" loading="lazy">
+                <img src="artykul/trasa.jpg" alt="trasa 2026" loading="eager" fetchpriority="high" decoding="async" width="1134" height="1417">
             </picture>
     </div>
 </article>
@@ -139,8 +158,9 @@
         <p>Na początku Maja wzięliśmy udział w konkursie Road to Juwe w Płocku, gdzie udało nam się wygrać występ na Płockich Juwenaliach 22 maja! To już nasze 3 juwenalia w tym Roku! Wielkie gratulacje dla rapera Kayak za współwygranie tego przeglądu!</p>
 
             <picture>
-                <source srcset="artykul/plock.webp" type="image/webp">
-                <img src="artykul/plock.webp" alt="kill me with music" loading="lazy">
+                <source media="(max-width: 768px)" srcset="artykul/plock-w420.webp 420w, artykul/plock-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/plock-w760.webp 760w, artykul/plock.webp 1440w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
+                <img src="artykul/plock-w760.webp" alt="kill me with music" loading="lazy" decoding="async" width="1440" height="1440">
             </picture>
     </div>
 </article>
@@ -150,8 +170,9 @@
         <p>Mamy kolejny występ na juwenaliach, tym razem w Bydgoszczy! Zagramy z takimi legandami jak Dżem, czy Lej mi Pół 16 maja, wszystkie juwenalia są dostępne do sprawdzenia w zakładce koncerty.</p>
 
             <picture>
-                <source srcset="artykul/bydgoszcz.webp" type="image/webp">
-                <img src="artykul/bydgoszcz.webp" alt="kill me with music" loading="lazy">
+                <source media="(max-width: 768px)" srcset="artykul/bydgoszcz-w420.webp 420w, artykul/bydgoszcz.webp 480w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/bydgoszcz.webp 480w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
+                <img src="artykul/bydgoszcz.webp" alt="kill me with music" loading="lazy" decoding="async" width="480" height="560">
             </picture>
     </div>
 </article>
@@ -161,8 +182,9 @@
         <p>W kwietniu wzięliśmy udział w konkursie Kill Me With Music w Rzeszowie, gdzie udało nam się wygrać występ na Rzeszowskich Juwenaliach! jesteśmy niesamowicie zadowoleni z tego wyróżnienia! Zagramy 9 maja na największej scenie wraz z m.in. Lady Pank, Ich Troje, Pidżama Porno!</p>
 
             <picture>
-                <source srcset="artykul/rzesza.webp" type="image/webp">
-                <img src="artykul/rzesza.webp" alt="kill me with music" loading="lazy">
+                <source media="(max-width: 768px)" srcset="artykul/rzesza-w420.webp 420w, artykul/rzesza-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/rzesza-w760.webp 760w, artykul/rzesza.webp 1080w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
+                <img src="artykul/rzesza-w760.webp" alt="kill me with music" loading="lazy" decoding="async" width="1080" height="1350">
             </picture>
     </div>
 </article>
@@ -177,8 +199,9 @@
 
 <a href="shop.html">
   <picture>
-    <source srcset="artykul/cd-news.webp" type="image/webp">
-    <img src="artykul/cd-news.webp" alt="cd" loading="lazy">
+    <source media="(max-width: 768px)" srcset="artykul/cd-news-w420.webp 420w, artykul/cd-news-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+    <source srcset="artykul/cd-news-w760.webp 760w, artykul/cd-news.webp 1200w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
+    <img src="artykul/cd-news-w760.webp" alt="cd" loading="lazy" decoding="async" width="1200" height="1200">
   </picture>
 </a>
     </div>
@@ -190,9 +213,10 @@
 	Teledysk został nakręcony w najlepszej szkole Rocka - w Akademii Rocka w Warszawie na targowej, pokazujący futurystyczną wersję człowieka - Hybrydę.</p>
 
             <picture>
-                <source srcset="artykul/hybryda.webp" type="image/webp">
+                <source media="(max-width: 768px)" srcset="artykul/hybryda-w420.webp 420w, artykul/hybryda-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/hybryda-w760.webp 760w, artykul/hybryda.webp 2048w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
                 <source srcset="artykul/hybryda.jpg" type="image/jpeg">
-                <img src="artykul/hybryda.jpg" alt="hybryda" loading="lazy">
+                <img src="artykul/hybryda.jpg" alt="hybryda" loading="lazy" decoding="async" width="2048" height="1152">
             </picture>
     </div>
 </article>
@@ -203,9 +227,10 @@
 	Zwłaszcza biorąc pod uwagę że wyjątkowo koncert zagraliśmy bez Delii ;) . Gratulacje dla zwycięzców- Kwazzy Live Band!</p>
 
             <picture>
-                <source srcset="artykul/lublinPKS.webp" type="image/webp">
+                <source media="(max-width: 768px)" srcset="artykul/lublinPKS-w420.webp 420w, artykul/lublinPKS-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/lublinPKS-w760.webp 760w, artykul/lublinPKS.webp 2048w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
                 <source srcset="artykul/lublinPKS.jpg" type="image/jpeg">
-                <img src="artykul/lublinPKS.jpg" alt="Zdjęcie zespołu z koncertu w Lublinie" loading="lazy">
+                <img src="artykul/lublinPKS.jpg" alt="Zdjęcie zespołu z koncertu w Lublinie" loading="lazy" decoding="async" width="2048" height="1365">
             </picture>
     </div>
 </article>
@@ -216,9 +241,10 @@
 		Bohater zachęca do odcięcia się od elektroniki, i pokazuje jak wygląda świat uwolniony od niej. Teledysk został nakręcony w Warszawskim metrze.</p>
 
             <picture>
-                <source srcset="artykul/Offline.webp" type="image/webp">
+                <source media="(max-width: 768px)" srcset="artykul/Offline-w420.webp 420w, artykul/Offline-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/Offline-w760.webp 760w, artykul/Offline.webp 1280w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
                 <source srcset="artykul/Offline.jpg" type="image/jpeg">
-                <img src="artykul/Offline.jpg" alt="Offline premiera" loading="lazy">
+                <img src="artykul/Offline-w760.webp" alt="Offline premiera" loading="lazy" decoding="async" width="1280" height="720">
             </picture>
     </div>
 </article>
@@ -232,9 +258,10 @@
         Wraz z zespołem Viadomo zostaliśy finalistami przeglądu, co jest dla nas ogromnym wyróżnieniem!</p>
 
             <picture>
-                <source srcset="artykul/pks.webp" type="image/webp">
+                <source media="(max-width: 768px)" srcset="artykul/pks-w420.webp 420w, artykul/pks-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+                <source srcset="artykul/pks-w760.webp 760w, artykul/pks.webp 1920w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
                 <source srcset="artykul/pks.jpg" type="image/jpeg">
-                <img src="artykul/pks.jpg" alt="Zdjęcie zespołu z koncertu w klubie Spirala" loading="lazy">
+                <img src="artykul/pks.jpg" alt="Zdjęcie zespołu z koncertu w klubie Spirala" loading="lazy" decoding="async" width="1920" height="1080">
             </picture>
     </div>
 </article>
@@ -245,9 +272,10 @@
         <div class="article-content">
             <p>Nasz ostatni singiel Ostatni Raz jest już dostępny na wszystkich platformach streamingowych, możecie też zobaczyć teledysk na platformie Youtube!</p>
             <picture>
-				<source srcset="artykul/art1.webp 1024w, artykul/art1.webp 320w" type="image/webp">
+				<source media="(max-width: 768px)" srcset="artykul/art1-w420.webp 420w, artykul/art1-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+				<source srcset="artykul/art1-w760.webp 760w, artykul/art1.webp 1024w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
 				<source srcset="artykul/art1.jpg" type="image/jpeg">
-				<img src="artykul/art1.jpg" alt="Zdjęcie 1" loading="lazy">
+				<img src="artykul/art1.jpg" alt="Zdjęcie 1" loading="lazy" decoding="async" width="1024" height="576">
 			</picture>
         </div>
     </article>
@@ -258,9 +286,10 @@
         <div class="article-content">
             <p>Nasz pierwszy singiel zdobył dużą popularność i został ciepło przyjęty przez słuchaczy. Cieszymy się, że nasza muzyka dotarła do tak wielu osób! Wszystko To Co mam opowiada o stracie bliskiej osoby i o emocjach z takim trudnym przeżyciem.</p>
             <picture>
-				<source srcset="artykul/art2.webp 1024w, artykul/art2.webp 320w" type="image/webp">
+				<source media="(max-width: 768px)" srcset="artykul/art2-w420.webp 420w, artykul/art2-w760.webp 760w" sizes="calc(100vw - 32px)" type="image/webp">
+				<source srcset="artykul/art2-w760.webp 760w, artykul/art2.webp 1024w" sizes="(max-width: 1200px) 40vw, 560px" type="image/webp">
 				<source srcset="artykul/art2.jpg" type="image/jpeg">
-				<img src="artykul/art2.jpg" alt="Zdjęcie 1" loading="lazy">
+				<img src="artykul/art2.jpg" alt="Zdjęcie 1" loading="lazy" decoding="async" width="1024" height="575">
 			</picture>
         </div>
     </article>
