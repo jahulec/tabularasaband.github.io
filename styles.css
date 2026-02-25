@@ -1,4 +1,4 @@
-﻿/* ogólne style */
+/* ogólne style */
 
 *,
 *::before,
@@ -1618,51 +1618,6 @@ header:not(.shop-header).hidden {
 
 .mobile-sticky-header {
     display: none !important;
-}
-
-.background-slider {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    background: #000;
-    pointer-events: none;
-    opacity: 0;
-    overflow: hidden;
-    transition: opacity 0.2s ease-out;
-}
-
-.background-slider.is-ready {
-    opacity: 1;
-}
-
-.background-slider::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: #000;
-    opacity: var(--bg-dim);
-    transition: opacity 0.12s linear;
-}
-
-.background-slider img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transform: translateZ(0) scale(1.02);
-    transition: opacity 1.2s ease-in-out, transform 5.8s ease-out;
-    backface-visibility: hidden;
-    will-change: opacity, transform;
-}
-
-.background-slider img.active {
-    opacity: 1;
-    transform: translateZ(0) scale(1.08);
 }
 
 #news {

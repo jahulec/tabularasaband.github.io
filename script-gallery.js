@@ -117,6 +117,11 @@
         closeImage();
     });
 
+    expandedImage.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closeImage();
+    });
+
     document.addEventListener('keydown', (event) => {
         if (!isModalOpen()) return;
 

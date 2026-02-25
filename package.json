@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run test:smoke && npm run test:uiux",
     "test:smoke": "playwright test tests/smoke.spec.js",
+    "test:uiux": "playwright test tests/ui-ux-a11y.spec.js",
+    "check:encoding": "node scripts/check-text-encoding.mjs",
+    "audit:lighthouse": "node scripts/run-lighthouse-ci.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
     "update-slider": "node scripts/update-slider.mjs",
     "rebuild-gallery": "node scripts/rebuild-gallery.mjs"

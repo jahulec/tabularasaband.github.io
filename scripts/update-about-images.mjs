@@ -1,4 +1,4 @@
-﻿import fs from "node:fs/promises";
+import fs from "node:fs/promises";
 
 const files = ["about.html", "about-en.html"];
 const map = {

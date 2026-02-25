@@ -1,4 +1,4 @@
-﻿let lastScrollTop = 0;
+let lastScrollTop = 0;
 const header = document.querySelector('header');
 let sliderImages = [];
 let windowHeight = window.innerHeight;
@@ -377,6 +377,135 @@ function ensureAccessibleIframes() {
 
         frame.setAttribute('title', title);
     });
+}
+
+function initWebVitalsRum() {
+    if (window.__trWebVitalsRumInit) return;
+    window.__trWebVitalsRumInit = true;
+
+    const supportsPerf = typeof window.performance !== 'undefined';
+    if (!supportsPerf) return;
+
+    const pageName = getCurrentPageName();
+    const sentMetrics = new Set();
+
+    const sendMetric = (name, value, unit = 'ms') => {
+        if (!Number.isFinite(value)) return;
+        if (sentMetrics.has(name)) return;
+        sentMetrics.add(name);
+
+        const normalizedValue = unit === 'score'
+            ? Number(value.toFixed(3))
+            : Math.round(value);
+
+        const payload = {
+            event: 'web_vital',
+            metric_name: name,
+            metric_unit: unit,
+            metric_value: normalizedValue,
+            page: pageName
+        };
+
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(payload);
+
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', 'web_vital', {
+                metric_name: name,
+                metric_unit: unit,
+                metric_value: normalizedValue,
+                page_path: window.location.pathname || '/',
+                page_title: document.title || ''
+            });
+        }
+    };
+
+    const navEntry = window.performance.getEntriesByType
+        ? window.performance.getEntriesByType('navigation')[0]
+        : null;
+    if (navEntry && Number.isFinite(navEntry.responseStart)) {
+        sendMetric('TTFB', navEntry.responseStart);
+    }
+
+    if (typeof PerformanceObserver === 'undefined') return;
+
+    try {
+        const paintObserver = new PerformanceObserver((entryList) => {
+            entryList.getEntries().forEach((entry) => {
+                if (entry.name === 'first-contentful-paint') {
+                    sendMetric('FCP', entry.startTime);
+                }
+            });
+        });
+        paintObserver.observe({ type: 'paint', buffered: true });
+    } catch (_) {
+        // Ignore unsupported paint observer configurations.
+    }
+
+    let lcpValue = null;
+    let clsValue = 0;
+    let inpValue = 0;
+
+    try {
+        const lcpObserver = new PerformanceObserver((entryList) => {
+            const entries = entryList.getEntries();
+            const lastEntry = entries[entries.length - 1];
+            if (lastEntry) {
+                lcpValue = lastEntry.startTime;
+            }
+        });
+        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+    } catch (_) {
+        // Ignore unsupported LCP observer.
+    }
+
+    try {
+        const clsObserver = new PerformanceObserver((entryList) => {
+            entryList.getEntries().forEach((entry) => {
+                if (!entry.hadRecentInput) {
+                    clsValue += entry.value;
+                }
+            });
+        });
+        clsObserver.observe({ type: 'layout-shift', buffered: true });
+    } catch (_) {
+        // Ignore unsupported CLS observer.
+    }
+
+    try {
+        const inpObserver = new PerformanceObserver((entryList) => {
+            entryList.getEntries().forEach((entry) => {
+                const duration = entry.duration || 0;
+                if (entry.interactionId > 0 && duration > inpValue) {
+                    inpValue = duration;
+                }
+            });
+        });
+        inpObserver.observe({ type: 'event', buffered: true, durationThreshold: 40 });
+    } catch (_) {
+        // Ignore unsupported INP observer.
+    }
+
+    let didFlush = false;
+    const flushVitals = () => {
+        if (didFlush) return;
+        didFlush = true;
+
+        if (lcpValue !== null) {
+            sendMetric('LCP', lcpValue);
+        }
+        sendMetric('CLS', clsValue, 'score');
+        if (inpValue > 0) {
+            sendMetric('INP', inpValue);
+        }
+    };
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+            flushVitals();
+        }
+    }, { capture: true });
+    window.addEventListener('pagehide', flushVitals, { once: true });
 }
 
 function ensureGsapScrollPlugin() {
@@ -1133,6 +1262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initAboutMemberCards();
     initDeferredShowsEmbed();
+    initWebVitalsRum();
     updateFloatingUtilities();
 });
 

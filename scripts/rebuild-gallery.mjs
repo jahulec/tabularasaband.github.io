@@ -1,4 +1,4 @@
-﻿import fs from "node:fs/promises";
+import fs from "node:fs/promises";
 import path from "node:path";
 
 const GALLERY_FILES = ["gallery.html", "gallery-en.html"];
