@@ -193,7 +193,10 @@ const COOKIE_CONSENT_MAX_AGE_DAYS = 180;
 const COOKIE_CONSENT_VERSION = '2026-02-25';
 const COOKIE_BANNER_ID = 'trCookieConsentBanner';
 const COOKIE_SETTINGS_BUTTON_ID = 'trCookieSettingsButton';
-const NEWSLETTER_FORM_ENDPOINT = 'https://formspree.io/f/xanwrzoo';
+// Paste your MailerLite form action URL here:
+// https://assets.mailerlite.com/jsonp/<ACCOUNT_ID>/forms/<FORM_ID>/subscribe
+const NEWSLETTER_MAILERLITE_ENDPOINT = 'https://assets.mailerlite.com/jsonp/2145120/forms/180477237039990507/subscribe';
+const NEWSLETTER_REQUEST_TIMEOUT_MS = 12000;
 const DOWNLOAD_FILE_PATTERN = /\.(pdf|zip|rar|7z|doc|docx|xls|xlsx|ppt|pptx|mp3|wav|flac|jpg|jpeg|png|webp)$/i;
 
 let floatingUtilities = null;
@@ -844,6 +847,8 @@ function getNewsletterCopy() {
             pending: 'Sending...',
             success: 'Thanks, you are on the list.',
             error: 'Could not save your signup. Try again in a moment.',
+            notConfigured: 'Newsletter is temporarily unavailable.',
+            alreadyOnList: 'This e-mail is already on the list.',
             invalidEmail: 'Enter a valid e-mail address.',
             consent: 'I agree to the processing of my e-mail according to the',
             privacy: 'privacy policy',
@@ -858,6 +863,8 @@ function getNewsletterCopy() {
         pending: 'Wysyłanie...',
         success: 'Dzięki, jesteś na liście.',
         error: 'Nie udało się zapisać. Spróbuj ponownie za chwilę.',
+        notConfigured: 'Newsletter jest chwilowo niedostępny.',
+        alreadyOnList: 'Ten adres e-mail jest już na liście.',
         invalidEmail: 'Podaj poprawny adres e-mail.',
         consent: 'Wyrażam zgodę na przetwarzanie e-maila zgodnie z',
         privacy: 'polityką prywatności',
@@ -871,12 +878,31 @@ function getNewsletterPrivacyHref() {
         : 'polityka-prywatnosci.html';
 }
 
+function getNewsletterMailerLiteEndpoint() {
+    return (NEWSLETTER_MAILERLITE_ENDPOINT || '').trim();
+}
+
+function resolveNewsletterErrorMessage(copy, payload) {
+    const emailErrors = payload
+        && payload.errors
+        && payload.errors.fields
+        && payload.errors.fields.email;
+    const firstEmailError = Array.isArray(emailErrors) && emailErrors.length > 0
+        ? String(emailErrors[0]).toLowerCase()
+        : '';
+    if (firstEmailError.includes('already') || firstEmailError.includes('taken') || firstEmailError.includes('exists')) {
+        return copy.alreadyOnList;
+    }
+    return copy.error;
+}
+
 function ensureFooterNewsletterForms() {
     const footerContainers = Array.from(document.querySelectorAll('footer.shop-footer .shop-footer-compact'));
     if (footerContainers.length === 0) return;
 
     const copy = getNewsletterCopy();
     const privacyHref = getNewsletterPrivacyHref();
+    const endpoint = getNewsletterMailerLiteEndpoint();
 
     footerContainers.forEach((container) => {
         if (container.querySelector('.shop-footer-newsletter')) return;
@@ -886,7 +912,7 @@ function ensureFooterNewsletterForms() {
         section.setAttribute('aria-label', copy.heading);
         section.innerHTML = `
             <p class="shop-footer-newsletter-lead">${copy.heading}</p>
-            <form class="shop-footer-newsletter-form newsletter-form" method="POST" action="${NEWSLETTER_FORM_ENDPOINT}" novalidate>
+            <form class="shop-footer-newsletter-form newsletter-form" method="POST" action="${endpoint}" novalidate>
                 <input type="email" name="email" placeholder="${copy.placeholder}" aria-label="${copy.placeholder}" autocomplete="email" required>
                 <button type="submit">${copy.button}</button>
                 <input type="hidden" name="source" value="newsletter_footer">
@@ -956,31 +982,62 @@ function initNewsletterFormHandling(pageName, pageLanguage) {
                 submitButton.disabled = true;
                 submitButton.dataset.originalLabel = submitButton.textContent || copy.button;
                 submitButton.textContent = copy.pending;
+                submitButton.setAttribute('aria-busy', 'true');
             }
             if (status) {
-                status.textContent = '';
-                status.dataset.state = '';
+                status.textContent = copy.pending;
+                status.dataset.state = 'pending';
             }
 
-            const endpoint = form.getAttribute('action') || NEWSLETTER_FORM_ENDPOINT;
-            const formData = new FormData(form);
-            formData.set('page_name', pageName);
-            formData.set('page_language', pageLanguage);
-            formData.set('_subject', pageLanguage === 'en'
-                ? `Newsletter signup (${pageName})`
-                : `Zapis newsletter (${pageName})`);
+            const endpoint = (form.getAttribute('action') || getNewsletterMailerLiteEndpoint()).trim();
+            if (!endpoint) {
+                if (status) {
+                    status.textContent = copy.notConfigured;
+                    status.dataset.state = 'error';
+                }
+                pushDataLayerEvent('tr_newsletter_signup_error', {
+                    page_name: pageName,
+                    page_language: pageLanguage,
+                    form_location: 'footer',
+                    reason: 'mailerlite_endpoint_missing'
+                });
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = submitButton.dataset.originalLabel || copy.button;
+                    submitButton.removeAttribute('aria-busy');
+                }
+                return;
+            }
+
+            const payload = new URLSearchParams();
+            payload.set('fields[email]', emailValue);
+            payload.set('ml-submit', '1');
+            payload.set('anticsrf', 'true');
+            payload.set('source', 'newsletter_footer');
+            payload.set('page_name', pageName);
+            payload.set('page_language', pageLanguage);
+            const requestController = typeof AbortController === 'function' ? new AbortController() : null;
+            const requestTimeoutId = window.setTimeout(() => {
+                if (requestController) requestController.abort();
+            }, NEWSLETTER_REQUEST_TIMEOUT_MS);
 
             try {
                 const response = await fetch(endpoint, {
                     method: 'POST',
-                    body: formData,
+                    body: payload.toString(),
                     headers: {
-                        Accept: 'application/json'
-                    }
+                        Accept: 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    signal: requestController ? requestController.signal : undefined
                 });
 
-                if (!response.ok) {
-                    throw new Error(`Newsletter signup failed with status ${response.status}`);
+                const responseJson = await response.json().catch(() => null);
+                if (!response.ok || !responseJson || responseJson.success !== true) {
+                    const userMessage = resolveNewsletterErrorMessage(copy, responseJson);
+                    const error = new Error(`MailerLite newsletter signup failed with status ${response.status}`);
+                    error.userMessage = userMessage;
+                    throw error;
                 }
 
                 if (status) {
@@ -995,9 +1052,9 @@ function initNewsletterFormHandling(pageName, pageLanguage) {
                     form_location: 'footer',
                     email_domain: emailDomain
                 });
-            } catch {
+            } catch (error) {
                 if (status) {
-                    status.textContent = copy.error;
+                    status.textContent = error && error.userMessage ? error.userMessage : copy.error;
                     status.dataset.state = 'error';
                 }
 
@@ -1007,9 +1064,11 @@ function initNewsletterFormHandling(pageName, pageLanguage) {
                     form_location: 'footer'
                 });
             } finally {
+                window.clearTimeout(requestTimeoutId);
                 if (submitButton) {
                     submitButton.disabled = false;
                     submitButton.textContent = submitButton.dataset.originalLabel || copy.button;
+                    submitButton.removeAttribute('aria-busy');
                 }
             }
         });

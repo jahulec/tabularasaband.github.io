@@ -1846,13 +1846,13 @@ footer:not(.shop-footer)::before {
 
 .scroll-top-arrow {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    margin: auto;
     z-index: 1;
     width: 13px;
     height: 13px;
     display: block;
+    pointer-events: none;
 }
 
 @media (max-width: 900px) {
@@ -3144,8 +3144,13 @@ body > footer.shop-footer .shop-footer-newsletter-status {
     min-height: 1.05em !important;
     margin: 0 !important;
     color: rgba(255, 255, 255, 0.78) !important;
-    font-size: 0.74rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 500 !important;
     text-align: center !important;
+}
+
+body > footer.shop-footer .shop-footer-newsletter-status[data-state="pending"] {
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
 body > footer.shop-footer .shop-footer-newsletter-status[data-state="success"] {
