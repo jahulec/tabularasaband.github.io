@@ -850,9 +850,9 @@ function getNewsletterCopy() {
             notConfigured: 'Newsletter is temporarily unavailable.',
             alreadyOnList: 'This e-mail is already on the list.',
             invalidEmail: 'Enter a valid e-mail address.',
-            consent: 'I agree to the processing of my e-mail according to the',
+            consent: 'I consent to receive newsletter and marketing information by e-mail according to the',
             privacy: 'privacy policy',
-            consentRequired: 'Consent is required to sign up.'
+            consentRequired: 'Consent is required to sign up for the newsletter.'
         };
     }
 
@@ -866,9 +866,9 @@ function getNewsletterCopy() {
         notConfigured: 'Newsletter jest chwilowo niedostępny.',
         alreadyOnList: 'Ten adres e-mail jest już na liście.',
         invalidEmail: 'Podaj poprawny adres e-mail.',
-        consent: 'Wyrażam zgodę na przetwarzanie e-maila zgodnie z',
+        consent: 'Wyrażam zgodę na otrzymywanie newslettera i informacji handlowych drogą e-mail zgodnie z',
         privacy: 'polityką prywatności',
-        consentRequired: 'Zgoda jest wymagana do zapisu.'
+        consentRequired: 'Zgoda jest wymagana do zapisu do newslettera.'
     };
 }
 
