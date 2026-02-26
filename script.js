@@ -193,11 +193,14 @@ const COOKIE_CONSENT_MAX_AGE_DAYS = 180;
 const COOKIE_CONSENT_VERSION = '2026-02-25';
 const COOKIE_BANNER_ID = 'trCookieConsentBanner';
 const COOKIE_SETTINGS_BUTTON_ID = 'trCookieSettingsButton';
+const NEWSLETTER_FORM_ENDPOINT = 'https://formspree.io/f/xanwrzoo';
+const DOWNLOAD_FILE_PATTERN = /\.(pdf|zip|rar|7z|doc|docx|xls|xlsx|ppt|pptx|mp3|wav|flac|jpg|jpeg|png|webp)$/i;
 
 let floatingUtilities = null;
 let floatingSocial = null;
 let floatingTopButton = null;
 let floatingRingProgress = null;
+let youtubeIframeApiPromise = null;
 
 function updateViewportMetrics() {
     windowHeight = window.innerHeight;
@@ -831,6 +834,456 @@ function initCookieConsentUi() {
     });
 }
 
+function getNewsletterCopy() {
+    const language = getNormalizedLanguageCode();
+    if (language === 'en') {
+        return {
+            heading: 'Stay in the loop',
+            placeholder: 'Your e-mail address',
+            button: 'Join',
+            pending: 'Sending...',
+            success: 'Thanks, you are on the list.',
+            error: 'Could not save your signup. Try again in a moment.',
+            invalidEmail: 'Enter a valid e-mail address.',
+            consent: 'I agree to the processing of my e-mail according to the',
+            privacy: 'privacy policy',
+            consentRequired: 'Consent is required to sign up.'
+        };
+    }
+
+    return {
+        heading: 'Newsletter koncertowy',
+        placeholder: 'Twój adres e-mail',
+        button: 'Zapisz się',
+        pending: 'Wysyłanie...',
+        success: 'Dzięki, jesteś na liście.',
+        error: 'Nie udało się zapisać. Spróbuj ponownie za chwilę.',
+        invalidEmail: 'Podaj poprawny adres e-mail.',
+        consent: 'Wyrażam zgodę na przetwarzanie e-maila zgodnie z',
+        privacy: 'polityką prywatności',
+        consentRequired: 'Zgoda jest wymagana do zapisu.'
+    };
+}
+
+function getNewsletterPrivacyHref() {
+    return getNormalizedLanguageCode() === 'en'
+        ? 'privacy-policy.html'
+        : 'polityka-prywatnosci.html';
+}
+
+function ensureFooterNewsletterForms() {
+    const footerContainers = Array.from(document.querySelectorAll('footer.shop-footer .shop-footer-compact'));
+    if (footerContainers.length === 0) return;
+
+    const copy = getNewsletterCopy();
+    const privacyHref = getNewsletterPrivacyHref();
+
+    footerContainers.forEach((container) => {
+        if (container.querySelector('.shop-footer-newsletter')) return;
+
+        const section = document.createElement('section');
+        section.className = 'shop-footer-newsletter';
+        section.setAttribute('aria-label', copy.heading);
+        section.innerHTML = `
+            <p class="shop-footer-newsletter-lead">${copy.heading}</p>
+            <form class="shop-footer-newsletter-form newsletter-form" method="POST" action="${NEWSLETTER_FORM_ENDPOINT}" novalidate>
+                <input type="email" name="email" placeholder="${copy.placeholder}" aria-label="${copy.placeholder}" autocomplete="email" required>
+                <button type="submit">${copy.button}</button>
+                <input type="hidden" name="source" value="newsletter_footer">
+            </form>
+            <label class="shop-footer-newsletter-legal">
+                <input type="checkbox" name="newsletter_consent" required>
+                <span>${copy.consent} <a href="${privacyHref}">${copy.privacy}</a>.</span>
+            </label>
+            <p class="shop-footer-newsletter-status" aria-live="polite"></p>
+        `;
+
+        const nav = container.querySelector('.shop-footer-nav');
+        if (nav) {
+            container.insertBefore(section, nav);
+        } else {
+            container.prepend(section);
+        }
+    });
+}
+
+function initNewsletterFormHandling(pageName, pageLanguage) {
+    const forms = Array.from(document.querySelectorAll('form.newsletter-form'));
+    if (forms.length === 0) return;
+
+    const copy = getNewsletterCopy();
+
+    forms.forEach((form) => {
+        if (form.dataset.trBound === '1') return;
+        form.dataset.trBound = '1';
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        const status = form.closest('.shop-footer-newsletter') && form.closest('.shop-footer-newsletter').querySelector('.shop-footer-newsletter-status');
+        const consentInput = form.closest('.shop-footer-newsletter') && form.closest('.shop-footer-newsletter').querySelector('input[name="newsletter_consent"]');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const emailInput = form.querySelector('input[type="email"]');
+            const emailValue = emailInput ? (emailInput.value || '').trim() : '';
+            const emailDomain = emailValue.includes('@') ? emailValue.split('@').pop().toLowerCase() : '';
+            const consentGiven = Boolean(consentInput && consentInput.checked);
+
+            if (!emailInput || !emailInput.checkValidity()) {
+                if (status) {
+                    status.textContent = copy.invalidEmail;
+                    status.dataset.state = 'error';
+                }
+                return;
+            }
+
+            if (!consentGiven) {
+                if (status) {
+                    status.textContent = copy.consentRequired;
+                    status.dataset.state = 'error';
+                }
+                return;
+            }
+
+            pushDataLayerEvent('tr_newsletter_signup_start', {
+                page_name: pageName,
+                page_language: pageLanguage,
+                form_location: 'footer',
+                email_domain: emailDomain
+            });
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.dataset.originalLabel = submitButton.textContent || copy.button;
+                submitButton.textContent = copy.pending;
+            }
+            if (status) {
+                status.textContent = '';
+                status.dataset.state = '';
+            }
+
+            const endpoint = form.getAttribute('action') || NEWSLETTER_FORM_ENDPOINT;
+            const formData = new FormData(form);
+            formData.set('page_name', pageName);
+            formData.set('page_language', pageLanguage);
+            formData.set('_subject', pageLanguage === 'en'
+                ? `Newsletter signup (${pageName})`
+                : `Zapis newsletter (${pageName})`);
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Accept: 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Newsletter signup failed with status ${response.status}`);
+                }
+
+                if (status) {
+                    status.textContent = copy.success;
+                    status.dataset.state = 'success';
+                }
+                form.reset();
+
+                pushDataLayerEvent('tr_newsletter_signup', {
+                    page_name: pageName,
+                    page_language: pageLanguage,
+                    form_location: 'footer',
+                    email_domain: emailDomain
+                });
+            } catch {
+                if (status) {
+                    status.textContent = copy.error;
+                    status.dataset.state = 'error';
+                }
+
+                pushDataLayerEvent('tr_newsletter_signup_error', {
+                    page_name: pageName,
+                    page_language: pageLanguage,
+                    form_location: 'footer'
+                });
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = submitButton.dataset.originalLabel || copy.button;
+                }
+            }
+        });
+    });
+}
+
+function getSocialPlatformFromHref(href) {
+    const value = (href || '').toLowerCase();
+    if (value.includes('instagram.com')) return 'instagram';
+    if (value.includes('tiktok.com')) return 'tiktok';
+    if (value.includes('youtube.com')) return 'youtube';
+    if (value.includes('facebook.com')) return 'facebook';
+    if (value.includes('spotify.com')) return 'spotify';
+    return '';
+}
+
+function getSocialPlacement(link) {
+    if (!link) return 'unknown';
+    if (link.classList.contains('mobile-nav-social-link')) return 'mobile_menu';
+    if (link.classList.contains('shop-footer-social-link')) return 'footer';
+    if (link.classList.contains('floating-social-link')) return 'floating';
+    return 'other';
+}
+
+function initSocialClickTracking(pageName, pageLanguage) {
+    if (window.__trSocialClickTrackingInit) return;
+    window.__trSocialClickTrackingInit = true;
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+
+        const platform = getSocialPlatformFromHref(link.getAttribute('href') || '');
+        if (!platform) return;
+
+        pushDataLayerEvent('tr_social_click', {
+            page_name: pageName,
+            page_language: pageLanguage,
+            social_platform: platform,
+            social_placement: getSocialPlacement(link),
+            link_url: link.href || ''
+        });
+    });
+}
+
+function getFileExtensionFromPath(pathname) {
+    const normalized = (pathname || '').toLowerCase();
+    const index = normalized.lastIndexOf('.');
+    if (index === -1) return '';
+    return normalized.slice(index + 1);
+}
+
+function initDownloadTracking(pageName, pageLanguage) {
+    if (window.__trDownloadTrackingInit) return;
+    window.__trDownloadTrackingInit = true;
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+
+        const href = link.getAttribute('href') || '';
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+
+        let url;
+        try {
+            url = new URL(href, window.location.href);
+        } catch {
+            return;
+        }
+
+        const hasDownloadAttr = link.hasAttribute('download');
+        const isResourceButton = link.classList.contains('rider-download-btn');
+        const looksLikeFile = DOWNLOAD_FILE_PATTERN.test(url.pathname || '');
+        if (!hasDownloadAttr && !isResourceButton && !looksLikeFile) return;
+
+        const fileNameFromPath = decodeURIComponent((url.pathname || '').split('/').filter(Boolean).pop() || '');
+        const fallbackName = (link.textContent || '').trim();
+        const fileName = fileNameFromPath || fallbackName || 'resource';
+        const fileExtension = getFileExtensionFromPath(url.pathname || '');
+
+        pushDataLayerEvent('tr_file_download', {
+            page_name: pageName,
+            page_language: pageLanguage,
+            file_name: fileName,
+            file_extension: fileExtension,
+            file_url: url.href,
+            is_external: url.origin !== window.location.origin ? 'true' : 'false'
+        });
+    });
+}
+
+function ensureYouTubeIframeApi() {
+    if (window.YT && typeof window.YT.Player === 'function') {
+        return Promise.resolve(window.YT);
+    }
+    if (youtubeIframeApiPromise) return youtubeIframeApiPromise;
+
+    youtubeIframeApiPromise = new Promise((resolve, reject) => {
+        const existingScript = document.querySelector('script[src=\"https://www.youtube.com/iframe_api\"]');
+        if (!existingScript) {
+            const script = document.createElement('script');
+            script.src = 'https://www.youtube.com/iframe_api';
+            script.async = true;
+            document.head.appendChild(script);
+        }
+
+        const previousReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+            if (typeof previousReady === 'function') previousReady();
+            resolve(window.YT);
+        };
+
+        window.setTimeout(() => {
+            if (window.YT && typeof window.YT.Player === 'function') {
+                resolve(window.YT);
+            } else {
+                reject(new Error('YouTube API init timeout'));
+            }
+        }, 12000);
+    });
+
+    return youtubeIframeApiPromise;
+}
+
+function ensureYouTubePlayerSrc(iframe) {
+    const rawSrc = iframe.getAttribute('src') || '';
+    if (!rawSrc) return rawSrc;
+
+    let url;
+    try {
+        url = new URL(rawSrc, window.location.href);
+    } catch {
+        return rawSrc;
+    }
+
+    url.searchParams.set('enablejsapi', '1');
+    url.searchParams.set('origin', window.location.origin);
+    if (!url.searchParams.has('rel')) {
+        url.searchParams.set('rel', '0');
+    }
+
+    const nextSrc = url.toString();
+    if (nextSrc !== rawSrc) {
+        iframe.setAttribute('src', nextSrc);
+    }
+    return nextSrc;
+}
+
+function getYouTubeVideoIdFromSrc(src) {
+    if (!src) return '';
+    try {
+        const url = new URL(src, window.location.href);
+        const parts = (url.pathname || '').split('/').filter(Boolean);
+        return parts.length > 0 ? parts[parts.length - 1] : '';
+    } catch {
+        return '';
+    }
+}
+
+function initYouTubeVideoTracking(pageName, pageLanguage) {
+    if (window.__trYoutubeVideoTrackingInit) return;
+    window.__trYoutubeVideoTrackingInit = true;
+
+    const youtubeIframes = Array.from(document.querySelectorAll('.video-container iframe[src*=\"youtube.com/embed/\"]'));
+    if (youtubeIframes.length === 0) return;
+
+    const playersState = new Map();
+
+    ensureYouTubeIframeApi()
+        .then(() => {
+            youtubeIframes.forEach((iframe, index) => {
+                const songTitleNode = iframe.closest('.song') && iframe.closest('.song').querySelector('h3');
+                const songTitle = songTitleNode ? songTitleNode.textContent.trim() : '';
+                const src = ensureYouTubePlayerSrc(iframe);
+                const videoId = getYouTubeVideoIdFromSrc(src);
+
+                if (!iframe.id) {
+                    iframe.id = `tr-youtube-player-${index + 1}`;
+                }
+
+                const state = {
+                    videoId,
+                    videoTitle: songTitle,
+                    started: false,
+                    milestones: new Set(),
+                    timer: null
+                };
+                playersState.set(iframe.id, state);
+
+                const stopTimer = () => {
+                    if (state.timer) {
+                        window.clearInterval(state.timer);
+                        state.timer = null;
+                    }
+                };
+
+                const markMilestones = (player) => {
+                    const duration = Number(player.getDuration());
+                    const currentTime = Number(player.getCurrentTime());
+                    if (!Number.isFinite(duration) || duration <= 0 || !Number.isFinite(currentTime)) return;
+
+                    const progress = Math.min(100, Math.max(0, Math.round((currentTime / duration) * 100)));
+                    const checkpoints = [25, 50, 75];
+                    checkpoints.forEach((checkpoint) => {
+                        if (progress >= checkpoint && !state.milestones.has(checkpoint)) {
+                            state.milestones.add(checkpoint);
+                            pushDataLayerEvent('tr_video_progress', {
+                                page_name: pageName,
+                                page_language: pageLanguage,
+                                video_provider: 'youtube',
+                                video_id: state.videoId,
+                                video_title: state.videoTitle,
+                                progress_percent: checkpoint
+                            });
+                        }
+                    });
+
+                    if (progress >= 98 && !state.milestones.has(100)) {
+                        state.milestones.add(100);
+                        pushDataLayerEvent('tr_video_complete', {
+                            page_name: pageName,
+                            page_language: pageLanguage,
+                            video_provider: 'youtube',
+                            video_id: state.videoId,
+                            video_title: state.videoTitle
+                        });
+                    }
+                };
+
+                const startTimer = (player) => {
+                    if (state.timer) return;
+                    state.timer = window.setInterval(() => {
+                        markMilestones(player);
+                    }, 1000);
+                };
+
+                // eslint-disable-next-line no-new
+                new window.YT.Player(iframe.id, {
+                    events: {
+                        onStateChange: (event) => {
+                            if (event.data === window.YT.PlayerState.PLAYING) {
+                                if (!state.started) {
+                                    state.started = true;
+                                    pushDataLayerEvent('tr_video_play', {
+                                        page_name: pageName,
+                                        page_language: pageLanguage,
+                                        video_provider: 'youtube',
+                                        video_id: state.videoId,
+                                        video_title: state.videoTitle
+                                    });
+                                }
+                                startTimer(event.target);
+                                return;
+                            }
+
+                            if (event.data === window.YT.PlayerState.ENDED) {
+                                markMilestones(event.target);
+                                stopTimer();
+                                return;
+                            }
+
+                            if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.BUFFERING) {
+                                stopTimer();
+                            }
+                        }
+                    }
+                });
+            });
+        })
+        .catch(() => {
+            // Ignore API init errors - tracking is best effort only.
+        });
+}
+
 function initMarketingEventTracking() {
     if (window.__trMarketingEventsInit) return;
     window.__trMarketingEventsInit = true;
@@ -874,6 +1327,11 @@ function initMarketingEventTracking() {
             });
         });
     });
+
+    initNewsletterFormHandling(pageName, pageLanguage);
+    initSocialClickTracking(pageName, pageLanguage);
+    initDownloadTracking(pageName, pageLanguage);
+    initYouTubeVideoTracking(pageName, pageLanguage);
 
     const menuLinks = Array.from(document.querySelectorAll('.header-nav a, .mobile-nav-link'));
     menuLinks.forEach((link) => {
@@ -1810,6 +2268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeBaseState();
     injectPageHeroCopy();
     initCookieConsentUi();
+    ensureFooterNewsletterForms();
     initMarketingEventTracking();
     ensureAccessibleIframes();
     refreshResponsiveHeroTitle();
