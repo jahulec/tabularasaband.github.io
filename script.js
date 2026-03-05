@@ -2518,6 +2518,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const links = Array.from(menuNav.querySelectorAll('a'));
     let isOpen = false;
+    const MOBILE_MENU_BREAKPOINT = 900;
+    const OPEN_SWIPE_RIGHT_ZONE_RATIO = 0.6;
+    const OPEN_SWIPE_THRESHOLD_PX = 72;
+    const CLOSE_SWIPE_THRESHOLD_PX = 56;
+    const MAX_VERTICAL_DRIFT_PX = 72;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let trackingOpenSwipe = false;
+    let trackingCloseSwipe = false;
 
     const syncClosedState = () => {
         isOpen = false;
@@ -2580,6 +2590,45 @@ document.addEventListener('DOMContentLoaded', () => {
             syncClosedState();
         }
     });
+
+    const isMobileViewport = () => window.innerWidth <= MOBILE_MENU_BREAKPOINT;
+
+    document.addEventListener('touchstart', (event) => {
+        if (!isMobileViewport()) return;
+        if (!event.touches || event.touches.length !== 1) return;
+
+        const touch = event.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+
+        trackingOpenSwipe = !isOpen && touchStartX >= (window.innerWidth * OPEN_SWIPE_RIGHT_ZONE_RATIO);
+        trackingCloseSwipe = isOpen;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (event) => {
+        if (!isMobileViewport()) return;
+        if (!event.changedTouches || event.changedTouches.length !== 1) return;
+
+        const touch = event.changedTouches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        const absDeltaY = Math.abs(deltaY);
+
+        if (absDeltaY > MAX_VERTICAL_DRIFT_PX) {
+            trackingOpenSwipe = false;
+            trackingCloseSwipe = false;
+            return;
+        }
+
+        if (trackingOpenSwipe && !isOpen && deltaX <= -OPEN_SWIPE_THRESHOLD_PX) {
+            openMenu();
+        } else if (trackingCloseSwipe && isOpen && deltaX >= CLOSE_SWIPE_THRESHOLD_PX) {
+            closeMenu();
+        }
+
+        trackingOpenSwipe = false;
+        trackingCloseSwipe = false;
+    }, { passive: true });
 });
 
 const scrollTopBtn = document.getElementById('scrollTopBtn');

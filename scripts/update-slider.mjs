@@ -32,8 +32,16 @@ const desktopMap = {
   "73d": "73d",
   "71d": "71d",
   "70d": "70d",
-  "72d": "72d",
+  "72d": "progresja",
 };
+
+const slidePairs = [
+  { mobile: "80m", desktop: "75d" },
+  { mobile: "81m", desktop: "73d" },
+  { mobile: "82m", desktop: "71d" },
+  { mobile: "83m", desktop: "70d" },
+  { mobile: "84m", desktop: "progresja" },
+];
 
 function mobileSrcSet(name) {
   return `galeria/_responsive/zdjecia_mobile/${name}-w360.webp 360w, galeria/_responsive/zdjecia_mobile/${name}-w640.webp 640w, galeria/_responsive/zdjecia_mobile/${name}-w960.webp 960w`;
@@ -68,6 +76,17 @@ for (const file of files) {
     html = html.replace(
       re,
       `data-desktop-src=\"galeria/_responsive/zdjecia_desktop/${name}-w1280.webp\" data-desktop-srcset=\"${desktopSrcSet(name)}\"`
+    );
+  }
+
+  for (const { mobile, desktop } of slidePairs) {
+    const mixedDesktop = new RegExp(
+      `data-desktop-src="galeria/_responsive/zdjecia_mobile/${mobile}-w640\\.webp"\\s+data-desktop-srcset="galeria/_responsive/zdjecia_desktop/[^"]*-w768\\.webp 768w, galeria/_responsive/zdjecia_mobile/${mobile}-w640\\.webp 1280w, galeria/_responsive/zdjecia_desktop/[^"]*-w1920\\.webp 1920w, galeria/_responsive/zdjecia_desktop/[^"]*-w2560\\.webp 2560w"`,
+      "g"
+    );
+    html = html.replace(
+      mixedDesktop,
+      `data-desktop-src="galeria/_responsive/zdjecia_desktop/${desktop}-w1280.webp" data-desktop-srcset="${desktopSrcSet(desktop)}"`
     );
   }
 
