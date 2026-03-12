@@ -17,6 +17,7 @@ const SLIDER_INDEX_KEY = 'tr_slider_index';
 const LOGO_GIF_SINGLE_LOOP_MS = 700;
 const FLOATING_RING_RADIUS = 14;
 const FLOATING_RING_CIRCUMFERENCE = 2 * Math.PI * FLOATING_RING_RADIUS;
+const SCROLL_LOCK_CLASS = 'scroll-locked';
 const FLOATING_SOCIAL_LINKS = [
     {
         href: 'https://www.instagram.com/tabula_rasa_band/',
@@ -1686,16 +1687,26 @@ function canUnlockScroll() {
     return !isMobileMenuOpen() && !isGalleryModalOpen();
 }
 
-function ensureScrollEnabled(force = false) {
-    if (!force && !canUnlockScroll()) return;
+function clearInlineScrollOverrides() {
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    document.documentElement.style.overflowY = 'auto';
-    document.body.style.overflowY = 'auto';
-    document.documentElement.style.height = 'auto';
-    document.body.style.height = 'auto';
-    document.documentElement.style.position = 'static';
-    document.body.style.position = 'static';
+    document.documentElement.style.overflowY = '';
+    document.body.style.overflowY = '';
+    document.documentElement.style.height = '';
+    document.body.style.height = '';
+    document.documentElement.style.position = '';
+    document.body.style.position = '';
+}
+
+function toggleScrollLock(locked) {
+    document.documentElement.classList.toggle(SCROLL_LOCK_CLASS, locked);
+    document.body.classList.toggle(SCROLL_LOCK_CLASS, locked);
+}
+
+function ensureScrollEnabled(force = false) {
+    if (!force && !canUnlockScroll()) return;
+    clearInlineScrollOverrides();
+    toggleScrollLock(false);
 }
 
 function refreshSliderImages() {
@@ -1935,10 +1946,8 @@ function setBodyScrollEnabled(enabled) {
         ensureScrollEnabled();
         return;
     }
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflowY = 'hidden';
-    document.body.style.overflowY = 'hidden';
+    clearInlineScrollOverrides();
+    toggleScrollLock(true);
 }
 
 function findFirstReachableImage(candidates, onReady) {
@@ -2090,13 +2099,7 @@ function updateFloatingUtilities() {
     floatingTopButton.classList.toggle('is-visible', showTop);
 
     if (floatingSocial) {
-        let hideSocial = false;
-        const footer = document.querySelector('footer');
-        if (footer) {
-            const footerRect = footer.getBoundingClientRect();
-            hideSocial = footerRect.top <= (viewportHeight - 120);
-        }
-        floatingSocial.classList.toggle('is-hidden', hideSocial);
+        floatingSocial.classList.remove('is-hidden');
     }
 }
 
@@ -2504,12 +2507,78 @@ function initDeferredShowsEmbed() {
 
     ticketLinks.forEach((link) => {
         link.addEventListener('pointerenter', loadEmbedScript, { once: true, passive: true });
-        link.addEventListener('touchstart', loadEmbedScript, { once: true, passive: true });
         link.addEventListener('focus', loadEmbedScript, { once: true });
+        link.addEventListener('click', loadEmbedScript, { once: true });
     });
 }
 
+function parseShowDate(value) {
+    if (typeof value !== 'string') return null;
+    const match = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return null;
+
+    const year = Number(match[1]);
+    const monthIndex = Number(match[2]) - 1;
+    const day = Number(match[3]);
+    const parsed = new Date(year, monthIndex, day);
+
+    if (Number.isNaN(parsed.getTime())) return null;
+    return parsed;
+}
+
+function initShowsVisibility() {
+    const items = Array.from(document.querySelectorAll('.shows-list .concert-item'));
+    if (items.length === 0) return;
+
+    const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+    const isEnglish = htmlLang.startsWith('en');
+    const today = new Date();
+    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let visibleCount = 0;
+
+    items.forEach((item) => {
+        const explicitDate = item.getAttribute('data-show-date');
+        const fallbackDate = item.querySelector('.concert-date[datetime]')?.getAttribute('datetime') || '';
+        const showDate = parseShowDate(explicitDate || fallbackDate);
+
+        if (!showDate) {
+            visibleCount += 1;
+            return;
+        }
+
+        const hideFrom = new Date(showDate.getFullYear(), showDate.getMonth(), showDate.getDate() + 1);
+        const isPastShow = startOfToday >= hideFrom;
+
+        item.classList.toggle('is-past-show', isPastShow);
+        item.hidden = isPastShow;
+        item.setAttribute('aria-hidden', isPastShow ? 'true' : 'false');
+
+        if (!isPastShow) {
+            visibleCount += 1;
+        }
+    });
+
+    const container = document.querySelector('.shows-page');
+    if (!container) return;
+
+    let emptyState = container.querySelector('.shows-empty-state');
+    if (!emptyState) {
+        emptyState = document.createElement('p');
+        emptyState.className = 'shows-empty-state';
+        emptyState.textContent = isEnglish
+            ? 'No upcoming shows right now.'
+            : 'Aktualnie brak nadchodzacych koncertow.';
+        container.appendChild(emptyState);
+    }
+
+    const hasVisibleShows = visibleCount > 0;
+    emptyState.hidden = hasVisibleShows;
+    emptyState.setAttribute('aria-hidden', hasVisibleShows ? 'true' : 'false');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    initShowsVisibility();
+
     const menuHamburger = document.getElementById('hamburger');
     const menuNav = document.getElementById('nav-mobile');
     if (!menuHamburger || !menuNav) return;
@@ -2519,15 +2588,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const links = Array.from(menuNav.querySelectorAll('a'));
     let isOpen = false;
     const MOBILE_MENU_BREAKPOINT = 900;
-    const OPEN_SWIPE_RIGHT_ZONE_RATIO = 0.6;
-    const OPEN_SWIPE_THRESHOLD_PX = 72;
-    const CLOSE_SWIPE_THRESHOLD_PX = 56;
-    const MAX_VERTICAL_DRIFT_PX = 72;
-
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let trackingOpenSwipe = false;
-    let trackingCloseSwipe = false;
 
     const syncClosedState = () => {
         isOpen = false;
@@ -2586,49 +2646,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 900) {
+        if (window.innerWidth > MOBILE_MENU_BREAKPOINT) {
             syncClosedState();
         }
     });
-
-    const isMobileViewport = () => window.innerWidth <= MOBILE_MENU_BREAKPOINT;
-
-    document.addEventListener('touchstart', (event) => {
-        if (!isMobileViewport()) return;
-        if (!event.touches || event.touches.length !== 1) return;
-
-        const touch = event.touches[0];
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-
-        trackingOpenSwipe = !isOpen && touchStartX >= (window.innerWidth * OPEN_SWIPE_RIGHT_ZONE_RATIO);
-        trackingCloseSwipe = isOpen;
-    }, { passive: true });
-
-    document.addEventListener('touchend', (event) => {
-        if (!isMobileViewport()) return;
-        if (!event.changedTouches || event.changedTouches.length !== 1) return;
-
-        const touch = event.changedTouches[0];
-        const deltaX = touch.clientX - touchStartX;
-        const deltaY = touch.clientY - touchStartY;
-        const absDeltaY = Math.abs(deltaY);
-
-        if (absDeltaY > MAX_VERTICAL_DRIFT_PX) {
-            trackingOpenSwipe = false;
-            trackingCloseSwipe = false;
-            return;
-        }
-
-        if (trackingOpenSwipe && !isOpen && deltaX <= -OPEN_SWIPE_THRESHOLD_PX) {
-            openMenu();
-        } else if (trackingCloseSwipe && isOpen && deltaX >= CLOSE_SWIPE_THRESHOLD_PX) {
-            closeMenu();
-        }
-
-        trackingOpenSwipe = false;
-        trackingCloseSwipe = false;
-    }, { passive: true });
 });
 
 const scrollTopBtn = document.getElementById('scrollTopBtn');
@@ -2637,4 +2658,3 @@ if (scrollTopBtn) {
         scrollToHeadline();
     });
 }
-

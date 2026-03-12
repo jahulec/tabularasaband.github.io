@@ -61,6 +61,12 @@ test.describe('Smoke: mobile menu lock/unlock', () => {
 
       await hamburger.click();
       await expect(nav).not.toHaveClass(/active/);
+      await expect.poll(() =>
+        page.evaluate(() => ({
+          bodyLocked: document.body.classList.contains('scroll-locked'),
+          htmlLocked: document.documentElement.classList.contains('scroll-locked'),
+        }))
+      ).toEqual({ bodyLocked: false, htmlLocked: false });
 
       const canScroll = await page.evaluate(
         () => document.documentElement.scrollHeight > window.innerHeight + 16
@@ -73,6 +79,53 @@ test.describe('Smoke: mobile menu lock/unlock', () => {
       await page.waitForTimeout(220);
       const after = await page.evaluate(() => window.scrollY);
       expect(after).toBeGreaterThan(before);
+    });
+  }
+});
+
+test.describe('Smoke: past shows are hidden after the event day', () => {
+  for (const path of ['/shows.html', '/shows-en.html']) {
+    test(`expired shows disappear on the next day: ${path}`, async ({ page }) => {
+      await page.addInitScript(() => {
+        const RealDate = Date;
+        const fixedNow = new RealDate('2026-03-28T12:00:00');
+
+        class MockDate extends RealDate {
+          constructor(...args) {
+            if (args.length === 0) {
+              super(fixedNow.getTime());
+              return;
+            }
+
+            super(...args);
+          }
+
+          static now() {
+            return fixedNow.getTime();
+          }
+
+          static parse(value) {
+            return RealDate.parse(value);
+          }
+
+          static UTC(...args) {
+            return RealDate.UTC(...args);
+          }
+        }
+
+        window.Date = MockDate;
+      });
+
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+      const visibleShows = await page.evaluate(() => (
+        Array.from(document.querySelectorAll('.shows-list .concert-item'))
+          .filter((item) => !item.hidden)
+          .length
+      ));
+
+      expect(visibleShows).toBe(0);
+      await expect(page.locator('.shows-empty-state')).toBeVisible();
     });
   }
 });
