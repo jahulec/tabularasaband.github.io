@@ -83,6 +83,51 @@ test.describe('Smoke: mobile menu lock/unlock', () => {
   }
 });
 
+test('mobile nav responds to touch swipe open and close', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+
+  await page.evaluate(() => {
+    const target = document.documentElement;
+    const dispatchTouchPointer = (type, x, y) => {
+      target.dispatchEvent(new PointerEvent(type, {
+        bubbles: true,
+        clientX: x,
+        clientY: y,
+        pointerId: 1,
+        pointerType: 'touch',
+        isPrimary: true,
+      }));
+    };
+
+    dispatchTouchPointer('pointerdown', 12, 120);
+    dispatchTouchPointer('pointermove', 112, 120);
+    dispatchTouchPointer('pointerup', 112, 120);
+  });
+
+  await expect(page.locator('#nav-mobile')).toHaveClass(/active/);
+
+  await page.evaluate(() => {
+    const target = document.querySelector('.mobile-nav-panel');
+    const dispatchTouchPointer = (type, x, y) => {
+      target.dispatchEvent(new PointerEvent(type, {
+        bubbles: true,
+        clientX: x,
+        clientY: y,
+        pointerId: 1,
+        pointerType: 'touch',
+        isPrimary: true,
+      }));
+    };
+
+    dispatchTouchPointer('pointerdown', window.innerWidth - 20, 180);
+    dispatchTouchPointer('pointermove', window.innerWidth - 120, 180);
+    dispatchTouchPointer('pointerup', window.innerWidth - 120, 180);
+  });
+
+  await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
+});
+
 test.describe('Smoke: past shows are hidden after the event day', () => {
   for (const path of ['/shows.html', '/shows-en.html']) {
     test(`expired shows disappear on the next day: ${path}`, async ({ page }) => {

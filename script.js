@@ -2588,6 +2588,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const links = Array.from(menuNav.querySelectorAll('a'));
     let isOpen = false;
     const MOBILE_MENU_BREAKPOINT = 900;
+    const SWIPE_EDGE_ZONE = 28;
+    const SWIPE_CLOSE_ZONE = 96;
+    const SWIPE_TRIGGER_DISTANCE = 72;
+    let swipeState = null;
 
     const syncClosedState = () => {
         isOpen = false;
@@ -2644,6 +2648,77 @@ document.addEventListener('DOMContentLoaded', () => {
     menuNav.addEventListener('click', (event) => {
         if (event.target === menuNav) closeMenu();
     });
+
+    const resetSwipeState = () => {
+        swipeState = null;
+    };
+
+    const shouldIgnoreSwipeStart = (target) => (
+        !!target?.closest('a, button, input, textarea, select, iframe, video, [role="button"]')
+    );
+
+    document.addEventListener('pointerdown', (event) => {
+        if (event.pointerType !== 'touch' || window.innerWidth > MOBILE_MENU_BREAKPOINT) {
+            resetSwipeState();
+            return;
+        }
+
+        if (isOpen) {
+            if (!event.target.closest('.mobile-nav-panel') && event.target !== menuNav) {
+                resetSwipeState();
+                return;
+            }
+
+            if (event.clientX < window.innerWidth - SWIPE_CLOSE_ZONE) {
+                resetSwipeState();
+                return;
+            }
+
+            swipeState = {
+                mode: 'close',
+                startX: event.clientX,
+                startY: event.clientY
+            };
+            return;
+        }
+
+        if (event.clientX > SWIPE_EDGE_ZONE || shouldIgnoreSwipeStart(event.target)) {
+            resetSwipeState();
+            return;
+        }
+
+        swipeState = {
+            mode: 'open',
+            startX: event.clientX,
+            startY: event.clientY
+        };
+    }, { passive: true });
+
+    document.addEventListener('pointermove', (event) => {
+        if (!swipeState || event.pointerType !== 'touch') return;
+
+        const deltaX = event.clientX - swipeState.startX;
+        const deltaY = event.clientY - swipeState.startY;
+
+        if (Math.abs(deltaY) > Math.abs(deltaX) + 10) {
+            resetSwipeState();
+            return;
+        }
+
+        if (swipeState.mode === 'open' && deltaX >= SWIPE_TRIGGER_DISTANCE) {
+            openMenu();
+            resetSwipeState();
+            return;
+        }
+
+        if (swipeState.mode === 'close' && deltaX <= -SWIPE_TRIGGER_DISTANCE) {
+            closeMenu();
+            resetSwipeState();
+        }
+    }, { passive: true });
+
+    document.addEventListener('pointerup', resetSwipeState, { passive: true });
+    document.addEventListener('pointercancel', resetSwipeState, { passive: true });
 
     window.addEventListener('resize', () => {
         if (window.innerWidth > MOBILE_MENU_BREAKPOINT) {
