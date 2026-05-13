@@ -2549,6 +2549,16 @@ function initShowsVisibility() {
         item.setAttribute('aria-label', isPastShow
             ? (isEnglish ? 'Past show' : 'Miniony koncert')
             : (isEnglish ? 'Upcoming show' : 'Nadchodzacy koncert'));
+
+        item.querySelectorAll('.ticket-btn').forEach((button) => {
+            if (isPastShow) {
+                button.setAttribute('aria-disabled', 'true');
+                button.setAttribute('tabindex', '-1');
+            } else {
+                button.removeAttribute('aria-disabled');
+                button.removeAttribute('tabindex');
+            }
+        });
     });
 
     const container = document.querySelector('.shows-page');

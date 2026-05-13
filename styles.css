@@ -4193,6 +4193,16 @@ body > footer.shop-footer .shop-footer-social {
 #news.shows-page .concert-item.is-past-show .ticket-btn {
     background: #5f5f5f !important;
     color: rgba(255, 255, 255, 0.78) !important;
+    cursor: default !important;
+    pointer-events: none !important;
+    transform: none !important;
+}
+
+#news.shows-page .concert-item.is-past-show .ticket-btn:hover,
+#news.shows-page .concert-item.is-past-show .ticket-btn:focus-visible {
+    background: #5f5f5f !important;
+    color: rgba(255, 255, 255, 0.78) !important;
+    transform: none !important;
 }
 
 #news.shows-page .concert-item h3 {
