@@ -2534,28 +2534,21 @@ function initShowsVisibility() {
     const isEnglish = htmlLang.startsWith('en');
     const today = new Date();
     const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    let visibleCount = 0;
 
     items.forEach((item) => {
         const explicitDate = item.getAttribute('data-show-date');
         const fallbackDate = item.querySelector('.concert-date[datetime]')?.getAttribute('datetime') || '';
         const showDate = parseShowDate(explicitDate || fallbackDate);
 
-        if (!showDate) {
-            visibleCount += 1;
-            return;
-        }
+        if (!showDate) return;
 
         const hideFrom = new Date(showDate.getFullYear(), showDate.getMonth(), showDate.getDate() + 1);
         const isPastShow = startOfToday >= hideFrom;
 
         item.classList.toggle('is-past-show', isPastShow);
-        item.hidden = isPastShow;
-        item.setAttribute('aria-hidden', isPastShow ? 'true' : 'false');
-
-        if (!isPastShow) {
-            visibleCount += 1;
-        }
+        item.setAttribute('aria-label', isPastShow
+            ? (isEnglish ? 'Past show' : 'Miniony koncert')
+            : (isEnglish ? 'Upcoming show' : 'Nadchodzacy koncert'));
     });
 
     const container = document.querySelector('.shows-page');
@@ -2571,7 +2564,7 @@ function initShowsVisibility() {
         container.appendChild(emptyState);
     }
 
-    const hasVisibleShows = visibleCount > 0;
+    const hasVisibleShows = items.length > 0;
     emptyState.hidden = hasVisibleShows;
     emptyState.setAttribute('aria-hidden', hasVisibleShows ? 'true' : 'false');
 }

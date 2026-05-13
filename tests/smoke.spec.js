@@ -128,9 +128,9 @@ test('mobile nav responds to touch swipe open and close', async ({ page }) => {
   await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
 });
 
-test.describe('Smoke: past shows are hidden after the event day', () => {
+test.describe('Smoke: past shows are dimmed after the event day', () => {
   for (const path of ['/shows.html', '/shows-en.html']) {
-    test(`expired shows disappear on the next day: ${path}`, async ({ page }) => {
+    test(`expired shows stay visible with inactive styling: ${path}`, async ({ page }) => {
       await page.addInitScript(() => {
         const RealDate = Date;
         const fixedNow = new RealDate('2026-03-28T12:00:00');
@@ -162,15 +162,26 @@ test.describe('Smoke: past shows are hidden after the event day', () => {
       });
 
       await page.goto(path, { waitUntil: 'domcontentloaded' });
+      await page.waitForSelector('.shows-empty-state', { state: 'attached' });
 
-      const visibleShows = await page.evaluate(() => (
-        Array.from(document.querySelectorAll('.shows-list .concert-item'))
-          .filter((item) => !item.hidden)
-          .length
-      ));
+      const showStates = await page.evaluate(() => {
+        const shows = Array.from(document.querySelectorAll('.shows-list .concert-item'));
+        return {
+          total: shows.length,
+          visible: shows.filter((item) => !item.hidden).length,
+          past: shows.filter((item) => item.classList.contains('is-past-show')).length,
+          march27Past: document.querySelector('[data-show-date="2026-03-27"]')?.classList.contains('is-past-show'),
+          march28Past: document.querySelector('[data-show-date="2026-03-28"]')?.classList.contains('is-past-show'),
+          emptyHidden: document.querySelector('.shows-empty-state')?.hidden,
+        };
+      });
 
-      expect(visibleShows).toBe(0);
-      await expect(page.locator('.shows-empty-state')).toBeVisible();
+      expect(showStates.total).toBe(25);
+      expect(showStates.visible).toBe(25);
+      expect(showStates.past).toBe(14);
+      expect(showStates.march27Past).toBe(true);
+      expect(showStates.march28Past).toBe(false);
+      expect(showStates.emptyHidden).toBe(true);
     });
   }
 });
