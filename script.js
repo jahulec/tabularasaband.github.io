@@ -2534,17 +2534,22 @@ function initShowsVisibility() {
     const isEnglish = htmlLang.startsWith('en');
     const today = new Date();
     const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const showStates = [];
 
-    items.forEach((item) => {
+    items.forEach((item, index) => {
         const explicitDate = item.getAttribute('data-show-date');
         const fallbackDate = item.querySelector('.concert-date[datetime]')?.getAttribute('datetime') || '';
         const showDate = parseShowDate(explicitDate || fallbackDate);
 
-        if (!showDate) return;
+        if (!showDate) {
+            showStates.push({ item, showDate: null, isPastShow: false, index });
+            return;
+        }
 
         const hideFrom = new Date(showDate.getFullYear(), showDate.getMonth(), showDate.getDate() + 1);
         const isPastShow = startOfToday >= hideFrom;
 
+        showStates.push({ item, showDate, isPastShow, index });
         item.classList.toggle('is-past-show', isPastShow);
         item.setAttribute('aria-label', isPastShow
             ? (isEnglish ? 'Past show' : 'Miniony koncert')
@@ -2560,6 +2565,18 @@ function initShowsVisibility() {
             }
         });
     });
+
+    const showsList = items[0].parentElement;
+    showStates
+        .sort((a, b) => {
+            if (a.isPastShow !== b.isPastShow) return a.isPastShow ? 1 : -1;
+            if (!a.showDate || !b.showDate) return a.index - b.index;
+
+            const aTime = a.showDate.getTime();
+            const bTime = b.showDate.getTime();
+            return a.isPastShow ? bTime - aTime : aTime - bTime;
+        })
+        .forEach(({ item }) => showsList.appendChild(item));
 
     const container = document.querySelector('.shows-page');
     if (!container) return;

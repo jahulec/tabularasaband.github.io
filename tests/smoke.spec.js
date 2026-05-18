@@ -170,6 +170,7 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
           total: shows.length,
           visible: shows.filter((item) => !item.hidden).length,
           past: shows.filter((item) => item.classList.contains('is-past-show')).length,
+          orderedDates: shows.map((item) => item.getAttribute('data-show-date')),
           march27Past: document.querySelector('[data-show-date="2026-03-27"]')?.classList.contains('is-past-show'),
           march28Past: document.querySelector('[data-show-date="2026-03-28"]')?.classList.contains('is-past-show'),
           emptyHidden: document.querySelector('.shows-empty-state')?.hidden,
@@ -179,6 +180,17 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
       expect(showStates.total).toBe(25);
       expect(showStates.visible).toBe(25);
       expect(showStates.past).toBe(14);
+      expect(showStates.orderedDates.slice(0, 4)).toEqual([
+        '2026-03-28',
+        '2026-04-11',
+        '2026-04-18',
+        '2026-05-16',
+      ]);
+      expect(showStates.orderedDates.slice(-3)).toEqual([
+        '2026-01-30',
+        '2026-01-16',
+        '2026-01-09',
+      ]);
       expect(showStates.march27Past).toBe(true);
       expect(showStates.march28Past).toBe(false);
       expect(showStates.emptyHidden).toBe(true);
