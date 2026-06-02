@@ -68,9 +68,9 @@ test.describe('UI/UX a11y regressions', () => {
       await expect(page.locator('.home-shows')).toBeVisible();
       await expect(page.locator('.home-news')).toBeVisible();
       await expect(page.locator('.home-gallery')).toBeVisible();
-      await expect(page.locator('.home-next')).toBeVisible();
+      await expect(page.locator('.home-intro')).toHaveCount(0);
       await expect(page.locator('.home-news-card')).toHaveCount(3);
-      await expect(page.locator('.home-next-link')).toHaveCount(5);
+      await expect(page.locator('.home-gallery-media img')).toHaveCount(4);
 
       const homeShowCount = await page.locator('.home-show').count();
       expect(homeShowCount).toBeLessThanOrEqual(3);
@@ -85,7 +85,7 @@ test.describe('UI/UX a11y regressions', () => {
 
       const mobileLayout = await page.evaluate(() => {
         const overflowing = Array.from(document.querySelectorAll(
-          '.home-hero-actions, .home-hero-link, .home-section-cta, .home-text-link, .home-next-link'
+          '.home-hero-actions, .home-hero-link, .home-section-cta, .home-text-link'
         ))
           .map((element) => {
             const rect = element.getBoundingClientRect();
@@ -99,16 +99,16 @@ test.describe('UI/UX a11y regressions', () => {
           .filter((rect) => rect.left < -1 || rect.right > window.innerWidth + 1 || rect.width > window.innerWidth + 1);
 
         const hero = document.querySelector('.home-hero')?.getBoundingClientRect();
-        const intro = document.querySelector('.home-intro')?.getBoundingClientRect();
+        const music = document.querySelector('.home-music-feature')?.getBoundingClientRect();
 
         return {
           overflowing,
-          introHintVisible: !!hero && !!intro && hero.bottom <= window.innerHeight && intro.top < window.innerHeight,
+          musicHintVisible: !!hero && !!music && hero.bottom <= window.innerHeight && music.top < window.innerHeight,
         };
       });
 
       expect(mobileLayout.overflowing).toEqual([]);
-      expect(mobileLayout.introHintVisible).toBeTruthy();
+      expect(mobileLayout.musicHintVisible).toBeTruthy();
 
       await page.setViewportSize({ width: 1366, height: 900 });
       await page.waitForTimeout(450);

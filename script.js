@@ -2142,14 +2142,12 @@ function initScrollReveal() {
         '.article',
         '.article-content',
         '.home-section-lead',
-        '.home-fact',
         '.home-video-frame',
         '.home-music-panel',
         '.home-show',
         '.home-news-card',
         '.home-gallery-media',
         '.home-gallery-copy',
-        '.home-next-link',
         '.song',
         '.concert-item',
         '.member',
@@ -2174,7 +2172,7 @@ function initScrollReveal() {
 
     allNodes.forEach((node) => {
         node.classList.add('reveal');
-        if (node.matches('.article-content, .home-fact, .home-video-frame, .home-music-panel, .home-show, .home-news-card, .home-gallery-media, .home-gallery-copy, .home-next-link, .song, .concert-item, .gallery-grid img, .member')) {
+        if (node.matches('.article-content, .home-video-frame, .home-music-panel, .home-show, .home-news-card, .home-gallery-media, .home-gallery-copy, .song, .concert-item, .gallery-grid img, .member')) {
             node.classList.add('reveal-soft');
         }
     });
@@ -2182,11 +2180,9 @@ function initScrollReveal() {
     const staggerGroups = [
         '.videos',
         '.concerts-section',
-        '.home-intro',
         '.home-music-layout',
         '.home-shows-list',
         '.home-news-grid',
-        '.home-next-grid',
         '.press-history',
         '.press-achievements',
         '.press-links',
