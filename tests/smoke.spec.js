@@ -198,6 +198,54 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
   }
 });
 
+test('home upcoming shows match the shows page ordering for the generated date', async ({ page }) => {
+  await page.addInitScript(() => {
+    const RealDate = Date;
+    const fixedNow = new RealDate('2026-06-02T12:00:00');
+
+    class MockDate extends RealDate {
+      constructor(...args) {
+        if (args.length === 0) {
+          super(fixedNow.getTime());
+          return;
+        }
+
+        super(...args);
+      }
+
+      static now() {
+        return fixedNow.getTime();
+      }
+
+      static parse(value) {
+        return RealDate.parse(value);
+      }
+
+      static UTC(...args) {
+        return RealDate.UTC(...args);
+      }
+    }
+
+    window.Date = MockDate;
+  });
+
+  await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('.home-show');
+  const homeDates = await page.$$eval('.home-show', (items) =>
+    items.map((item) => item.getAttribute('data-show-date'))
+  );
+
+  await page.goto('/shows.html', { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('.shows-empty-state', { state: 'attached' });
+  await page.waitForTimeout(250);
+  const showsDates = await page.$$eval('.shows-list .concert-item', (items) =>
+    items.slice(0, 3).map((item) => item.getAttribute('data-show-date'))
+  );
+
+  expect(homeDates.length).toBeLessThanOrEqual(3);
+  expect(homeDates).toEqual(showsDates.slice(0, homeDates.length));
+});
+
 test.describe('Smoke: gallery modal close restores scroll', () => {
   for (const path of ['/gallery.html', '/gallery-en.html']) {
     test(`gallery modal unlocks page scroll: ${path}`, async ({ page }) => {

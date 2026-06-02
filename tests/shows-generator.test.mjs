@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  buildHomeShowsHtml,
   buildShowsJsonLdHtml,
   buildShowsListHtml,
   parseShowsFromIcs,
+  renderHomePage,
   renderShowsPage,
 } from "../scripts/sync-shows-from-calendar.mjs";
 
@@ -56,6 +58,22 @@ test("renders localized show lists and upcoming JSON-LD", () => {
   assert.match(jsonLd, /https:\/\/tickets\.example\/show/);
 });
 
+test("renders the homepage with the same upcoming order and a three-show limit", () => {
+  const shows = [
+    { date: "2026-06-01", title: "Past | City" },
+    { date: "2026-06-20", title: "First | City" },
+    { date: "2026-07-04", title: "Second | City", ticketUrl: "https://tickets.example/second" },
+    { date: "2026-08-10", title: "Third | City" },
+    { date: "2026-09-12", title: "Fourth | City" },
+  ];
+  const html = buildHomeShowsHtml(shows, "en", new Date("2026-06-19T12:00:00"));
+  const dates = Array.from(html.matchAll(/data-show-date="([^"]+)"/g), (match) => match[1]);
+
+  assert.deepEqual(dates, ["2026-06-20", "2026-07-04", "2026-08-10"]);
+  assert.match(html, /Tickets \/ more/);
+  assert.doesNotMatch(html, /2026-09-12/);
+});
+
 test("page rendering is deterministic when the input data does not change", () => {
   const shows = parseShowsFromIcs(fixtureIcs);
   const html = `<!doctype html>
@@ -75,4 +93,24 @@ test("page rendering is deterministic when the input data does not change", () =
   const second = renderShowsPage(first, shows, "pl", new Date("2026-06-19T12:00:00"));
 
   assert.equal(second, first);
+});
+
+test("homepage rendering is deterministic when generated shows do not change", () => {
+  const shows = parseShowsFromIcs(fixtureIcs);
+  const html = `<!doctype html>
+<html>
+<body>
+<section class="home-shows">
+<!-- HOME_SHOWS_START -->
+<div class="home-shows-list" data-home-shows></div>
+<!-- HOME_SHOWS_END -->
+</section>
+</body>
+</html>`;
+
+  const first = renderHomePage(html, shows, "pl", new Date("2026-06-19T12:00:00"));
+  const second = renderHomePage(first, shows, "pl", new Date("2026-06-19T12:00:00"));
+
+  assert.equal(second, first);
+  assert.match(first, /20 czerwca 2026/);
 });

@@ -9,11 +9,17 @@ const SHOW_PAGES = [
   { path: path.join(ROOT, "shows.html"), lang: "pl" },
   { path: path.join(ROOT, "shows-en.html"), lang: "en" },
 ];
+const HOME_PAGES = [
+  { path: path.join(ROOT, "index.html"), lang: "pl" },
+  { path: path.join(ROOT, "index-en.html"), lang: "en" },
+];
 
 const JSON_LD_START = "<!-- SHOWS_JSON_LD_START -->";
 const JSON_LD_END = "<!-- SHOWS_JSON_LD_END -->";
 const LIST_START = "<!-- SHOWS_LIST_START -->";
 const LIST_END = "<!-- SHOWS_LIST_END -->";
+const HOME_SHOWS_START = "<!-- HOME_SHOWS_START -->";
+const HOME_SHOWS_END = "<!-- HOME_SHOWS_END -->";
 
 const PL_MONTHS = [
   "stycznia",
@@ -212,13 +218,19 @@ function startOfToday(today = new Date()) {
   return new Date(today.getFullYear(), today.getMonth(), today.getDate());
 }
 
-function isUpcoming(show, today = new Date()) {
+export function isUpcoming(show, today = new Date()) {
   const date = normalizeDate(show.date);
   if (!date) return false;
   const [year, month, day] = date.split("-").map(Number);
   const showDate = new Date(year, month - 1, day);
   const hideFrom = new Date(showDate.getFullYear(), showDate.getMonth(), showDate.getDate() + 1);
   return startOfToday(today) < hideFrom;
+}
+
+function upcomingShows(shows, today = new Date(), limit = Infinity) {
+  return normalizeShows(shows)
+    .filter((show) => isUpcoming(show, today))
+    .slice(0, limit);
 }
 
 function buildEventJsonLd(show) {
@@ -261,6 +273,41 @@ export function buildShowsListHtml(shows, lang = "pl") {
 ${articles}
 </div>
 ${LIST_END}`;
+}
+
+function buildHomeShowArticle(show, lang) {
+  const ticketLabel = lang === "en" ? "Tickets / more" : "Bilety / wi\u0119cej";
+  const ticket = show.ticketUrl
+    ? `\n            <a class="home-text-link home-show-link" href="${escapeHtml(show.ticketUrl)}">${ticketLabel}</a>`
+    : "";
+
+  return `        <article class="home-show" data-show-date="${escapeHtml(show.date)}">
+            <time datetime="${escapeHtml(show.date)}">${escapeHtml(formatDate(show.date, lang))}</time>
+            <h3>${escapeHtml(show.title)}</h3>${ticket}
+        </article>`;
+}
+
+export function buildHomeShowsHtml(shows, lang = "pl", today = new Date()) {
+  const upcoming = upcomingShows(shows, today, 3);
+
+  if (upcoming.length === 0) {
+    const message = lang === "en"
+      ? "No upcoming shows right now."
+      : "Aktualnie brak nadchodz\u0105cych koncert\u00f3w.";
+
+    return `${HOME_SHOWS_START}
+    <div class="home-shows-list home-shows-list-empty" data-home-shows>
+        <p class="home-empty-shows">${message}</p>
+    </div>
+    ${HOME_SHOWS_END}`;
+  }
+
+  const articles = upcoming.map((show) => buildHomeShowArticle(show, lang)).join("\n");
+  return `${HOME_SHOWS_START}
+    <div class="home-shows-list" data-home-shows>
+${articles}
+    </div>
+    ${HOME_SHOWS_END}`;
 }
 
 export function buildShowsJsonLdHtml(shows, today = new Date()) {
@@ -314,10 +361,20 @@ function replaceShowsList(html, replacement) {
   ));
 }
 
+function replaceHomeShows(html, replacement) {
+  return replaceMarkedBlock(html, HOME_SHOWS_START, HOME_SHOWS_END, replacement, (source, block) => (
+    source.replace(/<div class="home-shows-list" data-home-shows>[\s\S]*?<\/div>/, block)
+  ));
+}
+
 export function renderShowsPage(html, shows, lang = "pl", today = new Date()) {
   let next = replaceJsonLd(html, buildShowsJsonLdHtml(shows, today));
   next = replaceShowsList(next, buildShowsListHtml(shows, lang));
   return next;
+}
+
+export function renderHomePage(html, shows, lang = "pl", today = new Date()) {
+  return replaceHomeShows(html, buildHomeShowsHtml(shows, lang, today));
 }
 
 async function writeIfChanged(filePath, content) {
@@ -359,6 +416,12 @@ export async function renderAllShowsPages(shows, { today = new Date() } = {}) {
   for (const page of SHOW_PAGES) {
     const html = await fs.readFile(page.path, "utf8");
     const rendered = renderShowsPage(html, shows, page.lang, today);
+    changed = (await writeIfChanged(page.path, rendered)) || changed;
+  }
+
+  for (const page of HOME_PAGES) {
+    const html = await fs.readFile(page.path, "utf8");
+    const rendered = renderHomePage(html, shows, page.lang, today);
     changed = (await writeIfChanged(page.path, rendered)) || changed;
   }
 

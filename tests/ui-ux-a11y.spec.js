@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('UI/UX a11y regressions', () => {
   test('all embedded iframes have non-empty title', async ({ page }) => {
-    const pages = ['/music.html', '/music-en.html', '/mapa.html'];
+    const pages = ['/index.html', '/index-en.html', '/music.html', '/music-en.html', '/mapa.html'];
 
     for (const path of pages) {
       await page.goto(path, { waitUntil: 'domcontentloaded' });
@@ -51,10 +51,10 @@ test.describe('UI/UX a11y regressions', () => {
     expect(footerVisibleOverModal).toBeFalsy();
   });
 
-  test('home page keeps animated hero separate from the news list when resizing', async ({ page }) => {
+  test('home page presents the band landing sections without overflowing on mobile', async ({ page }) => {
     const checks = [
-      { path: '/index.html', newsTitlePattern: /Aktual/ },
-      { path: '/index-en.html', newsTitlePattern: /^News$/ },
+      { path: '/index.html', newsTitlePattern: /^Co nowego$/ },
+      { path: '/index-en.html', newsTitlePattern: /^Latest notes$/ },
     ];
 
     for (const check of checks) {
@@ -64,12 +64,51 @@ test.describe('UI/UX a11y regressions', () => {
       await expect(page.locator('.home-hero')).toBeVisible();
       await expect(page.locator('#homeHeroTitle')).toHaveText('Tabula Rasa');
       await expect(page.locator('#welcome')).toHaveText(check.newsTitlePattern);
+      await expect(page.locator('.home-music-feature')).toBeVisible();
+      await expect(page.locator('.home-shows')).toBeVisible();
+      await expect(page.locator('.home-news')).toBeVisible();
+      await expect(page.locator('.home-gallery')).toBeVisible();
+      await expect(page.locator('.home-next')).toBeVisible();
+      await expect(page.locator('.home-news-card')).toHaveCount(3);
+      await expect(page.locator('.home-next-link')).toHaveCount(5);
+
+      const homeShowCount = await page.locator('.home-show').count();
+      expect(homeShowCount).toBeLessThanOrEqual(3);
+      expect(homeShowCount).toBeGreaterThan(0);
 
       await page.setViewportSize({ width: 430, height: 932 });
       await page.waitForTimeout(450);
+      await page.evaluate(() => window.scrollTo(0, 0));
       await expect(page.locator('.home-hero')).toBeVisible();
       await expect(page.locator('#homeHeroTitle')).toHaveText('Tabula Rasa');
       await expect(page.locator('#welcome')).toHaveText(check.newsTitlePattern);
+
+      const mobileLayout = await page.evaluate(() => {
+        const overflowing = Array.from(document.querySelectorAll(
+          '.home-hero-actions, .home-hero-link, .home-section-cta, .home-text-link, .home-next-link'
+        ))
+          .map((element) => {
+            const rect = element.getBoundingClientRect();
+            return {
+              selector: element.className || element.tagName,
+              left: rect.left,
+              right: rect.right,
+              width: rect.width,
+            };
+          })
+          .filter((rect) => rect.left < -1 || rect.right > window.innerWidth + 1 || rect.width > window.innerWidth + 1);
+
+        const hero = document.querySelector('.home-hero')?.getBoundingClientRect();
+        const intro = document.querySelector('.home-intro')?.getBoundingClientRect();
+
+        return {
+          overflowing,
+          introHintVisible: !!hero && !!intro && hero.bottom <= window.innerHeight && intro.top < window.innerHeight,
+        };
+      });
+
+      expect(mobileLayout.overflowing).toEqual([]);
+      expect(mobileLayout.introHintVisible).toBeTruthy();
 
       await page.setViewportSize({ width: 1366, height: 900 });
       await page.waitForTimeout(450);
