@@ -302,6 +302,7 @@ function getHeroTitleForViewport(pageName, baseTitle) {
 function injectPageHeroCopy() {
     const newsSection = document.getElementById('news');
     if (!newsSection || newsSection.dataset.heroInit === '1') return;
+    if (newsSection.classList.contains('home-page') && document.querySelector('.home-hero')) return;
 
     const heading = newsSection.querySelector('#welcome, h1');
     if (!heading) return;

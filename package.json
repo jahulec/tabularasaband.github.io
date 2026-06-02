@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "script.js",
   "scripts": {
-    "test": "npm run test:smoke && npm run test:uiux",
+    "test": "npm run test:generator && npm run test:smoke && npm run test:uiux",
+    "test:generator": "node --test tests/shows-generator.test.mjs",
     "test:smoke": "playwright test tests/smoke.spec.js",
     "test:uiux": "playwright test tests/ui-ux-a11y.spec.js",
     "check:encoding": "node scripts/check-text-encoding.mjs",

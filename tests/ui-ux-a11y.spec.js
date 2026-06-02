@@ -51,25 +51,30 @@ test.describe('UI/UX a11y regressions', () => {
     expect(footerVisibleOverModal).toBeFalsy();
   });
 
-  test('index hero title updates when resizing desktop <-> mobile', async ({ page }) => {
+  test('home page keeps animated hero separate from the news list when resizing', async ({ page }) => {
     const checks = [
-      { path: '/index.html', mobileTitle: 'Aktualności' },
-      { path: '/index-en.html', mobileTitle: 'News' },
+      { path: '/index.html', newsTitlePattern: /Aktual/ },
+      { path: '/index-en.html', newsTitlePattern: /^News$/ },
     ];
 
     for (const check of checks) {
       await page.setViewportSize({ width: 1366, height: 900 });
       await page.goto(check.path, { waitUntil: 'domcontentloaded' });
       await page.waitForTimeout(450);
-      await expect(page.locator('#welcome')).toHaveText('Tabula Rasa');
+      await expect(page.locator('.home-hero')).toBeVisible();
+      await expect(page.locator('#homeHeroTitle')).toHaveText('Tabula Rasa');
+      await expect(page.locator('#welcome')).toHaveText(check.newsTitlePattern);
 
       await page.setViewportSize({ width: 430, height: 932 });
       await page.waitForTimeout(450);
-      await expect(page.locator('#welcome')).toHaveText(check.mobileTitle);
+      await expect(page.locator('.home-hero')).toBeVisible();
+      await expect(page.locator('#homeHeroTitle')).toHaveText('Tabula Rasa');
+      await expect(page.locator('#welcome')).toHaveText(check.newsTitlePattern);
 
       await page.setViewportSize({ width: 1366, height: 900 });
       await page.waitForTimeout(450);
-      await expect(page.locator('#welcome')).toHaveText('Tabula Rasa');
+      await expect(page.locator('#homeHeroTitle')).toHaveText('Tabula Rasa');
+      await expect(page.locator('#welcome')).toHaveText(check.newsTitlePattern);
     }
   });
 });

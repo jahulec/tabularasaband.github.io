@@ -233,3 +233,47 @@ test.describe('Smoke: gallery modal close restores scroll', () => {
     });
   }
 });
+
+test.describe('Smoke: gallery modal navigation', () => {
+  for (const path of ['/gallery.html', '/gallery-en.html']) {
+    test(`gallery modal supports arrows and swipe/drag: ${path}`, async ({ page }) => {
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+      const firstImage = page.locator('.gallery-grid img').first();
+      const modalImage = page.locator('#expandedImage');
+
+      await expect(firstImage).toBeVisible();
+      await firstImage.click();
+      await expect(page.locator('#expandedImageContainer')).toBeVisible();
+
+      const firstSrc = await modalImage.evaluate((img) => img.getAttribute('src'));
+      await page.keyboard.press('ArrowRight');
+      await expect.poll(() => modalImage.evaluate((img) => img.getAttribute('src'))).not.toBe(firstSrc);
+
+      const secondSrc = await modalImage.evaluate((img) => img.getAttribute('src'));
+      await page.keyboard.press('ArrowLeft');
+      await expect.poll(() => modalImage.evaluate((img) => img.getAttribute('src'))).toBe(firstSrc);
+
+      await page.evaluate(() => {
+        const target = document.getElementById('expandedImage');
+        const dispatchPointer = (type, x, y, pointerType = 'mouse') => {
+          target.dispatchEvent(new PointerEvent(type, {
+            bubbles: true,
+            clientX: x,
+            clientY: y,
+            pointerId: 7,
+            pointerType,
+            isPrimary: true,
+          }));
+        };
+
+        dispatchPointer('pointerdown', 760, 420);
+        dispatchPointer('pointermove', 680, 420);
+        dispatchPointer('pointerup', 680, 420);
+      });
+
+      await expect.poll(() => modalImage.evaluate((img) => img.getAttribute('src'))).toBe(secondSrc);
+    });
+  }
+});

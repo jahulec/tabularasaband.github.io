@@ -13,6 +13,10 @@
     const canUseModal = () => true;
     const focusableSelector = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
     let lastFocusedElement = null;
+    let currentIndex = 0;
+    let gestureState = null;
+    let suppressImageClick = false;
+    const SWIPE_DISTANCE = 56;
 
     const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
     const isEnglish = htmlLang.startsWith('en');
@@ -24,6 +28,22 @@
     expandedImage.setAttribute('tabindex', '0');
 
     const isModalOpen = () => expandedImageContainer.style.display === 'flex';
+
+    const createNavButton = (direction) => {
+        const button = document.createElement('button');
+        const isPrevious = direction === 'prev';
+        button.type = 'button';
+        button.className = `gallery-modal-nav gallery-modal-${direction}`;
+        button.setAttribute('aria-label', isPrevious
+            ? (isEnglish ? 'Previous image' : 'Poprzednie zdjecie')
+            : (isEnglish ? 'Next image' : 'Nastepne zdjecie'));
+        button.textContent = isPrevious ? '<' : '>';
+        return button;
+    };
+
+    const previousButton = createNavButton('prev');
+    const nextButton = createNavButton('next');
+    expandedImageContainer.append(previousButton, nextButton);
 
     const getFocusableInModal = () => (
         Array.from(expandedImageContainer.querySelectorAll(focusableSelector))
@@ -74,11 +94,39 @@
         document.body.style.overflowY = enabled ? 'auto' : 'hidden';
     };
 
-    const openImage = (image) => {
-        if (!canUseModal()) return;
-        lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const preloadNeighbor = (index) => {
+        const image = galleryImages[index];
+        if (!image) return;
+        const src = image.getAttribute('data-full') || image.src;
+        if (!src) return;
+        const preload = new Image();
+        preload.src = src;
+    };
+
+    const showImageAt = (index) => {
+        const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
+        const image = galleryImages[normalizedIndex];
+        if (!image) return;
+
+        currentIndex = normalizedIndex;
         expandedImage.src = image.getAttribute('data-full') || image.src;
         expandedImage.alt = image.alt || (isEnglish ? 'Expanded image' : 'Powiekszone zdjecie');
+        preloadNeighbor((currentIndex + 1) % galleryImages.length);
+        preloadNeighbor((currentIndex - 1 + galleryImages.length) % galleryImages.length);
+    };
+
+    const nextImage = () => {
+        showImageAt(currentIndex + 1);
+    };
+
+    const previousImage = () => {
+        showImageAt(currentIndex - 1);
+    };
+
+    const openImage = (image, index) => {
+        if (!canUseModal()) return;
+        lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        showImageAt(index);
         expandedImageContainer.style.display = 'flex';
         expandedImageContainer.style.pointerEvents = 'auto';
         expandedImageContainer.setAttribute('aria-hidden', 'false');
@@ -109,8 +157,8 @@
         }, 240);
     };
 
-    galleryImages.forEach((image) => {
-        image.addEventListener('click', () => openImage(image));
+    galleryImages.forEach((image, index) => {
+        image.addEventListener('click', () => openImage(image, index));
     });
 
     expandedImageContainer.addEventListener('click', () => {
@@ -119,14 +167,104 @@
 
     expandedImage.addEventListener('click', (event) => {
         event.stopPropagation();
+        if (suppressImageClick) {
+            suppressImageClick = false;
+            return;
+        }
         closeImage();
     });
+
+    previousButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        previousImage();
+        expandedImage.focus({ preventScroll: true });
+    });
+
+    nextButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        nextImage();
+        expandedImage.focus({ preventScroll: true });
+    });
+
+    const resetGesture = () => {
+        gestureState = null;
+    };
+
+    const handlePointerDown = (event) => {
+        if (!isModalOpen() || event.target.closest('.gallery-modal-nav')) return;
+        if (event.pointerType !== 'touch' && event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+
+        gestureState = {
+            pointerId: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            lastX: event.clientX,
+            lastY: event.clientY,
+        };
+    };
+
+    const handlePointerMove = (event) => {
+        if (!gestureState || event.pointerId !== gestureState.pointerId) return;
+
+        gestureState.lastX = event.clientX;
+        gestureState.lastY = event.clientY;
+
+        const deltaX = gestureState.lastX - gestureState.startX;
+        const deltaY = gestureState.lastY - gestureState.startY;
+
+        if (Math.abs(deltaY) > Math.abs(deltaX) + 16 && Math.abs(deltaY) > 28) {
+            resetGesture();
+            return;
+        }
+
+        if (Math.abs(deltaX) > 12) {
+            suppressImageClick = true;
+        }
+    };
+
+    const handlePointerEnd = (event) => {
+        if (!gestureState || event.pointerId !== gestureState.pointerId) return;
+
+        const deltaX = gestureState.lastX - gestureState.startX;
+        const deltaY = gestureState.lastY - gestureState.startY;
+        resetGesture();
+
+        if (Math.abs(deltaX) >= SWIPE_DISTANCE && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) {
+            event.preventDefault();
+            suppressImageClick = true;
+            if (deltaX < 0) {
+                nextImage();
+            } else {
+                previousImage();
+            }
+            window.setTimeout(() => {
+                suppressImageClick = false;
+            }, 240);
+        }
+    };
+
+    expandedImageContainer.addEventListener('pointerdown', handlePointerDown);
+    expandedImageContainer.addEventListener('pointermove', handlePointerMove);
+    expandedImageContainer.addEventListener('pointerup', handlePointerEnd);
+    expandedImageContainer.addEventListener('pointercancel', resetGesture);
 
     document.addEventListener('keydown', (event) => {
         if (!isModalOpen()) return;
 
         if (event.key === 'Escape') {
             closeImage();
+            return;
+        }
+
+        if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            nextImage();
+            return;
+        }
+
+        if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            previousImage();
             return;
         }
 

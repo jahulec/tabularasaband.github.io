@@ -4449,6 +4449,195 @@ body > footer.shop-footer .shop-footer-social {
     }
 }
 
+/* Home hero */
+.home-hero {
+    position: relative;
+    z-index: 1;
+    min-height: calc(100svh - 52px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    isolation: isolate;
+    padding: calc(var(--tr-header-height) + 72px) max(24px, calc((100vw - 1180px) / 2)) 84px;
+    color: #fff;
+    background: #05070a;
+}
+
+.home-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.home-hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    overflow: hidden;
+}
+
+.home-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    transform: scale(1.04);
+    animation: homeHeroImage 1200ms ease-out both;
+}
+
+.home-hero-copy {
+    width: min(760px, 100%);
+    transform: translateY(18px);
+    opacity: 0;
+    animation: homeHeroCopy 760ms ease-out 180ms both;
+}
+
+.home-hero-eyebrow {
+    margin: 0 0 12px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.home-hero h1 {
+    margin: 0;
+    font-family: 'PoppinsBlack', Arial, sans-serif;
+    font-size: 5rem;
+    line-height: 0.94;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.52);
+}
+
+.home-hero h2 {
+    max-width: 720px;
+    margin: 18px 0 0;
+    font-size: 2rem;
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-shadow: 0 3px 18px rgba(0, 0, 0, 0.52);
+}
+
+.home-hero-copy > p:not(.home-hero-eyebrow) {
+    max-width: 620px;
+    margin: 18px 0 0;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 1.05rem;
+    line-height: 1.62;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.home-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.home-hero-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 8px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.24);
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.home-hero-link.primary {
+    border-color: #f4002f;
+    background: #f4002f;
+}
+
+.home-hero-link:hover,
+.home-hero-link:focus-visible {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-1px);
+}
+
+.home-hero-link.primary:hover,
+.home-hero-link.primary:focus-visible {
+    background: #d90029;
+}
+
+#news.home-page {
+    padding-top: 52px !important;
+}
+
+@keyframes homeHeroCopy {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes homeHeroImage {
+    to {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 900px) {
+    .home-hero {
+        min-height: calc(100svh - 44px);
+        padding: calc(var(--tr-header-height) + 48px) 18px 62px;
+        align-items: flex-end;
+    }
+
+    .home-hero::after {
+        background: rgba(0, 0, 0, 0.58);
+    }
+
+    .home-hero h1 {
+        font-size: 3.45rem;
+    }
+
+    .home-hero h2 {
+        font-size: 1.42rem;
+    }
+
+    .home-hero-copy > p:not(.home-hero-eyebrow) {
+        font-size: 1rem;
+    }
+
+    .home-hero-actions {
+        gap: 10px;
+    }
+
+    .home-hero-link {
+        min-height: 42px;
+        padding: 0 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .home-hero h1 {
+        font-size: 2.85rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero-copy,
+    .home-hero-media img {
+        animation: none !important;
+        opacity: 1;
+        transform: none;
+    }
+}
+
 /* Home page parity with static-page rhythm */
 #news.home-page .article-with-image {
     width: min(980px, 100%) !important;
