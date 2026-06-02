@@ -47,7 +47,11 @@
 
     const getFocusableInModal = () => (
         Array.from(expandedImageContainer.querySelectorAll(focusableSelector))
-            .filter((node) => !node.hasAttribute('disabled'))
+            .filter((node) => {
+                if (node.hasAttribute('disabled')) return false;
+                const rects = node.getClientRects();
+                return rects.length > 0 && window.getComputedStyle(node).visibility !== 'hidden';
+            })
     );
 
     const setBackgroundAccessibilityHidden = (hidden) => {
@@ -247,6 +251,39 @@
     expandedImageContainer.addEventListener('pointermove', handlePointerMove);
     expandedImageContainer.addEventListener('pointerup', handlePointerEnd);
     expandedImageContainer.addEventListener('pointercancel', resetGesture);
+
+    expandedImageContainer.addEventListener('touchstart', (event) => {
+        if (!isModalOpen() || event.touches.length !== 1 || event.target.closest('.gallery-modal-nav')) return;
+        const touch = event.touches[0];
+        gestureState = {
+            pointerId: 'touch',
+            startX: touch.clientX,
+            startY: touch.clientY,
+            lastX: touch.clientX,
+            lastY: touch.clientY,
+        };
+    }, { passive: true });
+
+    expandedImageContainer.addEventListener('touchmove', (event) => {
+        if (!gestureState || gestureState.pointerId !== 'touch' || event.touches.length !== 1) return;
+        const touch = event.touches[0];
+        handlePointerMove({
+            pointerId: 'touch',
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+        });
+        if (suppressImageClick) event.preventDefault();
+    }, { passive: false });
+
+    expandedImageContainer.addEventListener('touchend', (event) => {
+        if (!gestureState || gestureState.pointerId !== 'touch') return;
+        handlePointerEnd({
+            pointerId: 'touch',
+            preventDefault: () => event.preventDefault(),
+        });
+    }, { passive: false });
+
+    expandedImageContainer.addEventListener('touchcancel', resetGesture, { passive: true });
 
     document.addEventListener('keydown', (event) => {
         if (!isModalOpen()) return;

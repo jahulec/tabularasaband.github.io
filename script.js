@@ -2688,65 +2688,124 @@ document.addEventListener('DOMContentLoaded', () => {
         !!target?.closest('a, button, input, textarea, select, iframe, video, [role="button"]')
     );
 
-    document.addEventListener('pointerdown', (event) => {
-        if (event.pointerType !== 'touch' || window.innerWidth > MOBILE_MENU_BREAKPOINT) {
+    const closestFromTarget = (target, selector) => (
+        target && typeof target.closest === 'function' ? target.closest(selector) : null
+    );
+
+    const beginSwipeGesture = (target, clientX, clientY) => {
+        if (window.innerWidth > MOBILE_MENU_BREAKPOINT) {
             resetSwipeState();
             return;
         }
 
         if (isOpen) {
-            if (!event.target.closest('.mobile-nav-panel') && event.target !== menuNav) {
+            const panel = closestFromTarget(target, '.mobile-nav-panel');
+            if (!panel && target !== menuNav) {
                 resetSwipeState();
                 return;
             }
 
-            if (event.clientX < window.innerWidth - SWIPE_CLOSE_ZONE) {
+            if (clientX < window.innerWidth - SWIPE_CLOSE_ZONE && !panel) {
                 resetSwipeState();
                 return;
             }
 
             swipeState = {
                 mode: 'close',
-                startX: event.clientX,
-                startY: event.clientY
+                startX: clientX,
+                startY: clientY
             };
             return;
         }
 
-        if (event.clientX > SWIPE_EDGE_ZONE || shouldIgnoreSwipeStart(event.target)) {
+        if (shouldIgnoreSwipeStart(target)) {
             resetSwipeState();
             return;
         }
 
-        swipeState = {
-            mode: 'open',
-            startX: event.clientX,
-            startY: event.clientY
-        };
-    }, { passive: true });
+        if (clientX <= SWIPE_EDGE_ZONE) {
+            swipeState = {
+                mode: 'open-left-edge',
+                startX: clientX,
+                startY: clientY
+            };
+            return;
+        }
 
-    document.addEventListener('pointermove', (event) => {
-        if (!swipeState || event.pointerType !== 'touch') return;
+        if (clientX >= window.innerWidth - SWIPE_EDGE_ZONE) {
+            swipeState = {
+                mode: 'open-right-edge',
+                startX: clientX,
+                startY: clientY
+            };
+            return;
+        }
 
-        const deltaX = event.clientX - swipeState.startX;
-        const deltaY = event.clientY - swipeState.startY;
+        resetSwipeState();
+    };
+
+    const updateSwipeGesture = (clientX, clientY, preventDefault) => {
+        if (!swipeState) return;
+
+        const deltaX = clientX - swipeState.startX;
+        const deltaY = clientY - swipeState.startY;
 
         if (Math.abs(deltaY) > Math.abs(deltaX) + 10) {
             resetSwipeState();
             return;
         }
 
-        if (swipeState.mode === 'open' && deltaX >= SWIPE_TRIGGER_DISTANCE) {
+        const openedFromLeft = swipeState.mode === 'open-left-edge' && deltaX >= SWIPE_TRIGGER_DISTANCE;
+        const openedFromRight = swipeState.mode === 'open-right-edge' && deltaX <= -SWIPE_TRIGGER_DISTANCE;
+        const closedFromLeft = swipeState.mode === 'close' && deltaX <= -SWIPE_TRIGGER_DISTANCE;
+        const closedFromRight = swipeState.mode === 'close' && deltaX >= SWIPE_TRIGGER_DISTANCE;
+
+        if (openedFromLeft || openedFromRight) {
+            if (typeof preventDefault === 'function') preventDefault();
             openMenu();
             resetSwipeState();
             return;
         }
 
-        if (swipeState.mode === 'close' && deltaX <= -SWIPE_TRIGGER_DISTANCE) {
+        if (closedFromLeft || closedFromRight) {
+            if (typeof preventDefault === 'function') preventDefault();
             closeMenu();
             resetSwipeState();
         }
+    };
+
+    document.addEventListener('pointerdown', (event) => {
+        if (event.pointerType !== 'touch') {
+            resetSwipeState();
+            return;
+        }
+
+        beginSwipeGesture(event.target, event.clientX, event.clientY);
     }, { passive: true });
+
+    document.addEventListener('pointermove', (event) => {
+        if (!swipeState || event.pointerType !== 'touch') return;
+        updateSwipeGesture(event.clientX, event.clientY);
+    }, { passive: true });
+
+    document.addEventListener('touchstart', (event) => {
+        if (!event.touches || event.touches.length !== 1) {
+            resetSwipeState();
+            return;
+        }
+
+        const touch = event.touches[0];
+        beginSwipeGesture(event.target, touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (event) => {
+        if (!swipeState || !event.touches || event.touches.length !== 1) return;
+        const touch = event.touches[0];
+        updateSwipeGesture(touch.clientX, touch.clientY, () => event.preventDefault());
+    }, { passive: false });
+
+    document.addEventListener('touchend', resetSwipeState, { passive: true });
+    document.addEventListener('touchcancel', resetSwipeState, { passive: true });
 
     document.addEventListener('pointerup', resetSwipeState, { passive: true });
     document.addEventListener('pointercancel', resetSwipeState, { passive: true });

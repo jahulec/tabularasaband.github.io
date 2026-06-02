@@ -126,6 +126,40 @@ test('mobile nav responds to touch swipe open and close', async ({ page }) => {
   });
 
   await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
+
+  await page.evaluate(() => {
+    const target = document.documentElement;
+    const dispatchTouch = (type, x, y) => {
+      const event = new Event(type, { bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'touches', {
+        value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
+      });
+      target.dispatchEvent(event);
+    };
+
+    dispatchTouch('touchstart', window.innerWidth - 8, 160);
+    dispatchTouch('touchmove', window.innerWidth - 116, 160);
+    dispatchTouch('touchend', window.innerWidth - 116, 160);
+  });
+
+  await expect(page.locator('#nav-mobile')).toHaveClass(/active/);
+
+  await page.evaluate(() => {
+    const target = document.querySelector('.mobile-nav-panel');
+    const dispatchTouch = (type, x, y) => {
+      const event = new Event(type, { bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'touches', {
+        value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
+      });
+      target.dispatchEvent(event);
+    };
+
+    dispatchTouch('touchstart', window.innerWidth - 130, 200);
+    dispatchTouch('touchmove', window.innerWidth - 18, 200);
+    dispatchTouch('touchend', window.innerWidth - 18, 200);
+  });
+
+  await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
 });
 
 test.describe('Smoke: past shows are dimmed after the event day', () => {
@@ -322,6 +356,43 @@ test.describe('Smoke: gallery modal navigation', () => {
       });
 
       await expect.poll(() => modalImage.evaluate((img) => img.getAttribute('src'))).toBe(secondSrc);
+    });
+  }
+});
+
+test.describe('Smoke: mobile gallery modal swipe', () => {
+  for (const path of ['/gallery.html', '/gallery-en.html']) {
+    test(`mobile gallery modal uses swipe without visible buttons: ${path}`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+      const firstImage = page.locator('.gallery-grid img').first();
+      const modalImage = page.locator('#expandedImage');
+
+      await expect(firstImage).toBeVisible();
+      await firstImage.click();
+      await expect(page.locator('#expandedImageContainer')).toBeVisible();
+      await expect(page.locator('.gallery-modal-nav')).toHaveCount(2);
+      await expect(page.locator('.gallery-modal-nav').first()).toBeHidden();
+
+      const firstSrc = await modalImage.evaluate((img) => img.getAttribute('src'));
+
+      await page.evaluate(() => {
+        const target = document.getElementById('expandedImage');
+        const dispatchTouch = (type, x, y) => {
+          const event = new Event(type, { bubbles: true, cancelable: true });
+          Object.defineProperty(event, 'touches', {
+            value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
+          });
+          target.dispatchEvent(event);
+        };
+
+        dispatchTouch('touchstart', 310, 410);
+        dispatchTouch('touchmove', 180, 410);
+        dispatchTouch('touchend', 180, 410);
+      });
+
+      await expect.poll(() => modalImage.evaluate((img) => img.getAttribute('src'))).not.toBe(firstSrc);
     });
   }
 });

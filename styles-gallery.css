@@ -136,16 +136,16 @@
     #expandedImageContainer {
         padding-top: 78px;
         padding-bottom: calc(16px + env(safe-area-inset-bottom));
+        touch-action: pan-y;
     }
 
     #expandedImage {
         max-width: calc(100vw - 20px);
         max-height: calc(100dvh - 110px - env(safe-area-inset-bottom));
+        touch-action: none;
     }
 
     .gallery-modal-nav {
-        width: 42px;
-        height: 58px;
-        font-size: 1.75rem;
+        display: none;
     }
 }
