@@ -104,9 +104,9 @@
 	<img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Tabula Rasa - koncert 5" data-mobile-src="galeria/_responsive/zdjecia_mobile/84m-w640.webp?v=20260331c" data-mobile-srcset="galeria/_responsive/zdjecia_mobile/84m-w360.webp?v=20260331c 360w, galeria/_responsive/zdjecia_mobile/84m-w640.webp?v=20260331c 640w, galeria/_responsive/zdjecia_mobile/84m-w960.webp?v=20260331c 960w" data-desktop-src="galeria/_responsive/zdjecia_desktop/progresja-w1280.webp?v=20260331c" data-desktop-srcset="galeria/_responsive/zdjecia_desktop/progresja-w768.webp?v=20260331c 768w, galeria/_responsive/zdjecia_desktop/progresja-w1280.webp?v=20260331c 1280w, galeria/_responsive/zdjecia_desktop/progresja-w1920.webp?v=20260331c 1920w, galeria/_responsive/zdjecia_desktop/progresja-w2560.webp?v=20260331c 2560w">
 </div>
 
-<main class="home-landing" aria-labelledby="homeHeroTitle">
-<section class="home-hero home-landing-hero" aria-labelledby="homeHeroTitle">
-    <div class="home-hero-copy">
+<main class="home-landing" aria-labelledby="homeHeroTitle" data-home-motion-root>
+<section class="home-hero home-landing-hero" aria-labelledby="homeHeroTitle" data-home-section data-home-tone="transparent">
+    <div class="home-hero-copy" data-home-motion data-motion-speed="-0.10">
         <p class="home-hero-eyebrow">Tabula Rasa</p>
         <h1 id="homeHeroTitle">Tabula Rasa</h1>
         <h2>Lewitacja is out.</h2>
@@ -118,45 +118,40 @@
     </div>
 </section>
 
-<section id="music" class="home-section home-music-feature" aria-labelledby="homeMusicTitle">
-    <div class="home-section-lead">
+<section id="music" class="home-section home-music-feature" aria-labelledby="homeMusicTitle" data-home-section data-home-tone="dark">
+    <div class="home-section-lead" data-home-motion data-motion-y="14" data-motion-x="0">
         <p class="home-section-kicker">Music</p>
         <h2 id="homeMusicTitle">Latest single: Lewitacja</h2>
-        <p>The newest single and video in one frame. The rest of the songs are on the music page.</p>
+        <p>The single and video in one frame. Let the music take it from here.</p>
     </div>
     <div class="home-music-layout">
-        <div class="home-video-frame">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/9pIKakO0nR0?si=h12HOJmSpkl76nvC" title="Lewitacja - Tabula Rasa music video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="home-video-frame" data-home-motion data-motion-y="-18" data-motion-x="-8" data-motion-scale="0.018" data-motion-mask>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9pIKakO0nR0?si=h12HOJmSpkl76nvC" title="Lewitacja - Tabula Rasa music video" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-        <div class="home-music-panel">
-            <p class="home-panel-label">New single</p>
-            <h3>Lewitacja</h3>
-            <p>A sharp chorus, tension, and a video that lingers after the last shot.</p>
-            <div class="home-inline-actions">
-                <a class="home-text-link" href="https://open.spotify.com/track/3o2VBDw9AUZCCiUPJsyT1Q" target="_blank" rel="noopener noreferrer">Spotify</a>
-                <a class="home-text-link" href="music-en.html">All music</a>
-            </div>
+        <div class="home-music-actions" data-home-motion data-motion-y="12" data-motion-x="0" data-motion-stagger="0.10">
+            <a class="home-text-link" href="https://open.spotify.com/track/3o2VBDw9AUZCCiUPJsyT1Q" target="_blank" rel="noopener noreferrer">Spotify</a>
+            <a class="home-text-link" href="music-en.html">All music</a>
         </div>
     </div>
 </section>
 
-<section id="shows" class="home-section home-shows" aria-labelledby="homeShowsTitle">
-    <div class="home-section-lead">
+<section id="shows" class="home-section home-shows" aria-labelledby="homeShowsTitle" data-home-section data-home-tone="monochrome">
+    <div class="home-section-lead" data-home-motion data-motion-y="24" data-motion-x="20">
         <p class="home-section-kicker">Shows</p>
         <h2 id="homeShowsTitle">Upcoming dates</h2>
         <p>The next places to catch Tabula Rasa live.</p>
     </div>
     <!-- HOME_SHOWS_START -->
     <div class="home-shows-list" data-home-shows>
-        <article class="home-show" data-show-date="2026-06-27">
+        <article class="home-show" data-show-date="2026-06-27" data-home-motion data-motion-x="-34" data-motion-y="18" data-motion-stagger="0.00">
             <time datetime="2026-06-27">27 June 2026</time>
             <h3>Ożarów Świętokrzyski</h3>
         </article>
-        <article class="home-show" data-show-date="2026-07-18">
+        <article class="home-show" data-show-date="2026-07-18" data-home-motion data-motion-x="38" data-motion-y="18" data-motion-stagger="0.12">
             <time datetime="2026-07-18">18 July 2026</time>
             <h3>Międzyrzec Podlaski</h3>
         </article>
-        <article class="home-show" data-show-date="2026-09-27">
+        <article class="home-show" data-show-date="2026-09-27" data-home-motion data-motion-x="-30" data-motion-y="18" data-motion-stagger="0.24">
             <time datetime="2026-09-27">27 September 2026</time>
             <h3>Hydrozagadka | Warszawa</h3>
         </article>
@@ -165,15 +160,15 @@
     <a class="home-section-cta" href="shows-en.html">All shows</a>
 </section>
 
-<section id="news" class="home-section home-news home-page" aria-labelledby="welcome">
-    <div class="home-section-lead">
+<section id="news" class="home-section home-news home-page" aria-labelledby="welcome" data-home-section data-home-tone="monochrome-blur">
+    <div class="home-section-lead" data-home-motion data-motion-y="28" data-motion-x="-24">
         <p class="home-section-kicker">News</p>
         <h1 id="welcome">Latest notes</h1>
         <p>The recent things worth keeping on your radar.</p>
     </div>
     <div class="home-news-grid">
-        <article class="home-news-card">
-            <picture>
+        <article class="home-news-card home-news-card-lead" data-home-motion data-motion-y="-16" data-motion-x="-10">
+            <picture data-motion-mask data-home-motion data-motion-x="-34" data-motion-y="-18" data-motion-scale="0.035">
                 <source media="(max-width: 768px)" srcset="artykul/wsnr-w420.webp 420w, artykul/wsnr-w760.webp 760w" sizes="100vw" type="image/webp">
                 <source srcset="artykul/wsnr-w760.webp 760w, artykul/wsnr.webp 1887w" sizes="33vw" type="image/webp">
                 <img src="artykul/wsnr-w760.webp" alt="Tabula Rasa after the Wszyscy Spiewamy na Rockowo final" loading="lazy" decoding="async" width="760" height="506">
@@ -183,8 +178,8 @@
                 <h3>We won Wszyscy Spiewamy na Rockowo 2026</h3>
             </div>
         </article>
-        <article class="home-news-card">
-            <picture>
+        <article class="home-news-card home-news-strip" data-home-motion data-motion-x="10" data-motion-y="8" data-motion-stagger="0.10">
+            <picture data-home-motion data-motion-x="-8" data-motion-y="-6" data-motion-mask>
                 <source media="(max-width: 768px)" srcset="artykul/progresja-w420.webp 420w, artykul/progresja-w760.webp 760w" sizes="100vw" type="image/webp">
                 <source srcset="artykul/progresja-w760.webp 760w" sizes="33vw" type="image/webp">
                 <img src="artykul/progresja.jpg" alt="Tabula Rasa on stage at Progresja" loading="lazy" decoding="async" width="7008" height="4672">
@@ -194,8 +189,8 @@
                 <h3>We played Progresja as support before Smith/Kotzen</h3>
             </div>
         </article>
-        <article class="home-news-card">
-            <picture>
+        <article class="home-news-card home-news-strip" data-home-motion data-motion-x="-8" data-motion-y="10" data-motion-stagger="0.18">
+            <picture data-home-motion data-motion-x="8" data-motion-y="-6" data-motion-mask>
                 <source media="(max-width: 768px)" srcset="artykul/trasa-w420.webp 420w, artykul/trasa-w760.webp 760w" sizes="100vw" type="image/webp">
                 <source srcset="artykul/trasa-w760.webp 760w, artykul/trasa.webp 1134w" sizes="33vw" type="image/webp">
                 <img src="artykul/trasa.jpg" alt="Przebudzenie tour poster" loading="lazy" decoding="async" width="1134" height="1417">
@@ -205,30 +200,96 @@
                 <h3>Przebudzenie: new cities, new material, and tickets</h3>
             </div>
         </article>
+        <article class="home-news-card home-news-strip" data-home-motion data-motion-x="8" data-motion-y="10" data-motion-stagger="0.26">
+            <picture data-home-motion data-motion-x="-6" data-motion-y="-6" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="artykul/cd-news-w420.webp 420w, artykul/cd-news-w760.webp 760w" sizes="100vw" type="image/webp">
+                <source srcset="artykul/cd-news-w760.webp 760w, artykul/cd-news.webp 1200w" sizes="22vw" type="image/webp">
+                <img src="artykul/cd-news-w760.webp" alt="Tabula Rasa release material" loading="lazy" decoding="async" width="760" height="506">
+            </picture>
+            <div>
+                <p>Studio</p>
+                <h3>New material is getting closer to release</h3>
+            </div>
+        </article>
+        <article class="home-news-card home-news-strip" data-home-motion data-motion-x="-10" data-motion-y="12" data-motion-stagger="0.34">
+            <picture data-home-motion data-motion-x="6" data-motion-y="-8" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="artykul/Offline-w420.webp 420w, artykul/Offline-w760.webp 760w" sizes="100vw" type="image/webp">
+                <source srcset="artykul/Offline-w760.webp 760w, artykul/Offline.webp 1200w" sizes="22vw" type="image/webp">
+                <img src="artykul/Offline-w760.webp" alt="Offline artwork by Tabula Rasa" loading="lazy" decoding="async" width="760" height="506">
+            </picture>
+            <div>
+                <p>Track</p>
+                <h3>Offline stays in the setlist and keeps moving</h3>
+            </div>
+        </article>
+        <article class="home-news-card home-news-strip home-news-extra" data-home-motion data-motion-x="8" data-motion-y="12" data-motion-stagger="0.42">
+            <picture data-home-motion data-motion-x="-6" data-motion-y="-7" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="artykul/hybryda-w420.webp 420w, artykul/hybryda-w760.webp 760w" sizes="100vw" type="image/webp">
+                <source srcset="artykul/hybryda-w760.webp 760w, artykul/hybryda.webp 1200w" sizes="22vw" type="image/webp">
+                <img src="artykul/hybryda-w760.webp" alt="Tabula Rasa live at Hybrydy" loading="lazy" decoding="async" width="760" height="506">
+            </picture>
+            <div>
+                <p>Live</p>
+                <h3>Hybrydy was one of those nights that stays</h3>
+            </div>
+        </article>
+        <article class="home-news-card home-news-strip home-news-extra" data-home-motion data-motion-x="-8" data-motion-y="12" data-motion-stagger="0.50">
+            <picture data-home-motion data-motion-x="6" data-motion-y="-7" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="artykul/pks-w420.webp 420w, artykul/pks-w760.webp 760w" sizes="100vw" type="image/webp">
+                <source srcset="artykul/pks-w760.webp 760w, artykul/pks.webp 1200w" sizes="22vw" type="image/webp">
+                <img src="artykul/pks-w760.webp" alt="Tabula Rasa on the PKS stage" loading="lazy" decoding="async" width="760" height="506">
+            </picture>
+            <div>
+                <p>Stage</p>
+                <h3>PKS showed how the new live set works</h3>
+            </div>
+        </article>
+        <article class="home-news-card home-news-strip home-news-extra" data-home-motion data-motion-x="8" data-motion-y="12" data-motion-stagger="0.58">
+            <picture data-home-motion data-motion-x="-6" data-motion-y="-7" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="artykul/rzesza-w420.webp 420w, artykul/rzesza-w760.webp 760w" sizes="100vw" type="image/webp">
+                <source srcset="artykul/rzesza-w760.webp 760w, artykul/rzesza.webp 1200w" sizes="22vw" type="image/webp">
+                <img src="artykul/rzesza-w760.webp" alt="Crowd at a Tabula Rasa show in Rzeszow" loading="lazy" decoding="async" width="760" height="506">
+            </picture>
+            <div>
+                <p>Crowd</p>
+                <h3>Rzeszow added its voice to the run</h3>
+            </div>
+        </article>
+        <article class="home-news-card home-news-strip home-news-extra" data-home-motion data-motion-x="-8" data-motion-y="12" data-motion-stagger="0.66">
+            <picture data-home-motion data-motion-x="6" data-motion-y="-7" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="artykul/plock-w420.webp 420w, artykul/plock-w760.webp 760w" sizes="100vw" type="image/webp">
+                <source srcset="artykul/plock-w760.webp 760w, artykul/plock.webp 1200w" sizes="22vw" type="image/webp">
+                <img src="artykul/plock-w760.webp" alt="Tabula Rasa live in Plock" loading="lazy" decoding="async" width="760" height="506">
+            </picture>
+            <div>
+                <p>City</p>
+                <h3>Plock closed a sharp live chapter</h3>
+            </div>
+        </article>
     </div>
 </section>
 
-<section class="home-section home-gallery" aria-labelledby="homeGalleryTitle">
-    <div class="home-gallery-media" aria-label="Selected Tabula Rasa photos">
-        <picture>
+<section class="home-section home-gallery" aria-labelledby="homeGalleryTitle" data-home-section data-home-tone="transparent">
+    <div class="home-gallery-media" aria-label="Selected Tabula Rasa photos" data-home-motion data-motion-x="-18" data-motion-y="-34">
+        <picture data-home-motion data-motion-x="-10" data-motion-y="-10" data-motion-origin="left" data-motion-mask>
             <source media="(max-width: 768px)" srcset="galeria/_responsive/105Plik_-w640.webp 640w" sizes="100vw" type="image/webp">
             <source srcset="galeria/_responsive/105Plik_-w1280.webp 1280w" sizes="60vw" type="image/webp">
             <img src="galeria/_responsive/105Plik_-w1280.webp" alt="Tabula Rasa live photo" loading="lazy" decoding="async" width="1280" height="853">
         </picture>
-        <picture>
-            <source srcset="galeria/_responsive/106Plik_-w640.webp 640w, galeria/_responsive/106Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
-            <img src="galeria/_responsive/106Plik_-w640.webp" alt="Tabula Rasa stage photo" loading="lazy" decoding="async" width="640" height="427">
+        <picture data-home-motion data-motion-x="-8" data-motion-y="8" data-motion-stagger="0.08" data-motion-origin="left" data-motion-mask>
+            <source srcset="galeria/_responsive/108Plik_-w640.webp 640w, galeria/_responsive/108Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
+            <img src="galeria/_responsive/108Plik_-w640.webp" alt="Tabula Rasa stage photo" loading="lazy" decoding="async" width="640" height="427">
         </picture>
-        <picture>
+        <picture data-home-motion data-motion-x="-10" data-motion-y="-8" data-motion-stagger="0.16" data-motion-origin="left" data-motion-mask>
             <source srcset="galeria/_responsive/107Plik_-w640.webp 640w, galeria/_responsive/107Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
             <img src="galeria/_responsive/107Plik_-w640.webp" alt="Tabula Rasa press material" loading="lazy" decoding="async" width="640" height="427">
         </picture>
-        <picture>
-            <source srcset="galeria/_responsive/108Plik_-w640.webp 640w, galeria/_responsive/108Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
-            <img src="galeria/_responsive/108Plik_-w640.webp" alt="Tabula Rasa live frame" loading="lazy" decoding="async" width="640" height="427">
+        <picture data-home-motion data-motion-x="-8" data-motion-y="10" data-motion-stagger="0.24" data-motion-origin="left" data-motion-mask>
+            <source srcset="galeria/_responsive/106Plik_-w640.webp 640w, galeria/_responsive/106Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
+            <img src="galeria/_responsive/106Plik_-w640.webp" alt="Tabula Rasa live frame" loading="lazy" decoding="async" width="640" height="427">
         </picture>
     </div>
-    <div class="home-gallery-copy">
+    <div class="home-gallery-copy" data-home-motion data-motion-y="22" data-motion-x="10">
         <p class="home-section-kicker">Gallery / press</p>
         <h2 id="homeGalleryTitle">Materials that show the band immediately.</h2>
         <p>Live photos, current lineup, press kit, and contact for promoters.</p>
@@ -241,7 +302,7 @@
 
 </main>
 
-<footer class="shop-footer">
+<footer class="shop-footer" data-home-section data-home-tone="monochrome-blur">
     <div class="container shop-footer-compact">
 
         <nav class="shop-footer-nav" aria-label="Footer navigation">

@@ -162,6 +162,32 @@ test('mobile nav responds to touch swipe open and close', async ({ page }) => {
   await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
 });
 
+test.describe('Smoke: mobile nav swipe works across pages', () => {
+  for (const path of ['/index.html', '/music.html', '/shows.html', '/gallery.html']) {
+    test(`right-side touch swipe opens menu: ${path}`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+      await page.evaluate(() => {
+        const target = document.body;
+        const dispatchTouch = (type, x, y) => {
+          const event = new Event(type, { bubbles: true, cancelable: true });
+          Object.defineProperty(event, 'touches', {
+            value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
+          });
+          target.dispatchEvent(event);
+        };
+
+        dispatchTouch('touchstart', window.innerWidth - 76, 220);
+        dispatchTouch('touchmove', window.innerWidth - 144, 220);
+        dispatchTouch('touchend', window.innerWidth - 144, 220);
+      });
+
+      await expect(page.locator('#nav-mobile')).toHaveClass(/active/);
+    });
+  }
+});
+
 test.describe('Smoke: past shows are dimmed after the event day', () => {
   for (const path of ['/shows.html', '/shows-en.html']) {
     test(`expired shows stay visible with inactive styling: ${path}`, async ({ page }) => {

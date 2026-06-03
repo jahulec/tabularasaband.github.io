@@ -1909,6 +1909,11 @@ function stopSlider() {
 }
 
 function adjustImageBrightness(scrollTop) {
+    if (document.querySelector('.home-landing[data-home-motion-root]')) {
+        document.documentElement.style.setProperty('--bg-dim', '0');
+        return;
+    }
+
     const opacityFactor = Math.min(scrollTop / windowHeight, 1);
     const isMobile = window.innerWidth <= 640;
     const baseDim = isMobile ? 0.72 : 0.66;
@@ -2265,6 +2270,255 @@ function initScrollReveal() {
     queueFlushPending();
 }
 
+function initHomeLandingMotion() {
+    const landing = document.querySelector('.home-landing');
+    if (!landing || landing.dataset.motionInit === '1') return;
+    landing.dataset.motionInit = '1';
+    document.body.classList.add('home-landing-page');
+
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const compactViewportQuery = window.matchMedia
+        ? window.matchMedia('(max-width: 760px), (hover: none) and (pointer: coarse)')
+        : null;
+    const isCompactViewport = () => compactViewportQuery ? compactViewportQuery.matches : false;
+    const footerSections = Array.from(document.querySelectorAll('body.home-landing-page > footer[data-home-section]'));
+    const sections = [
+        ...Array.from(landing.querySelectorAll('[data-home-section], .home-section, .home-landing-hero')),
+        ...footerSections
+    ];
+    const motionElements = Array.from(landing.querySelectorAll('[data-home-motion]'));
+    const maskElements = Array.from(landing.querySelectorAll('[data-motion-mask]'));
+    if (sections.length === 0) return;
+
+    const zeroMotionElement = (element) => {
+        element.style.setProperty('--motion-x-current', '0px');
+        element.style.setProperty('--motion-y-current', '0px');
+        element.style.setProperty('--motion-rotate-current', '0deg');
+        element.style.setProperty('--motion-scale-current', '1');
+        element.style.setProperty('--motion-mask-current', '0%');
+        element.style.setProperty('--motion-media-scale-current', '1');
+    };
+
+    if (prefersReduced) {
+        sections.forEach((section) => {
+            section.style.setProperty('--section-progress', '0');
+            section.style.setProperty('--section-visibility', '1');
+            section.style.setProperty('--section-shift', '0px');
+        });
+        motionElements.forEach(zeroMotionElement);
+        maskElements.forEach(zeroMotionElement);
+        return;
+    }
+
+    let rafId = null;
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const lerp = (from, to, amount) => from + (to - from) * amount;
+    const states = new Map();
+    const settleThreshold = 0.12;
+    let targetsDirty = true;
+    let hasSyncedInitialState = false;
+    let settleFrameCount = 0;
+
+    const getState = (element) => {
+        if (!states.has(element)) {
+            states.set(element, {
+                x: 0,
+                y: 0,
+                rotate: 0,
+                scale: 1,
+                mask: 0,
+                mediaScale: 1,
+                targetX: 0,
+                targetY: 0,
+                targetRotate: 0,
+                targetScale: 1,
+                targetMask: 0,
+                targetMediaScale: 1
+            });
+        }
+        return states.get(element);
+    };
+
+    const readNumber = (element, name, fallback) => {
+        const value = element.getAttribute(name);
+        if (value === null || value === '') return fallback;
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : fallback;
+    };
+
+    const formatMask = (amount, origin) => {
+        switch (origin) {
+            case 'left':
+                return `0% 0% 0% ${amount.toFixed(2)}%`;
+            case 'right':
+                return `0% ${amount.toFixed(2)}% 0% 0%`;
+            case 'bottom':
+                return `0% 0% ${amount.toFixed(2)}% 0%`;
+            default:
+                return `${amount.toFixed(2)}% ${(amount * 0.64).toFixed(2)}% ${(amount * 1.08).toFixed(2)}% ${(amount * 0.46).toFixed(2)}%`;
+        }
+    };
+
+    const updateTargets = () => {
+        targetsDirty = false;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+        const compactViewport = isCompactViewport();
+        const sectionRange = compactViewport ? 0 : 18;
+
+        sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            const centerOffset = (rect.top + rect.height * 0.5 - viewportHeight * 0.5) / viewportHeight;
+            const progress = clamp(centerOffset, -1, 1);
+            const visibility = clamp(1 - Math.abs(centerOffset), 0, 1);
+            const shift = -progress * sectionRange;
+
+            section.style.setProperty('--section-progress', progress.toFixed(3));
+            section.style.setProperty('--section-visibility', visibility.toFixed(3));
+            section.style.setProperty('--section-shift', `${shift.toFixed(1)}px`);
+            section.style.setProperty('--section-shift-soft', `${(shift * 0.32).toFixed(1)}px`);
+            section.style.setProperty('--section-shift-reverse', `${(shift * -0.28).toFixed(1)}px`);
+            section.classList.toggle('is-current', visibility > 0.58);
+        });
+
+        motionElements.forEach((element) => {
+            const state = getState(element);
+
+            if (compactViewport) {
+                state.targetX = 0;
+                state.targetY = 0;
+                state.targetRotate = 0;
+                state.targetScale = 1;
+                return;
+            }
+
+            const rect = element.getBoundingClientRect();
+            const elementCenter = rect.top + rect.height * 0.5;
+            const progress = clamp((viewportHeight * 0.5 - elementCenter) / viewportHeight, -1, 1);
+            const legacySpeed = readNumber(element, 'data-motion-speed', 0.12);
+            const xRange = readNumber(element, 'data-motion-x', legacySpeed * 58);
+            const yRange = readNumber(element, 'data-motion-y', legacySpeed * 88);
+            const rotateRange = readNumber(element, 'data-motion-rotate', 0);
+            const scaleRange = readNumber(element, 'data-motion-scale', 0);
+            const stagger = readNumber(element, 'data-motion-stagger', 0);
+            const adjustedProgress = clamp(progress - stagger * 0.18, -1, 1);
+
+            state.targetX = adjustedProgress * xRange;
+            state.targetY = adjustedProgress * yRange;
+            state.targetRotate = adjustedProgress * rotateRange;
+            state.targetScale = 1 + Math.abs(adjustedProgress) * scaleRange;
+        });
+
+        maskElements.forEach((element) => {
+            const state = getState(element);
+
+            if (compactViewport) {
+                state.targetMask = 0;
+                state.targetMediaScale = 1;
+                return;
+            }
+
+            const rect = element.getBoundingClientRect();
+            const reveal = clamp((viewportHeight * 0.94 - rect.top) / (viewportHeight * 0.7), 0, 1);
+            const easedReveal = 1 - Math.pow(1 - reveal, 3);
+
+            state.targetMask = (1 - easedReveal) * 10;
+            state.targetMediaScale = 1 + (1 - easedReveal) * 0.05;
+        });
+
+        if (!hasSyncedInitialState) {
+            states.forEach((state) => {
+                state.x = state.targetX;
+                state.y = state.targetY;
+                state.rotate = state.targetRotate;
+                state.scale = state.targetScale;
+                state.mask = state.targetMask;
+                state.mediaScale = state.targetMediaScale;
+            });
+            hasSyncedInitialState = true;
+        }
+    };
+
+    const render = () => {
+        rafId = null;
+        if (targetsDirty) updateTargets();
+
+        let needsNextFrame = false;
+        states.forEach((state, element) => {
+            state.x = lerp(state.x, state.targetX, 0.28);
+            state.y = lerp(state.y, state.targetY, 0.28);
+            state.rotate = lerp(state.rotate, state.targetRotate, 0.28);
+            state.scale = lerp(state.scale, state.targetScale, 0.28);
+            state.mask = lerp(state.mask, state.targetMask, 0.32);
+            state.mediaScale = lerp(state.mediaScale, state.targetMediaScale, 0.32);
+
+            element.style.setProperty('--motion-x-current', `${state.x.toFixed(2)}px`);
+            element.style.setProperty('--motion-y-current', `${state.y.toFixed(2)}px`);
+            element.style.setProperty('--motion-rotate-current', `${state.rotate.toFixed(3)}deg`);
+            element.style.setProperty('--motion-scale-current', state.scale.toFixed(4));
+            element.style.setProperty(
+                '--motion-mask-current',
+                formatMask(state.mask, element.getAttribute('data-motion-origin'))
+            );
+            element.style.setProperty('--motion-media-scale-current', state.mediaScale.toFixed(4));
+
+            const maxDelta = Math.max(
+                Math.abs(state.x - state.targetX),
+                Math.abs(state.y - state.targetY),
+                Math.abs(state.rotate - state.targetRotate),
+                Math.abs(state.scale - state.targetScale) * 100,
+                Math.abs(state.mask - state.targetMask),
+                Math.abs(state.mediaScale - state.targetMediaScale) * 100
+            );
+
+            if (maxDelta > settleThreshold) {
+                needsNextFrame = true;
+            }
+        });
+
+        if (needsNextFrame && settleFrameCount < 18) {
+            settleFrameCount += 1;
+            queueRender();
+            return;
+        }
+
+        if (needsNextFrame) {
+            states.forEach((state, element) => {
+                state.x = state.targetX;
+                state.y = state.targetY;
+                state.rotate = state.targetRotate;
+                state.scale = state.targetScale;
+                state.mask = state.targetMask;
+                state.mediaScale = state.targetMediaScale;
+
+                element.style.setProperty('--motion-x-current', `${state.x.toFixed(2)}px`);
+                element.style.setProperty('--motion-y-current', `${state.y.toFixed(2)}px`);
+                element.style.setProperty('--motion-rotate-current', `${state.rotate.toFixed(3)}deg`);
+                element.style.setProperty('--motion-scale-current', state.scale.toFixed(4));
+                element.style.setProperty(
+                    '--motion-mask-current',
+                    formatMask(state.mask, element.getAttribute('data-motion-origin'))
+                );
+                element.style.setProperty('--motion-media-scale-current', state.mediaScale.toFixed(4));
+            });
+        }
+    };
+
+    const queueRender = () => {
+        if (rafId !== null) return;
+        rafId = requestAnimationFrame(render);
+    };
+
+    const queueUpdate = () => {
+        targetsDirty = true;
+        settleFrameCount = 0;
+        queueRender();
+    };
+
+    window.addEventListener('scroll', queueUpdate, { passive: true });
+    window.addEventListener('resize', queueUpdate, { passive: true });
+    queueUpdate();
+}
+
 function initAboutMemberCards() {
     const members = Array.from(document.querySelectorAll('#news.about-page .member'));
     if (members.length === 0) return;
@@ -2337,6 +2591,49 @@ function initAboutMemberCards() {
     });
 }
 
+function initHomeGalleryPhotoParallax() {
+    const photos = Array.from(document.querySelectorAll('.home-gallery-media picture'));
+    if (photos.length === 0) return;
+
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (prefersReduced || isCoarsePointer) return;
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+    photos.forEach((photo) => {
+        const resetParallax = () => {
+            photo.style.setProperty('--card-rotate-x', '0deg');
+            photo.style.setProperty('--card-rotate-y', '0deg');
+            photo.style.setProperty('--card-parallax-x', '0px');
+            photo.style.setProperty('--card-parallax-y', '0px');
+            photo.classList.remove('is-parallax-active');
+        };
+
+        const updateParallax = (event) => {
+            const rect = photo.getBoundingClientRect();
+            if (rect.width <= 0 || rect.height <= 0) return;
+
+            const relativeX = clamp((event.clientX - rect.left) / rect.width, 0, 1);
+            const relativeY = clamp((event.clientY - rect.top) / rect.height, 0, 1);
+            const deltaX = (relativeX - 0.5) * 2;
+            const deltaY = (relativeY - 0.5) * 2;
+
+            photo.style.setProperty('--card-rotate-x', `${(-deltaY * 2.4).toFixed(2)}deg`);
+            photo.style.setProperty('--card-rotate-y', `${(deltaX * 3.2).toFixed(2)}deg`);
+            photo.style.setProperty('--card-parallax-x', `${(deltaX * 18).toFixed(1)}px`);
+            photo.style.setProperty('--card-parallax-y', `${(deltaY * 18).toFixed(1)}px`);
+        };
+
+        photo.addEventListener('pointerenter', () => {
+            photo.classList.add('is-parallax-active');
+        });
+        photo.addEventListener('pointermove', updateParallax);
+        photo.addEventListener('pointerleave', resetParallax);
+        photo.addEventListener('blur', resetParallax, true);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeBaseState();
     injectPageHeroCopy();
@@ -2351,7 +2648,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ensureGsapScrollPlugin();
     initHeaderLogoHoverAnimation();
     initScrollReveal();
+    initHomeLandingMotion();
     initAboutMemberCards();
+    initHomeGalleryPhotoParallax();
     initDeferredShowsEmbed();
     initWebVitalsRum();
     updateFloatingUtilities();
@@ -2619,9 +2918,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const links = Array.from(menuNav.querySelectorAll('a'));
     let isOpen = false;
     const MOBILE_MENU_BREAKPOINT = 900;
-    const SWIPE_EDGE_ZONE = 28;
-    const SWIPE_CLOSE_ZONE = 96;
-    const SWIPE_TRIGGER_DISTANCE = 72;
+    const SWIPE_EDGE_ZONE = 96;
+    const SWIPE_CLOSE_ZONE = 132;
+    const SWIPE_TRIGGER_DISTANCE = 54;
     let swipeState = null;
 
     const syncClosedState = () => {
@@ -2685,7 +2984,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const shouldIgnoreSwipeStart = (target) => (
-        !!target?.closest('a, button, input, textarea, select, iframe, video, [role="button"]')
+        !!target?.closest('a, button, input, textarea, select, iframe, video, [role="button"], #expandedImageContainer')
     );
 
     const closestFromTarget = (target, selector) => (
@@ -2723,7 +3022,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (clientX <= SWIPE_EDGE_ZONE) {
+        const rightSideStart = clientX >= window.innerWidth - SWIPE_EDGE_ZONE
+            || (clientX >= window.innerWidth * 0.62 && !closestFromTarget(target, '.gallery-grid, .home-gallery-media'));
+        const leftSideStart = clientX <= SWIPE_EDGE_ZONE;
+
+        if (leftSideStart) {
             swipeState = {
                 mode: 'open-left-edge',
                 startX: clientX,
@@ -2732,7 +3035,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (clientX >= window.innerWidth - SWIPE_EDGE_ZONE) {
+        if (rightSideStart) {
             swipeState = {
                 mode: 'open-right-edge',
                 startX: clientX,
