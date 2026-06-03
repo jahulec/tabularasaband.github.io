@@ -120,7 +120,7 @@
 <section id="muzyka" class="home-section home-music-feature" aria-labelledby="homeMusicTitle" data-home-section data-home-tone="light-blur">
     <div class="home-section-lead" data-home-motion data-motion-y="14" data-motion-x="0">
         <p class="home-section-kicker">Muzyka</p>
-        <h2 id="homeMusicTitle">Najnowszy singiel. Lewitacja</h2>
+        <h2 id="homeMusicTitle">Najnowszy singiel. <br>Lewitacja</h2>
         <p>Singiel i klip w jednym kadrze. Dalej prowadzi muzyka.</p>
     </div>
     <div class="home-music-layout">
@@ -135,6 +135,7 @@
 </section>
 
 <section id="koncerty" class="home-section home-shows" aria-labelledby="homeShowsTitle" data-home-section data-home-tone="monochrome">
+    <div class="home-pinned-stage home-shows-stage">
     <div class="home-section-lead" data-home-motion data-motion-y="24" data-motion-x="20">
         <p class="home-section-kicker">Koncerty</p>
         <h2 id="homeShowsTitle">Najbli&#380;sze daty</h2>
@@ -142,6 +143,7 @@
     </div>
     <!-- HOME_SHOWS_START -->
     <div class="home-shows-list" data-home-shows>
+        <div class="home-shows-track">
         <article class="home-show" data-show-date="2026-06-27" data-home-motion data-motion-x="-34" data-motion-y="18" data-motion-stagger="0.00">
             <time datetime="2026-06-27">27 czerwca 2026</time>
             <h3>Ożarów Świętokrzyski</h3>
@@ -154,17 +156,25 @@
             <time datetime="2026-09-27">27 września 2026</time>
             <h3>Hydrozagadka | Warszawa</h3>
         </article>
+        <article class="home-show" data-show-date="2026-10-04" data-home-motion data-motion-x="32" data-motion-y="18" data-motion-stagger="0.36">
+            <time datetime="2026-10-04">4 października 2026</time>
+            <h3>Warszawa</h3>
+        </article>
+        </div>
     </div>
     <!-- HOME_SHOWS_END -->
     <a class="home-section-cta" href="shows.html">Wszystkie koncerty</a>
+    </div>
 </section>
 
 <section id="news" class="home-section home-news home-page" aria-labelledby="welcome" data-home-section data-home-tone="light-blur">
+    <div class="home-pinned-stage home-news-stage">
     <div class="home-section-lead" data-home-motion data-motion-y="28" data-motion-x="-24">
         <p class="home-section-kicker">Aktualno&#347;ci</p>
         <h1 id="welcome">Co nowego</h1>
         <p>Ostatnie rzeczy, kt&oacute;re warto mie&#263; na radarze.</p>
     </div>
+    <div class="home-news-viewport">
     <div class="home-news-grid">
         <article class="home-news-card home-news-card-lead" data-home-motion data-motion-y="-16" data-motion-x="-10">
             <picture data-motion-mask data-home-motion data-motion-x="-34" data-motion-y="-18" data-motion-scale="0.035">
@@ -255,35 +265,41 @@
             </div>
         </article>
     </div>
+    </div>
+    </div>
 </section>
 
 <section class="home-section home-gallery" aria-labelledby="homeGalleryTitle" data-home-section data-home-tone="monochrome-blur">
-    <div class="home-gallery-media" aria-label="Wybrane zdj&#281;cia Tabula Rasa" data-home-motion data-motion-x="-18" data-motion-y="-34">
-        <picture data-home-motion data-motion-x="-10" data-motion-y="-10" data-motion-origin="left" data-motion-mask>
-            <source media="(max-width: 768px)" srcset="galeria/_responsive/105Plik_-w640.webp 640w" sizes="100vw" type="image/webp">
-            <source srcset="galeria/_responsive/105Plik_-w1280.webp 1280w" sizes="60vw" type="image/webp">
-            <img src="galeria/_responsive/105Plik_-w1280.webp" alt="Tabula Rasa podczas koncertu" loading="lazy" decoding="async" width="1280" height="853">
-        </picture>
-        <picture data-home-motion data-motion-x="-8" data-motion-y="8" data-motion-stagger="0.08" data-motion-origin="left" data-motion-mask>
-            <source srcset="galeria/_responsive/106Plik_-w640.webp 640w, galeria/_responsive/108Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
-            <img src="galeria/_responsive/106Plik_-w640.webp" alt="Tabula Rasa - zdj&#281;cie sceniczne" loading="lazy" decoding="async" width="640" height="427">
-        </picture>
-        <picture data-home-motion data-motion-x="-10" data-motion-y="-8" data-motion-stagger="0.16" data-motion-origin="left" data-motion-mask>
-            <source srcset="galeria/_responsive/107Plik_-w640.webp 640w, galeria/_responsive/107Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
-            <img src="galeria/_responsive/107Plik_-w640.webp" alt="Tabula Rasa - materia&#322;y prasowe" loading="lazy" decoding="async" width="640" height="427">
-        </picture>
-        <picture data-home-motion data-motion-x="-8" data-motion-y="10" data-motion-stagger="0.24" data-motion-origin="left" data-motion-mask>
-            <source srcset="galeria/_responsive/100Plik-w640.webp 640w, galeria/_responsive/106Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
-            <img src="galeria/_responsive/100Plik-w640.webp" alt="Tabula Rasa - koncertowy kadr" loading="lazy" decoding="async" width="640" height="427">
-        </picture>
-    </div>
-    <div class="home-gallery-copy" data-home-motion data-motion-y="22" data-motion-x="10">
-        <p class="home-section-kicker">Galeria / press</p>
-        <h2 id="homeGalleryTitle">Materia&#322;y, kt&oacute;re od razu pokazuj&#261; zesp&oacute;&#322;.</h2>
-        <p>Zdj&#281;cia koncertowe, aktualny sk&#322;ad, press kit i kontakt dla organizator&oacute;w.</p>
+    <div class="home-pinned-stage home-gallery-stage">
+        <div class="home-gallery-media" aria-label="Wybrane zdj&#281;cia Tabula Rasa" data-home-motion data-motion-x="-18" data-motion-y="-34">
+            <picture data-home-motion data-motion-x="-10" data-motion-y="-10" data-motion-origin="left" data-motion-mask>
+                <source media="(max-width: 768px)" srcset="galeria/_responsive/105Plik_-w640.webp 640w" sizes="100vw" type="image/webp">
+                <source srcset="galeria/_responsive/105Plik_-w1280.webp 1280w" sizes="60vw" type="image/webp">
+                <img src="galeria/_responsive/105Plik_-w1280.webp" alt="Tabula Rasa podczas koncertu" loading="lazy" decoding="async" width="1280" height="853">
+            </picture>
+            <picture data-home-motion data-motion-x="-8" data-motion-y="8" data-motion-stagger="0.08" data-motion-origin="left" data-motion-mask>
+                <source srcset="galeria/_responsive/106Plik_-w640.webp 640w, galeria/_responsive/108Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
+                <img src="galeria/_responsive/106Plik_-w640.webp" alt="Tabula Rasa - zdj&#281;cie sceniczne" loading="lazy" decoding="async" width="640" height="427">
+            </picture>
+            <picture data-home-motion data-motion-x="-10" data-motion-y="-8" data-motion-stagger="0.16" data-motion-origin="left" data-motion-mask>
+                <source srcset="galeria/_responsive/107Plik_-w640.webp 640w, galeria/_responsive/107Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
+                <img src="galeria/_responsive/107Plik_-w640.webp" alt="Tabula Rasa - materia&#322;y prasowe" loading="lazy" decoding="async" width="640" height="427">
+            </picture>
+            <picture data-home-motion data-motion-x="-8" data-motion-y="10" data-motion-stagger="0.24" data-motion-origin="left" data-motion-mask>
+                <source srcset="galeria/_responsive/100Plik-w640.webp 640w, galeria/_responsive/106Plik_-w1280.webp 1280w" sizes="28vw" type="image/webp">
+                <img src="galeria/_responsive/100Plik-w640.webp" alt="Tabula Rasa - koncertowy kadr" loading="lazy" decoding="async" width="640" height="427">
+            </picture>
+        </div>
+        <div class="home-gallery-copy" data-home-motion data-motion-y="22" data-motion-x="10">
+            <div class="home-gallery-text">
+                <p class="home-section-kicker">Galeria / press</p>
+                <h2 id="homeGalleryTitle">Materia&#322;y, kt&oacute;re od razu pokazuj&#261; zesp&oacute;&#322;.</h2>
+                <p>Zdj&#281;cia koncertowe, aktualny sk&#322;ad, press kit i kontakt dla organizator&oacute;w.</p>
+            </div>
         <div class="home-inline-actions">
             <a class="home-text-link" href="gallery.html">Galeria</a>
             <a class="home-text-link" href="press.html">Press</a>
+        </div>
         </div>
     </div>
 </section>

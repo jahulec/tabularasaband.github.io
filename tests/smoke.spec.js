@@ -299,10 +299,10 @@ test('home upcoming shows match the shows page ordering for the generated date',
   await page.waitForSelector('.shows-empty-state', { state: 'attached' });
   await page.waitForTimeout(250);
   const showsDates = await page.$$eval('.shows-list .concert-item', (items) =>
-    items.slice(0, 3).map((item) => item.getAttribute('data-show-date'))
+    items.slice(0, 5).map((item) => item.getAttribute('data-show-date'))
   );
 
-  expect(homeDates.length).toBeLessThanOrEqual(3);
+  expect(homeDates.length).toBeLessThanOrEqual(5);
   expect(homeDates).toEqual(showsDates.slice(0, homeDates.length));
 });
 

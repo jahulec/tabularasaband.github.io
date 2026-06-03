@@ -2280,7 +2280,11 @@ function initHomeLandingMotion() {
     const compactViewportQuery = window.matchMedia
         ? window.matchMedia('(max-width: 760px), (hover: none) and (pointer: coarse)')
         : null;
+    const mobileViewportQuery = window.matchMedia
+        ? window.matchMedia('(max-width: 760px)')
+        : null;
     const isCompactViewport = () => compactViewportQuery ? compactViewportQuery.matches : false;
+    const isMobileLandingViewport = () => mobileViewportQuery ? mobileViewportQuery.matches : false;
     const footerSections = Array.from(document.querySelectorAll('body.home-landing-page > footer[data-home-section]'));
     const sections = [
         ...Array.from(landing.querySelectorAll('[data-home-section], .home-section, .home-landing-hero')),
@@ -2288,6 +2292,9 @@ function initHomeLandingMotion() {
     ];
     const motionElements = Array.from(landing.querySelectorAll('[data-home-motion]'));
     const maskElements = Array.from(landing.querySelectorAll('[data-motion-mask]'));
+    const mobileKineticElements = Array.from(new Set([
+        ...Array.from(landing.querySelectorAll('.home-video-frame, .home-section-lead, .home-show, .home-news-card, .home-news-card picture, .home-gallery-media picture, .home-gallery-copy'))
+    ]));
     if (sections.length === 0) return;
 
     const zeroMotionElement = (element) => {
@@ -2297,6 +2304,10 @@ function initHomeLandingMotion() {
         element.style.setProperty('--motion-scale-current', '1');
         element.style.setProperty('--motion-mask-current', '0%');
         element.style.setProperty('--motion-media-scale-current', '1');
+        element.style.setProperty('--mobile-kinetic-x', '0px');
+        element.style.setProperty('--mobile-kinetic-y', '0px');
+        element.style.setProperty('--mobile-kinetic-rotate', '0deg');
+        element.style.setProperty('--mobile-kinetic-scale', '1');
     };
 
     if (prefersReduced) {
@@ -2304,9 +2315,12 @@ function initHomeLandingMotion() {
             section.style.setProperty('--section-progress', '0');
             section.style.setProperty('--section-visibility', '1');
             section.style.setProperty('--section-shift', '0px');
+            section.style.setProperty('--section-boundary-progress', '0.5');
+            section.style.setProperty('--gallery-media-grow-progress', '1');
         });
         motionElements.forEach(zeroMotionElement);
         maskElements.forEach(zeroMotionElement);
+        mobileKineticElements.forEach(zeroMotionElement);
         return;
     }
 
@@ -2328,12 +2342,20 @@ function initHomeLandingMotion() {
                 scale: 1,
                 mask: 0,
                 mediaScale: 1,
+                mobileX: 0,
+                mobileY: 0,
+                mobileRotate: 0,
+                mobileScale: 1,
                 targetX: 0,
                 targetY: 0,
                 targetRotate: 0,
                 targetScale: 1,
                 targetMask: 0,
-                targetMediaScale: 1
+                targetMediaScale: 1,
+                targetMobileX: 0,
+                targetMobileY: 0,
+                targetMobileRotate: 0,
+                targetMobileScale: 1
             });
         }
         return states.get(element);
@@ -2363,6 +2385,7 @@ function initHomeLandingMotion() {
         targetsDirty = false;
         const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
         const compactViewport = isCompactViewport();
+        const mobileLandingViewport = isMobileLandingViewport();
         const sectionRange = compactViewport ? 0 : 18;
 
         sections.forEach((section) => {
@@ -2377,7 +2400,55 @@ function initHomeLandingMotion() {
             section.style.setProperty('--section-shift', `${shift.toFixed(1)}px`);
             section.style.setProperty('--section-shift-soft', `${(shift * 0.32).toFixed(1)}px`);
             section.style.setProperty('--section-shift-reverse', `${(shift * -0.28).toFixed(1)}px`);
+            const pinRange = Math.max(1, rect.height - viewportHeight);
+            const pinProgress = clamp(-rect.top / pinRange, 0, 1);
+            const enterProgress = clamp((viewportHeight * 0.92 - rect.top) / (viewportHeight * 0.72), 0, 1);
+            const boundaryProgress = clamp((viewportHeight - rect.top) / viewportHeight, 0, 1);
+            section.style.setProperty('--section-pin-progress', pinProgress.toFixed(3));
+            section.style.setProperty('--section-enter-progress', enterProgress.toFixed(3));
+            section.style.setProperty('--section-boundary-progress', boundaryProgress.toFixed(3));
             section.classList.toggle('is-current', visibility > 0.58);
+
+            if (mobileLandingViewport && section.matches('.home-shows')) {
+                const showsViewport = section.querySelector('.home-shows-list');
+                const showsTrack = section.querySelector('.home-shows-track') || showsViewport;
+                if (showsViewport && showsTrack) {
+                    const viewportHeightAvailable = showsViewport.clientHeight || showsViewport.getBoundingClientRect().height || 1;
+                    const maxShift = Math.max(0, showsTrack.scrollHeight - viewportHeightAvailable);
+                    showsTrack.style.setProperty('--home-shows-track-y', `${(-maxShift * pinProgress).toFixed(1)}px`);
+                    showsViewport.style.setProperty('--home-shows-pin-progress', pinProgress.toFixed(3));
+                }
+            }
+
+            if (mobileLandingViewport && section.matches('.home-news')) {
+                const newsViewport = section.querySelector('.home-news-viewport');
+                const newsTrack = section.querySelector('.home-news-grid');
+                if (newsTrack) {
+                    const viewportWidthAvailable = newsViewport?.clientWidth || window.innerWidth || 1;
+                    const maxShift = Math.max(0, newsTrack.scrollWidth - viewportWidthAvailable);
+                    newsTrack.style.setProperty('--home-news-track-x', `${(-maxShift * pinProgress).toFixed(1)}px`);
+                    newsViewport?.style.setProperty('--home-news-pin-progress', pinProgress.toFixed(3));
+                }
+            }
+
+            if (mobileLandingViewport && section.matches('.home-gallery')) {
+                const galleryText = section.querySelector('.home-gallery-text');
+                const galleryMedia = section.querySelector('.home-gallery-media');
+                if (galleryText && galleryMedia) {
+                    const textRect = galleryText.getBoundingClientRect();
+                    const mediaRect = galleryMedia.getBoundingClientRect();
+                    const fadeStart = textRect.bottom + viewportHeight * 0.04;
+                    const fadeEnd = Math.max(0, textRect.top + viewportHeight * 0.02);
+                    const overlapProgress = clamp((fadeStart - mediaRect.top) / Math.max(1, fadeStart - fadeEnd), 0, 1);
+                    const stickyGrowProgress = clamp((viewportHeight * 0.46 - rect.top) / (viewportHeight * 0.46), 0, 1);
+                    const growProgress = 1 - Math.pow(1 - stickyGrowProgress, 3);
+                    section.style.setProperty('--gallery-media-overlap-progress', overlapProgress.toFixed(3));
+                    section.style.setProperty('--gallery-media-grow-progress', growProgress.toFixed(3));
+                } else {
+                    section.style.setProperty('--gallery-media-overlap-progress', '0');
+                    section.style.setProperty('--gallery-media-grow-progress', '1');
+                }
+            }
         });
 
         motionElements.forEach((element) => {
@@ -2408,6 +2479,55 @@ function initHomeLandingMotion() {
             state.targetScale = 1 + Math.abs(adjustedProgress) * scaleRange;
         });
 
+        mobileKineticElements.forEach((element) => {
+            const state = getState(element);
+
+            if (!mobileLandingViewport) {
+                state.targetMobileX = 0;
+                state.targetMobileY = 0;
+                state.targetMobileRotate = 0;
+                state.targetMobileScale = 1;
+                return;
+            }
+
+            const rect = element.getBoundingClientRect();
+            const center = rect.top + rect.height * 0.5;
+            const rawProgress = (viewportHeight * 0.5 - center) / viewportHeight;
+            const progress = clamp(rawProgress, -1, 1);
+            const isVideo = element.matches('.home-video-frame');
+            const isLead = element.matches('.home-section-lead');
+            const isShow = element.matches('.home-show');
+            const isNewsCard = element.matches('.home-news-card');
+            const isNewsPicture = element.matches('.home-news-card picture');
+            const isGalleryPicture = element.matches('.home-gallery-media picture');
+            const reveal = clamp((viewportHeight * 0.94 - rect.top) / (viewportHeight * 0.58), 0, 1);
+            const easedReveal = 1 - Math.pow(1 - reveal, 3);
+
+            if (isVideo) {
+                state.targetMobileX = 0;
+                state.targetMobileY = (1 - easedReveal) * 34;
+                state.targetMobileRotate = (1 - easedReveal) * -2.4;
+                state.targetMobileScale = 0.62 + easedReveal * 0.38;
+                return;
+            }
+
+            const defaultX = isLead ? 6 : isShow ? readNumber(element, 'data-motion-x', 18) : isNewsCard ? 8 : isNewsPicture ? -6 : isGalleryPicture ? 12 : 0;
+            const defaultY = isLead ? 10 : isShow ? readNumber(element, 'data-motion-y', 18) : isNewsCard ? 18 : isNewsPicture ? -10 : isGalleryPicture ? 22 : 10;
+            const defaultRotate = isShow ? 1.8 : isNewsCard ? 1.4 : isNewsPicture ? -1.2 : isGalleryPicture ? 2.6 : 0.6;
+            const defaultScale = isGalleryPicture ? 0.018 : 0.008;
+            const xRange = readNumber(element, 'data-kinetic-x', defaultX);
+            const yRange = readNumber(element, 'data-kinetic-y', defaultY);
+            const rotateRange = readNumber(element, 'data-kinetic-rotate', defaultRotate);
+            const scaleRange = readNumber(element, 'data-kinetic-scale', defaultScale);
+            const stagger = readNumber(element, 'data-motion-stagger', 0);
+            const adjustedProgress = clamp(progress - stagger * 0.12, -1, 1);
+
+            state.targetMobileX = adjustedProgress * xRange;
+            state.targetMobileY = adjustedProgress * yRange;
+            state.targetMobileRotate = adjustedProgress * rotateRange;
+            state.targetMobileScale = 1 + Math.abs(adjustedProgress) * scaleRange;
+        });
+
         maskElements.forEach((element) => {
             const state = getState(element);
 
@@ -2433,6 +2553,10 @@ function initHomeLandingMotion() {
                 state.scale = state.targetScale;
                 state.mask = state.targetMask;
                 state.mediaScale = state.targetMediaScale;
+                state.mobileX = state.targetMobileX;
+                state.mobileY = state.targetMobileY;
+                state.mobileRotate = state.targetMobileRotate;
+                state.mobileScale = state.targetMobileScale;
             });
             hasSyncedInitialState = true;
         }
@@ -2450,6 +2574,10 @@ function initHomeLandingMotion() {
             state.scale = lerp(state.scale, state.targetScale, 0.28);
             state.mask = lerp(state.mask, state.targetMask, 0.32);
             state.mediaScale = lerp(state.mediaScale, state.targetMediaScale, 0.32);
+            state.mobileX = lerp(state.mobileX, state.targetMobileX, 0.24);
+            state.mobileY = lerp(state.mobileY, state.targetMobileY, 0.24);
+            state.mobileRotate = lerp(state.mobileRotate, state.targetMobileRotate, 0.24);
+            state.mobileScale = lerp(state.mobileScale, state.targetMobileScale, 0.24);
 
             element.style.setProperty('--motion-x-current', `${state.x.toFixed(2)}px`);
             element.style.setProperty('--motion-y-current', `${state.y.toFixed(2)}px`);
@@ -2460,6 +2588,10 @@ function initHomeLandingMotion() {
                 formatMask(state.mask, element.getAttribute('data-motion-origin'))
             );
             element.style.setProperty('--motion-media-scale-current', state.mediaScale.toFixed(4));
+            element.style.setProperty('--mobile-kinetic-x', `${state.mobileX.toFixed(2)}px`);
+            element.style.setProperty('--mobile-kinetic-y', `${state.mobileY.toFixed(2)}px`);
+            element.style.setProperty('--mobile-kinetic-rotate', `${state.mobileRotate.toFixed(3)}deg`);
+            element.style.setProperty('--mobile-kinetic-scale', state.mobileScale.toFixed(4));
 
             const maxDelta = Math.max(
                 Math.abs(state.x - state.targetX),
@@ -2467,7 +2599,11 @@ function initHomeLandingMotion() {
                 Math.abs(state.rotate - state.targetRotate),
                 Math.abs(state.scale - state.targetScale) * 100,
                 Math.abs(state.mask - state.targetMask),
-                Math.abs(state.mediaScale - state.targetMediaScale) * 100
+                Math.abs(state.mediaScale - state.targetMediaScale) * 100,
+                Math.abs(state.mobileX - state.targetMobileX),
+                Math.abs(state.mobileY - state.targetMobileY),
+                Math.abs(state.mobileRotate - state.targetMobileRotate),
+                Math.abs(state.mobileScale - state.targetMobileScale) * 100
             );
 
             if (maxDelta > settleThreshold) {
@@ -2489,6 +2625,10 @@ function initHomeLandingMotion() {
                 state.scale = state.targetScale;
                 state.mask = state.targetMask;
                 state.mediaScale = state.targetMediaScale;
+                state.mobileX = state.targetMobileX;
+                state.mobileY = state.targetMobileY;
+                state.mobileRotate = state.targetMobileRotate;
+                state.mobileScale = state.targetMobileScale;
 
                 element.style.setProperty('--motion-x-current', `${state.x.toFixed(2)}px`);
                 element.style.setProperty('--motion-y-current', `${state.y.toFixed(2)}px`);
@@ -2499,6 +2639,10 @@ function initHomeLandingMotion() {
                     formatMask(state.mask, element.getAttribute('data-motion-origin'))
                 );
                 element.style.setProperty('--motion-media-scale-current', state.mediaScale.toFixed(4));
+                element.style.setProperty('--mobile-kinetic-x', `${state.mobileX.toFixed(2)}px`);
+                element.style.setProperty('--mobile-kinetic-y', `${state.mobileY.toFixed(2)}px`);
+                element.style.setProperty('--mobile-kinetic-rotate', `${state.mobileRotate.toFixed(3)}deg`);
+                element.style.setProperty('--mobile-kinetic-scale', state.mobileScale.toFixed(4));
             });
         }
     };
@@ -2918,9 +3062,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const links = Array.from(menuNav.querySelectorAll('a'));
     let isOpen = false;
     const MOBILE_MENU_BREAKPOINT = 900;
-    const SWIPE_EDGE_ZONE = 96;
-    const SWIPE_CLOSE_ZONE = 132;
-    const SWIPE_TRIGGER_DISTANCE = 54;
+    const SWIPE_EDGE_ZONE = 118;
+    const SWIPE_TRIGGER_DISTANCE = 44;
     let swipeState = null;
 
     const syncClosedState = () => {
@@ -2999,12 +3142,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isOpen) {
             const panel = closestFromTarget(target, '.mobile-nav-panel');
-            if (!panel && target !== menuNav) {
-                resetSwipeState();
-                return;
-            }
-
-            if (clientX < window.innerWidth - SWIPE_CLOSE_ZONE && !panel) {
+            const startsOnOverlay = target === menuNav || closestFromTarget(target, '.mobile-nav');
+            if (!panel && !startsOnOverlay) {
                 resetSwipeState();
                 return;
             }
