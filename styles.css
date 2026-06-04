@@ -7252,7 +7252,7 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::after {
         transform: none !important;
     }
 
-    .home-landing[data-home-motion-root] .home-news-card:nth-child(n + 5) {
+    .home-landing[data-home-motion-root] .home-news-card:nth-child(n + 6) {
         display: none;
     }
 
