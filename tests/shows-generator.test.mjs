@@ -34,6 +34,22 @@ STATUS:CANCELLED
 END:VEVENT
 END:VCALENDAR`;
 
+const taggedFixtureIcs = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:tagged
+SUMMARY:Tagged Show | Warszawa
+DTSTART;VALUE=DATE:20260710
+DESCRIPTION:Bilety wkrotce #strona
+END:VEVENT
+BEGIN:VEVENT
+UID:untagged
+SUMMARY:Private Rehearsal | Warszawa
+DTSTART;VALUE=DATE:20260711
+DESCRIPTION:Tylko kalendarz
+END:VEVENT
+END:VCALENDAR`;
+
 test("parses Google Calendar ICS shows, links, locations, and sorting", () => {
   const shows = parseShowsFromIcs(fixtureIcs);
 
@@ -43,6 +59,12 @@ test("parses Google Calendar ICS shows, links, locations, and sorting", () => {
   assert.equal(shows[1].title, "Klub Test | Warszawa");
   assert.equal(shows[1].location, "Klub Test");
   assert.equal(shows[1].ticketUrl, "https://tickets.example/show");
+});
+
+test("can import only calendar shows marked with the configured tag", () => {
+  const shows = parseShowsFromIcs(taggedFixtureIcs, { importTag: "#strona" });
+
+  assert.deepEqual(shows.map((show) => show.title), ["Tagged Show | Warszawa"]);
 });
 
 test("renders localized show lists and upcoming JSON-LD", () => {

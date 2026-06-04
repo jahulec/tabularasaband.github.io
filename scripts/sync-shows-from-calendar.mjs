@@ -129,6 +129,24 @@ function firstUrl(value) {
   return match ? match[0].replace(/[),.;]+$/g, "") : "";
 }
 
+function normalizeImportTag(value) {
+  const tag = String(value ?? "").trim();
+  if (!tag || tag === "*" || tag.toLowerCase() === "all") return "";
+  return tag.toLowerCase();
+}
+
+function eventContainsTag(event, importTag) {
+  const tag = normalizeImportTag(importTag);
+  if (!tag) return true;
+
+  return [
+    event.SUMMARY,
+    event.DESCRIPTION,
+    event.LOCATION,
+    event.CATEGORIES,
+  ].some((value) => String(value ?? "").toLowerCase().includes(tag));
+}
+
 function readEventBlocks(icsText) {
   const unfolded = String(icsText ?? "").replace(/\r?\n[ \t]/g, "");
   const blocks = [];
@@ -142,7 +160,7 @@ function readEventBlocks(icsText) {
   return blocks;
 }
 
-export function parseShowsFromIcs(icsText) {
+export function parseShowsFromIcs(icsText, { importTag = "" } = {}) {
   const shows = [];
 
   for (const block of readEventBlocks(icsText)) {
@@ -166,6 +184,7 @@ export function parseShowsFromIcs(icsText) {
 
     if ((event.STATUS || "").toUpperCase() === "CANCELLED") continue;
     if (!event.SUMMARY || !event.DTSTART) continue;
+    if (!eventContainsTag(event, importTag)) continue;
 
     const parsedDate = parseIcsDate(event.DTSTART, paramsByName.DTSTART);
     if (!parsedDate) continue;
@@ -472,6 +491,10 @@ async function main() {
   } else {
     const fixtureArg = process.argv.find((arg) => arg.startsWith("--ics-file="));
     const fixturePath = fixtureArg ? fixtureArg.slice("--ics-file=".length) : "";
+    const importTagArg = process.argv.find((arg) => arg.startsWith("--import-tag="));
+    const importTag = importTagArg
+      ? importTagArg.slice("--import-tag=".length)
+      : process.env.GOOGLE_CALENDAR_IMPORT_TAG || process.env.CALENDAR_IMPORT_TAG || "#strona";
     const url = process.env.GOOGLE_CALENDAR_ICS_URL || process.env.CALENDAR_ICS_URL || "";
     if (!fixturePath && !url) {
       throw new Error("Missing GOOGLE_CALENDAR_ICS_URL.");
@@ -481,7 +504,7 @@ async function main() {
       ? await fs.readFile(path.resolve(ROOT, fixturePath), "utf8")
       : await fetchIcs(url);
 
-    const calendarShows = parseShowsFromIcs(ics);
+    const calendarShows = parseShowsFromIcs(ics, { importTag });
     const existingShows = replaceExisting ? [] : await loadShowsData().catch(() => []);
     shows = mergeShows(existingShows, calendarShows);
     dataChanged = await saveShowsData(shows);

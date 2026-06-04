@@ -4,6 +4,8 @@ Strona ma gotowy generator koncertow. Workflow `Calendar Sync` pobiera wydarzeni
 
 Wazne: kalendarz nie zastapuje calej listy. Koncerty, ktore juz sa na stronie, zostaja zachowane nawet wtedy, kiedy nie ma ich w Google Calendar.
 
+Domyslnie importowane sa tylko wydarzenia oznaczone tekstem `#strona`. Najwygodniej ustawic je w Google Calendar na zielony kolor i dodatkowo wpisac `#strona` w opisie wydarzenia. Sam kolor nie jest dostepny w linku iCal, wiec skrypt potrzebuje tego tekstowego znacznika.
+
 ## Konfiguracja w Google Calendar
 
 1. Utworz osobny kalendarz, np. `Tabula Rasa - koncerty`.
@@ -37,9 +39,12 @@ Generator czyta dane z wydarzenia tak:
 - data wydarzenia trafia na strone jako data koncertu,
 - lokalizacja trafia do danych SEO `MusicEvent`,
 - pierwszy link `https://...` z opisu wydarzenia staje sie przyciskiem `Wiecej` / `More`,
+- wydarzenie musi miec `#strona` w tytule, opisie, lokalizacji albo kategoriach ICS,
 - wydarzenia oznaczone jako anulowane sa pomijane.
 
 Jesli wydarzenie zostanie usuniete z Google Calendar, nie znika automatycznie ze strony. Zeby usunac koncert ze strony, trzeba usunac go z `data/shows.json` albo z wygenerowanej listy przy kolejnej recznej edycji danych.
+
+Jesli chcesz zmienic znacznik, dodaj w GitHubie zmienna repozytorium `GOOGLE_CALENDAR_IMPORT_TAG`, np. `#publikuj`. Ustawienie tej zmiennej na `all` albo `*` importuje wszystkie wydarzenia z kalendarza.
 
 Na stronie glownej pokazuja sie 3 najblizsze nadchodzace koncerty. Na podstronie koncertow pokazuja sie wszystkie wydarzenia z kalendarza, posortowane po dacie.
 
