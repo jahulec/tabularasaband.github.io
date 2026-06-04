@@ -202,6 +202,38 @@ export function normalizeShows(shows) {
     ));
 }
 
+function showMergeKey(show) {
+  const date = normalizeDate(show.date || show.startDate);
+  const title = String(show.title || "").trim().toLocaleLowerCase("pl");
+  return `${date}::${title}`;
+}
+
+function mergeShowDetails(existingShow, incomingShow) {
+  return {
+    date: incomingShow.date || existingShow.date,
+    startDate: incomingShow.startDate || existingShow.startDate,
+    title: incomingShow.title || existingShow.title,
+    location: incomingShow.location || existingShow.location,
+    ticketUrl: incomingShow.ticketUrl || existingShow.ticketUrl,
+  };
+}
+
+export function mergeShows(existingShows, incomingShows) {
+  const merged = new Map();
+
+  for (const show of normalizeShows(existingShows)) {
+    merged.set(showMergeKey(show), show);
+  }
+
+  for (const show of normalizeShows(incomingShows)) {
+    const key = showMergeKey(show);
+    const previous = merged.get(key);
+    merged.set(key, previous ? mergeShowDetails(previous, show) : show);
+  }
+
+  return normalizeShows(merged.values());
+}
+
 function buildShowArticle(show, lang) {
   const ticketLabel = lang === "en" ? "More" : "Wi\u0119cej";
   const ticket = show.ticketUrl
@@ -431,6 +463,7 @@ export async function renderAllShowsPages(shows, { today = new Date() } = {}) {
 async function main() {
   const args = new Set(process.argv.slice(2));
   const renderOnly = args.has("--render-only");
+  const replaceExisting = args.has("--replace");
   let shows;
   let dataChanged = false;
 
@@ -448,7 +481,9 @@ async function main() {
       ? await fs.readFile(path.resolve(ROOT, fixturePath), "utf8")
       : await fetchIcs(url);
 
-    shows = parseShowsFromIcs(ics);
+    const calendarShows = parseShowsFromIcs(ics);
+    const existingShows = replaceExisting ? [] : await loadShowsData().catch(() => []);
+    shows = mergeShows(existingShows, calendarShows);
     dataChanged = await saveShowsData(shows);
   }
 

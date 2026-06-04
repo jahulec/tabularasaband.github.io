@@ -5,6 +5,7 @@ import {
   buildHomeShowsHtml,
   buildShowsJsonLdHtml,
   buildShowsListHtml,
+  mergeShows,
   parseShowsFromIcs,
   renderHomePage,
   renderShowsPage,
@@ -56,6 +57,24 @@ test("renders localized show lists and upcoming JSON-LD", () => {
   assert.match(enList, />More<\/a>/);
   assert.match(jsonLd, /"@type": "MusicEvent"/);
   assert.match(jsonLd, /https:\/\/tickets\.example\/show/);
+});
+
+test("merges calendar shows into existing shows without deleting current entries", () => {
+  const existing = [
+    { date: "2026-05-01", title: "Existing Only | Lodz", ticketUrl: "https://tickets.example/existing" },
+    { date: "2026-07-04", title: "Klub Test | Warszawa", ticketUrl: "https://tickets.example/old" },
+  ];
+  const incoming = parseShowsFromIcs(fixtureIcs);
+  const merged = mergeShows(existing, incoming);
+
+  assert.deepEqual(merged.map((show) => show.title), [
+    "Existing Only | Lodz",
+    "Plener | Krakow",
+    "Klub Test | Warszawa",
+  ]);
+  assert.equal(merged[0].ticketUrl, "https://tickets.example/existing");
+  assert.equal(merged[2].location, "Klub Test");
+  assert.equal(merged[2].ticketUrl, "https://tickets.example/show");
 });
 
 test("renders the homepage with the same upcoming order and a three-show limit", () => {

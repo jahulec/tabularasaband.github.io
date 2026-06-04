@@ -624,7 +624,7 @@ function setCookieBannerVisibility(isVisible, showSettings = false) {
 
     const fab = document.getElementById(COOKIE_SETTINGS_BUTTON_ID);
     if (fab) {
-        fab.classList.toggle('is-hidden', isVisible);
+        fab.classList.toggle('is-hidden', isVisible || Boolean(readStoredCookieConsent()));
     }
 }
 
@@ -2310,17 +2310,27 @@ function initHomeLandingMotion() {
         element.style.setProperty('--mobile-kinetic-scale', '1');
     };
 
-    if (prefersReduced) {
+    const applyStaticLandingState = () => {
         sections.forEach((section) => {
             section.style.setProperty('--section-progress', '0');
             section.style.setProperty('--section-visibility', '1');
             section.style.setProperty('--section-shift', '0px');
+            section.style.setProperty('--section-shift-soft', '0px');
+            section.style.setProperty('--section-shift-reverse', '0px');
+            section.style.setProperty('--section-pin-progress', '0');
+            section.style.setProperty('--section-enter-progress', '1');
             section.style.setProperty('--section-boundary-progress', '0.5');
             section.style.setProperty('--gallery-media-grow-progress', '1');
+            section.style.setProperty('--gallery-media-overlap-progress', '0');
         });
         motionElements.forEach(zeroMotionElement);
         maskElements.forEach(zeroMotionElement);
         mobileKineticElements.forEach(zeroMotionElement);
+    };
+
+    if (prefersReduced || isMobileLandingViewport()) {
+        document.body.classList.add('home-motion-static');
+        applyStaticLandingState();
         return;
     }
 

@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      GOOGLE_CALENDAR_ICS_URL: ${{ vars.GOOGLE_CALENDAR_ICS_URL }}
+      GOOGLE_CALENDAR_ICS_URL: ${{ secrets.GOOGLE_CALENDAR_ICS_URL || vars.GOOGLE_CALENDAR_ICS_URL }}
 
     steps:
       - name: Checkout

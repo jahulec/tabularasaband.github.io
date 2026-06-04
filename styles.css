@@ -7025,7 +7025,7 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::after {
         display: block;
         margin-bottom: 12px;
         color: rgba(248, 245, 239, 0.38);
-        font-family: 'Poppins', Arial, sans-serif;
+        font-family: 'PoppinsBlack', Arial, sans-serif;
         font-size: 0.78rem;
         font-weight: 900;
         letter-spacing: 0;
@@ -8204,7 +8204,7 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::after {
         display: block;
         margin-bottom: clamp(8px, 1.6svh, 12px);
         color: rgba(248, 245, 239, 0.38);
-        font-family: 'Poppins', Arial, sans-serif;
+        font-family: 'PoppinsBlack', Arial, sans-serif;
         font-size: 0.78rem;
         font-weight: 900;
         letter-spacing: 0;
@@ -8976,6 +8976,224 @@ body.shared-shell-page > footer.shop-footer {
         max-width: 640px !important;
         color: rgba(255, 255, 255, 0.86) !important;
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4) !important;
+    }
+}
+
+/* Home landing corrections: keep desktop composition and make mobile news static. */
+.home-landing,
+.home-landing[data-home-motion-root] {
+    font-family: 'PoppinsBlack', sans-serif;
+}
+
+.home-landing[data-home-motion-root] .home-news-card,
+.home-landing[data-home-motion-root] .home-news-card > div,
+.home-landing[data-home-motion-root] .home-news-card p,
+.home-landing[data-home-motion-root] .home-news-card h3,
+.home-landing[data-home-motion-root] .home-news-card-lead h3 {
+    text-align: left !important;
+}
+
+.home-landing[data-home-motion-root] .home-news-card h3,
+.home-landing[data-home-motion-root] .home-news-card-lead h3 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+@media (max-width: 760px) {
+    body.home-motion-static .home-landing[data-home-motion-root] [data-home-motion],
+    body.home-motion-static .home-landing[data-home-motion-root] [data-motion-mask],
+    body.home-motion-static .home-landing[data-home-motion-root] [data-motion-mask] img,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-video-frame,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-video-frame iframe,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-show,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card picture,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-media,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-media picture,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-copy,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-text {
+        transform: none !important;
+        clip-path: none !important;
+        filter: none !important;
+        will-change: auto !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-shows,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news,
+    body.home-motion-static .home-landing[data-home-motion-root] #news.home-page.home-news,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery {
+        min-height: auto !important;
+        padding-bottom: clamp(62px, 16vw, 88px) !important;
+        overflow: hidden !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-pinned-stage,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-stage,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-shows-stage,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-stage,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-shows-track {
+        position: relative !important;
+        top: auto !important;
+        display: grid !important;
+        gap: clamp(14px, 3.6vw, 24px);
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        justify-items: stretch !important;
+        text-align: left !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-shows .home-section-lead,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news .home-section-lead,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-copy,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-gallery-text {
+        position: relative !important;
+        top: auto !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-viewport {
+        position: relative !important;
+        top: auto !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        margin: clamp(28px, 7vw, 38px) 0 0 !important;
+        overflow: visible !important;
+        contain: none !important;
+        border: 0 !important;
+        background: transparent !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-grid {
+        position: relative !important;
+        inset: auto !important;
+        top: auto !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+        gap: 22px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
+        will-change: auto !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card-lead,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-strip,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card:nth-child(n + 6),
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-extra,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-extra:nth-of-type(n + 7) {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto !important;
+        flex: none !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 14px 0 0 !important;
+        text-align: left !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card picture,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card-lead picture,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-strip picture {
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        margin: 14px 0 0 !important;
+        aspect-ratio: 16 / 10 !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news-card > div {
+        min-height: 0 !important;
+        padding: 14px 0 18px !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news .home-section-lead {
+        align-items: flex-start !important;
+        justify-items: start !important;
+        text-align: left !important;
+    }
+
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news .home-section-lead > *,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news .home-section-kicker,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news #welcome,
+    body.home-motion-static .home-landing[data-home-motion-root] .home-news .home-section-lead > p:not(.home-section-kicker) {
+        width: 100% !important;
+        max-width: 30rem !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        text-align: left !important;
+    }
+}
+
+/* Desktop subpages: keep copy left-aligned without changing the home landing. */
+@media (min-width: 901px) {
+    body:not(:has(.home-landing)) #news,
+    body:not(:has(.home-landing)) #news.hero,
+    body:not(:has(.home-landing)) #news.concerts-section,
+    body:not(:has(.home-landing)) #news.music-section,
+    body:not(:has(.home-landing)) .legacy-content {
+        text-align: left !important;
+        align-items: flex-start !important;
+    }
+
+    body:not(:has(.home-landing)) #news > *,
+    body:not(:has(.home-landing)) #news h1,
+    body:not(:has(.home-landing)) #news h2,
+    body:not(:has(.home-landing)) #news h3,
+    body:not(:has(.home-landing)) #news h4,
+    body:not(:has(.home-landing)) #news p,
+    body:not(:has(.home-landing)) #news li,
+    body:not(:has(.home-landing)) #news label,
+    body:not(:has(.home-landing)) #news small,
+    body:not(:has(.home-landing)) #news .hero-content.page-hero-intro,
+    body:not(:has(.home-landing)) #news .eyebrow.page-hero-eyebrow,
+    body:not(:has(.home-landing)) #news .page-hero-title,
+    body:not(:has(.home-landing)) #news .lead.page-hero-subtitle,
+    body:not(:has(.home-landing)) #news .article,
+    body:not(:has(.home-landing)) #news .article-content,
+    body:not(:has(.home-landing)) #news .article-with-image,
+    body:not(:has(.home-landing)) #news .history,
+    body:not(:has(.home-landing)) #news .press-history,
+    body:not(:has(.home-landing)) #news .press-achievements,
+    body:not(:has(.home-landing)) #news .rider-section,
+    body:not(:has(.home-landing)) #news .song,
+    body:not(:has(.home-landing)) #news .concert-item,
+    body:not(:has(.home-landing)) #news .contact-container,
+    body:not(:has(.home-landing)) #news .contact-info,
+    body:not(:has(.home-landing)) #news .contact-info-panel,
+    body:not(:has(.home-landing)) #news .contact-form-panel,
+    body:not(:has(.home-landing)) .legacy-content h1,
+    body:not(:has(.home-landing)) .legacy-content h2,
+    body:not(:has(.home-landing)) .legacy-content h3,
+    body:not(:has(.home-landing)) .legacy-content p,
+    body:not(:has(.home-landing)) .legacy-content li {
+        text-align: left !important;
+    }
+
+    body:not(:has(.home-landing)) #news .hero-content.page-hero-intro,
+    body:not(:has(.home-landing)) #news .page-hero-title,
+    body:not(:has(.home-landing)) #news .lead.page-hero-subtitle,
+    body:not(:has(.home-landing)) #news .press-history > *,
+    body:not(:has(.home-landing)) #news .press-achievements,
+    body:not(:has(.home-landing)) #news .rider-section,
+    body:not(:has(.home-landing)) .legacy-content h1,
+    body:not(:has(.home-landing)) .legacy-content h2,
+    body:not(:has(.home-landing)) .legacy-content h3 {
+        margin-left: 0 !important;
+        margin-right: auto !important;
     }
 }
 
