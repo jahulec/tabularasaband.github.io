@@ -237,8 +237,8 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
         };
       });
 
-      expect(showStates.total).toBe(25);
-      expect(showStates.visible).toBe(25);
+      expect(showStates.total).toBe(30);
+      expect(showStates.visible).toBe(30);
       expect(showStates.past).toBe(14);
       expect(showStates.orderedDates.slice(0, 4)).toEqual([
         '2026-03-28',
@@ -261,7 +261,7 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
 test('home upcoming shows match the shows page ordering for the generated date', async ({ page }) => {
   await page.addInitScript(() => {
     const RealDate = Date;
-    const fixedNow = new RealDate('2026-06-02T12:00:00');
+    const fixedNow = new RealDate('2026-06-27T12:00:00');
 
     class MockDate extends RealDate {
       constructor(...args) {
