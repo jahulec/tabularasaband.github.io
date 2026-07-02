@@ -326,13 +326,17 @@ ${articles}
 ${LIST_END}`;
 }
 
-function buildHomeShowArticle(show, lang) {
+function buildHomeShowArticle(show, lang, index = 0) {
   const ticketLabel = lang === "en" ? "Tickets / more" : "Bilety / wi\u0119cej";
   const ticket = show.ticketUrl
     ? `\n            <a class="home-text-link home-show-link" href="${escapeHtml(show.ticketUrl)}">${ticketLabel}</a>`
     : "";
 
-  return `        <article class="home-show" data-show-date="${escapeHtml(show.date)}">
+  const x = index % 2 === 0 ? 72 : -72;
+  const y = 0;
+  const stagger = index > 0 ? ` data-motion-stagger="${(index * 0.08).toFixed(2)}"` : "";
+
+  return `        <article class="home-show" data-show-date="${escapeHtml(show.date)}" data-home-motion data-motion-x="${x}" data-motion-y="${y}"${stagger}>
             <time datetime="${escapeHtml(show.date)}">${escapeHtml(formatDate(show.date, lang))}</time>
             <h3>${escapeHtml(show.title)}</h3>${ticket}
         </article>`;
@@ -353,7 +357,7 @@ export function buildHomeShowsHtml(shows, lang = "pl", today = new Date()) {
     ${HOME_SHOWS_END}`;
   }
 
-  const articles = upcoming.map((show) => buildHomeShowArticle(show, lang)).join("\n");
+  const articles = upcoming.map((show, index) => buildHomeShowArticle(show, lang, index)).join("\n");
   return `${HOME_SHOWS_START}
     <div class="home-shows-list" data-home-shows>
 ${articles}

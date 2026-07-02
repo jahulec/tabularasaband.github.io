@@ -78,7 +78,7 @@ test.describe('UI/UX a11y regressions', () => {
       await expect(page.locator('.home-gallery')).toBeVisible();
       await expect(page.locator('.home-intro')).toHaveCount(0);
       await expect(page.locator('.home-news-card')).toHaveCount(check.newsCardCount);
-      await expect(page.locator('.home-gallery-media img')).toHaveCount(4);
+      await expect(page.locator('.home-gallery-media img')).toHaveCount(5);
 
       const homeShowCount = await page.locator('.home-show').count();
       expect(homeShowCount).toBeLessThanOrEqual(5);

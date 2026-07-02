@@ -9,6 +9,8 @@ const desktopPages = [
   '/shows-en.html',
   '/music.html',
   '/music-en.html',
+  '/news.html',
+  '/news-en.html',
   '/press.html',
   '/press-en.html',
   '/shop.html',
@@ -237,15 +239,16 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
         };
       });
 
-      expect(showStates.total).toBe(30);
-      expect(showStates.visible).toBe(30);
+      expect(showStates.total).toBe(31);
+      expect(showStates.visible).toBe(31);
       expect(showStates.past).toBe(14);
       expect(showStates.orderedDates.slice(0, 4)).toEqual([
         '2026-03-28',
         '2026-04-11',
         '2026-04-18',
         '2026-05-16',
-      ]);
+]);
+
       expect(showStates.orderedDates.slice(-3)).toEqual([
         '2026-01-30',
         '2026-01-16',
@@ -258,10 +261,59 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
   }
 });
 
+test.describe('News editorial reader', () => {
+  for (const path of ['/news.html', '/news-en.html']) {
+    test(`cards open and close the full-screen article: ${path}`, async ({ page }) => {
+      await page.setViewportSize({ width: 1366, height: 900 });
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+      const cards = page.locator('[data-news-open]');
+      const reader = page.locator('[data-news-reader]');
+      await expect(cards).toHaveCount(4);
+      await cards.nth(1).click();
+
+      await expect(reader).toBeVisible();
+      await expect(reader).toHaveClass(/is-active/);
+      await expect(page.locator('[data-news-article="grand-prix"]')).toBeVisible();
+      await expect(page.locator('#news')).toHaveAttribute('aria-hidden', 'true');
+      await expect.poll(() => page.evaluate(() => ({
+        html: getComputedStyle(document.documentElement).overflowY,
+        body: getComputedStyle(document.body).overflowY,
+      }))).toEqual({ html: 'hidden', body: 'hidden' });
+      const backTopBeforeScroll = await page.locator('[data-news-close]').evaluate(
+        (button) => Math.round(button.getBoundingClientRect().top)
+      );
+      await reader.evaluate((element) => {
+        element.scrollTop = 500;
+      });
+      const backTopAfterScroll = await page.locator('[data-news-close]').evaluate(
+        (button) => Math.round(button.getBoundingClientRect().top)
+      );
+      expect(backTopAfterScroll).toBe(backTopBeforeScroll);
+
+      await page.locator('[data-news-close]').click();
+      await expect(reader).toBeHidden();
+      await expect(page).not.toHaveURL(/#grand-prix$/);
+      await expect(cards.nth(1)).toBeFocused();
+    });
+  }
+
+  test('a landing-page article hash opens the matching story and returns to the cards', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/news.html#progresja', { waitUntil: 'domcontentloaded' });
+
+    await expect(page.locator('[data-news-reader]')).toBeVisible();
+    await expect(page.locator('[data-news-article="progresja"]')).toBeVisible();
+    await page.locator('[data-news-close]').click();
+    await expect(page.locator('[data-news-reader]')).toBeHidden();
+    await expect(page.locator('.news-hub-grid')).toBeVisible();
+  });
+});
+
 test('home upcoming shows match the shows page ordering for the generated date', async ({ page }) => {
   await page.addInitScript(() => {
     const RealDate = Date;
-    const fixedNow = new RealDate('2026-06-27T12:00:00');
+    const fixedNow = new RealDate('2026-07-02T12:00:00');
 
     class MockDate extends RealDate {
       constructor(...args) {

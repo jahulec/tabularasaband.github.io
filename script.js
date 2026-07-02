@@ -71,6 +71,11 @@ const PAGE_HERO_COPY = {
         title: 'Muzyka',
         subtitle: 'Single, teledyski i streaming na wszystkich platformach.'
     },
+    'news.html': {
+        eyebrow: 'Z ŻYCIA ZESPOŁU',
+        title: 'Aktualności',
+        subtitle: 'Premiery, koncerty, kulisy i rzeczy, które dzieją się pomiędzy.'
+    },
     'press.html': {
         eyebrow: 'DLA MEDIOW',
         title: 'Press',
@@ -121,6 +126,11 @@ const PAGE_HERO_COPY = {
         title: 'Music',
         subtitle: 'Singles, videos, and streaming across all platforms.'
     },
+    'news-en.html': {
+        eyebrow: 'BAND JOURNAL',
+        title: 'News',
+        subtitle: 'Releases, live stories, backstage moments, and everything in between.'
+    },
     'press-en.html': {
         eyebrow: 'MEDIA RESOURCES',
         title: 'Press',
@@ -150,6 +160,7 @@ const PAGE_HERO_COPY = {
 const HEADER_LINKS_PL = [
     { href: 'shop.html', label: 'Sklep' },
     { href: 'music.html', label: 'Muzyka' },
+    { href: 'news.html', label: 'Aktualności' },
     { href: 'shows.html', label: 'Koncerty' },
     { href: 'gallery.html', label: 'Galeria' },
     { href: 'press.html', label: 'Press' },
@@ -159,6 +170,7 @@ const HEADER_LINKS_PL = [
 const HEADER_LINKS_EN = [
     { href: 'shop-en.html', label: 'Shop' },
     { href: 'music-en.html', label: 'Music' },
+    { href: 'news-en.html', label: 'News' },
     { href: 'shows-en.html', label: 'Shows' },
     { href: 'gallery-en.html', label: 'Gallery' },
     { href: 'press-en.html', label: 'Press' },
@@ -176,6 +188,8 @@ const LANGUAGE_SWITCH_MAP = {
     'gallery-en.html': 'gallery.html',
     'music.html': 'music-en.html',
     'music-en.html': 'music.html',
+    'news.html': 'news-en.html',
+    'news-en.html': 'news.html',
     'press.html': 'press-en.html',
     'press-en.html': 'press.html',
     'shows.html': 'shows-en.html',
@@ -302,7 +316,10 @@ function getHeroTitleForViewport(pageName, baseTitle) {
 function injectPageHeroCopy() {
     const newsSection = document.getElementById('news');
     if (!newsSection || newsSection.dataset.heroInit === '1') return;
-    if (newsSection.classList.contains('home-page') && document.querySelector('.home-hero')) return;
+    // The landing page already owns its hero. Injecting a second page hero into
+    // its news section moved the heading before insertBefore() and aborted all
+    // later initializers, including the landing motion engine.
+    if (document.querySelector('.home-hero')) return;
 
     const heading = newsSection.querySelector('#welcome, h1');
     if (!heading) return;
@@ -2148,9 +2165,12 @@ function initScrollReveal() {
         '.article-content',
         '.home-section-lead',
         '.home-video-frame',
+        '.home-release-cover',
+        '.home-release-copy',
         '.home-music-panel',
         '.home-show',
         '.home-news-card',
+        '.home-news-v2-card',
         '.home-gallery-media',
         '.home-gallery-copy',
         '.song',
@@ -2177,7 +2197,7 @@ function initScrollReveal() {
 
     allNodes.forEach((node) => {
         node.classList.add('reveal');
-        if (node.matches('.article-content, .home-video-frame, .home-music-panel, .home-show, .home-news-card, .home-gallery-media, .home-gallery-copy, .song, .concert-item, .gallery-grid img, .member')) {
+        if (node.matches('.article-content, .home-video-frame, .home-release-cover, .home-release-copy, .home-music-panel, .home-show, .home-news-card, .home-news-v2-card, .home-gallery-media, .home-gallery-copy, .song, .concert-item, .gallery-grid img, .member')) {
             node.classList.add('reveal-soft');
         }
     });
@@ -2198,8 +2218,9 @@ function initScrollReveal() {
         document.querySelectorAll(groupSelector).forEach((group) => {
             const children = Array.from(group.querySelectorAll('.reveal'));
             const isPressGroup = group.matches('.press-history, .press-achievements');
-            const step = isPressGroup ? 34 : 70;
-            const cap = isPressGroup ? 7 : 10;
+            const isShowsGroup = group.matches('.concerts-section, .shows-list');
+            const step = isShowsGroup ? 0 : isPressGroup ? 34 : 70;
+            const cap = isShowsGroup ? 0 : isPressGroup ? 7 : 10;
             children.forEach((el, index) => {
                 const delay = Math.min(index, cap) * step;
                 el.style.transitionDelay = `${delay}ms`;
@@ -2270,6 +2291,69 @@ function initScrollReveal() {
     queueFlushPending();
 }
 
+function initReleaseCountdown() {
+    const counters = Array.from(document.querySelectorAll('[data-release-countdown]'));
+    if (counters.length === 0) return;
+
+    const releaseAt = new Date('2026-07-08T00:00:00+02:00').getTime();
+    const isEnglish = (document.documentElement.lang || '').toLowerCase().startsWith('en');
+    const render = () => {
+        const distance = releaseAt - Date.now();
+        if (distance <= 0) {
+            counters.forEach((counter) => {
+                counter.textContent = isEnglish ? 'Out now' : 'Już dostępny';
+                counter.classList.add('is-released');
+            });
+            return false;
+        }
+
+        const days = Math.floor(distance / 86400000);
+        const hours = Math.floor((distance % 86400000) / 3600000);
+        const minutes = Math.floor((distance % 3600000) / 60000);
+        const seconds = Math.floor((distance % 60000) / 1000);
+        counters.forEach((counter) => {
+            counter.textContent = isEnglish
+                ? `${days}d ${hours}h ${minutes}m ${seconds}s`
+                : `${days} dni ${hours} godz. ${minutes} min ${seconds} sek.`;
+        });
+        return true;
+    };
+
+    if (render()) {
+        window.setInterval(render, 1000);
+    }
+}
+
+function initSmoothLandingAnchors() {
+    const landing = document.querySelector('.home-landing');
+    if (!landing || landing.dataset.smoothAnchorsInit === '1') return;
+    landing.dataset.smoothAnchorsInit = '1';
+
+    const prefersReduced = window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    landing.addEventListener('click', (event) => {
+        const link = event.target.closest('a[href^="#"]');
+        if (!link || !landing.contains(link)) return;
+
+        const hash = link.getAttribute('href');
+        if (!hash || hash === '#') return;
+
+        const target = document.querySelector(hash);
+        if (!target) return;
+
+        event.preventDefault();
+        target.scrollIntoView({
+            behavior: prefersReduced ? 'auto' : 'smooth',
+            block: 'start'
+        });
+
+        if (window.history && typeof window.history.pushState === 'function') {
+            window.history.pushState(null, '', hash);
+        }
+    });
+}
+
 function initHomeLandingMotion() {
     const landing = document.querySelector('.home-landing');
     if (!landing || landing.dataset.motionInit === '1') return;
@@ -2293,7 +2377,7 @@ function initHomeLandingMotion() {
     const motionElements = Array.from(landing.querySelectorAll('[data-home-motion]'));
     const maskElements = Array.from(landing.querySelectorAll('[data-motion-mask]'));
     const mobileKineticElements = Array.from(new Set([
-        ...Array.from(landing.querySelectorAll('.home-video-frame, .home-section-lead, .home-show, .home-news-card, .home-news-card picture, .home-gallery-media picture, .home-gallery-copy'))
+        ...Array.from(landing.querySelectorAll('.home-video-frame, .home-release-cover, .home-release-copy, .home-section-lead, .home-show, .home-news-card, .home-news-card picture, .home-news-v2-card, .home-news-v2-card picture, .home-gallery-media picture, .home-gallery-copy'))
     ]));
     if (sections.length === 0) return;
 
@@ -2328,7 +2412,7 @@ function initHomeLandingMotion() {
         mobileKineticElements.forEach(zeroMotionElement);
     };
 
-    if (prefersReduced || isMobileLandingViewport()) {
+    if (prefersReduced) {
         document.body.classList.add('home-motion-static');
         applyStaticLandingState();
         return;
@@ -2505,6 +2589,7 @@ function initHomeLandingMotion() {
             const rawProgress = (viewportHeight * 0.5 - center) / viewportHeight;
             const progress = clamp(rawProgress, -1, 1);
             const isVideo = element.matches('.home-video-frame');
+            const isReleaseCover = element.matches('.home-release-cover');
             const isLead = element.matches('.home-section-lead');
             const isShow = element.matches('.home-show');
             const isNewsCard = element.matches('.home-news-card');
@@ -2513,11 +2598,11 @@ function initHomeLandingMotion() {
             const reveal = clamp((viewportHeight * 0.94 - rect.top) / (viewportHeight * 0.58), 0, 1);
             const easedReveal = 1 - Math.pow(1 - reveal, 3);
 
-            if (isVideo) {
+            if (isVideo || isReleaseCover) {
                 state.targetMobileX = 0;
-                state.targetMobileY = (1 - easedReveal) * 34;
-                state.targetMobileRotate = (1 - easedReveal) * -2.4;
-                state.targetMobileScale = 0.62 + easedReveal * 0.38;
+                state.targetMobileY = (1 - easedReveal) * (isReleaseCover ? 58 : 34);
+                state.targetMobileRotate = (1 - easedReveal) * (isReleaseCover ? -1.4 : -2.4);
+                state.targetMobileScale = (isReleaseCover ? 0.84 : 0.62) + easedReveal * (isReleaseCover ? 0.16 : 0.38);
                 return;
             }
 
@@ -2746,7 +2831,9 @@ function initAboutMemberCards() {
 }
 
 function initHomeGalleryPhotoParallax() {
-    const photos = Array.from(document.querySelectorAll('.home-gallery-media picture'));
+    const photos = Array.from(document.querySelectorAll(
+        '.home-gallery-media picture, .home-release-cover picture, .home-news-v2-card picture'
+    ));
     if (photos.length === 0) return;
 
     const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2756,6 +2843,8 @@ function initHomeGalleryPhotoParallax() {
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
     photos.forEach((photo) => {
+        const interactionTarget = photo.closest('.home-news-v2-card, .home-release-cover') || photo;
+
         const resetParallax = () => {
             photo.style.setProperty('--card-rotate-x', '0deg');
             photo.style.setProperty('--card-rotate-y', '0deg');
@@ -2779,18 +2868,212 @@ function initHomeGalleryPhotoParallax() {
             photo.style.setProperty('--card-parallax-y', `${(deltaY * 18).toFixed(1)}px`);
         };
 
-        photo.addEventListener('pointerenter', () => {
+        interactionTarget.addEventListener('pointerenter', () => {
             photo.classList.add('is-parallax-active');
         });
-        photo.addEventListener('pointermove', updateParallax);
-        photo.addEventListener('pointerleave', resetParallax);
-        photo.addEventListener('blur', resetParallax, true);
+        interactionTarget.addEventListener('pointermove', updateParallax);
+        interactionTarget.addEventListener('pointerleave', resetParallax);
+        interactionTarget.addEventListener('blur', resetParallax, true);
     });
+}
+
+function initNewsReader() {
+    const reader = document.querySelector('[data-news-reader]');
+    const triggers = Array.from(document.querySelectorAll('[data-news-open]'));
+    const stories = Array.from(document.querySelectorAll('[data-news-article]'));
+    const closeButton = reader?.querySelector('[data-news-close]');
+    if (!reader || !closeButton || triggers.length === 0 || stories.length === 0) return;
+
+    const storyBySlug = new Map(stories.map((story) => [story.dataset.newsArticle, story]));
+    const pageShell = [
+        document.querySelector('header.shop-header'),
+        document.getElementById('news'),
+        document.querySelector('footer.shop-footer')
+    ].filter(Boolean);
+    const focusableSelector = [
+        'a[href]',
+        'button:not([disabled])',
+        'iframe',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+    ].join(',');
+    const reducedMotion = window.matchMedia
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const transitionDelay = reducedMotion ? 20 : 540;
+
+    let activeSlug = '';
+    let lastTrigger = null;
+    let closingTimer = null;
+    let savedScrollY = 0;
+
+    const getSlugFromHash = () => {
+        try {
+            return decodeURIComponent(window.location.hash.replace(/^#/, ''));
+        } catch (error) {
+            return '';
+        }
+    };
+
+    const setPageShellInactive = (inactive) => {
+        pageShell.forEach((element) => {
+            element.inert = inactive;
+            if (inactive) {
+                element.setAttribute('aria-hidden', 'true');
+            } else {
+                element.removeAttribute('aria-hidden');
+            }
+        });
+    };
+
+    const setVisibleStory = (slug) => {
+        stories.forEach((story) => {
+            story.hidden = story.dataset.newsArticle !== slug;
+        });
+
+        const story = storyBySlug.get(slug);
+        const title = story?.querySelector('h2[id]');
+        if (title) {
+            reader.setAttribute('aria-labelledby', title.id);
+            reader.removeAttribute('aria-label');
+        }
+        return story;
+    };
+
+    const openReader = (slug, { updateHistory = true, animate = true } = {}) => {
+        if (!storyBySlug.has(slug)) return false;
+
+        window.clearTimeout(closingTimer);
+        activeSlug = slug;
+        savedScrollY = window.scrollY || 0;
+        lastTrigger = document.activeElement?.closest?.('[data-news-open]')
+            || document.querySelector(`[data-news-open="${slug}"]`)
+            || lastTrigger;
+
+        setVisibleStory(slug);
+        reader.classList.remove('is-active', 'is-closing');
+        reader.hidden = false;
+        reader.scrollTop = 0;
+        document.documentElement.classList.add('news-reader-open');
+        document.body.classList.add('news-reader-open');
+        setPageShellInactive(true);
+
+        if (updateHistory && getSlugFromHash() !== slug) {
+            const nextState = { ...(history.state || {}), newsArticle: slug };
+            history.pushState(nextState, '', `${window.location.pathname}${window.location.search}#${encodeURIComponent(slug)}`);
+        }
+
+        const activate = () => {
+            reader.classList.add('is-active');
+            window.setTimeout(() => closeButton.focus({ preventScroll: true }), animate ? transitionDelay : 20);
+        };
+
+        if (animate) {
+            window.requestAnimationFrame(() => window.requestAnimationFrame(activate));
+        } else {
+            activate();
+        }
+        return true;
+    };
+
+    const closeReader = ({ clearUrl = true, restoreFocus = true } = {}) => {
+        if (!activeSlug || reader.hidden) return;
+
+        const triggerToRestore = lastTrigger;
+        activeSlug = '';
+        reader.classList.remove('is-active');
+        reader.classList.add('is-closing');
+
+        if (clearUrl && window.location.hash) {
+            history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+        }
+
+        window.clearTimeout(closingTimer);
+        closingTimer = window.setTimeout(() => {
+            reader.hidden = true;
+            reader.classList.remove('is-closing');
+            reader.removeAttribute('aria-labelledby');
+            reader.setAttribute('aria-label', document.documentElement.lang.startsWith('en') ? 'Article' : 'Artykuł');
+            stories.forEach((story) => {
+                story.hidden = true;
+            });
+            setPageShellInactive(false);
+            document.documentElement.classList.remove('news-reader-open');
+            document.body.classList.remove('news-reader-open');
+            window.scrollTo(0, savedScrollY);
+            if (restoreFocus && triggerToRestore?.isConnected) {
+                triggerToRestore.focus({ preventScroll: true });
+            }
+        }, transitionDelay);
+    };
+
+    const requestClose = () => {
+        const stateOwnsArticle = history.state
+            && history.state.newsArticle
+            && history.state.newsArticle === activeSlug;
+        if (stateOwnsArticle) {
+            history.back();
+            return;
+        }
+        closeReader({ clearUrl: true });
+    };
+
+    triggers.forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+            if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                return;
+            }
+            event.preventDefault();
+            openReader(trigger.dataset.newsOpen);
+        });
+    });
+
+    closeButton.addEventListener('click', requestClose);
+
+    reader.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            requestClose();
+            return;
+        }
+        if (event.key !== 'Tab') return;
+
+        const visibleStory = storyBySlug.get(activeSlug);
+        const focusable = [closeButton, ...Array.from(visibleStory?.querySelectorAll(focusableSelector) || [])]
+            .filter((element) => !element.hidden && element.getAttribute('aria-hidden') !== 'true');
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    });
+
+    window.addEventListener('popstate', () => {
+        const slug = getSlugFromHash();
+        if (storyBySlug.has(slug)) {
+            openReader(slug, { updateHistory: false });
+        } else {
+            closeReader({ clearUrl: false });
+        }
+    });
+
+    const initialSlug = getSlugFromHash();
+    if (storyBySlug.has(initialSlug)) {
+        openReader(initialSlug, { updateHistory: false, animate: true });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeBaseState();
     injectPageHeroCopy();
+    initNewsReader();
     initCookieConsentUi();
     ensureFooterNewsletterForms();
     initMarketingEventTracking();
@@ -2802,6 +3085,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ensureGsapScrollPlugin();
     initHeaderLogoHoverAnimation();
     initScrollReveal();
+    initReleaseCountdown();
+    initSmoothLandingAnchors();
     initHomeLandingMotion();
     initAboutMemberCards();
     initHomeGalleryPhotoParallax();
@@ -3137,7 +3422,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const shouldIgnoreSwipeStart = (target) => (
-        !!target?.closest('a, button, input, textarea, select, iframe, video, [role="button"], #expandedImageContainer')
+        !!target?.closest('a, button, input, textarea, select, iframe, video, [role="button"], #expandedImageContainer, [data-news-reader]')
     );
 
     const closestFromTarget = (target, selector) => (
@@ -3256,10 +3541,21 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSwipeGesture(touch.clientX, touch.clientY, () => event.preventDefault());
     }, { passive: false });
 
-    document.addEventListener('touchend', resetSwipeState, { passive: true });
+    document.addEventListener('touchend', (event) => {
+        if (swipeState && event.changedTouches && event.changedTouches.length === 1) {
+            const touch = event.changedTouches[0];
+            updateSwipeGesture(touch.clientX, touch.clientY, () => event.preventDefault());
+        }
+        resetSwipeState();
+    }, { passive: false });
     document.addEventListener('touchcancel', resetSwipeState, { passive: true });
 
-    document.addEventListener('pointerup', resetSwipeState, { passive: true });
+    document.addEventListener('pointerup', (event) => {
+        if (swipeState && event.pointerType === 'touch') {
+            updateSwipeGesture(event.clientX, event.clientY);
+        }
+        resetSwipeState();
+    }, { passive: true });
     document.addEventListener('pointercancel', resetSwipeState, { passive: true });
 
     window.addEventListener('resize', () => {
