@@ -64,7 +64,7 @@ const PAGE_HERO_COPY = {
     'gallery.html': {
         eyebrow: 'Z KULIS I KONCERTOW',
         title: 'Galeria',
-        subtitle: 'Zdjecia koncertowe, backstage i zycie zespolu.'
+        subtitle: 'Zdjęcia koncertowe, backstage i życie zespołu.'
     },
     'music.html': {
         eyebrow: 'SINGLE I STREAMING',
@@ -79,12 +79,12 @@ const PAGE_HERO_COPY = {
     'press.html': {
         eyebrow: 'DLA MEDIOW',
         title: 'Press',
-        subtitle: 'Bio, rider i materialy dla mediow i organizatorow.'
+        subtitle: 'Bio, rider i materiały dla mediów i organizatorów.'
     },
     'shows.html': {
-        eyebrow: 'NAJBLIZSZE DATY',
+        eyebrow: 'NAJBLIŻSZE DATY',
         title: 'Koncerty',
-        subtitle: 'Trasy, terminy i miasta, w ktorych gramy na zywo.'
+        subtitle: 'Trasy, terminy i miasta, w których gramy na żywo.'
     },
     'shop.html': {
         eyebrow: 'MERCH I WYDAWNICTWA',
@@ -98,8 +98,8 @@ const PAGE_HERO_COPY = {
     },
     'polityka-prywatnosci.html': {
         eyebrow: 'INFORMACJE PRAWNE',
-        title: 'Polityka prywatnosci',
-        subtitle: 'Jak przetwarzamy dane i chronimy prywatnosc uzytkownikow.'
+        title: 'Polityka prywatności',
+        subtitle: 'Jak przetwarzamy dane i chronimy prywatność użytkowników.'
     },
     'index-en.html': {
         eyebrow: 'OFFICIAL WEBSITE',
@@ -264,7 +264,7 @@ function renderSharedHeader() {
     const languageAria = isEnglish ? 'Switch to Polish' : 'Switch to English';
     const navAria = isEnglish ? 'Site navigation' : 'Nawigacja strony';
     const mobileNavAria = isEnglish ? 'Mobile navigation' : 'Nawigacja mobilna';
-    const menuAria = isEnglish ? 'Open menu' : 'Otworz menu';
+    const menuAria = isEnglish ? 'Open menu' : 'Otwórz menu';
     const socialAria = isEnglish ? 'Social media links' : 'Linki social media';
     const brandHref = isEnglish ? 'index-en.html' : 'index.html';
 
@@ -488,20 +488,20 @@ function getCookieConsentCopy() {
     }
 
     return {
-        title: 'Ustawienia prywatnosci',
-        description: 'Uzywamy cookies niezbednych oraz opcjonalnych narzedzi analitycznych i marketingowych tylko po Twojej zgodzie.',
+        title: 'Ustawienia prywatności',
+        description: 'Używamy cookies niezbędnych oraz opcjonalnych narzędzi analitycznych i marketingowych tylko po Twojej zgodzie.',
         acceptAll: 'Akceptuj wszystkie',
         rejectOptional: 'Odrzuc opcjonalne',
         settings: 'Ustawienia',
         saveSettings: 'Zapisz ustawienia',
         closeSettings: 'Zamknij',
-        requiredLabel: 'Niezbedne',
+        requiredLabel: 'Niezbędne',
         requiredHint: 'Zawsze aktywne',
         analyticsLabel: 'Analityczne',
-        analyticsHint: 'Pomiar ruchu i wydajnosci',
+        analyticsHint: 'Pomiar ruchu i wydajności',
         marketingLabel: 'Marketingowe',
         marketingHint: 'Pomiar reklam i social media',
-        privacyLabel: 'Polityka prywatnosci',
+        privacyLabel: 'Polityka prywatności',
         termsLabel: 'Regulamin',
         manageLabel: 'Cookies'
     };
@@ -2090,7 +2090,7 @@ function createFloatingUtilities() {
     const topButton = document.createElement('button');
     topButton.type = 'button';
     topButton.className = 'scroll-top-progress';
-    topButton.setAttribute('aria-label', 'Wroc na gore');
+    topButton.setAttribute('aria-label', 'Wróć na górę');
     topButton.innerHTML = '<svg class="scroll-top-ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="scroll-top-ring-track" cx="18" cy="18" r="14"></circle><circle class="scroll-top-ring-progress" cx="18" cy="18" r="14"></circle></svg><svg class="scroll-top-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 18V6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path><path d="M7 11 12 6l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>';
     topButton.addEventListener('click', () => {
         scrollToHeadline();
@@ -2164,12 +2164,10 @@ function initScrollReveal() {
         '.article',
         '.article-content',
         '.home-section-lead',
-        '.home-video-frame',
         '.home-release-cover',
         '.home-release-copy',
         '.home-music-panel',
         '.home-show',
-        '.home-news-card',
         '.home-news-v2-card',
         '.home-gallery-media',
         '.home-gallery-copy',
@@ -2197,7 +2195,7 @@ function initScrollReveal() {
 
     allNodes.forEach((node) => {
         node.classList.add('reveal');
-        if (node.matches('.article-content, .home-video-frame, .home-release-cover, .home-release-copy, .home-music-panel, .home-show, .home-news-card, .home-news-v2-card, .home-gallery-media, .home-gallery-copy, .song, .concert-item, .gallery-grid img, .member')) {
+        if (node.matches('.article-content, .home-release-cover, .home-release-copy, .home-music-panel, .home-show, .home-news-v2-card, .home-gallery-media, .home-gallery-copy, .song, .concert-item, .gallery-grid img, .member')) {
             node.classList.add('reveal-soft');
         }
     });
@@ -2377,7 +2375,7 @@ function initHomeLandingMotion() {
     const motionElements = Array.from(landing.querySelectorAll('[data-home-motion]'));
     const maskElements = Array.from(landing.querySelectorAll('[data-motion-mask]'));
     const mobileKineticElements = Array.from(new Set([
-        ...Array.from(landing.querySelectorAll('.home-video-frame, .home-release-cover, .home-release-copy, .home-section-lead, .home-show, .home-news-card, .home-news-card picture, .home-news-v2-card, .home-news-v2-card picture, .home-gallery-media picture, .home-gallery-copy'))
+        ...Array.from(landing.querySelectorAll('.home-release-cover, .home-release-copy, .home-section-lead, .home-show, .home-news-v2-card, .home-news-v2-card picture, .home-gallery-media picture, .home-gallery-copy'))
     ]));
     if (sections.length === 0) return;
 
@@ -2514,17 +2512,6 @@ function initHomeLandingMotion() {
                 }
             }
 
-            if (mobileLandingViewport && section.matches('.home-news')) {
-                const newsViewport = section.querySelector('.home-news-viewport');
-                const newsTrack = section.querySelector('.home-news-grid');
-                if (newsTrack) {
-                    const viewportWidthAvailable = newsViewport?.clientWidth || window.innerWidth || 1;
-                    const maxShift = Math.max(0, newsTrack.scrollWidth - viewportWidthAvailable);
-                    newsTrack.style.setProperty('--home-news-track-x', `${(-maxShift * pinProgress).toFixed(1)}px`);
-                    newsViewport?.style.setProperty('--home-news-pin-progress', pinProgress.toFixed(3));
-                }
-            }
-
             if (mobileLandingViewport && section.matches('.home-gallery')) {
                 const galleryText = section.querySelector('.home-gallery-text');
                 const galleryMedia = section.querySelector('.home-gallery-media');
@@ -2588,27 +2575,24 @@ function initHomeLandingMotion() {
             const center = rect.top + rect.height * 0.5;
             const rawProgress = (viewportHeight * 0.5 - center) / viewportHeight;
             const progress = clamp(rawProgress, -1, 1);
-            const isVideo = element.matches('.home-video-frame');
             const isReleaseCover = element.matches('.home-release-cover');
             const isLead = element.matches('.home-section-lead');
             const isShow = element.matches('.home-show');
-            const isNewsCard = element.matches('.home-news-card');
-            const isNewsPicture = element.matches('.home-news-card picture');
             const isGalleryPicture = element.matches('.home-gallery-media picture');
             const reveal = clamp((viewportHeight * 0.94 - rect.top) / (viewportHeight * 0.58), 0, 1);
             const easedReveal = 1 - Math.pow(1 - reveal, 3);
 
-            if (isVideo || isReleaseCover) {
+            if (isReleaseCover) {
                 state.targetMobileX = 0;
-                state.targetMobileY = (1 - easedReveal) * (isReleaseCover ? 58 : 34);
-                state.targetMobileRotate = (1 - easedReveal) * (isReleaseCover ? -1.4 : -2.4);
-                state.targetMobileScale = (isReleaseCover ? 0.84 : 0.62) + easedReveal * (isReleaseCover ? 0.16 : 0.38);
+                state.targetMobileY = (1 - easedReveal) * 58;
+                state.targetMobileRotate = (1 - easedReveal) * -1.4;
+                state.targetMobileScale = 0.84 + easedReveal * 0.16;
                 return;
             }
 
-            const defaultX = isLead ? 6 : isShow ? readNumber(element, 'data-motion-x', 18) : isNewsCard ? 8 : isNewsPicture ? -6 : isGalleryPicture ? 12 : 0;
-            const defaultY = isLead ? 10 : isShow ? readNumber(element, 'data-motion-y', 18) : isNewsCard ? 18 : isNewsPicture ? -10 : isGalleryPicture ? 22 : 10;
-            const defaultRotate = isShow ? 1.8 : isNewsCard ? 1.4 : isNewsPicture ? -1.2 : isGalleryPicture ? 2.6 : 0.6;
+            const defaultX = isLead ? 6 : isShow ? readNumber(element, 'data-motion-x', 18) : isGalleryPicture ? 12 : 0;
+            const defaultY = isLead ? 10 : isShow ? readNumber(element, 'data-motion-y', 18) : isGalleryPicture ? 22 : 10;
+            const defaultRotate = isShow ? 1.8 : isGalleryPicture ? 2.6 : 0.6;
             const defaultScale = isGalleryPicture ? 0.018 : 0.008;
             const xRange = readNumber(element, 'data-kinetic-x', defaultX);
             const yRange = readNumber(element, 'data-kinetic-y', defaultY);
@@ -3336,7 +3320,7 @@ function initShowsVisibility() {
         emptyState.className = 'shows-empty-state';
         emptyState.textContent = isEnglish
             ? 'No upcoming shows right now.'
-            : 'Aktualnie brak nadchodzacych koncertow.';
+            : 'Aktualnie brak nadchodzących koncertów.';
         container.appendChild(emptyState);
     }
 

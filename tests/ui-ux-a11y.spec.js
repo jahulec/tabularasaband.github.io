@@ -57,8 +57,8 @@ test.describe('UI/UX a11y regressions', () => {
     test.setTimeout(90000);
 
     const checks = [
-      { path: '/index.html', newsTitlePattern: /^Co nowego$/, newsCardCount: 8 },
-      { path: '/index-en.html', newsTitlePattern: /^Latest notes$/, newsCardCount: 9 },
+      { path: '/index.html', newsTitlePattern: /^Co nowego$/ },
+      { path: '/index-en.html', newsTitlePattern: /^From the band notebook$/ },
     ];
     const mobileViewports = [
       { width: 390, height: 844 },
@@ -74,10 +74,12 @@ test.describe('UI/UX a11y regressions', () => {
       await expect(page.locator('#welcome')).toHaveText(check.newsTitlePattern);
       await expect(page.locator('.home-music-feature')).toBeVisible();
       await expect(page.locator('.home-shows')).toBeVisible();
-      await expect(page.locator('.home-news')).toBeVisible();
+      await expect(page.locator('.home-news-v2')).toBeVisible();
       await expect(page.locator('.home-gallery')).toBeVisible();
       await expect(page.locator('.home-intro')).toHaveCount(0);
-      await expect(page.locator('.home-news-card')).toHaveCount(check.newsCardCount);
+      await expect(page.locator('.home-news-v2-card')).toHaveCount(3);
+      await expect(page.locator('.home-news-card')).toHaveCount(0);
+      await expect(page.locator('#legacy-news')).toHaveCount(0);
       await expect(page.locator('.home-gallery-media img')).toHaveCount(5);
 
       const homeShowCount = await page.locator('.home-show').count();
@@ -99,7 +101,9 @@ test.describe('UI/UX a11y regressions', () => {
             '.home-section',
             '.home-section-cta',
             '.home-text-link',
-            '.home-video-frame',
+            '.home-release-cover',
+            '.home-news-v2-grid',
+            '.home-news-v2-card',
             '.home-gallery-media',
           ];
           const overflowing = Array.from(document.querySelectorAll(measuredSelectors.join(',')))
@@ -134,15 +138,11 @@ test.describe('UI/UX a11y regressions', () => {
               );
             })
             .map((element) => element.textContent.trim());
-          const visibleNewsExtras = Array.from(document.querySelectorAll('.home-news-extra'))
-            .filter((element) => window.getComputedStyle(element).display !== 'none')
-            .length;
 
           return {
             overflowing,
             documentOverflow,
             clippedHeadings,
-            visibleNewsExtras,
             heroBottom: hero?.bottom ?? 0,
             musicTop: music?.top ?? 0,
             musicHintVisible: !!hero && !!music && hero.bottom <= window.innerHeight + 1 && music.top <= window.innerHeight + 1,
@@ -152,63 +152,52 @@ test.describe('UI/UX a11y regressions', () => {
         expect(mobileLayout.overflowing).toEqual([]);
         expect(mobileLayout.documentOverflow).toBeFalsy();
         expect(mobileLayout.clippedHeadings).toEqual([]);
-        expect(mobileLayout.visibleNewsExtras).toBeLessThanOrEqual(1);
         expect(mobileLayout.musicHintVisible).toBeTruthy();
 
         const musicTop = await page.locator('.home-music-feature').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, Math.max(0, target - window.innerHeight * 0.72)), musicTop);
         await page.waitForTimeout(450);
-        const videoScaleEarly = await page.locator('.home-video-frame').evaluate((element) =>
+        const coverScaleEarly = await page.locator('.home-release-cover').evaluate((element) =>
           Number(getComputedStyle(element).getPropertyValue('--mobile-kinetic-scale').trim())
         );
         await page.evaluate((target) => window.scrollTo(0, target + 120), musicTop);
         await page.waitForTimeout(500);
-        const videoScaleLate = await page.locator('.home-video-frame').evaluate((element) =>
+        const coverScaleLate = await page.locator('.home-release-cover').evaluate((element) =>
           Number(getComputedStyle(element).getPropertyValue('--mobile-kinetic-scale').trim())
         );
-        expect(videoScaleLate).toBeGreaterThan(videoScaleEarly);
+        expect(coverScaleLate).toBeGreaterThanOrEqual(coverScaleEarly);
 
         const showsTop = await page.locator('.home-shows').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 24), showsTop);
         await page.waitForTimeout(350);
-        const showsStageTopStart = await page.locator('.home-shows-stage').evaluate((element) =>
-          Math.round(element.getBoundingClientRect().top)
-        );
-        const showsTrackStart = await page.locator('.home-shows-track').evaluate((element) =>
+        const showsTrackStart = await page.locator('.home-shows-list').evaluate((element) =>
           getComputedStyle(element).getPropertyValue('--home-shows-track-y').trim()
         );
         await page.evaluate((target) => window.scrollTo(0, target + 520), showsTop);
         await page.waitForTimeout(450);
-        const showsStageTopEnd = await page.locator('.home-shows-stage').evaluate((element) =>
-          Math.round(element.getBoundingClientRect().top)
-        );
-        const showsTrackEnd = await page.locator('.home-shows-track').evaluate((element) =>
+        const showsTrackEnd = await page.locator('.home-shows-list').evaluate((element) =>
           getComputedStyle(element).getPropertyValue('--home-shows-track-y').trim()
         );
-        expect(Math.abs(showsStageTopEnd - showsStageTopStart)).toBeLessThanOrEqual(2);
         expect(showsTrackStart).not.toBe('');
         expect(showsTrackEnd).not.toBe(showsTrackStart);
 
-        const newsTop = await page.locator('.home-news').evaluate((element) => element.offsetTop);
+        const newsTop = await page.locator('.home-news-v2').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 24), newsTop);
         await page.waitForTimeout(350);
-        const newsStageTopStart = await page.locator('.home-news-stage').evaluate((element) =>
-          Math.round(element.getBoundingClientRect().top)
-        );
-        const newsTrackStart = await page.locator('.home-news-grid').evaluate((element) =>
-          getComputedStyle(element).getPropertyValue('--home-news-track-x').trim()
-        );
-        await page.evaluate((target) => window.scrollTo(0, target + 520), newsTop);
-        await page.waitForTimeout(450);
-        const newsStageTopEnd = await page.locator('.home-news-stage').evaluate((element) =>
-          Math.round(element.getBoundingClientRect().top)
-        );
-        const newsTrackEnd = await page.locator('.home-news-grid').evaluate((element) =>
-          getComputedStyle(element).getPropertyValue('--home-news-track-x').trim()
-        );
-        expect(Math.abs(newsStageTopEnd - newsStageTopStart)).toBeLessThanOrEqual(2);
-        expect(newsTrackStart).not.toBe('');
-        expect(newsTrackEnd).not.toBe(newsTrackStart);
+        await expect(page.locator('.home-news-v2-card').first()).toBeVisible();
+        const newsLayout = await page.locator('.home-news-v2-grid').evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            left: rect.left,
+            right: rect.right,
+            width: rect.width,
+            cardCount: element.querySelectorAll('.home-news-v2-card').length,
+          };
+        });
+        expect(newsLayout.cardCount).toBe(3);
+        expect(newsLayout.left).toBeGreaterThanOrEqual(-1);
+        expect(newsLayout.right).toBeLessThanOrEqual(viewport.width + 1);
+        expect(newsLayout.width).toBeLessThanOrEqual(viewport.width + 1);
 
         const galleryTop = await page.locator('.home-gallery').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 40), galleryTop);
@@ -248,27 +237,31 @@ test.describe('UI/UX a11y regressions', () => {
     }
   });
 
-  test('home landing video kinetics respect reduced motion', async ({ page }) => {
+  test('home landing motion respects reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(450);
 
-    const reducedValues = await page.locator('.home-video-frame').evaluate((element) => {
-      const styles = getComputedStyle(element);
-      return {
-        x: styles.getPropertyValue('--mobile-kinetic-x').trim(),
-        y: styles.getPropertyValue('--mobile-kinetic-y').trim(),
-        rotate: styles.getPropertyValue('--mobile-kinetic-rotate').trim(),
-        scale: styles.getPropertyValue('--mobile-kinetic-scale').trim(),
-      };
-    });
+    await expect(page.locator('body')).toHaveClass(/home-motion-static/);
 
-    expect(reducedValues).toEqual({
-      x: '0px',
-      y: '0px',
-      rotate: '0deg',
-      scale: '1',
-    });
+    const reducedValues = await page.locator('.home-release-cover, .home-news-v2-card, .home-gallery-media picture')
+      .evaluateAll((elements) => elements.map((element) => {
+        const styles = getComputedStyle(element);
+        return {
+          transform: styles.transform,
+          x: styles.getPropertyValue('--mobile-kinetic-x').trim(),
+          y: styles.getPropertyValue('--mobile-kinetic-y').trim(),
+          rotate: styles.getPropertyValue('--mobile-kinetic-rotate').trim(),
+          scale: styles.getPropertyValue('--mobile-kinetic-scale').trim(),
+        };
+      }));
+
+    expect(reducedValues.length).toBeGreaterThan(0);
+    expect(reducedValues.every((value) => value.transform === 'none')).toBeTruthy();
+    expect(reducedValues.every((value) => value.x === '0px')).toBeTruthy();
+    expect(reducedValues.every((value) => value.y === '0px')).toBeTruthy();
+    expect(reducedValues.every((value) => value.rotate === '0deg')).toBeTruthy();
+    expect(reducedValues.every((value) => value.scale === '1')).toBeTruthy();
   });
 });

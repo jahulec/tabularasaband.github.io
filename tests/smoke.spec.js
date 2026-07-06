@@ -1,5 +1,17 @@
 const { test, expect } = require('@playwright/test');
 
+async function setNecessaryCookieConsent(page) {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('tr_cookie_consent_v1', JSON.stringify({
+      necessary: true,
+      analytics: false,
+      marketing: false,
+      updatedAt: new Date().toISOString(),
+      version: '2026-02-25',
+    }));
+  });
+}
+
 const desktopPages = [
   '/index.html',
   '/index-en.html',
@@ -52,6 +64,7 @@ test.describe('Smoke: mobile menu lock/unlock', () => {
   for (const path of mobilePages) {
     test(`mobile nav toggles scroll lock: ${path}`, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
+      await setNecessaryCookieConsent(page);
       await page.goto(path, { waitUntil: 'domcontentloaded' });
 
       const hamburger = page.locator('#hamburger');

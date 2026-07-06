@@ -9,6 +9,7 @@
     "test:uiux": "playwright test tests/ui-ux-a11y.spec.js",
     "check:encoding": "node scripts/check-text-encoding.mjs",
     "audit:lighthouse": "node scripts/run-lighthouse-ci.mjs",
+    "enhance-images": "node scripts/enhance-image-delivery.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
     "sync:shows": "node scripts/sync-shows-from-calendar.mjs",
     "sync:shows:render": "node scripts/sync-shows-from-calendar.mjs --render-only",

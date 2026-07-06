@@ -102,8 +102,13 @@
         const image = galleryImages[index];
         if (!image) return;
         const src = image.getAttribute('data-full') || image.src;
+        const srcset = image.getAttribute('data-full-srcset');
         if (!src) return;
         const preload = new Image();
+        if (srcset) {
+            preload.srcset = srcset;
+            preload.sizes = image.getAttribute('data-full-sizes') || '100vw';
+        }
         preload.src = src;
     };
 
@@ -113,6 +118,14 @@
         if (!image) return;
 
         currentIndex = normalizedIndex;
+        const fullSrcset = image.getAttribute('data-full-srcset');
+        if (fullSrcset) {
+            expandedImage.srcset = fullSrcset;
+            expandedImage.sizes = image.getAttribute('data-full-sizes') || '100vw';
+        } else {
+            expandedImage.removeAttribute('srcset');
+            expandedImage.removeAttribute('sizes');
+        }
         expandedImage.src = image.getAttribute('data-full') || image.src;
         expandedImage.alt = image.alt || (isEnglish ? 'Expanded image' : 'Powiekszone zdjecie');
         preloadNeighbor((currentIndex + 1) % galleryImages.length);
