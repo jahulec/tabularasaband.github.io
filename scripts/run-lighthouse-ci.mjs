@@ -14,13 +14,11 @@ const AUDITS = [
 ];
 
 const THRESHOLDS = {
-  "index-mobile": { performanceMin: 75, lcpMax: 5000, clsMax: 0.1, tbtMax: 300, inpMax: 350 },
-  "shows-mobile": { performanceMin: 75, lcpMax: 5000, clsMax: 0.1, tbtMax: 300, inpMax: 350 },
-  "index-desktop": { performanceMin: 90, lcpMax: 3500, clsMax: 0.1, tbtMax: 200, inpMax: 300 },
-  "shows-desktop": { performanceMin: 90, lcpMax: 3500, clsMax: 0.1, tbtMax: 200, inpMax: 300 },
+  "index-mobile": { performanceMin: 90, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
+  "shows-mobile": { performanceMin: 90, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
+  "index-desktop": { performanceMin: 95, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
+  "shows-desktop": { performanceMin: 95, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
 };
-const IS_WINDOWS = process.platform === "win32";
-
 function formatMetric(value, digits = 2) {
   if (value === null || Number.isNaN(value) || !Number.isFinite(value)) return "n/a";
   return Number(value).toFixed(digits);
@@ -33,6 +31,9 @@ function formatMetricWithUnit(value, unit, digits = 2) {
 
 function readAudit(report, id) {
   const performance = (report.categories?.performance?.score ?? 0) * 100;
+  const accessibility = (report.categories?.accessibility?.score ?? 0) * 100;
+  const bestPractices = (report.categories?.["best-practices"]?.score ?? 0) * 100;
+  const seo = (report.categories?.seo?.score ?? 0) * 100;
   const lcp = report.audits?.["largest-contentful-paint"]?.numericValue ?? null;
   const cls = report.audits?.["cumulative-layout-shift"]?.numericValue ?? null;
   const tbt = report.audits?.["total-blocking-time"]?.numericValue ?? null;
@@ -41,6 +42,9 @@ function readAudit(report, id) {
   return {
     id,
     performance,
+    accessibility,
+    bestPractices,
+    seo,
     lcp,
     cls,
     tbt,
@@ -55,6 +59,11 @@ function evaluateThresholds(metric) {
   const failures = [];
   if (metric.performance < threshold.performanceMin) {
     failures.push(`performance ${formatMetric(metric.performance, 1)} < ${threshold.performanceMin}`);
+  }
+  for (const category of ["accessibility", "bestPractices", "seo"]) {
+    if (metric[category] < 100) {
+      failures.push(`${category} ${formatMetric(metric[category], 0)} < 100`);
+    }
   }
   if (metric.lcp !== null && metric.lcp > threshold.lcpMax) {
     failures.push(`LCP ${formatMetric(metric.lcp, 0)}ms > ${threshold.lcpMax}ms`);
@@ -94,24 +103,23 @@ const failures = [];
 for (const audit of AUDITS) {
   const outputPath = path.join(OUTPUT_DIR, `${audit.id}.json`);
   const args = [
-    "--yes",
-    "lighthouse",
+    path.join(ROOT, "node_modules", "lighthouse", "cli", "index.js"),
     audit.url,
     "--quiet",
     "--output=json",
     `--output-path=${outputPath}`,
     "--chrome-flags=--headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu",
-    "--only-categories=performance",
+    "--only-categories=performance,accessibility,best-practices,seo",
   ];
 
   if (audit.preset === "desktop") {
     args.push("--preset=desktop");
   }
 
-  const run = spawnSync("npx", args, {
+  const run = spawnSync(process.execPath, args, {
     cwd: ROOT,
     stdio: "inherit",
-    shell: IS_WINDOWS,
+    shell: false,
   });
 
   if (run.error) {
@@ -119,13 +127,14 @@ for (const audit of AUDITS) {
     continue;
   }
 
-  if (run.status !== 0) {
-    failures.push(`${audit.id}: lighthouse command failed (exit ${run.status})`);
+  let report;
+  try {
+    const reportRaw = await fs.readFile(outputPath, "utf8");
+    report = JSON.parse(reportRaw);
+  } catch {
+    failures.push(`${audit.id}: lighthouse command failed (exit ${run.status}) without a valid report`);
     continue;
   }
-
-  const reportRaw = await fs.readFile(outputPath, "utf8");
-  const report = JSON.parse(reportRaw);
   const metric = readAudit(report, audit.id);
   const thresholdFailures = evaluateThresholds(metric);
   results.push(metric);
@@ -156,6 +165,9 @@ for (const metric of results) {
     [
       metric.id.padEnd(14),
       `perf=${formatMetric(metric.performance, 1)}`,
+      `a11y=${formatMetric(metric.accessibility, 0)}`,
+      `best=${formatMetric(metric.bestPractices, 0)}`,
+      `seo=${formatMetric(metric.seo, 0)}`,
       `lcp=${formatMetricWithUnit(metric.lcp, "ms", 0)}`,
       `cls=${formatMetric(metric.cls, 3)}`,
       `tbt=${formatMetricWithUnit(metric.tbt, "ms", 0)}`,

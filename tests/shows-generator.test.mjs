@@ -67,7 +67,7 @@ test("can import only calendar shows marked with the configured tag", () => {
   assert.deepEqual(shows.map((show) => show.title), ["Tagged Show | Warszawa"]);
 });
 
-test("renders localized show lists and upcoming JSON-LD", () => {
+test("renders localized show lists without invalid event-list JSON-LD", () => {
   const shows = parseShowsFromIcs(fixtureIcs);
   const plList = buildShowsListHtml(shows, "pl");
   const enList = buildShowsListHtml(shows, "en");
@@ -77,8 +77,8 @@ test("renders localized show lists and upcoming JSON-LD", () => {
   assert.match(plList, /Wi\u0119cej/);
   assert.match(enList, /4 July 2026/);
   assert.match(enList, />More<\/a>/);
-  assert.match(jsonLd, /"@type": "MusicEvent"/);
-  assert.match(jsonLd, /https:\/\/tickets\.example\/show/);
+  assert.doesNotMatch(jsonLd, /"@type": "MusicEvent"/);
+  assert.match(jsonLd, /dedicated, crawlable page/);
 });
 
 test("merges calendar shows into existing shows without deleting current entries", () => {

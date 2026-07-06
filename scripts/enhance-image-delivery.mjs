@@ -29,6 +29,7 @@ const HTML_FILES = [
 
 const HERO_DESKTOP_SRCSET = "galeria/_responsive/zdjecia_desktop/75d-w768.webp?v=20260331c 768w, galeria/_responsive/zdjecia_desktop/75d-w1280.webp?v=20260331c 1280w, galeria/_responsive/zdjecia_desktop/75d-w1920.webp?v=20260331c 1920w, galeria/_responsive/zdjecia_desktop/75d-w2560.webp?v=20260331c 2560w";
 const HERO_MOBILE_SRCSET = "galeria/_responsive/zdjecia_mobile/80m-w360.webp?v=20260331c 360w, galeria/_responsive/zdjecia_mobile/80m-w640.webp?v=20260331c 640w, galeria/_responsive/zdjecia_mobile/80m-w960.webp?v=20260331c 960w";
+const TRANSPARENT_PIXEL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
 
 function stripQuery(url) {
   return url.split("?")[0];
@@ -109,6 +110,21 @@ function enhanceGalleryImages(html) {
   );
 }
 
+function deferInactiveSliderImages(html) {
+  return html.replace(
+    /(<div class="background-slider[^"]*"[^>]*>)([\s\S]*?)(<\/div>)/g,
+    (_match, opening, content, closing) => {
+      let imageIndex = 0;
+      const deferred = content.replace(/<img\b[^>]*>/g, (img) => {
+        imageIndex += 1;
+        if (imageIndex === 1 || img.includes(`src="${TRANSPARENT_PIXEL}"`)) return img;
+        return img.replace(/\bsrc="[^"]*"/, `src="${TRANSPARENT_PIXEL}"`);
+      });
+      return `${opening}${deferred}${closing}`;
+    }
+  );
+}
+
 function normalizeGeneratedWhitespace(html) {
   return html.replace(/^ +\t+/gm, "    ");
 }
@@ -118,6 +134,7 @@ async function main() {
     const abs = path.join(ROOT, file);
     let html = await fs.readFile(abs, "utf8");
     html = enhanceHeroPreloads(html);
+    html = deferInactiveSliderImages(html);
     html = enhanceGalleryImages(html);
     html = await addAvifSources(html);
     html = normalizeGeneratedWhitespace(html);

@@ -8,6 +8,10 @@
     "test:smoke": "playwright test tests/smoke.spec.js",
     "test:uiux": "playwright test tests/ui-ux-a11y.spec.js",
     "check:encoding": "node scripts/check-text-encoding.mjs",
+    "check:seo": "node scripts/check-seo.mjs",
+    "build:assets": "node scripts/build-assets.mjs",
+    "build:brand": "node scripts/generate-brand-assets.mjs",
+    "enhance-seo": "node scripts/enhance-seo.mjs",
     "audit:lighthouse": "node scripts/run-lighthouse-ci.mjs",
     "enhance-images": "node scripts/enhance-image-delivery.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
@@ -25,6 +29,10 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2"
+    "@playwright/test": "^1.58.2",
+    "lighthouse": "^12.6.1",
+    "lightningcss": "^1.32.0",
+    "purgecss": "^8.0.0",
+    "terser": "^5.48.0"
   }
 }

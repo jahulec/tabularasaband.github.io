@@ -3631,7 +3631,7 @@ body > footer.shop-footer .shop-footer-newsletter-form button[type="submit"] {
     padding: 0 16px !important;
     border-radius: 999px !important;
     border: 1px solid rgba(244, 0, 47, 0.8) !important;
-    background: #f4002f !important;
+    background: #ed002e !important;
     color: #fff !important;
     font-family: inherit !important;
     font-size: 0.82rem !important;
@@ -4687,6 +4687,8 @@ body > footer.shop-footer .shop-footer-social {
     padding: 0 0 24px !important;
     border: 0 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 140px;
 }
 
 #news.shows-page .concert-item + .concert-item {
@@ -10628,6 +10630,60 @@ body.home-landing-page .home-gallery-media picture:nth-child(5) img {
 
 #news.shows-page .concert-item.reveal.reveal-visible {
     transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Skip initial layout work for content outside the viewport. */
+.home-landing > .home-section,
+body > footer.shop-footer {
+    content-visibility: auto;
+}
+
+.home-landing > .home-section {
+    contain-intrinsic-size: auto 900px;
+}
+
+body > footer.shop-footer {
+    contain-intrinsic-size: auto 620px;
+}
+
+body.home-landing-page .home-landing[data-home-motion-root] .home-show time,
+body.home-landing-page .home-landing[data-home-motion-root] .home-show time::first-line {
+    color: #f4002f !important;
+}
+
+#news.shows-page .shows-past-separator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: min(900px, 100%);
+    margin: clamp(48px, 7vw, 82px) 0 30px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+#news.shows-page .shows-past-separator::before,
+#news.shows-page .shows-past-separator::after {
+    content: "";
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+#news.shows-page .shows-past-separator::before {
+    width: 36px;
+}
+
+#news.shows-page .shows-past-separator::after {
+    flex: 1;
+}
+
+@media (max-width: 900px) {
+    #news.shows-page .shows-past-separator {
+        justify-content: center;
+        margin-top: 52px;
+    }
 }
 
 /* Press emphasis: selective red bold accents, not every highlighted phrase. */

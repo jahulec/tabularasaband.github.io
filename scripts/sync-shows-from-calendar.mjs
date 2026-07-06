@@ -260,7 +260,7 @@ function buildShowArticle(show, lang) {
     : "";
 
   return `    <article class="concert-item koncert" data-show-date="${escapeHtml(show.date)}">
-        <h3>${escapeHtml(show.title)}</h3>
+        <h3 role="heading" aria-level="2">${escapeHtml(show.title)}</h3>
         <time class="concert-date" datetime="${escapeHtml(show.date)}">${escapeHtml(formatDate(show.date, lang))}</time>${ticket}
     </article>`;
 }
@@ -282,39 +282,6 @@ function upcomingShows(shows, today = new Date(), limit = Infinity) {
   return normalizeShows(shows)
     .filter((show) => isUpcoming(show, today))
     .slice(0, limit);
-}
-
-function buildEventJsonLd(show) {
-  const event = {
-    "@type": "MusicEvent",
-    name: show.title,
-    startDate: show.startDate || show.date,
-    eventStatus: "https://schema.org/EventScheduled",
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    performer: {
-      "@type": "MusicGroup",
-      name: "Tabula Rasa",
-      url: "https://tabularasaband.pl/",
-    },
-  };
-
-  if (show.location) {
-    event.location = {
-      "@type": "Place",
-      name: show.location,
-    };
-  }
-
-  if (show.ticketUrl) {
-    event.offers = {
-      "@type": "Offer",
-      url: show.ticketUrl,
-      availability: "https://schema.org/InStock",
-      priceCurrency: "PLN",
-    };
-  }
-
-  return event;
 }
 
 export function buildShowsListHtml(shows, lang = "pl") {
@@ -366,19 +333,8 @@ ${articles}
 }
 
 export function buildShowsJsonLdHtml(shows, today = new Date()) {
-  const graph = normalizeShows(shows)
-    .filter((show) => isUpcoming(show, today))
-    .map(buildEventJsonLd);
-
-  const payload = {
-    "@context": "https://schema.org",
-    "@graph": graph,
-  };
-
   return `${JSON_LD_START}
-<script type="application/ld+json">
-${JSON.stringify(payload, null, 2)}
-</script>
+<!-- Event rich results require a dedicated, crawlable page for each event. -->
 ${JSON_LD_END}`;
 }
 

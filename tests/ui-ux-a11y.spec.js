@@ -1,6 +1,23 @@
 const { test, expect } = require('@playwright/test');
 
 test.describe('UI/UX a11y regressions', () => {
+  test('cookie consent is available at first render and persists the choice', async ({ page }) => {
+    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+
+    const banner = page.locator('#trCookieConsentBanner');
+    await expect(banner).toBeVisible();
+    await expect(banner).toHaveAttribute('role', 'dialog');
+    await expect(banner).toHaveAttribute('aria-label', /Ustawienia prywatności/);
+
+    await banner.locator('[data-cookie-action="reject-optional"]').click();
+    await expect(banner).toHaveAttribute('aria-hidden', 'true');
+    await expect(banner).not.toHaveClass(/is-visible/);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(banner).toHaveAttribute('aria-hidden', 'true');
+    await expect(banner).not.toHaveClass(/is-visible/);
+  });
+
   test('all embedded iframes have non-empty title', async ({ page }) => {
     test.setTimeout(60000);
 

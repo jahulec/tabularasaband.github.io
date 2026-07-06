@@ -810,6 +810,7 @@ function initCookieConsentUi() {
         banner.innerHTML = buildCookieBannerMarkup(copy, links, initialConsent);
         document.body.appendChild(banner);
     }
+    banner.setAttribute('aria-label', copy.title);
 
     ensureCookieSettingsFab(copy);
     ensureFooterCookieSettingsLinks(copy);
@@ -1764,7 +1765,7 @@ function clearImageSource(img) {
     }
 }
 
-function syncSliderImageSources() {
+function syncSliderImageSources(includeNext = true) {
     if (sliderImages.length === 0) return;
 
     const isMobile = window.innerWidth <= 768;
@@ -1773,7 +1774,7 @@ function syncSliderImageSources() {
         : currentImageIndex;
 
     sliderImages.forEach((img, index) => {
-        const shouldLoad = index === currentImageIndex || index === nextIndex;
+        const shouldLoad = index === currentImageIndex || (includeNext && index === nextIndex);
         if (shouldLoad) {
             applyImageSource(img, isMobile);
         } else {
@@ -1828,31 +1829,20 @@ function preloadNextSlide() {
     const src = isMobile
         ? nextImage.getAttribute('data-mobile-src')
         : nextImage.getAttribute('data-desktop-src');
-    const srcset = isMobile
-        ? nextImage.getAttribute('data-mobile-srcset')
-        : nextImage.getAttribute('data-desktop-srcset');
-
-    if (!src && !srcset) return;
+    if (!src) return;
 
     const preloader = new Image();
-    if (srcset) {
-        preloader.srcset = srcset;
-        preloader.sizes = '(max-width: 768px) 100vw, 100vw';
-    }
-    if (src) {
-        preloader.src = src;
-    }
+    preloader.src = src;
 }
 
-function handleImageSwap() {
+function handleImageSwap(includeNext = true) {
     refreshSliderImages();
     if (sliderImages.length === 0) return;
 
     const activeIndex = sliderImages.findIndex((img) => img.classList.contains('active'));
     currentImageIndex = activeIndex >= 0 ? activeIndex : 0;
-    syncSliderImageSources();
+    syncSliderImageSources(includeNext);
     applySliderLoadingHints();
-    preloadNextSlide();
 }
 
 function changeSlide() {
@@ -1867,7 +1857,6 @@ function changeSlide() {
     sliderImages[currentImageIndex].classList.add('active');
     syncSliderImageSources();
     saveSliderIndex();
-    preloadNextSlide();
 
     setTimeout(() => {
         isChangingSlide = false;
@@ -1904,10 +1893,13 @@ function startSlider() {
         });
     }
 
-    handleImageSwap();
+    handleImageSwap(false);
     applySliderLoadingHints();
     saveSliderIndex();
-    preloadNextSlide();
+    const prepareNextSlide = () => {
+        preloadNextSlide();
+    };
+    window.setTimeout(prepareNextSlide, 4000);
     if (sliderIntervalId !== null) {
         clearInterval(sliderIntervalId);
     }
@@ -2141,7 +2133,7 @@ function initializeBaseState() {
 
     updateViewportMetrics();
     ensureScrollEnabled(true);
-    handleImageSwap();
+    handleImageSwap(false);
     adjustImageBrightness(window.scrollY || 0);
     createFloatingUtilities();
     updateFloatingUtilities();
@@ -2816,7 +2808,7 @@ function initAboutMemberCards() {
 
 function initHomeGalleryPhotoParallax() {
     const photos = Array.from(document.querySelectorAll(
-        '.home-gallery-media picture, .home-release-cover picture, .home-news-v2-card picture'
+        '.home-gallery-media picture, .home-release-cover picture, .home-news-v2-card picture, .gallery-grid img'
     ));
     if (photos.length === 0) return;
 
@@ -3310,6 +3302,17 @@ function initShowsVisibility() {
             return a.isPastShow ? bTime - aTime : aTime - bTime;
         })
         .forEach(({ item }) => showsList.appendChild(item));
+
+    showsList.querySelector('.shows-past-separator')?.remove();
+    const firstPastShow = showStates.find(({ isPastShow }) => isPastShow)?.item;
+    if (firstPastShow) {
+        const separator = document.createElement('div');
+        separator.className = 'shows-past-separator';
+        separator.setAttribute('role', 'separator');
+        separator.setAttribute('aria-label', isEnglish ? 'Past shows' : 'Minione koncerty');
+        separator.innerHTML = `<span>${isEnglish ? 'Past shows' : 'Minione koncerty'}</span>`;
+        showsList.insertBefore(separator, firstPastShow);
+    }
 
     const container = document.querySelector('.shows-page');
     if (!container) return;

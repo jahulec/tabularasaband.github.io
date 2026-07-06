@@ -4,21 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="Tabula Rasa news: releases, shows, backstage stories, and life inside the band.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="theme-color" content="#000000">
     <title>News | Tabula Rasa</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.min.css?v=20260706">
     <link rel="preload" href="PoppinsBlack.woff" as="font" type="font/woff" crossorigin>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="logo-fav-fix.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="canonical" href="https://tabularasaband.pl/news-en.html">
     <link rel="alternate" href="https://tabularasaband.pl/news.html" hreflang="pl">
     <link rel="alternate" href="https://tabularasaband.pl/news-en.html" hreflang="en">
-    <meta property="og:type" content="blog">
-    <meta property="og:title" content="News | Tabula Rasa">
-    <meta property="og:description" content="Releases, shows, backstage stories, and life inside Tabula Rasa.">
-    <meta property="og:image" content="https://tabularasaband.pl/artykul/diamenty-w1200.webp">
+    <link rel="alternate" href="https://tabularasaband.pl/news.html" hreflang="x-default">
+
+	<meta property="og:type" content="blog">
+	<meta property="og:site_name" content="Tabula Rasa">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:locale:alternate" content="pl_PL">
+	<meta property="og:title" content="News | Tabula Rasa">
+	<meta property="og:description" content="Tabula Rasa news: releases, shows, backstage stories, and life inside the band.">
+	<meta property="og:url" content="https://tabularasaband.pl/news-en.html">
+	<meta property="og:image" content="https://tabularasaband.pl/social-card.png">
+	<meta property="og:image:secure_url" content="https://tabularasaband.pl/social-card.png">
+	<meta property="og:image:type" content="image/png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="Tabula Rasa official band logo">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="News | Tabula Rasa">
+	<meta name="twitter:description" content="Tabula Rasa news: releases, shows, backstage stories, and life inside the band.">
+	<meta name="twitter:image" content="https://tabularasaband.pl/social-card.png">
+	<meta name="twitter:image:alt" content="Tabula Rasa official band logo">
 </head>
 <body class="news-index-page">
+<section id="trCookieConsentBanner" class="cookie-consent-banner" role="dialog" aria-label="Privacy settings" aria-live="polite" aria-hidden="true">
+    <div class="cookie-consent-inner">
+        <div class="cookie-consent-copy">
+            <h2>Privacy settings</h2>
+            <p>We use necessary cookies and optional analytics and marketing tools only with your consent.</p>
+        </div>
+        <div class="cookie-consent-actions">
+            <button type="button" class="cookie-btn cookie-btn-primary" data-cookie-action="accept-all">Accept all</button>
+            <button type="button" class="cookie-btn cookie-btn-ghost" data-cookie-action="reject-optional">Reject optional</button>
+            <button type="button" class="cookie-btn cookie-btn-link" data-cookie-action="toggle-settings">Settings</button>
+            <div class="cookie-consent-links">
+                <a href="privacy-policy.html">Privacy policy</a>
+                <span aria-hidden="true">&middot;</span>
+                <a href="terms.html">Terms</a>
+            </div>
+        </div>
+        <div class="cookie-consent-settings">
+            <label class="cookie-switch-row cookie-switch-row-required">
+                <span class="cookie-switch-copy"><strong>Necessary</strong><small>Always active</small></span>
+                <input type="checkbox" checked disabled>
+            </label>
+            <label class="cookie-switch-row">
+                <span class="cookie-switch-copy"><strong>Analytics</strong><small>Traffic and performance measurement</small></span>
+                <input type="checkbox" data-cookie-field="analytics">
+            </label>
+            <label class="cookie-switch-row">
+                <span class="cookie-switch-copy"><strong>Marketing</strong><small>Ad and social media measurement</small></span>
+                <input type="checkbox" data-cookie-field="marketing">
+            </label>
+            <div class="cookie-settings-actions">
+                <button type="button" class="cookie-btn cookie-btn-primary" data-cookie-action="save-settings">Save settings</button>
+                <button type="button" class="cookie-btn cookie-btn-link" data-cookie-action="close-settings">Close</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    (function () {
+        var banner = document.getElementById('trCookieConsentBanner');
+        try {
+            if (!localStorage.getItem('tr_cookie_consent_v1')) {
+                banner.classList.add('is-visible');
+                banner.setAttribute('aria-hidden', 'false');
+            }
+        } catch (_) {
+            banner.classList.add('is-visible');
+            banner.setAttribute('aria-hidden', 'false');
+        }
+    })();
+</script>
 <header class="shop-header" data-header-template="shared"></header>
 <div class="background-slider background-slider-subpage" aria-hidden="true">
     <img id="firstImage" src="galeria/_responsive/zdjecia_desktop/75d-w1280.webp?v=20260331c" alt="" fetchpriority="high"
@@ -152,6 +220,6 @@
         <p class="shop-footer-copy">&copy; 2026 Tabula Rasa. All rights reserved.</p>
     </div>
 </footer>
-<script src="script.js" defer></script>
+<script src="script.min.js?v=20260706" defer></script>
 </body>
 </html>
