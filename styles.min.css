@@ -190,19 +190,6 @@ body.home-landing-page .home-landing .home-show h3 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-#news.music-page .streaming-only {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: start;
-}
-
-#news.music-page .streaming-only .song {
-  min-width: 0;
-}
-
-#news.music-page .streaming-only .spotify-wrapper iframe {
-  min-height: 352px;
-}
-
 @media (width <= 760px) {
   .home-release-layout {
     grid-template-columns: 1fr;
@@ -240,12 +227,8 @@ body.home-landing-page .home-landing .home-show h3 {
     font-size: clamp(1.7rem, 8vw, 2.7rem);
   }
 
-  #news.music-page .videos-with-clips, #news.music-page .streaming-only {
+  #news.music-page .videos-with-clips {
     grid-template-columns: 1fr;
-  }
-
-  #news.music-page .streaming-only .spotify-wrapper iframe {
-    min-height: 152px;
   }
 }
 
@@ -7316,16 +7299,6 @@ body.home-landing-page .home-gallery-media picture:nth-child(5) img {
   }
 }
 
-#news.music-page .streaming-only .spotify-wrapper iframe {
-  height: 152px !important;
-  min-height: 152px !important;
-  max-height: 152px !important;
-}
-
-#news.music-page .streaming-only {
-  margin-top: clamp(64px, 8vw, 110px) !important;
-}
-
 #news.shows-page .concert-item.reveal {
   transition-duration: .42s;
   transition-timing-function: cubic-bezier(.22, .72, .28, 1);
@@ -7421,6 +7394,7 @@ body.home-landing-page .home-news-v2-copy {
   text-align: center;
   justify-content: flex-end;
   align-items: center;
+  width: 100%;
   opacity: 1 !important;
   transform: none !important;
 }
@@ -7442,6 +7416,65 @@ body.home-landing-page .home-news-v2-copy > span {
   color: #fff !important;
 }
 
+body.home-landing-page .home-news-v2-card {
+  justify-items: center;
+}
+
+body.home-landing-page .home-release-video {
+  aspect-ratio: 16 / 9;
+  background: #020203;
+  border-radius: 8px;
+  width: min(100%, 640px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 42px 92px #0000007a;
+}
+
+body.home-landing-page .home-release-video iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+body.home-landing-page .home-release-video:after {
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, #f4002f 0 26%, #ffffff57 26% 100%);
+  height: 1px;
+  position: absolute;
+  inset: auto clamp(18px, 4vw, 46px) clamp(16px, 4vw, 38px);
+}
+
+body.home-landing-page .home-release-layout {
+  grid-template-columns: minmax(320px, 640px) minmax(260px, 340px);
+  align-items: center;
+}
+
+#news.music-page .music-best-tracks {
+  text-align: center;
+  width: min(100%, 980px);
+  margin: clamp(34px, 5vw, 70px) auto clamp(56px, 7vw, 96px);
+}
+
+#news.music-page .music-best-tracks > h2 {
+  margin-bottom: 14px !important;
+}
+
+#news.music-page .music-best-tracks > p {
+  max-width: 42ch;
+  margin: 0 auto 24px !important;
+}
+
+#news.music-page .spotify-wrapper-featured iframe {
+  height: 420px !important;
+  min-height: 420px !important;
+}
+
+#news.music-page .music-videos {
+  margin-top: clamp(28px, 4vw, 48px) !important;
+}
+
 @media (hover: hover) and (pointer: fine) {
   body.home-landing-page .home-news-v2-card:hover, body.home-landing-page .home-news-v2-card:focus-visible {
     color: #fff !important;
@@ -7458,16 +7491,51 @@ body.home-landing-page .home-news-v2-copy > span {
 }
 
 @media (width <= 760px) {
-  #news.music-page .streaming-only {
-    margin-top: 56px !important;
-  }
-
   body.home-landing-page .home-news-v2-grid {
     gap: 22px !important;
   }
 
   body.home-landing-page .home-news-v2-card, body.home-landing-page .home-news-v2-card-featured {
     min-height: min(90vw, 380px);
+  }
+
+  body.home-landing-page .home-release-video {
+    width: min(82vw, 320px);
+    margin-inline: auto;
+    --mobile-kinetic-x: 0px !important;
+    --mobile-kinetic-y: 0px !important;
+    --mobile-kinetic-rotate: 0deg !important;
+  }
+
+  body.home-landing-page .home-release-layout {
+    justify-items: center;
+    grid-template-columns: 1fr !important;
+  }
+
+  body.home-landing-page .home-release-copy {
+    width: 100%;
+    text-align: center !important;
+    --mobile-kinetic-x: 0px !important;
+    --mobile-kinetic-y: 0px !important;
+    --mobile-kinetic-rotate: 0deg !important;
+    align-items: center !important;
+  }
+
+  body.home-landing-page .home-release-copy .home-text-link {
+    white-space: normal;
+    text-align: center;
+    width: 100%;
+    max-width: 260px;
+  }
+
+  #news.music-page .music-best-tracks {
+    margin-top: 30px;
+    margin-bottom: 56px;
+  }
+
+  #news.music-page .spotify-wrapper-featured iframe {
+    height: 360px !important;
+    min-height: 360px !important;
   }
 }
 

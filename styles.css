@@ -10720,6 +10720,7 @@ body.home-landing-page .home-news-v2-card-featured {
 
 body.home-landing-page .home-news-v2-copy {
     z-index: 2;
+    width: 100%;
     align-items: center;
     justify-content: flex-end;
     text-align: center;
@@ -10743,6 +10744,65 @@ body.home-landing-page .home-news-v2-copy small {
 
 body.home-landing-page .home-news-v2-copy > span {
     color: #fff !important;
+}
+
+body.home-landing-page .home-news-v2-card {
+    justify-items: center;
+}
+
+body.home-landing-page .home-release-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: min(100%, 640px);
+    overflow: hidden;
+    background: #020203;
+    border-radius: 8px;
+    box-shadow: 0 42px 92px rgba(0, 0, 0, 0.48);
+}
+
+body.home-landing-page .home-release-video iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+body.home-landing-page .home-release-video::after {
+    content: "";
+    position: absolute;
+    inset: auto clamp(18px, 4vw, 46px) clamp(16px, 4vw, 38px);
+    height: 1px;
+    background: linear-gradient(90deg, #f4002f 0 26%, rgba(255, 255, 255, 0.34) 26% 100%);
+    pointer-events: none;
+}
+
+body.home-landing-page .home-release-layout {
+    grid-template-columns: minmax(320px, 640px) minmax(260px, 340px);
+    align-items: center;
+}
+
+#news.music-page .music-best-tracks {
+    width: min(100%, 980px);
+    margin: clamp(34px, 5vw, 70px) auto clamp(56px, 7vw, 96px);
+    text-align: center;
+}
+
+#news.music-page .music-best-tracks > h2 {
+    margin-bottom: 14px !important;
+}
+
+#news.music-page .music-best-tracks > p {
+    max-width: 42ch;
+    margin: 0 auto 24px !important;
+}
+
+#news.music-page .spotify-wrapper-featured iframe {
+    height: 420px !important;
+    min-height: 420px !important;
+}
+
+#news.music-page .music-videos {
+    margin-top: clamp(28px, 4vw, 48px) !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -10774,6 +10834,45 @@ body.home-landing-page .home-news-v2-copy > span {
     body.home-landing-page .home-news-v2-card,
     body.home-landing-page .home-news-v2-card-featured {
         min-height: min(90vw, 380px);
+    }
+
+    body.home-landing-page .home-release-video {
+        width: min(82vw, 320px);
+        margin-inline: auto;
+        --mobile-kinetic-x: 0px !important;
+        --mobile-kinetic-y: 0px !important;
+        --mobile-kinetic-rotate: 0deg !important;
+    }
+
+    body.home-landing-page .home-release-layout {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+    }
+
+    body.home-landing-page .home-release-copy {
+        width: 100%;
+        align-items: center !important;
+        text-align: center !important;
+        --mobile-kinetic-x: 0px !important;
+        --mobile-kinetic-y: 0px !important;
+        --mobile-kinetic-rotate: 0deg !important;
+    }
+
+    body.home-landing-page .home-release-copy .home-text-link {
+        width: 100%;
+        max-width: 260px;
+        white-space: normal;
+        text-align: center;
+    }
+
+    #news.music-page .music-best-tracks {
+        margin-top: 30px;
+        margin-bottom: 56px;
+    }
+
+    #news.music-page .spotify-wrapper-featured iframe {
+        height: 360px !important;
+        min-height: 360px !important;
     }
 }
 
