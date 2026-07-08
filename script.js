@@ -2807,9 +2807,15 @@ function initAboutMemberCards() {
 }
 
 function initHomeGalleryPhotoParallax() {
-    const photos = Array.from(document.querySelectorAll(
-        '.home-gallery-media picture, .home-release-cover picture, .home-news-v2-card picture, .gallery-grid img'
-    ));
+    const photos = Array.from(document.querySelectorAll([
+        '.home-release-cover picture',
+        '.home-gallery-media picture',
+        '.home-news-v2-card',
+        '.news-hub-card',
+        '#news.gallery-page .gallery-grid img',
+        '#news.home-page .article-content picture',
+        '#news.home-page .article-content > a',
+    ].join(',')));
     if (photos.length === 0) return;
 
     const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -2819,13 +2825,26 @@ function initHomeGalleryPhotoParallax() {
     const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
     photos.forEach((photo) => {
-        const interactionTarget = photo.closest('.home-news-v2-card, .home-release-cover') || photo;
+        const interactionTarget = photo;
+        const parallaxTargets = [photo];
+        const nestedPicture = photo.matches('.home-news-v2-card, .news-hub-card')
+            ? photo.querySelector('picture')
+            : null;
+        if (nestedPicture) {
+            parallaxTargets.push(nestedPicture);
+        }
+
+        const setParallaxValue = (name, value) => {
+            parallaxTargets.forEach((target) => {
+                target.style.setProperty(name, value);
+            });
+        };
 
         const resetParallax = () => {
-            photo.style.setProperty('--card-rotate-x', '0deg');
-            photo.style.setProperty('--card-rotate-y', '0deg');
-            photo.style.setProperty('--card-parallax-x', '0px');
-            photo.style.setProperty('--card-parallax-y', '0px');
+            setParallaxValue('--card-rotate-x', '0deg');
+            setParallaxValue('--card-rotate-y', '0deg');
+            setParallaxValue('--card-parallax-x', '0px');
+            setParallaxValue('--card-parallax-y', '0px');
             photo.classList.remove('is-parallax-active');
         };
 
@@ -2838,10 +2857,10 @@ function initHomeGalleryPhotoParallax() {
             const deltaX = (relativeX - 0.5) * 2;
             const deltaY = (relativeY - 0.5) * 2;
 
-            photo.style.setProperty('--card-rotate-x', `${(-deltaY * 2.4).toFixed(2)}deg`);
-            photo.style.setProperty('--card-rotate-y', `${(deltaX * 3.2).toFixed(2)}deg`);
-            photo.style.setProperty('--card-parallax-x', `${(deltaX * 18).toFixed(1)}px`);
-            photo.style.setProperty('--card-parallax-y', `${(deltaY * 18).toFixed(1)}px`);
+            setParallaxValue('--card-rotate-x', `${(-deltaY * 4).toFixed(2)}deg`);
+            setParallaxValue('--card-rotate-y', `${(deltaX * 5).toFixed(2)}deg`);
+            setParallaxValue('--card-parallax-x', `${(deltaX * 16).toFixed(1)}px`);
+            setParallaxValue('--card-parallax-y', `${(deltaY * 16).toFixed(1)}px`);
         };
 
         interactionTarget.addEventListener('pointerenter', () => {
