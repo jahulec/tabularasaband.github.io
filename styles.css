@@ -11798,11 +11798,18 @@ body.home-landing-page .home-gallery-media picture {
         position: fixed !important;
         inset: 0 !important;
         width: 100vw !important;
-        height: 100dvh !important;
-        min-height: 100dvh !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
         contain: paint !important;
-        transform: translateZ(0) !important;
+        transform: none !important;
         backface-visibility: hidden !important;
+    }
+
+    @supports (height: 100lvh) {
+        .background-slider {
+            height: 100lvh !important;
+            min-height: 100lvh !important;
+        }
     }
 
     .background-slider::after {
@@ -11815,7 +11822,7 @@ body.home-landing-page .home-gallery-media picture {
     .background-slider img.active,
     .background-slider img.active.zoom-start,
     .background-slider img.zoom {
-        transform: translateZ(0) scale(1.06) !important;
+        transform: none !important;
         transition: opacity 1s ease-in-out !important;
         will-change: opacity !important;
     }

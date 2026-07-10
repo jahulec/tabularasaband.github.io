@@ -282,8 +282,9 @@ test.describe('News editorial reader', () => {
 
       const cards = page.locator('[data-news-open]');
       const reader = page.locator('[data-news-reader]');
-      await expect(cards).toHaveCount(4);
-      await cards.nth(1).click();
+      const grandPrixCard = page.locator('[data-news-open="grand-prix"]');
+      await expect(cards).toHaveCount(5);
+      await grandPrixCard.click();
 
       await expect(reader).toBeVisible();
       await expect(reader).toHaveClass(/is-active/);
@@ -307,7 +308,7 @@ test.describe('News editorial reader', () => {
       await page.locator('[data-news-close]').click();
       await expect(reader).toBeHidden();
       await expect(page).not.toHaveURL(/#grand-prix$/);
-      await expect(cards.nth(1)).toBeFocused();
+      await expect(grandPrixCard).toBeFocused();
     });
   }
 

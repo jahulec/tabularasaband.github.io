@@ -192,14 +192,21 @@
     {
       "date": "2026-07-17",
       "startDate": "2026-07-17",
-      "title": "Rock Okop",
+      "title": "Rock Okop | Skępe",
       "location": "",
       "ticketUrl": ""
     },
     {
       "date": "2026-07-18",
       "startDate": "2026-07-18",
-      "title": "Międzyrzec Podlaski",
+      "title": "Jarmark Ogórkowy | Kalisz Pomorski",
+      "location": "",
+      "ticketUrl": ""
+    },
+    {
+      "date": "2026-08-29",
+      "startDate": "2026-08-29",
+      "title": "Zlot Motocyklowy | Pułtusk",
       "location": "",
       "ticketUrl": ""
     },

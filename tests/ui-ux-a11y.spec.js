@@ -171,6 +171,32 @@ test.describe('UI/UX a11y regressions', () => {
         expect(mobileLayout.clippedHeadings).toEqual([]);
         expect(mobileLayout.musicHintVisible).toBeTruthy();
 
+        const backgroundStart = await page.locator('.background-slider').evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          const img = element.querySelector('img.active') || element.querySelector('img');
+          return {
+            width: rect.width,
+            height: rect.height,
+            transform: img ? getComputedStyle(img).transform : '',
+          };
+        });
+        await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight * 0.45));
+        await page.waitForTimeout(250);
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.waitForTimeout(250);
+        const backgroundEnd = await page.locator('.background-slider').evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          const img = element.querySelector('img.active') || element.querySelector('img');
+          return {
+            width: rect.width,
+            height: rect.height,
+            transform: img ? getComputedStyle(img).transform : '',
+          };
+        });
+        expect(backgroundEnd.width).toBeCloseTo(backgroundStart.width, 0);
+        expect(backgroundEnd.height).toBeCloseTo(backgroundStart.height, 0);
+        expect(backgroundEnd.transform).toBe('none');
+
         const musicTop = await page.locator('.home-music-feature').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, Math.max(0, target - window.innerHeight * 0.72)), musicTop);
         await page.waitForTimeout(450);
