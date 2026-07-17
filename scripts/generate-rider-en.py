@@ -81,7 +81,7 @@ def page2(page):
 
 
 def page3(page):
-    put(page, 66.86, 84, "• Drummer - in-ear monitor (sum mix from FOH console)", size=11)
+    put(page, 66.86, 84, "• Drummer - in-ear monitor (mono mix from FOH console)", size=11)
     put(page, 55.92, 118, "INPUT LIST", size=12, bold=True)
 
     x_pos = 59.16
@@ -133,14 +133,17 @@ def page3(page):
 
 
 def page4(page):
-    put(page, 55.92, 88, "FINAL NOTES", size=12, bold=True)
-    put(page, 66.86, 118, "• Please contact the technical crew no later than 7 days before the show", size=11)
-    put(page, 66.86, 135, "• Any rider changes require the band's approval", size=11)
+    put(page, 55.92, 88, "REQUIREMENTS", size=12, bold=True)
+    put(page, 66.86, 118, "• Air conditioning or high-performance fans are required", size=11)
 
-    put(page, 55.92, 178, "CONTACT", size=12, bold=True)
-    put(page, 66.86, 208, "Delia Janiszewska", size=11)
-    put(page, 66.86, 225, "Phone: +48 602 502 562", size=11)
-    put(page, 66.86, 242, "E-mail: tabularasa.zespol@gmail.com", size=11)
+    put(page, 55.92, 158, "FINAL NOTES", size=12, bold=True)
+    put(page, 66.86, 188, "• Please contact the technical crew no later than 7 days before the show", size=11)
+    put(page, 66.86, 205, "• Any rider changes require the band's approval", size=11)
+
+    put(page, 55.92, 248, "CONTACT", size=12, bold=True)
+    put(page, 66.86, 278, "Delia Janiszewska", size=11)
+    put(page, 66.86, 295, "Phone: +48 602 502 562", size=11)
+    put(page, 66.86, 312, "E-mail: tabularasa.zespol@gmail.com", size=11)
 
 
 doc = fitz.open(SOURCE_PDF)
