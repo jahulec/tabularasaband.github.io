@@ -117,8 +117,13 @@ function deferInactiveSliderImages(html) {
       let imageIndex = 0;
       const deferred = content.replace(/<img\b[^>]*>/g, (img) => {
         imageIndex += 1;
-        if (imageIndex === 1 || img.includes(`src="${TRANSPARENT_PIXEL}"`)) return img;
-        return img.replace(/\bsrc="[^"]*"/, `src="${TRANSPARENT_PIXEL}"`);
+        const cleanImg = img
+          .replace(/\s+alt=(?:"[^"]*"|'[^']*')/gi, "")
+          .replace(/\s+aria-hidden=(?:"[^"]*"|'[^']*')/gi, "")
+          .replace(/\s+draggable=(?:"[^"]*"|'[^']*')/gi, "")
+          .replace("<img", '<img alt="" aria-hidden="true" draggable="false"');
+        if (imageIndex === 1 || cleanImg.includes(`src="${TRANSPARENT_PIXEL}"`)) return cleanImg;
+        return cleanImg.replace(/\bsrc="[^"]*"/, `src="${TRANSPARENT_PIXEL}"`);
       });
       return `${opening}${deferred}${closing}`;
     }

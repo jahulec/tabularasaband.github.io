@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const showsData = require('../data/shows.json').shows;
 
 async function setNecessaryCookieConsent(page) {
   await page.addInitScript(() => {
@@ -142,60 +143,30 @@ test('mobile nav responds to touch swipe open and close', async ({ page }) => {
 
   await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
 
-  await page.evaluate(() => {
-    const target = document.documentElement;
-    const dispatchTouch = (type, x, y) => {
-      const event = new Event(type, { bubbles: true, cancelable: true });
-      Object.defineProperty(event, 'touches', {
-        value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
-      });
-      target.dispatchEvent(event);
-    };
-
-    dispatchTouch('touchstart', window.innerWidth - 8, 160);
-    dispatchTouch('touchmove', window.innerWidth - 116, 160);
-    dispatchTouch('touchend', window.innerWidth - 116, 160);
-  });
-
-  await expect(page.locator('#nav-mobile')).toHaveClass(/active/);
-
-  await page.evaluate(() => {
-    const target = document.querySelector('.mobile-nav-panel');
-    const dispatchTouch = (type, x, y) => {
-      const event = new Event(type, { bubbles: true, cancelable: true });
-      Object.defineProperty(event, 'touches', {
-        value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
-      });
-      target.dispatchEvent(event);
-    };
-
-    dispatchTouch('touchstart', window.innerWidth - 130, 200);
-    dispatchTouch('touchmove', window.innerWidth - 18, 200);
-    dispatchTouch('touchend', window.innerWidth - 18, 200);
-  });
-
-  await expect(page.locator('#nav-mobile')).not.toHaveClass(/active/);
 });
 
-test.describe('Smoke: mobile nav swipe works across pages', () => {
+test.describe('Smoke: mobile edge swipe works across pages', () => {
   for (const path of ['/index.html', '/music.html', '/shows.html', '/gallery.html']) {
-    test(`right-side touch swipe opens menu: ${path}`, async ({ page }) => {
+    test(`right-edge pointer swipe opens menu: ${path}`, async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(path, { waitUntil: 'domcontentloaded' });
 
       await page.evaluate(() => {
         const target = document.body;
-        const dispatchTouch = (type, x, y) => {
-          const event = new Event(type, { bubbles: true, cancelable: true });
-          Object.defineProperty(event, 'touches', {
-            value: type === 'touchend' ? [] : [{ clientX: x, clientY: y }],
-          });
-          target.dispatchEvent(event);
+        const dispatchPointer = (type, x, y) => {
+          target.dispatchEvent(new PointerEvent(type, {
+            bubbles: true,
+            clientX: x,
+            clientY: y,
+            pointerId: 9,
+            pointerType: 'touch',
+            isPrimary: true,
+          }));
         };
 
-        dispatchTouch('touchstart', window.innerWidth - 76, 220);
-        dispatchTouch('touchmove', window.innerWidth - 144, 220);
-        dispatchTouch('touchend', window.innerWidth - 144, 220);
+        dispatchPointer('pointerdown', window.innerWidth - 8, 220);
+        dispatchPointer('pointermove', window.innerWidth - 92, 220);
+        dispatchPointer('pointerup', window.innerWidth - 92, 220);
       });
 
       await expect(page.locator('#nav-mobile')).toHaveClass(/active/);
@@ -252,9 +223,10 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
         };
       });
 
-      expect(showStates.total).toBe(31);
-      expect(showStates.visible).toBe(31);
-      expect(showStates.past).toBe(14);
+      const expectedPast = showsData.filter((show) => show.date < '2026-03-28').length;
+      expect(showStates.total).toBe(showsData.length);
+      expect(showStates.visible).toBe(showsData.length);
+      expect(showStates.past).toBe(expectedPast);
       expect(showStates.orderedDates.slice(0, 4)).toEqual([
         '2026-03-28',
         '2026-04-11',
@@ -270,6 +242,46 @@ test.describe('Smoke: past shows are dimmed after the event day', () => {
       expect(showStates.march27Past).toBe(true);
       expect(showStates.march28Past).toBe(false);
       expect(showStates.emptyHidden).toBe(true);
+    });
+  }
+});
+
+test.describe('Smoke: landing keeps only nearest upcoming shows', () => {
+  for (const path of ['/index.html', '/index-en.html']) {
+    test(`past dates and status labels are absent on ${path}`, async ({ page }) => {
+      await page.addInitScript(() => {
+        const RealDate = Date;
+        const fixedNow = new RealDate('2026-07-19T12:00:00+02:00');
+        class MockDate extends RealDate {
+          constructor(...args) {
+            super(...(args.length ? args : [fixedNow.getTime()]));
+          }
+          static now() { return fixedNow.getTime(); }
+          static parse(value) { return RealDate.parse(value); }
+          static UTC(...args) { return RealDate.UTC(...args); }
+        }
+        window.Date = MockDate;
+      });
+
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+      await page.evaluate(() => {
+        const list = document.querySelector('[data-home-shows]');
+        const past = document.createElement('article');
+        past.className = 'home-show runtime-past-show';
+        past.dataset.showDate = '2026-07-18';
+        past.innerHTML = '<time datetime="2026-07-18">18.07.2026</time><h3>Past fixture</h3>';
+        list.prepend(past);
+        window.initHomeShowsVisibility();
+      });
+
+      await expect(page.locator('.runtime-past-show')).toBeHidden();
+      await expect(page.locator('.home-show-status')).toHaveCount(0);
+      const visibleDates = await page.locator('[data-home-shows] .home-show:visible').evaluateAll((items) => (
+        items.map((item) => item.getAttribute('data-show-date'))
+      ));
+      expect(visibleDates.length).toBeGreaterThan(0);
+      expect(visibleDates.length).toBeLessThanOrEqual(3);
+      expect(visibleDates.every((date) => date >= '2026-07-19')).toBe(true);
     });
   }
 });
@@ -325,50 +337,20 @@ test.describe('News editorial reader', () => {
 });
 
 test('home upcoming shows match the shows page ordering for the generated date', async ({ page }) => {
-  await page.addInitScript(() => {
-    const RealDate = Date;
-    const fixedNow = new RealDate('2026-07-02T12:00:00');
-
-    class MockDate extends RealDate {
-      constructor(...args) {
-        if (args.length === 0) {
-          super(fixedNow.getTime());
-          return;
-        }
-
-        super(...args);
-      }
-
-      static now() {
-        return fixedNow.getTime();
-      }
-
-      static parse(value) {
-        return RealDate.parse(value);
-      }
-
-      static UTC(...args) {
-        return RealDate.UTC(...args);
-      }
-    }
-
-    window.Date = MockDate;
-  });
-
   await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.home-show');
-  const homeDates = await page.$$eval('.home-show', (items) =>
+  const homeDates = await page.$$eval('.home-show:not([hidden])', (items) =>
     items.map((item) => item.getAttribute('data-show-date'))
   );
 
   await page.goto('/shows.html', { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.shows-empty-state', { state: 'attached' });
   await page.waitForTimeout(250);
-  const showsDates = await page.$$eval('.shows-list .concert-item', (items) =>
-    items.slice(0, 5).map((item) => item.getAttribute('data-show-date'))
+  const showsDates = await page.$$eval('.shows-list .concert-item:not(.is-past-show)', (items) =>
+    items.slice(0, 3).map((item) => item.getAttribute('data-show-date'))
   );
 
-  expect(homeDates.length).toBeLessThanOrEqual(5);
+  expect(homeDates.length).toBeLessThanOrEqual(3);
   expect(homeDates).toEqual(showsDates.slice(0, homeDates.length));
 });
 

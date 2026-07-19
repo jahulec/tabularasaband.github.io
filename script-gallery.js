@@ -160,11 +160,11 @@
     const closeImage = () => {
         expandedImage.classList.remove('expanded');
         expandedImageContainer.style.opacity = '0';
+        expandedImageContainer.style.pointerEvents = 'none';
         setScrollEnabled(true);
 
         setTimeout(() => {
             expandedImageContainer.style.display = 'none';
-            expandedImageContainer.style.pointerEvents = 'none';
             expandedImageContainer.setAttribute('aria-hidden', 'true');
             setBackgroundAccessibilityHidden(false);
             if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {

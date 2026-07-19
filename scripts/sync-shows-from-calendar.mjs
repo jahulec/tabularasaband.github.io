@@ -51,6 +51,11 @@ const EN_MONTHS = [
   "December",
 ];
 
+const PL_SHORT_MONTHS = ["STY", "LUT", "MAR", "KWI", "MAJ", "CZE", "LIP", "SIE", "WRZ", "PAŹ", "LIS", "GRU"];
+const EN_SHORT_MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const PL_SHORT_WEEKDAYS = ["NDZ", "PON", "WT", "ŚR", "CZW", "PT", "SOB"];
+const EN_SHORT_WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -87,6 +92,22 @@ function formatDate(dateValue, lang) {
 
   if (!month) return date;
   return lang === "en" ? `${day} ${month} ${year}` : `${day} ${month} ${year}`;
+}
+
+function formatDateBadge(dateValue, lang) {
+  const date = normalizeDate(dateValue);
+  const match = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+
+  const year = Number(match[1]);
+  const monthIndex = Number(match[2]) - 1;
+  const day = Number(match[3]);
+  const weekdayIndex = new Date(Date.UTC(year, monthIndex, day)).getUTCDay();
+  const months = lang === "en" ? EN_SHORT_MONTHS : PL_SHORT_MONTHS;
+  const weekdays = lang === "en" ? EN_SHORT_WEEKDAYS : PL_SHORT_WEEKDAYS;
+
+  if (!months[monthIndex] || !weekdays[weekdayIndex]) return null;
+  return { weekday: weekdays[weekdayIndex], day: String(day), month: months[monthIndex] };
 }
 
 function parseIcsParams(rawName) {
@@ -258,11 +279,17 @@ function buildShowArticle(show, lang) {
   const ticket = show.ticketUrl
     ? `\n        <a href="${escapeHtml(show.ticketUrl)}" class="ticket-btn">${ticketLabel}</a>`
     : "";
+  const badge = formatDateBadge(show.date, lang);
+  const dateLabel = escapeHtml(formatDate(show.date, lang));
+  const dateMarkup = badge
+    ? `<span class="concert-date-weekday" aria-hidden="true">${escapeHtml(badge.weekday)}</span><span class="concert-date-day" aria-hidden="true">${escapeHtml(badge.day)}</span><span class="concert-date-month" aria-hidden="true">${escapeHtml(badge.month)}</span>`
+    : dateLabel;
 
   return `    <article class="concert-item koncert" data-show-date="${escapeHtml(show.date)}">
+        <time class="concert-date" datetime="${escapeHtml(show.date)}" aria-label="${dateLabel}">${dateMarkup}</time>
         <h3 role="heading" aria-level="2">${escapeHtml(show.title)}</h3>
-        <time class="concert-date" datetime="${escapeHtml(show.date)}">${escapeHtml(formatDate(show.date, lang))}</time>${ticket}
-    </article>`;
+        ${ticket.trimStart()}
+    </article>`.replace(/\n        \n/, "\n");
 }
 
 function startOfToday(today = new Date()) {

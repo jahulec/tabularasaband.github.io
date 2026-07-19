@@ -74,6 +74,10 @@ test("renders localized show lists without invalid event-list JSON-LD", () => {
   const jsonLd = buildShowsJsonLdHtml(shows, new Date("2026-06-19T12:00:00"));
 
   assert.match(plList, /20 czerwca 2026/);
+  assert.match(plList, /concert-date-weekday[^>]*>SOB</);
+  assert.match(plList, /concert-date-day[^>]*>20</);
+  assert.match(plList, /concert-date-month[^>]*>CZE</);
+  assert.match(plList, /aria-label="20 czerwca 2026"/);
   assert.match(plList, /Wi\u0119cej/);
   assert.match(enList, /4 July 2026/);
   assert.match(enList, />More<\/a>/);
@@ -111,6 +115,10 @@ test("renders the homepage with the same upcoming order and a three-show limit",
   const dates = Array.from(html.matchAll(/data-show-date="([^"]+)"/g), (match) => match[1]);
 
   assert.deepEqual(dates, ["2026-06-20", "2026-07-04", "2026-08-10"]);
+  assert.match(html, /<time datetime="2026-06-20">20 June 2026<\/time>/);
+  assert.doesNotMatch(html, /home-show-date-/);
+  assert.match(html, /data-motion-x="72"/);
+  assert.match(html, /data-motion-x="-72"/);
   assert.match(html, /Tickets \/ more/);
   assert.doesNotMatch(html, /2026-09-12/);
 });
@@ -153,5 +161,6 @@ test("homepage rendering is deterministic when generated shows do not change", (
   const second = renderHomePage(first, shows, "pl", new Date("2026-06-19T12:00:00"));
 
   assert.equal(second, first);
-  assert.match(first, /20 czerwca 2026/);
+  assert.match(first, /<time datetime="2026-06-20">20 czerwca 2026<\/time>/);
+  assert.doesNotMatch(first, /home-show-date-/);
 });

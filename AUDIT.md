@@ -123,15 +123,16 @@ Mocne strony:
 - repozytorium ma AVIF/WebP, `srcset`, `sizes`, lazy loading i skrypty optymalizujące;
 - obraz LCP ma preload i `fetchpriority`;
 - CSS i JS mają wersje minifikowane;
+- duże, nieużywane oryginały obrazów zostały usunięte z artefaktu, a zoptymalizowane warianty AVIF/WebP zachowane;
+- landing i strona koncertów korzystają z odchudzonych, osobnych paczek CSS, a landing ładuje YouTube dopiero po interakcji;
 - GTM uruchamia się po intencji użytkownika i jest powiązany ze zgodą;
 - formularz newslettera ma realny endpoint MailerLite, a kontakt realny endpoint Formspree.
 
 Problemy:
 
-- źródłowy plik `progresja warning.jpg` ma około 41 MB i nie powinien trafiać do produkcyjnego transferu; zoptymalizowane warianty już istnieją, więc oryginał należy przenieść poza ścieżkę publikacji lub usunąć z wdrażanego artefaktu;
 - wiele podstron preloaduje ten sam slider, choć nie jest on najważniejszą treścią tych stron;
-- pełne iframe'y YouTube i Spotify są ciężkie;
-- wspólny minifikowany CSS ma około 188 KB, a JS około 77 KB — za dużo jak na statyczny serwis;
+- pozostałe pełne iframe'y multimedialne (w tym Spotify) są ciężkie;
+- część podstron nadal korzysta ze wspólnego minifikowanego CSS o rozmiarze około 185 KB;
 - częste animacje scroll/pinned zwiększają koszt na urządzeniach mobilnych;
 - lokalny serwer testowy notuje `ConnectionAbortedError`, gdy przeglądarka anuluje pobieranie dużych zestawów obrazów galerii. Nie jest to błąd produkcyjny, ale potwierdza nadmiar równoległych zapytań.
 

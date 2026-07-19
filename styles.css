@@ -635,12 +635,12 @@ img[src$="logo.png"]:not(.brand-logo) {
 
 @font-face {
     font-family: 'PoppinsBlack';
-    src: url('PoppinsBlack.woff') format('woff');
+    src: url('PoppinsBlack.woff2') format('woff2'),
+         url('PoppinsBlack.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
-
 
 #footer {
 	font-size: clamp(16px, 2vw, 24px);
@@ -10997,7 +10997,7 @@ body:not(.home-landing-page) #news .contact-submit:focus-visible,
 @media (max-width: 900px) {
     html,
     body {
-        touch-action: pan-y;
+        touch-action: pan-y pinch-zoom;
     }
 
     .shop-header.menu-open,
@@ -11791,24 +11791,24 @@ body.home-landing-page .home-gallery-media picture {
 @media (max-width: 760px) {
     html,
     body {
-        overscroll-behavior-y: none !important;
+        overscroll-behavior-y: auto !important;
     }
 
     .background-slider {
         position: fixed !important;
         inset: 0 !important;
         width: 100vw !important;
-        height: 100vh !important;
-        min-height: 100vh !important;
+        height: var(--tr-mobile-slider-height, 100lvh) !important;
+        min-height: var(--tr-mobile-slider-height, 100lvh) !important;
         contain: paint !important;
         transform: none !important;
         backface-visibility: hidden !important;
     }
 
-    @supports (height: 100lvh) {
+    @supports not (height: 100lvh) {
         .background-slider {
-            height: 100lvh !important;
-            min-height: 100lvh !important;
+            height: var(--tr-mobile-slider-height, 100vh) !important;
+            min-height: var(--tr-mobile-slider-height, 100vh) !important;
         }
     }
 
@@ -11866,5 +11866,341 @@ body.home-landing-page .home-gallery-media picture {
     .home-gallery-media picture,
     body.news-index-page .news-hub-card {
         transform: scale(1.03) !important;
+    }
+}
+
+/* The landing keeps only the nearest upcoming shows after the local date rolls over. */
+body.home-landing-page .home-landing[data-home-motion-root] .home-shows-list .home-show[hidden] {
+    display: none !important;
+}
+
+.youtube-facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    color: #fff;
+    background: #000;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.youtube-facade img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.28s ease, filter 0.28s ease;
+}
+
+.youtube-facade-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 68px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f4002f;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.42);
+    transform: translate(-50%, -50%);
+}
+
+.youtube-facade-play::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 53%;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 15px solid #fff;
+    transform: translate(-50%, -50%);
+}
+
+.youtube-facade:hover img,
+.youtube-facade:focus-visible img {
+    filter: brightness(0.82);
+    transform: scale(1.025);
+}
+
+.youtube-facade:focus-visible {
+    outline: 3px solid #fff !important;
+    outline-offset: -5px !important;
+}
+
+#news.shows-page .concert-item.is-past-show {
+    opacity: 1 !important;
+}
+
+#news.shows-page .concert-item.is-past-show h3,
+#news.shows-page .concert-item.is-past-show .concert-date {
+    color: #a8a8a8 !important;
+}
+
+@media (max-width: 760px) {
+    body.home-landing-page .home-landing-hero .home-hero-copy {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Overlap translucent landing layers by one physical pixel to avoid compositor seams. */
+body.home-landing-page .home-landing[data-home-motion-root] > section.home-section {
+    margin-top: -1px !important;
+}
+
+body.home-landing-page .home-landing > #news.home-section {
+    margin-top: -1px !important;
+}
+
+body.home-landing-page .home-landing[data-home-motion-root] > .home-music-feature::before {
+    content: none !important;
+    display: none !important;
+}
+
+body.home-landing-page > footer.shop-footer {
+    margin-top: -1px !important;
+}
+
+/* 2026 typography system: display, reading copy and compact metadata. */
+:root {
+    --tr-font-display: 'PoppinsBlack', 'Arial Black', sans-serif;
+    --tr-font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --tr-font-meta: 'PoppinsBlack', 'Arial Black', sans-serif;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--tr-font-body);
+}
+
+h1,
+h2,
+h3,
+.page-hero-title,
+.home-hero-copy h1,
+.home-section-lead h2,
+.home-gallery-text h2,
+.home-news-v2-copy strong,
+.news-reader-heading h2 {
+    font-family: var(--tr-font-display) !important;
+}
+
+.home-landing,
+.home-landing[data-home-motion-root] {
+    font-family: var(--tr-font-display);
+}
+
+.home-landing p,
+.home-landing a,
+.home-landing button,
+.shop-header,
+.shop-header a,
+.shop-header button,
+.mobile-nav-link {
+    font-family: var(--tr-font-display) !important;
+}
+
+.eyebrow,
+.page-hero-eyebrow,
+.home-hero-eyebrow,
+.home-section-kicker,
+.home-release-label,
+.home-news-v2-copy > span,
+.home-news-v2-copy small,
+.home-text-link,
+.home-section-cta,
+.ticket-btn {
+    font-family: var(--tr-font-meta) !important;
+}
+
+/* Transparent calendar tile on the dedicated shows page. */
+#news.shows-page .concert-item {
+    display: grid !important;
+    grid-template-columns: clamp(54px, 5vw, 62px) minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    column-gap: clamp(18px, 3vw, 34px) !important;
+    min-height: 110px;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    text-align: left !important;
+}
+
+#news.shows-page .concert-item + .concert-item {
+    padding-top: 20px !important;
+}
+
+#news.shows-page .concert-item h3 {
+    grid-column: 2;
+    margin: 0 !important;
+    text-align: left !important;
+}
+
+#news.shows-page .concert-date {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: grid !important;
+    grid-template-rows: auto auto auto;
+    place-items: center;
+    align-content: center;
+    align-self: center;
+    width: clamp(54px, 5vw, 62px) !important;
+    min-width: 0;
+    height: clamp(76px, 7vw, 86px);
+    margin: 0 !important;
+    padding: 8px 4px !important;
+    gap: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 2px !important;
+    color: #fff !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-family: var(--tr-font-meta) !important;
+    font-variant-numeric: tabular-nums;
+    line-height: 1 !important;
+    text-align: center;
+}
+
+#news.shows-page .concert-date-weekday,
+#news.shows-page .concert-date-month {
+    font-family: var(--tr-font-meta);
+    font-size: clamp(0.52rem, 0.62vw, 0.62rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+#news.shows-page .concert-date-weekday {
+    color: #f4002f;
+}
+
+#news.shows-page .concert-date-day {
+    font-family: var(--tr-font-display);
+    font-size: clamp(1.55rem, 2.2vw, 2rem);
+    letter-spacing: -0.055em;
+    line-height: 0.9;
+}
+
+#news.shows-page .concert-item .ticket-btn {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+}
+
+#news.shows-page .concert-item.is-past-show .concert-date {
+    border-color: rgba(190, 190, 190, 0.26) !important;
+    background: transparent !important;
+}
+
+/* A slow Ken Burns drift that does not depend on the changing mobile viewport. */
+@keyframes tr-slider-zoom-a {
+    from { transform: translate3d(0, 0, 0) scale(1.012); }
+    to { transform: translate3d(-0.25%, -0.18%, 0) scale(1.052); }
+}
+
+@keyframes tr-slider-zoom-b {
+    from { transform: translate3d(-0.15%, 0, 0) scale(1.012); }
+    to { transform: translate3d(0.2%, -0.22%, 0) scale(1.052); }
+}
+
+.background-slider img,
+.background-slider img.active,
+.background-slider img.is-leaving,
+.background-slider img.active.zoom-start,
+.background-slider img.zoom {
+    transform: translate3d(0, 0, 0) scale(1.012) !important;
+    transition: opacity 1.05s ease-in-out !important;
+    will-change: opacity, transform !important;
+}
+
+.background-slider img.active,
+.background-slider img.is-leaving {
+    animation: tr-slider-zoom-a 6.4s cubic-bezier(0.2, 0.62, 0.28, 1) both !important;
+}
+
+.background-slider img:nth-of-type(even).active,
+.background-slider img:nth-of-type(even).is-leaving {
+    animation-name: tr-slider-zoom-b !important;
+}
+
+@media (max-width: 760px) {
+    body.news-index-page #news.news-hub-page #welcome {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+    }
+
+    #news.shows-page .concert-item {
+        grid-template-columns: 48px minmax(0, 1fr) !important;
+        min-height: 102px !important;
+        padding-top: 16px !important;
+        padding-bottom: 16px !important;
+        column-gap: 14px !important;
+        text-align: left !important;
+    }
+
+    #news.shows-page .concert-item + .concert-item {
+        padding-top: 16px !important;
+    }
+
+    #news.shows-page .concert-date {
+        width: 48px !important;
+        height: 70px;
+        padding: 7px 3px !important;
+        margin: 0 !important;
+    }
+
+    #news.shows-page .concert-date-weekday,
+    #news.shows-page .concert-date-month {
+        font-size: 0.5rem;
+    }
+
+    #news.shows-page .concert-date-day {
+        font-size: 1.52rem;
+    }
+
+    #news.shows-page .concert-item h3 {
+        grid-column: 2;
+        margin: 0 !important;
+        text-align: left !important;
+    }
+
+    #news.shows-page .concert-item .ticket-btn {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: start;
+        margin: 10px 0 0 !important;
+    }
+
+    body.home-landing-page .home-landing-hero::after {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        z-index: 0 !important;
+        inset: auto 0 -1px !important;
+        height: clamp(240px, 40svh, 390px) !important;
+        opacity: 1 !important;
+        background: linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.12) 28%,
+            rgba(0, 0, 0, 0.38) 68%,
+            rgba(0, 0, 0, 0.62) 100%
+        ) !important;
+        pointer-events: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .background-slider img,
+    .background-slider img.active,
+    .background-slider img.is-leaving {
+        animation: none !important;
+        transform: translate3d(0, 0, 0) scale(1.025) !important;
     }
 }

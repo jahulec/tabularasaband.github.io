@@ -13,7 +13,16 @@ const fail = (file, message) => failures.push(`${file}: ${message}`);
 
 const sitemap = await read("sitemap.xml");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+const sitemapLastmods = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((match) => match[1]);
 if (new Set(sitemapUrls).size !== sitemapUrls.length) fail("sitemap.xml", "contains duplicate URLs");
+if (sitemapLastmods.length !== sitemapUrls.length) {
+  fail("sitemap.xml", "every URL must have exactly one lastmod value");
+}
+for (const value of sitemapLastmods) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(`${value}T00:00:00Z`))) {
+    fail("sitemap.xml", `invalid lastmod value: ${value}`);
+  }
+}
 
 const pageByUrl = new Map();
 for (const url of sitemapUrls) {
@@ -32,8 +41,13 @@ for (const [url, { file, html }] of pageByUrl) {
   const robots = capture(html, /<meta\s+[^>]*name=["']robots["'][^>]*content=["']([^"']+)["'][^>]*>/i);
   const title = capture(html, /<title>([\s\S]*?)<\/title>/i).trim();
   const description = capture(html, /<meta\s+[^>]*name=["']description["'][^>]*content=["']([^"']+)["'][^>]*>/i);
+  const ogUrl = capture(html, /<meta\s+[^>]*property=["']og:url["'][^>]*content=["']([^"']+)["'][^>]*>/i);
+  const htmlLang = capture(html, /<html\s+[^>]*lang=["']([^"']+)["']/i);
 
   if (canonical !== url) fail(file, `canonical is ${canonical || "missing"}, expected ${url}`);
+  if (ogUrl !== canonical) fail(file, `og:url must match canonical (${canonical})`);
+  if (!htmlLang) fail(file, "html element is missing lang");
+  if (!/<meta\s+[^>]*name=["']viewport["']/i.test(html)) fail(file, "missing viewport meta");
   if (!robots.includes("index") || robots.includes("noindex")) fail(file, "sitemap page is not indexable");
   if (count(html, /<title>/gi) !== 1 || !title) fail(file, "must contain one non-empty title");
   if (count(html, /<meta\s+[^>]*name=["']description["']/gi) !== 1 || !description) {
@@ -69,6 +83,16 @@ for (const [url, { file, html }] of pageByUrl) {
     } catch (error) {
       fail(file, `invalid JSON-LD: ${error.message}`);
     }
+  }
+
+  for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
+    if (!/\balt=["'][^"']*["']/i.test(match[1])) fail(file, "image is missing an alt attribute");
+  }
+
+  for (const match of html.matchAll(/<a\b([^>]*)\btarget=["']_blank["']([^>]*)>/gi)) {
+    const attributes = `${match[1]} ${match[2]}`;
+    const rel = capture(attributes, /\brel=["']([^"']+)["']/i).toLowerCase();
+    if (!rel.split(/\s+/).includes("noopener")) fail(file, "target=_blank link is missing rel=noopener");
   }
 
   const alternates = [...html.matchAll(/<link\s+[^>]*rel=["']alternate["'][^>]*href=["']([^"']+)["'][^>]*hreflang=["']([^"']+)["'][^>]*>/gi)];

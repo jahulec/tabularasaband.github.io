@@ -51,6 +51,22 @@ function desktopSrcSet(name) {
   return `galeria/_responsive/zdjecia_desktop/${name}-w768.webp 768w, galeria/_responsive/zdjecia_desktop/${name}-w1280.webp 1280w, galeria/_responsive/zdjecia_desktop/${name}-w1920.webp 1920w, galeria/_responsive/zdjecia_desktop/${name}-w2560.webp 2560w`;
 }
 
+function normalizeDecorativeSliderImages(html) {
+  return html.replace(
+    /(<div class="background-slider[^"]*"[^>]*>)([\s\S]*?)(<\/div>)/g,
+    (_match, opening, content, closing) => {
+      const images = content.replace(/<img\b[^>]*>/g, (tag) => {
+        const cleanTag = tag
+          .replace(/\s+alt=(?:"[^"]*"|'[^']*')/gi, "")
+          .replace(/\s+aria-hidden=(?:"[^"]*"|'[^']*')/gi, "")
+          .replace(/\s+draggable=(?:"[^"]*"|'[^']*')/gi, "");
+        return cleanTag.replace("<img", '<img alt="" aria-hidden="true" draggable="false"');
+      });
+      return `${opening}${images}${closing}`;
+    },
+  );
+}
+
 for (const file of files) {
   let html = await fs.readFile(file, "utf8");
 
@@ -99,6 +115,8 @@ for (const file of files) {
     /data-desktop-src=\"galeria\/_responsive\/zdjecia_desktop\/75d-w1280\.webp\"(?!\s+data-desktop-srcset)/g,
     `data-desktop-src=\"galeria/_responsive/zdjecia_desktop/75d-w1280.webp\" data-desktop-srcset=\"${desktopSrcSet("75d")}\"`
   );
+
+  html = normalizeDecorativeSliderImages(html);
 
   await fs.writeFile(file, html, "utf8");
 }
