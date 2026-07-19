@@ -12204,3 +12204,131 @@ h3,
         transform: translate3d(0, 0, 0) scale(1.025) !important;
     }
 }
+
+/* Mobile landing: keep editorial copy centred and give display type a bolder, poster-like voice. */
+body.home-landing-page .home-news-v2-copy,
+body.home-landing-page .home-news-v2-copy > span,
+body.home-landing-page .home-news-v2-copy strong,
+body.home-landing-page .home-news-v2-copy small {
+    font-family: var(--tr-font-display) !important;
+    font-synthesis: none;
+    text-align: center !important;
+}
+
+body.home-landing-page .home-news-v2-copy strong,
+body.home-landing-page .home-section-lead h2,
+body.home-landing-page .home-gallery-text h2,
+body.home-landing-page .home-show h3 {
+    font-weight: 900;
+    letter-spacing: -0.06em !important;
+}
+
+@media (max-width: 760px) {
+    body.home-landing-page .home-news-v2-card,
+    body.home-landing-page .home-news-v2-copy {
+        justify-items: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    body.home-landing-page .home-news-v2-copy {
+        display: flex !important;
+        width: 100% !important;
+        margin-inline: auto !important;
+    }
+
+    body.home-landing-page .home-news-v2-copy > span,
+    body.home-landing-page .home-news-v2-copy strong,
+    body.home-landing-page .home-news-v2-copy small {
+        align-self: center !important;
+        margin-inline: auto !important;
+    }
+
+    /* The final gallery used several competing sticky and transform rules.
+       A normal flow here prevents the iOS compositor from jumping at page end. */
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery {
+        display: block !important;
+        min-height: 0 !important;
+        overflow: clip !important;
+    }
+
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery .home-pinned-stage {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+        padding-bottom: 0 !important;
+    }
+
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery-text,
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery-media,
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery-copy .home-inline-actions {
+        position: relative !important;
+        top: auto !important;
+        inset: auto !important;
+        opacity: 1 !important;
+        filter: none !important;
+        transform: none !important;
+        will-change: auto !important;
+    }
+
+    body.home-landing-page > footer.shop-footer {
+        margin-top: 0 !important;
+        transform: translateZ(0);
+        contain: paint;
+    }
+}
+
+/* Slider compositing: the incoming frame always sits above the outgoing one,
+   while the dimmer remains above both. This removes intermittent layer swaps. */
+.background-slider img {
+    z-index: 0;
+    isolation: isolate;
+}
+
+.background-slider img.is-leaving {
+    z-index: 1;
+}
+
+.background-slider img.active {
+    z-index: 2;
+}
+
+.background-slider::after {
+    z-index: 3;
+}
+
+@media (max-width: 760px) {
+    body.home-landing-page .home-landing-hero {
+        display: grid !important;
+        align-items: end !important;
+        justify-items: center !important;
+        text-align: center !important;
+    }
+
+    body.home-landing-page .home-landing-hero .home-hero-copy,
+    body.home-landing-page .home-landing-hero .home-hero-copy > p,
+    body.home-landing-page .home-landing-hero .home-hero-eyebrow,
+    body.home-landing-page .home-landing-hero h1 {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+    }
+
+    body.home-landing-page .home-landing-hero .home-hero-actions {
+        width: min(100%, 24rem) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    body.home-landing-page .home-news-v2 .home-section-lead::before {
+        content: "[03]";
+        display: block;
+        margin-bottom: 12px;
+        color: rgba(248, 245, 239, 0.38);
+        font-family: var(--tr-font-display);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        line-height: 1;
+    }
+}

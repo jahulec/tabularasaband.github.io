@@ -1873,6 +1873,30 @@ function preloadNextSlide() {
     preloader.src = src;
 }
 
+function waitForSliderImage(image) {
+    if (!image) return Promise.resolve(false);
+
+    const decode = () => {
+        if (typeof image.decode !== 'function') return Promise.resolve(true);
+        return image.decode().then(() => true).catch(() => true);
+    };
+
+    if (image.complete && image.naturalWidth > 0) {
+        return decode();
+    }
+
+    return new Promise((resolve) => {
+        const finish = () => {
+            image.removeEventListener('load', finish);
+            image.removeEventListener('error', finish);
+            decode().then(resolve);
+        };
+
+        image.addEventListener('load', finish, { once: true });
+        image.addEventListener('error', finish, { once: true });
+    });
+}
+
 function handleImageSwap(includeNext = true) {
     refreshSliderImages();
     if (sliderImages.length === 0) return;
@@ -1883,12 +1907,22 @@ function handleImageSwap(includeNext = true) {
     applySliderLoadingHints();
 }
 
-function changeSlide() {
+async function changeSlide() {
     if (sliderImages.length === 0) {
         refreshSliderImages();
     }
     if (isChangingSlide || sliderImages.length === 0) return;
     isChangingSlide = true;
+
+    const nextIndex = (currentImageIndex + 1) % sliderImages.length;
+    const nextImage = sliderImages[nextIndex];
+    applyImageSource(nextImage, window.innerWidth <= 768);
+    nextImage.loading = 'eager';
+    nextImage.setAttribute('fetchpriority', 'high');
+
+    // Never fade to a slide which has not been decoded yet: this is what caused
+    // the black flash / late image jump on real mobile devices.
+    await waitForSliderImage(nextImage);
 
     const previousImage = sliderImages[currentImageIndex];
     sliderImages.forEach((img) => img.classList.remove('is-leaving'));
@@ -1896,9 +1930,10 @@ function changeSlide() {
         previousImage.classList.add('is-leaving');
         previousImage.classList.remove('active');
     }
-    currentImageIndex = (currentImageIndex + 1) % sliderImages.length;
-    sliderImages[currentImageIndex].classList.add('active');
+    currentImageIndex = nextIndex;
+    nextImage.classList.add('active');
     syncSliderImageSources();
+    applySliderLoadingHints();
     saveSliderIndex();
 
     setTimeout(() => {
@@ -1941,7 +1976,9 @@ function startSlider() {
         });
     }
 
-    handleImageSwap(false);
+    // Keep the next slide in the actual slider element (not only a detached
+    // Image preloader), so its responsive source is ready for the first fade.
+    handleImageSwap(true);
     applySliderLoadingHints();
     saveSliderIndex();
     const prepareNextSlide = () => {
