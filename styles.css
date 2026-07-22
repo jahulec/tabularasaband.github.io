@@ -637,7 +637,7 @@ img[src$="logo.png"]:not(.brand-logo) {
     font-family: 'PoppinsBlack';
     src: url('PoppinsBlack.woff2') format('woff2'),
          url('PoppinsBlack.woff') format('woff');
-    font-weight: normal;
+    font-weight: 900;
     font-style: normal;
     font-display: swap;
 }
@@ -11997,7 +11997,8 @@ body.home-landing-page > footer.shop-footer {
         text-align: center !important;
     }
 
-    body.home-landing-page > footer.shop-footer {
+    body.home-landing-page > footer.shop-footer,
+    body:has(.home-landing[data-home-motion-root]) > footer.shop-footer {
         margin-top: 0 !important;
         transform: none !important;
     }
@@ -12384,6 +12385,11 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
     display: none !important;
 }
 
+@keyframes tr-home-show-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 @media (max-width: 760px) {
     .background-slider {
         height: var(--tr-mobile-slider-height, 100lvh) !important;
@@ -12411,7 +12417,41 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
         will-change: opacity !important;
     }
 
-    body.home-landing-page > footer.shop-footer {
+    body.home-landing-page > footer.shop-footer,
+    body:has(.home-landing[data-home-motion-root]) > footer.shop-footer {
         contain: none !important;
+        content-visibility: visible !important;
+        contain-intrinsic-size: auto !important;
+        overflow: visible !important;
+        transform: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        background: rgba(7, 8, 10, 0.9) !important;
+    }
+
+    body.home-landing-page .home-landing > .home-section {
+        content-visibility: visible !important;
+        contain-intrinsic-size: auto !important;
+    }
+
+    body.home-landing-page .home-news-v2 .home-news-v2-copy,
+    body.home-landing-page .home-news-v2 .home-news-v2-copy > span,
+    body.home-landing-page .home-news-v2 .home-news-v2-copy strong,
+    body.home-landing-page .home-news-v2 .home-news-v2-copy small {
+        align-items: center !important;
+        align-self: center !important;
+        text-align: center !important;
+    }
+
+    body.home-landing-page .home-shows.home-shows-animated .home-show {
+        animation: tr-home-show-enter 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both !important;
+    }
+
+    body.home-landing-page .home-shows.home-shows-animated .home-show:nth-child(2) {
+        animation-delay: 90ms !important;
+    }
+
+    body.home-landing-page .home-shows.home-shows-animated .home-show:nth-child(3) {
+        animation-delay: 180ms !important;
     }
 }

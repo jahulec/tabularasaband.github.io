@@ -2490,6 +2490,23 @@ function initHomeLandingMotion() {
     if (prefersReduced || isMobileLandingViewport()) {
         document.body.classList.add('home-motion-static');
         applyStaticLandingState();
+
+        if (!prefersReduced && isMobileLandingViewport()) {
+            const shows = landing.querySelector('.home-shows');
+            if (shows) {
+                const revealShows = () => shows.classList.add('home-shows-animated');
+                if ('IntersectionObserver' in window) {
+                    const observer = new IntersectionObserver((entries) => {
+                        if (!entries.some((entry) => entry.isIntersecting)) return;
+                        revealShows();
+                        observer.disconnect();
+                    }, { threshold: 0.2 });
+                    observer.observe(shows);
+                } else {
+                    revealShows();
+                }
+            }
+        }
         return;
     }
 

@@ -156,6 +156,8 @@ test.describe('UI/UX a11y regressions', () => {
         imageTransition: image ? getComputedStyle(image).transitionProperty : '',
         footerBorder: getComputedStyle(document.querySelector('footer.shop-footer')).borderTopWidth,
         footerDivider: getComputedStyle(document.querySelector('footer.shop-footer'), '::before').content,
+        footerVisibility: getComputedStyle(document.querySelector('footer.shop-footer')).contentVisibility,
+        footerFilter: getComputedStyle(document.querySelector('footer.shop-footer')).backdropFilter,
       };
     });
 
@@ -176,6 +178,13 @@ test.describe('UI/UX a11y regressions', () => {
     expect(after.imageTransition).toContain('opacity');
     expect(after.footerBorder).toBe('0px');
     expect(after.footerDivider).toBe('none');
+    expect(after.footerVisibility).toBe('visible');
+    expect(after.footerFilter).toBe('none');
+
+    await page.locator('.home-shows').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(250);
+    await expect(page.locator('.home-shows')).toHaveClass(/home-shows-animated/);
+    await expect(page.locator('.home-shows .home-show').first()).toHaveCSS('animation-name', 'tr-home-show-enter');
     await context.close();
   });
 
