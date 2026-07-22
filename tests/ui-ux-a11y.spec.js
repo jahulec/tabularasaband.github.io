@@ -142,6 +142,7 @@ test.describe('UI/UX a11y regressions', () => {
     });
     const page = await context.newPage();
     await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('body')).toHaveClass(/home-motion-static/);
 
     const readBackground = () => page.locator('.background-slider').evaluate((slider) => {
       const image = slider.querySelector('img.active') || slider.querySelector('img');
@@ -152,6 +153,9 @@ test.describe('UI/UX a11y regressions', () => {
           .getPropertyValue('--tr-mobile-slider-height').trim(),
         imageTransform: image ? getComputedStyle(image).transform : '',
         imageAnimation: image ? getComputedStyle(image).animationName : '',
+        imageTransition: image ? getComputedStyle(image).transitionProperty : '',
+        footerBorder: getComputedStyle(document.querySelector('footer.shop-footer')).borderTopWidth,
+        footerDivider: getComputedStyle(document.querySelector('footer.shop-footer'), '::before').content,
       };
     });
 
@@ -167,8 +171,11 @@ test.describe('UI/UX a11y regressions', () => {
     expect(before.cssHeight).toBe('844px');
     expect(after.cssHeight).toBe(before.cssHeight);
     expect(after.height).toBe(before.height);
-    expect(after.imageTransform).not.toBe('none');
-    expect(after.imageAnimation).toMatch(/^tr-slider-zoom-/);
+    expect(after.imageTransform).toBe('none');
+    expect(after.imageAnimation).toBe('none');
+    expect(after.imageTransition).toContain('opacity');
+    expect(after.footerBorder).toBe('0px');
+    expect(after.footerDivider).toBe('none');
     await context.close();
   });
 
@@ -391,22 +398,7 @@ test.describe('UI/UX a11y regressions', () => {
         });
         expect(backgroundEnd.width).toBeCloseTo(backgroundStart.width, 0);
         expect(backgroundEnd.height).toBeCloseTo(backgroundStart.height, 0);
-        expect(backgroundEnd.transform).not.toBe('none');
-        expect(backgroundEnd.animationName).toMatch(/^tr-slider-zoom-/);
-
-        const musicTop = await page.locator('.home-music-feature').evaluate((element) => element.offsetTop);
-        await page.evaluate((target) => window.scrollTo(0, Math.max(0, target - window.innerHeight * 0.72)), musicTop);
-        await page.waitForTimeout(450);
-        const coverScaleEarly = await page.locator('.home-release-cover').evaluate((element) =>
-          Number(getComputedStyle(element).getPropertyValue('--mobile-kinetic-scale').trim())
-        );
-        await page.evaluate((target) => window.scrollTo(0, target + 120), musicTop);
-        await page.waitForTimeout(500);
-        const coverScaleLate = await page.locator('.home-release-cover').evaluate((element) =>
-          Number(getComputedStyle(element).getPropertyValue('--mobile-kinetic-scale').trim())
-        );
-        expect(coverScaleLate).toBeGreaterThanOrEqual(coverScaleEarly);
-
+        expect(backgroundEnd.transform).toBe('none');
         const showsTop = await page.locator('.home-shows').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 24), showsTop);
         await page.waitForTimeout(350);
@@ -418,8 +410,8 @@ test.describe('UI/UX a11y regressions', () => {
         const showsTrackEnd = await page.locator('.home-shows-list').evaluate((element) =>
           getComputedStyle(element).getPropertyValue('--home-shows-track-y').trim()
         );
-        expect(showsTrackStart).not.toBe('');
-        expect(showsTrackEnd).not.toBe('');
+        expect(Number.parseFloat(showsTrackStart)).toBe(0);
+        expect(Number.parseFloat(showsTrackEnd)).toBe(0);
 
         const newsTop = await page.locator('.home-news-v2').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 24), newsTop);
@@ -438,6 +430,7 @@ test.describe('UI/UX a11y regressions', () => {
         expect(newsLayout.left).toBeGreaterThanOrEqual(-1);
         expect(newsLayout.right).toBeLessThanOrEqual(viewport.width + 1);
         expect(newsLayout.width).toBeLessThanOrEqual(viewport.width + 1);
+        await expect(page.locator('.home-news-v2-copy').first()).toHaveCSS('text-align', 'center');
 
         const galleryTop = await page.locator('.home-gallery').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 40), galleryTop);
@@ -465,7 +458,7 @@ test.describe('UI/UX a11y regressions', () => {
         });
         expect(galleryState.columns).toBeGreaterThan(1);
         expect(galleryState.rows).toBeGreaterThan(1);
-        expect(galleryState.textOpacity).toBeLessThan(galleryStart.opacity);
+        expect(galleryState.textOpacity).toBe(1);
         expect(galleryState.mediaTop).toBeLessThan(galleryStart.mediaTop);
         expect(galleryState.actionsTop).toBeGreaterThan(galleryState.mediaBottom - 1);
       }

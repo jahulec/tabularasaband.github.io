@@ -11964,6 +11964,45 @@ body.home-landing-page > footer.shop-footer {
     margin-top: -1px !important;
 }
 
+/* Mobile landing: keep the compositor out of the scroll path. */
+@media (max-width: 760px) {
+    .background-slider {
+        height: var(--tr-mobile-slider-height, 100lvh) !important;
+        min-height: var(--tr-mobile-slider-height, 100lvh) !important;
+        contain: none !important;
+        transform: none !important;
+    }
+
+    @supports not (height: 100lvh) {
+        .background-slider {
+            height: var(--tr-mobile-slider-height, 100vh) !important;
+            min-height: var(--tr-mobile-slider-height, 100vh) !important;
+        }
+    }
+
+    body.home-landing-page .home-landing[data-home-motion-root] [data-home-motion],
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery-media,
+    body.home-landing-page .home-landing[data-home-motion-root] .home-gallery-text,
+    body.home-landing-page .home-landing[data-home-motion-root] .home-section::before {
+        transform: none !important;
+        filter: none !important;
+        will-change: auto !important;
+    }
+
+    body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .home-news-v2-copy,
+    body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .home-news-v2-copy > span,
+    body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .home-news-v2-copy strong,
+    body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .home-news-v2-copy small {
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    body.home-landing-page > footer.shop-footer {
+        margin-top: 0 !important;
+        transform: none !important;
+    }
+}
+
 /* 2026 typography system: display, reading copy and compact metadata. */
 :root {
     --tr-font-display: 'PoppinsBlack', 'Arial Black', sans-serif;
@@ -12330,5 +12369,49 @@ body.home-landing-page .home-show h3 {
         font-weight: 900;
         letter-spacing: 0;
         line-height: 1;
+    }
+}
+
+/* Final mobile landing stability override. This must follow the slider motion rules. */
+body.home-landing-page > footer.shop-footer,
+body:has(.home-landing[data-home-motion-root]) > footer.shop-footer {
+    border-top: 0 !important;
+}
+
+body.home-landing-page > footer.shop-footer::before,
+body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
+    content: none !important;
+    display: none !important;
+}
+
+@media (max-width: 760px) {
+    .background-slider {
+        height: var(--tr-mobile-slider-height, 100lvh) !important;
+        min-height: var(--tr-mobile-slider-height, 100lvh) !important;
+        contain: none !important;
+        transform: none !important;
+    }
+
+    @supports not (height: 100lvh) {
+        .background-slider {
+            height: var(--tr-mobile-slider-height, 100vh) !important;
+            min-height: var(--tr-mobile-slider-height, 100vh) !important;
+        }
+    }
+
+    .background-slider img,
+    .background-slider img.active,
+    .background-slider img.is-leaving,
+    .background-slider img.active.zoom-start,
+    .background-slider img.zoom {
+        animation: none !important;
+        transform: none !important;
+        /* Keep the visible crossfade, but never animate the image geometry on mobile. */
+        transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+        will-change: opacity !important;
+    }
+
+    body.home-landing-page > footer.shop-footer {
+        contain: none !important;
     }
 }

@@ -2487,7 +2487,7 @@ function initHomeLandingMotion() {
         mobileKineticElements.forEach(zeroMotionElement);
     };
 
-    if (prefersReduced) {
+    if (prefersReduced || isMobileLandingViewport()) {
         document.body.classList.add('home-motion-static');
         applyStaticLandingState();
         return;
