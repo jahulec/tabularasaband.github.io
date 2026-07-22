@@ -211,6 +211,27 @@
       "ticketUrl": ""
     },
     {
+      "date": "2026-07-26",
+      "startDate": "2026-07-26",
+      "title": "Letni Festiwal Rocka | Jaworzno",
+      "location": "",
+      "ticketUrl": ""
+    },
+    {
+      "date": "2026-08-21",
+      "startDate": "2026-08-21",
+      "title": "RoCK Festiwal | Kołobrzeg",
+      "location": "",
+      "ticketUrl": ""
+    },
+    {
+      "date": "2026-08-22",
+      "startDate": "2026-08-22",
+      "title": "Kozy Nostra Rock Fest | Kozy",
+      "location": "",
+      "ticketUrl": ""
+    },
+    {
       "date": "2026-08-29",
       "startDate": "2026-08-29",
       "title": "Zlot Motocyklowy | Pułtusk",
@@ -228,6 +249,13 @@
       "date": "2026-10-04",
       "startDate": "2026-10-04",
       "title": "Tomasz Karolak | Warszawa",
+      "location": "",
+      "ticketUrl": ""
+    },
+    {
+      "date": "2026-10-24",
+      "startDate": "2026-10-24",
+      "title": "Zaklęte Rewiry | Wrocław",
       "location": "",
       "ticketUrl": ""
     }
