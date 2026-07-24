@@ -173,8 +173,8 @@ test.describe('UI/UX a11y regressions', () => {
     expect(before.cssHeight).toBe('844px');
     expect(after.cssHeight).toBe(before.cssHeight);
     expect(after.height).toBe(before.height);
-    expect(after.imageTransform).toBe('none');
-    expect(after.imageAnimation).toBe('none');
+    expect(after.imageTransform).not.toBe('none');
+    expect(after.imageAnimation).toBe('tr-mobile-slider-zoom');
     expect(after.imageTransition).toContain('opacity');
     expect(after.footerBorder).toBe('0px');
     expect(after.footerDivider).toBe('none');

@@ -12390,6 +12390,11 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
     to { opacity: 1; }
 }
 
+@keyframes tr-mobile-slider-zoom {
+    from { transform: scale(1.008); }
+    to { transform: scale(1.025); }
+}
+
 @media (max-width: 760px) {
     .background-slider {
         height: var(--tr-mobile-slider-height, 100lvh) !important;
@@ -12415,6 +12420,12 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
         /* Keep the visible crossfade, but never animate the image geometry on mobile. */
         transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
         will-change: opacity !important;
+    }
+
+    .background-slider img.active {
+        animation: tr-mobile-slider-zoom 8s ease-out both !important;
+        transform: scale(1.008) !important;
+        will-change: opacity, transform !important;
     }
 
     body.home-landing-page > footer.shop-footer,
