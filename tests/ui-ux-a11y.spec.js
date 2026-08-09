@@ -68,8 +68,10 @@ test.describe('UI/UX a11y regressions', () => {
       expect(state.bodyTouchAction, `${path} does not allow vertical panning`).toContain('pan-y');
 
       if (state.canScroll) {
-        await page.evaluate(() => window.scrollTo(0, Math.min(600, document.documentElement.scrollHeight)));
-        expect(await page.evaluate(() => window.scrollY), `${path} cannot change scroll position`).toBeGreaterThan(0);
+        await expect.poll(async () => {
+          await page.evaluate(() => window.scrollTo(0, Math.min(600, document.documentElement.scrollHeight)));
+          return page.evaluate(() => window.scrollY);
+        }, { message: `${path} cannot change scroll position` }).toBeGreaterThan(0);
       }
     }
 
@@ -226,8 +228,11 @@ test.describe('UI/UX a11y regressions', () => {
 
     await page.locator('.home-shows').scrollIntoViewIfNeeded();
     await page.waitForTimeout(250);
-    await expect(page.locator('.home-shows')).toHaveClass(/home-shows-animated/);
-    await expect(page.locator('.home-shows .home-show').first()).toHaveCSS('animation-name', 'tr-home-show-enter');
+    const firstUpcomingShow = page.locator('.home-show:not([hidden])').first();
+    await expect(firstUpcomingShow).toHaveClass(/home-show-desktop-motion/);
+    expect(await firstUpcomingShow.evaluate((item) =>
+      Number.isFinite(Number.parseFloat(getComputedStyle(item).getPropertyValue('--motion-x-current')))
+    )).toBe(true);
     await context.close();
   });
 
@@ -450,7 +455,7 @@ test.describe('UI/UX a11y regressions', () => {
         });
         expect(backgroundEnd.width).toBeCloseTo(backgroundStart.width, 0);
         expect(backgroundEnd.height).toBeCloseTo(backgroundStart.height, 0);
-        expect(backgroundEnd.transform).toBe('none');
+        expect(backgroundEnd.transform).not.toBe('none');
         const showsTop = await page.locator('.home-shows').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 24), showsTop);
         await page.waitForTimeout(350);
