@@ -2494,17 +2494,46 @@ function initHomeLandingMotion() {
         if (!prefersReduced && isMobileLandingViewport()) {
             const shows = landing.querySelector('.home-shows');
             if (shows) {
-                const revealShows = () => shows.classList.add('home-shows-animated');
-                if ('IntersectionObserver' in window) {
-                    const observer = new IntersectionObserver((entries) => {
-                        if (!entries.some((entry) => entry.isIntersecting)) return;
-                        revealShows();
-                        observer.disconnect();
-                    }, { threshold: 0.2 });
-                    observer.observe(shows);
-                } else {
-                    revealShows();
-                }
+                const showItems = Array.from(shows.querySelectorAll('.home-show'));
+                let showsRafId = null;
+                const clampShowsMotion = (value, min, max) => Math.min(max, Math.max(min, value));
+                const readShowsMotionNumber = (item, name, fallback = 0) => {
+                    const parsed = Number(item.getAttribute(name));
+                    return Number.isFinite(parsed) ? parsed : fallback;
+                };
+
+                const renderMobileShowsMotion = () => {
+                    showsRafId = null;
+                    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+
+                    showItems.forEach((item) => {
+                        if (item.hidden) return;
+                        const rect = item.getBoundingClientRect();
+                        const elementCenter = rect.top + rect.height * 0.5;
+                        const progress = clampShowsMotion(
+                            (viewportHeight * 0.5 - elementCenter) / viewportHeight,
+                            -1,
+                            1
+                        );
+                        const stagger = readShowsMotionNumber(item, 'data-motion-stagger');
+                        const adjustedProgress = clampShowsMotion(progress - stagger * 0.18, -1, 1);
+                        const x = adjustedProgress * readShowsMotionNumber(item, 'data-motion-x');
+                        const y = adjustedProgress * readShowsMotionNumber(item, 'data-motion-y');
+
+                        item.classList.add('home-show-desktop-motion');
+                        item.style.setProperty('--motion-x-current', `${x.toFixed(2)}px`);
+                        item.style.setProperty('--motion-y-current', `${y.toFixed(2)}px`);
+                    });
+                };
+
+                const queueMobileShowsMotion = () => {
+                    if (showsRafId !== null) return;
+                    showsRafId = requestAnimationFrame(renderMobileShowsMotion);
+                };
+
+                window.addEventListener('scroll', queueMobileShowsMotion, { passive: true });
+                window.addEventListener('resize', queueMobileShowsMotion, { passive: true });
+                queueMobileShowsMotion();
             }
         }
         return;

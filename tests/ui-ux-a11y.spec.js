@@ -133,6 +133,49 @@ test.describe('UI/UX a11y regressions', () => {
     await expect(page.locator('#welcome')).toHaveCSS('text-align', 'center');
   });
 
+  test('landing news captions are centered and shows use desktop scroll motion on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+
+    const firstCaption = page.locator('.home-news-v2-copy').first();
+    await firstCaption.scrollIntoViewIfNeeded();
+    const captionLayout = await firstCaption.evaluate((caption) => {
+      const captionRect = caption.getBoundingClientRect();
+      return Array.from(caption.children).map((child) => {
+        const childRect = child.getBoundingClientRect();
+        return {
+          textAlign: getComputedStyle(child).textAlign,
+          centerDelta: Math.abs(
+            (childRect.left + childRect.width / 2) -
+            (captionRect.left + captionRect.width / 2)
+          ),
+        };
+      });
+    });
+
+    expect(captionLayout.every(({ textAlign }) => textAlign === 'center')).toBe(true);
+    expect(captionLayout.every(({ centerDelta }) => centerDelta <= 1)).toBe(true);
+
+    const firstUpcomingShow = page.locator('.home-show:not([hidden])').first();
+    await expect(page.locator('.home-show:not([hidden])')).toHaveCount(3);
+    const showTop = await firstUpcomingShow.evaluate((item) => item.getBoundingClientRect().top + window.scrollY);
+    await page.evaluate((target) => window.scrollTo(0, Math.max(0, target - window.innerHeight * 0.78)), showTop);
+    await page.waitForTimeout(150);
+    const motionBefore = await firstUpcomingShow.evaluate((item) =>
+      Number.parseFloat(getComputedStyle(item).getPropertyValue('--motion-x-current'))
+    );
+    await page.evaluate((target) => window.scrollTo(0, target + 180), showTop);
+    await page.waitForTimeout(150);
+    const motionAfter = await firstUpcomingShow.evaluate((item) =>
+      Number.parseFloat(getComputedStyle(item).getPropertyValue('--motion-x-current'))
+    );
+
+    await expect(firstUpcomingShow).toHaveClass(/home-show-desktop-motion/);
+    expect(Number.isFinite(motionBefore)).toBe(true);
+    expect(Number.isFinite(motionAfter)).toBe(true);
+    expect(Math.abs(motionAfter - motionBefore)).toBeGreaterThan(8);
+  });
+
   test('mobile background keeps a stable crop while browser chrome changes the visual viewport', async ({ browser }) => {
     const context = await browser.newContext({
       viewport: { width: 390, height: 844 },

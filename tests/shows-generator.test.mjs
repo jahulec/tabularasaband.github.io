@@ -103,7 +103,7 @@ test("merges calendar shows into existing shows without deleting current entries
   assert.equal(merged[2].ticketUrl, "https://tickets.example/show");
 });
 
-test("renders the homepage with the same upcoming order and a three-show limit", () => {
+test("renders the homepage with the same upcoming order and a future-show buffer", () => {
   const shows = [
     { date: "2026-06-01", title: "Past | City" },
     { date: "2026-06-20", title: "First | City" },
@@ -114,13 +114,13 @@ test("renders the homepage with the same upcoming order and a three-show limit",
   const html = buildHomeShowsHtml(shows, "en", new Date("2026-06-19T12:00:00"));
   const dates = Array.from(html.matchAll(/data-show-date="([^"]+)"/g), (match) => match[1]);
 
-  assert.deepEqual(dates, ["2026-06-20", "2026-07-04", "2026-08-10"]);
+  assert.deepEqual(dates, ["2026-06-20", "2026-07-04", "2026-08-10", "2026-09-12"]);
   assert.match(html, /<time datetime="2026-06-20">20 June 2026<\/time>/);
   assert.doesNotMatch(html, /home-show-date-/);
   assert.match(html, /data-motion-x="72"/);
   assert.match(html, /data-motion-x="-72"/);
   assert.match(html, /Tickets \/ more/);
-  assert.doesNotMatch(html, /2026-09-12/);
+  assert.match(html, /2026-09-12/);
 });
 
 test("page rendering is deterministic when the input data does not change", () => {

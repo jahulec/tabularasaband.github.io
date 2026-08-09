@@ -20,6 +20,7 @@ const LIST_START = "<!-- SHOWS_LIST_START -->";
 const LIST_END = "<!-- SHOWS_LIST_END -->";
 const HOME_SHOWS_START = "<!-- HOME_SHOWS_START -->";
 const HOME_SHOWS_END = "<!-- HOME_SHOWS_END -->";
+const HOME_SHOWS_RENDER_LIMIT = 5;
 
 const PL_MONTHS = [
   "stycznia",
@@ -337,7 +338,9 @@ function buildHomeShowArticle(show, lang, index = 0) {
 }
 
 export function buildHomeShowsHtml(shows, lang = "pl", today = new Date()) {
-  const upcoming = upcomingShows(shows, today, 3);
+  // Keep a small future buffer in the HTML. The landing runtime always exposes
+  // only the nearest three, so the section does not shrink between sync runs.
+  const upcoming = upcomingShows(shows, today, HOME_SHOWS_RENDER_LIMIT);
 
   if (upcoming.length === 0) {
     const message = lang === "en"
