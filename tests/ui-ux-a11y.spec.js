@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect, webkit } = require('@playwright/test');
 
 test.describe('UI/UX a11y regressions', () => {
   test('Android-style vertical gestures stay native across content pages', async ({ browser }) => {
@@ -170,6 +170,13 @@ test.describe('UI/UX a11y regressions', () => {
       const title = caption.querySelector('strong');
       const titleRect = title.getBoundingClientRect();
       const titleStyle = getComputedStyle(title);
+      const titleLineCenters = Array.from(title.querySelectorAll('.home-news-v2-title-line')).map((line) => {
+        const lineRect = line.getBoundingClientRect();
+        return Math.abs(
+          (lineRect.left + lineRect.width / 2) -
+          (cardRect.left + cardRect.width / 2)
+        );
+      });
       return {
         children,
         captionCenterDelta: Math.abs(
@@ -178,6 +185,8 @@ test.describe('UI/UX a11y regressions', () => {
         ),
         titleFontSize: Number.parseFloat(titleStyle.fontSize),
         titleLineCount: titleRect.height / Number.parseFloat(titleStyle.lineHeight),
+        titleLineCenters,
+        titleTextWrap: titleStyle.textWrap,
       };
     });
 
@@ -185,7 +194,10 @@ test.describe('UI/UX a11y regressions', () => {
     expect(captionLayout.children.every(({ centerDelta }) => centerDelta <= 1)).toBe(true);
     expect(captionLayout.captionCenterDelta).toBeLessThanOrEqual(1);
     expect(captionLayout.titleFontSize).toBeLessThanOrEqual(17);
-    expect(captionLayout.titleLineCount).toBeLessThanOrEqual(3.1);
+    expect(captionLayout.titleLineCount).toBeLessThanOrEqual(2.1);
+    expect(captionLayout.titleLineCenters).toHaveLength(2);
+    expect(captionLayout.titleLineCenters.every((delta) => delta <= 1)).toBe(true);
+    expect(captionLayout.titleTextWrap).toBe('wrap');
 
     const firstUpcomingShow = page.locator('.home-show:not([hidden])').first();
     await expect(page.locator('.home-show:not([hidden])')).toHaveCount(3);
@@ -205,6 +217,55 @@ test.describe('UI/UX a11y regressions', () => {
     expect(Number.isFinite(motionBefore)).toBe(true);
     expect(Number.isFinite(motionAfter)).toBe(true);
     expect(Math.abs(motionAfter - motionBefore)).toBeGreaterThan(8);
+  });
+
+  test('featured landing caption stays centered in mobile WebKit', async () => {
+    const webkitBrowser = await webkit.launch();
+    const context = await webkitBrowser.newContext({
+      baseURL: 'http://127.0.0.1:4173',
+      viewport: { width: 375, height: 812 },
+      screen: { width: 375, height: 812 },
+      isMobile: true,
+      hasTouch: true,
+      deviceScaleFactor: 3,
+    });
+    const page = await context.newPage();
+
+    try {
+      await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+      await page.evaluate(async () => {
+        await document.fonts.ready;
+        return document.fonts.status;
+      });
+
+      const layout = await page.locator('.home-news-v2-card-featured').evaluate((card) => {
+        const cardRect = card.getBoundingClientRect();
+        const title = card.querySelector('.home-news-v2-copy > strong');
+        const titleStyle = getComputedStyle(title);
+        const lineDeltas = Array.from(title.querySelectorAll('.home-news-v2-title-line')).map((line) => {
+          const lineRect = line.getBoundingClientRect();
+          return Math.abs(
+            (lineRect.left + lineRect.width / 2) -
+            (cardRect.left + cardRect.width / 2)
+          );
+        });
+        return {
+          lineDeltas,
+          textAlign: titleStyle.textAlign,
+          textWrap: titleStyle.textWrap,
+          fontWeight: titleStyle.fontWeight,
+        };
+      });
+
+      expect(layout.lineDeltas).toHaveLength(2);
+      expect(layout.lineDeltas.every((delta) => delta <= 1)).toBe(true);
+      expect(layout.textAlign).toBe('center');
+      expect(layout.textWrap).toBe('wrap');
+      expect(layout.fontWeight).toBe('400');
+    } finally {
+      await context.close();
+      await webkitBrowser.close();
+    }
   });
 
   test('mobile background keeps a stable crop while browser chrome changes the visual viewport', async ({ browser }) => {
