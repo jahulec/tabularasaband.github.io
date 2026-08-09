@@ -545,6 +545,8 @@ html {
     min-height: 100%;
     height: auto;
 	-webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     touch-action: manipulation;
 }	
 
@@ -12471,9 +12473,17 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
    make the concert cards visibly enter as they are reached while scrolling. */
 @media (max-width: 760px) {
     body.home-landing-page .home-news-v2 .home-news-v2-copy {
+        position: absolute !important;
+        inset: 0 !important;
+        display: flex !important;
+        height: 100% !important;
         justify-self: stretch !important;
+        justify-content: center !important;
+        align-items: center !important;
         width: 100% !important;
         max-width: none !important;
+        padding: clamp(18px, 6vw, 28px) !important;
+        gap: 7px !important;
         box-sizing: border-box;
     }
 
@@ -12485,6 +12495,25 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
         max-width: none !important;
         margin-inline: 0 !important;
         text-align: center !important;
+    }
+
+    body.home-landing-page .home-news-v2 .home-news-v2-copy > strong {
+        width: 100% !important;
+        max-width: 32ch !important;
+        font-size: clamp(0.95rem, 4vw, 1.05rem) !important;
+        line-height: 1.08 !important;
+        letter-spacing: -0.035em !important;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
+        text-wrap: balance;
+    }
+
+    body.home-landing-page .home-news-v2 .home-news-v2-copy > span,
+    body.home-landing-page .home-news-v2 .home-news-v2-copy > small {
+        font-size: clamp(0.62rem, 2.8vw, 0.72rem) !important;
+        line-height: 1.2 !important;
+        white-space: nowrap;
     }
 
     body.home-landing-page.home-motion-static

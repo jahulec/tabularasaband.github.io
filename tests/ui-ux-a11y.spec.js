@@ -156,7 +156,8 @@ test.describe('UI/UX a11y regressions', () => {
     await firstCaption.scrollIntoViewIfNeeded();
     const captionLayout = await firstCaption.evaluate((caption) => {
       const captionRect = caption.getBoundingClientRect();
-      return Array.from(caption.children).map((child) => {
+      const cardRect = caption.closest('.home-news-v2-card').getBoundingClientRect();
+      const children = Array.from(caption.children).map((child) => {
         const childRect = child.getBoundingClientRect();
         return {
           textAlign: getComputedStyle(child).textAlign,
@@ -166,10 +167,25 @@ test.describe('UI/UX a11y regressions', () => {
           ),
         };
       });
+      const title = caption.querySelector('strong');
+      const titleRect = title.getBoundingClientRect();
+      const titleStyle = getComputedStyle(title);
+      return {
+        children,
+        captionCenterDelta: Math.abs(
+          (captionRect.top + captionRect.height / 2) -
+          (cardRect.top + cardRect.height / 2)
+        ),
+        titleFontSize: Number.parseFloat(titleStyle.fontSize),
+        titleLineCount: titleRect.height / Number.parseFloat(titleStyle.lineHeight),
+      };
     });
 
-    expect(captionLayout.every(({ textAlign }) => textAlign === 'center')).toBe(true);
-    expect(captionLayout.every(({ centerDelta }) => centerDelta <= 1)).toBe(true);
+    expect(captionLayout.children.every(({ textAlign }) => textAlign === 'center')).toBe(true);
+    expect(captionLayout.children.every(({ centerDelta }) => centerDelta <= 1)).toBe(true);
+    expect(captionLayout.captionCenterDelta).toBeLessThanOrEqual(1);
+    expect(captionLayout.titleFontSize).toBeLessThanOrEqual(17);
+    expect(captionLayout.titleLineCount).toBeLessThanOrEqual(3.1);
 
     const firstUpcomingShow = page.locator('.home-show:not([hidden])').first();
     await expect(page.locator('.home-show:not([hidden])')).toHaveCount(3);
