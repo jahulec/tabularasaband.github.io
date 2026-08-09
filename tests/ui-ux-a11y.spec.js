@@ -49,6 +49,12 @@ test.describe('UI/UX a11y regressions', () => {
 
         const htmlStyle = getComputedStyle(document.documentElement);
         const bodyStyle = getComputedStyle(document.body);
+        const scrollingElement = document.scrollingElement || document.documentElement;
+        const flowContentBottom = Array.from(document.body.children).reduce((bottom, element) => {
+          const position = getComputedStyle(element).position;
+          if (position === 'fixed' || position === 'absolute') return bottom;
+          return Math.max(bottom, element.getBoundingClientRect().bottom + scrollingElement.scrollTop);
+        }, 0);
         return {
           moveAccepted,
           menuOpen: document.body.classList.contains('menu-open'),
@@ -56,7 +62,8 @@ test.describe('UI/UX a11y regressions', () => {
           bodyLocked: document.body.classList.contains('scroll-locked'),
           htmlOverflowY: htmlStyle.overflowY,
           bodyTouchAction: bodyStyle.touchAction,
-          canScroll: document.documentElement.scrollHeight > window.innerHeight + 16,
+          // Fixed overlays can inflate scrollHeight without creating a real page scroll range.
+          canScroll: flowContentBottom > window.innerHeight + 16,
         };
       });
 
@@ -69,8 +76,14 @@ test.describe('UI/UX a11y regressions', () => {
 
       if (state.canScroll) {
         await expect.poll(async () => {
-          await page.evaluate(() => window.scrollTo(0, Math.min(600, document.documentElement.scrollHeight)));
-          return page.evaluate(() => window.scrollY);
+          return page.evaluate(() => {
+            const scrollingElement = document.scrollingElement || document.documentElement;
+            scrollingElement.scrollTop = Math.min(
+              600,
+              Math.max(0, scrollingElement.scrollHeight - scrollingElement.clientHeight),
+            );
+            return scrollingElement.scrollTop;
+          });
         }, { message: `${path} cannot change scroll position` }).toBeGreaterThan(0);
       }
     }
