@@ -17,6 +17,7 @@
     "optimize-images": "node scripts/optimize-images.mjs",
     "sync:shows": "node scripts/sync-shows-from-calendar.mjs",
     "sync:shows:render": "node scripts/sync-shows-from-calendar.mjs --render-only",
+    "build:cms": "node scripts/build-cms.mjs && node scripts/sync-shows-from-calendar.mjs --render-only && node scripts/build-assets.mjs",
     "update-slider": "node scripts/update-slider.mjs",
     "rebuild-gallery": "node scripts/rebuild-gallery.mjs"
   },

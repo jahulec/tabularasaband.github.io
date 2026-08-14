@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "eyebrowPl": "oficjalna strona",
+    "eyebrowEn": "official website",
+    "title": "Tabula Rasa",
+    "leadPl": "Nowy singiel <strong>Diamenty</strong> jest już dostępny.",
+    "leadEn": "The new single <strong>Diamenty</strong> is out now.",
+    "primaryLabelPl": "Poznaj Diamenty",
+    "primaryLabelEn": "Discover Diamenty",
+    "primaryUrlPl": "#muzyka",
+    "primaryUrlEn": "#music",
+    "secondaryLabelPl": "Zobacz koncerty",
+    "secondaryLabelEn": "See shows",
+    "secondaryUrlPl": "#koncerty",
+    "secondaryUrlEn": "#shows"
+  },
+  "release": {
+    "kickerPl": "Nowy singiel / teledysk",
+    "kickerEn": "New single / music video",
+    "title": "Diamenty",
+    "descriptionPl": "Nowy rozdział Tabula Rasa już wyszedł. Obejrzyj premierowy teledysk i posłuchaj singla w swoim serwisie.",
+    "descriptionEn": "A new Tabula Rasa chapter is out now. Watch the premiere music video and listen to the single on your platform.",
+    "youtubeId": "DQwpv5y-qAU",
+    "statusPl": "Już dostępny",
+    "statusEn": "Out now",
+    "bodyPl": "<strong>Diamenty</strong> są już na platformach, a premierowy klip jest dostępny do obejrzenia.",
+    "bodyEn": "<strong>Diamenty</strong> is available on streaming platforms, and the official video is ready to watch.",
+    "videoUrl": "https://www.youtube.com/watch?v=DQwpv5y-qAU",
+    "streamingUrl": "https://e-muzyka.link/TabulaRasaDiamenty"
+  }
+}

@@ -21,7 +21,8 @@ const LOGO_GIF_SINGLE_LOOP_MS = 700;
 const FLOATING_RING_RADIUS = 14;
 const FLOATING_RING_CIRCUMFERENCE = 2 * Math.PI * FLOATING_RING_RADIUS;
 const SCROLL_LOCK_CLASS = 'scroll-locked';
-const FLOATING_SOCIAL_LINKS = [
+const CMS_DATA = window.TABULA_RASA_CMS || {};
+const DEFAULT_FLOATING_SOCIAL_LINKS = [
     {
         href: 'https://www.instagram.com/tabula_rasa_band/',
         label: 'Instagram - Tabula Rasa',
@@ -48,6 +49,9 @@ const FLOATING_SOCIAL_LINKS = [
         icon: 'spotify'
     }
 ];
+const FLOATING_SOCIAL_LINKS = Array.isArray(CMS_DATA.socialLinks) && CMS_DATA.socialLinks.length > 0
+    ? CMS_DATA.socialLinks
+    : DEFAULT_FLOATING_SOCIAL_LINKS;
 const PAGE_HERO_COPY = {
     'index.html': {
         eyebrow: 'OFICJALNA STRONA',
@@ -204,7 +208,7 @@ const LANGUAGE_SWITCH_MAP = {
     'polityka-prywatnosci.html': 'privacy-policy.html',
     'privacy-policy.html': 'polityka-prywatnosci.html'
 };
-const GTM_CONTAINER_ID = 'GTM-MK42J45H';
+const GTM_CONTAINER_ID = CMS_DATA.integrations?.googleTagManagerId || 'GTM-MK42J45H';
 const GTM_DEFER_TIMEOUT_MS = 15000;
 const COOKIE_CONSENT_STORAGE_KEY = 'tr_cookie_consent_v1';
 const COOKIE_CONSENT_MAX_AGE_DAYS = 180;
@@ -213,7 +217,8 @@ const COOKIE_BANNER_ID = 'trCookieConsentBanner';
 const COOKIE_SETTINGS_BUTTON_ID = 'trCookieSettingsButton';
 // Paste your MailerLite form action URL here:
 // https://assets.mailerlite.com/jsonp/<ACCOUNT_ID>/forms/<FORM_ID>/subscribe
-const NEWSLETTER_MAILERLITE_ENDPOINT = 'https://assets.mailerlite.com/jsonp/2145120/forms/180477237039990507/subscribe';
+const NEWSLETTER_MAILERLITE_ENDPOINT = CMS_DATA.integrations?.newsletterEndpoint
+    || 'https://assets.mailerlite.com/jsonp/2145120/forms/180477237039990507/subscribe';
 const NEWSLETTER_REQUEST_TIMEOUT_MS = 12000;
 const DOWNLOAD_FILE_PATTERN = /\.(pdf|zip|rar|7z|doc|docx|xls|xlsx|ppt|pptx|mp3|wav|flac|jpg|jpeg|png|webp)$/i;
 

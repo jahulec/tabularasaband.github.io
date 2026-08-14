@@ -1,0 +1,74 @@
+{
+  "descriptionPl": "<p>Tabula Rasa to zespół eksplorujący nowe obszary rocka, tworząc połączenie rocka eksperymentalnego, elektronicznego i hard rocka. Muzyka zespołu łączy potężne riffy gitarowe z nowoczesnymi syntezatorami.</p><p>To muzyka pełna kontrastów — od hardrockowych uderzeń przez funk rock i post-grunge po nostalgiczne przestrzenie dźwiękowe.</p>",
+  "descriptionEn": "<p>Tabula Rasa is a Warsaw-based rock band formed in 2023. The group blends experimental rock, electronic textures and hard rock into a sound built on heavy guitar riffs and modern synth layers.</p><p>The songs move between high-energy hooks and darker, atmospheric passages.</p>",
+  "achievements": [
+    {
+      "year": 2026,
+      "itemsPl": [
+        "Support przed THE WARNING w warszawskiej Progresji",
+        "Rockowa Przystań — I miejsce",
+        "Ryk Silnika, Pułtusk i Muzyka — I miejsce",
+        "Music On, Kalisz Pomorski — I miejsce",
+        "Płockie i Dęblińskie Juwenalia",
+        "Wszyscy Śpiewamy na Rockowo — I miejsce i Nagroda Publiczności",
+        "Support przed Smith/Kotzen w Progresji",
+        "Pierwsza autorska trasa Przebudzenie Tour — 11 miast"
+      ],
+      "itemsEn": [
+        "Support for THE WARNING at Progresja, Warsaw",
+        "Rockowa Przystań — 1st place",
+        "Ryk Silnika, Pułtusk i Muzyka — 1st place",
+        "Music On, Kalisz Pomorski — 1st place",
+        "Płock and Dęblin Juwenalia festivals",
+        "Wszyscy Śpiewamy na Rockowo — 1st place and Audience Award",
+        "Support for Smith/Kotzen at Progresja",
+        "First headline tour, Przebudzenie Tour — 11 cities"
+      ]
+    },
+    {
+      "year": 2025,
+      "itemsPl": [
+        "Kill Me With Music — I miejsce",
+        "Road to Juwe — I miejsce",
+        "Juwenalia w Rzeszowie, Bydgoszczy i Płocku",
+        "Hybryda w Turbo Top Antyradia — top 20 przez dwa tygodnie",
+        "Przegląd Brzmienia Jelcza — I miejsce"
+      ],
+      "itemsEn": [
+        "Kill Me With Music — 1st place",
+        "Road to Juwe — 1st place",
+        "Juwenalia festivals in Rzeszów, Bydgoszcz and Płock",
+        "Hybryda in Antyradio Turbo Top 20 for two weeks",
+        "Brzmienia Jelcza competition — 1st place"
+      ]
+    },
+    {
+      "year": 2024,
+      "itemsPl": [
+        "Rock May Festival — nagroda publiczności",
+        "Knurowisko — II miejsce",
+        "Wielki Ogień im. Miry Kubasińskiej — I miejsce"
+      ],
+      "itemsEn": [
+        "Rock May Festival — Audience Award",
+        "Knurowisko — 2nd place",
+        "Wielki Ogień im. Miry Kubasińskiej — 1st place"
+      ]
+    },
+    {
+      "year": 2023,
+      "itemsPl": [
+        "Stodoła — I miejsce w konkursie Politechniki Warszawskiej",
+        "Juwenalia PW z Waluś Kraksa Kryzys, Zalewski i Kult",
+        "Żywiec — występ na Najmniejszej Scenie Świata",
+        "Rock Radio — Nagroda Publiczności w Konkursie Klasyki Rocka"
+      ],
+      "itemsEn": [
+        "Stodoła — 1st place in the Warsaw University of Technology competition",
+        "Warsaw University of Technology Juwenalia with Waluś Kraksa Kryzys, Zalewski and Kult",
+        "Żywiec — performance on the Smallest Stage in the World",
+        "Rock Radio — Audience Award in the Rock Classics Contest"
+      ]
+    }
+  ]
+}

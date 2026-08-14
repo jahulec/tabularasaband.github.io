@@ -1,0 +1,391 @@
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "CMS: dodaj {path}"
+      update: "CMS: aktualizuj {path}"
+      delete: "CMS: usuń {path}"
+      rename: "CMS: zmień nazwę {oldPath} na {newPath}"
+
+media:
+  - name: gallery
+    label: Galeria i zdjęcia zespołu
+    input: galeria
+    output: /galeria
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+    actions:
+      - name: rebuild-gallery
+        label: Optymalizuj i przebuduj galerię
+        workflow: cms-media.yml
+        ref: current
+        confirm:
+          title: Przebudować galerię?
+          message: Powstaną wersje responsywne, a podstrony galerii zostaną odświeżone.
+          button: Przebuduj
+  - name: articles
+    label: Zdjęcia aktualności
+    input: artykul
+    output: /artykul
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+  - name: people
+    label: Zdjęcia członków zespołu
+    input: osoby
+    output: /osoby
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+  - name: documents
+    label: PDF-y prasowe i techniczne
+    input: .
+    output: /
+    extensions: [pdf]
+    rename: safe
+
+content:
+  - name: editorial
+    label: Treści strony
+    type: group
+    items:
+      - name: home
+        label: Strona główna i aktualny singiel
+        type: file
+        path: data/home.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: hero
+            label: Sekcja otwierająca
+            type: object
+            fields:
+              - { name: eyebrowPl, label: Nadtytuł PL, type: string, required: true }
+              - { name: eyebrowEn, label: Nadtytuł EN, type: string, required: true }
+              - { name: title, label: Tytuł, type: string, required: true }
+              - name: leadPl
+                label: Lead PL
+                type: rich-text
+                options: { format: html, media: false }
+              - name: leadEn
+                label: Lead EN
+                type: rich-text
+                options: { format: html, media: false }
+              - { name: primaryLabelPl, label: Główny przycisk PL, type: string }
+              - { name: primaryLabelEn, label: Główny przycisk EN, type: string }
+              - { name: primaryUrlPl, label: Link główny PL, type: string }
+              - { name: primaryUrlEn, label: Link główny EN, type: string }
+              - { name: secondaryLabelPl, label: Drugi przycisk PL, type: string }
+              - { name: secondaryLabelEn, label: Drugi przycisk EN, type: string }
+              - { name: secondaryUrlPl, label: Drugi link PL, type: string }
+              - { name: secondaryUrlEn, label: Drugi link EN, type: string }
+          - name: release
+            label: Promowany singiel / teledysk
+            type: object
+            fields:
+              - { name: kickerPl, label: Nadtytuł PL, type: string }
+              - { name: kickerEn, label: Nadtytuł EN, type: string }
+              - { name: title, label: Tytuł utworu, type: string, required: true }
+              - { name: descriptionPl, label: Opis PL, type: text }
+              - { name: descriptionEn, label: Opis EN, type: text }
+              - name: youtubeId
+                label: ID filmu YouTube
+                type: string
+                required: true
+                description: Tylko fragment po v=, np. DQwpv5y-qAU.
+              - { name: statusPl, label: Status PL, type: string }
+              - { name: statusEn, label: Status EN, type: string }
+              - name: bodyPl
+                label: Tekst PL
+                type: rich-text
+                options: { format: html, media: false }
+              - name: bodyEn
+                label: Tekst EN
+                type: rich-text
+                options: { format: html, media: false }
+              - { name: videoUrl, label: Link do teledysku, type: string }
+              - { name: streamingUrl, label: Smartlink / streaming, type: string }
+
+      - name: news
+        label: Aktualności
+        type: collection
+        path: content/news
+        format: json
+        filename:
+          template: "{date}-{slug}.json"
+          field: create
+        view:
+          fields: [titlePl, date, published, featured]
+          primary: titlePl
+          sort: [date, titlePl]
+          search: [titlePl, titleEn, categoryPl]
+          default:
+            sort: date
+            order: desc
+        fields:
+          - name: slug
+            label: Identyfikator w linku
+            type: string
+            required: true
+            pattern:
+              regex: "^[a-z0-9-]+$"
+              message: Użyj małych liter, cyfr i myślników.
+          - { name: published, label: Opublikowany, type: boolean, default: true }
+          - { name: featured, label: Wyróżniony, type: boolean, default: false }
+          - name: date
+            label: Data publikacji
+            type: date
+            required: true
+            options: { format: yyyy-MM-dd }
+          - { name: categoryPl, label: Kategoria PL, type: string, required: true }
+          - { name: categoryEn, label: Kategoria EN, type: string, required: true }
+          - { name: titlePl, label: Tytuł PL, type: string, required: true }
+          - { name: titleEn, label: Tytuł EN, type: string, required: true }
+          - { name: leadPl, label: Lead PL, type: text, required: true }
+          - { name: leadEn, label: Lead EN, type: text, required: true }
+          - name: bodyPl
+            label: Treść PL
+            type: rich-text
+            required: true
+            options: { format: html, media: articles, path: artykul, rename: safe }
+          - name: bodyEn
+            label: Treść EN
+            type: rich-text
+            required: true
+            options: { format: html, media: articles, path: artykul, rename: safe }
+          - name: cover
+            label: Zdjęcie główne
+            type: image
+            required: true
+            options: { media: articles, path: artykul, rename: safe }
+          - { name: altPl, label: Opis zdjęcia PL, type: string, required: true }
+          - { name: altEn, label: Opis zdjęcia EN, type: string, required: true }
+          - name: youtubeId
+            label: Opcjonalne ID filmu YouTube
+            type: string
+            description: Zostaw puste, jeśli artykuł nie zawiera filmu.
+          - { name: ctaUrl, label: Opcjonalny link CTA, type: string }
+          - { name: ctaLabelPl, label: Etykieta CTA PL, type: string }
+          - { name: ctaLabelEn, label: Etykieta CTA EN, type: string }
+
+      - name: about
+        label: Zespół i historia
+        type: file
+        path: data/about.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: members
+            label: Członkowie zespołu
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{displayName} — {rolePl}"
+            fields:
+              - { name: name, label: Imię i nazwisko, type: string, required: true }
+              - { name: displayName, label: Nazwa wyświetlana, type: string, required: true }
+              - { name: rolePl, label: Rola PL, type: string, required: true }
+              - { name: roleEn, label: Rola EN, type: string, required: true }
+              - name: image
+                label: Zdjęcie
+                type: image
+                required: true
+                options: { media: gallery }
+              - { name: altPl, label: Opis zdjęcia PL, type: string, required: true }
+              - { name: altEn, label: Opis zdjęcia EN, type: string, required: true }
+          - name: introPl
+            label: Wprowadzenie PL
+            type: rich-text
+            options: { format: html, media: false }
+          - name: introEn
+            label: Wprowadzenie EN
+            type: rich-text
+            options: { format: html, media: false }
+          - name: sections
+            label: Sekcje historii
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{headingPl}"
+            fields:
+              - { name: headingPl, label: Nagłówek PL, type: string, required: true }
+              - { name: headingEn, label: Nagłówek EN, type: string, required: true }
+              - name: bodyPl
+                label: Treść PL
+                type: rich-text
+                options: { format: html, media: false }
+              - name: bodyEn
+                label: Treść EN
+                type: rich-text
+                options: { format: html, media: false }
+
+      - name: music
+        label: Muzyka i teledyski
+        type: file
+        path: data/music.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - { name: spotifyEmbedUrl, label: Adres osadzenia Spotify, type: string, required: true }
+          - name: videos
+            label: Teledyski
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
+            fields:
+              - { name: title, label: Tytuł, type: string, required: true }
+              - name: youtubeId
+                label: ID filmu YouTube
+                type: string
+                required: true
+                description: Tylko fragment po v=.
+
+      - name: press
+        label: Press i osiągnięcia
+        type: file
+        path: data/press.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: descriptionPl
+            label: Opis zespołu PL
+            type: rich-text
+            options: { format: html, media: false }
+          - name: descriptionEn
+            label: Opis zespołu EN
+            type: rich-text
+            options: { format: html, media: false }
+          - name: achievements
+            label: Osiągnięcia według roku
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{year}"
+            fields:
+              - { name: year, label: Rok, type: number, required: true }
+              - { name: itemsPl, label: Osiągnięcia PL, type: string, list: true }
+              - { name: itemsEn, label: Osiągnięcia EN, type: string, list: true }
+
+      - name: shows
+        label: Koncerty
+        type: file
+        path: data/shows.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: shows
+            label: Lista koncertów
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{date} — {title}"
+            fields:
+              - name: date
+                label: Data
+                type: date
+                required: true
+                options: { format: yyyy-MM-dd }
+              - name: startDate
+                label: Data/czas dla Google i SEO
+                type: string
+                description: Najczęściej taka sama data; może zawierać godzinę w formacie ISO.
+              - { name: title, label: Nazwa wydarzenia i miasto, type: string, required: true }
+              - { name: location, label: Pełna lokalizacja, type: string }
+              - { name: ticketUrl, label: Link do biletów / wydarzenia, type: string }
+
+  - name: administration
+    label: Ustawienia i integracje
+    type: group
+    items:
+      - name: site
+        label: Dane globalne, kontakt i integracje
+        type: file
+        path: data/site.json
+        format: json
+        operations:
+          delete: false
+        fields:
+          - name: identity
+            label: Tożsamość strony
+            type: object
+            fields:
+              - { name: name, label: Nazwa, type: string, required: true }
+              - { name: baseUrl, label: Główny adres strony, type: string, required: true }
+          - name: socialLinks
+            label: Social media
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{platform}"
+            fields:
+              - name: platform
+                label: Serwis
+                type: select
+                required: true
+                options:
+                  values: [instagram, tiktok, youtube, facebook, spotify]
+              - { name: label, label: Etykieta dostępności, type: string, required: true }
+              - { name: url, label: Adres profilu, type: string, required: true }
+          - name: integrations
+            label: Integracje
+            type: object
+            fields:
+              - { name: contactFormEndpoint, label: Endpoint formularza Formspree, type: string }
+              - { name: newsletterEndpoint, label: Endpoint newslettera MailerLite, type: string }
+              - { name: googleTagManagerId, label: ID Google Tag Manager, type: string }
+          - name: contact
+            label: Kontakt
+            type: object
+            fields:
+              - { name: generalEmail, label: Główny e-mail, type: string, required: true }
+              - { name: bookingEmail, label: E-mail bookingowy, type: string }
+              - { name: bookingPhone, label: Telefon bookingowy, type: string }
+              - { name: bandPhones, label: Telefony zespołu, type: string, list: true }
+              - { name: technicalPhone, label: Telefon techniczny / IT, type: string }
+          - name: documents
+            label: Dokumenty i materiały prasowe
+            type: object
+            fields:
+              - { name: pressPackPl, label: Press pack PL, type: file, options: { media: documents, extensions: [pdf] } }
+              - { name: pressPackEn, label: Press pack EN, type: file, options: { media: documents, extensions: [pdf] } }
+              - { name: riderPl, label: Rider PL, type: file, options: { media: documents, extensions: [pdf] } }
+              - { name: riderEn, label: Rider EN, type: file, options: { media: documents, extensions: [pdf] } }
+              - { name: pressPhotosUrl, label: Link do zdjęć prasowych, type: string }
+              - { name: stageAnimationUrl, label: Link do animacji scenicznej, type: string }
+              - { name: showcaseUrl, label: Link do wizytówki, type: string }
+          - name: shop
+            label: Komunikat sklepu
+            type: object
+            fields:
+              - { name: messagePl, label: Komunikat PL, type: text }
+              - { name: messageEn, label: Komunikat EN, type: text }
+          - name: footer
+            label: Stopka
+            type: object
+            fields:
+              - { name: year, label: Rok, type: number, required: true }
+              - { name: copyrightPl, label: Copyright PL, type: string }
+              - { name: copyrightEn, label: Copyright EN, type: string }
+
+actions:
+  - name: rebuild-site
+    label: Przebuduj i sprawdź stronę
+    workflow: cms-build.yml
+    ref: current
+    cancelable: true
+    confirm:
+      title: Przebudować stronę?
+      message: Treści z CMS zostaną wpisane do stron PL/EN i sprawdzone automatycznie.
+      button: Przebuduj

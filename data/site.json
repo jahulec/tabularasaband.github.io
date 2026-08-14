@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "name": "Tabula Rasa",
+    "baseUrl": "https://tabularasaband.pl"
+  },
+  "socialLinks": [
+    {
+      "platform": "instagram",
+      "label": "Instagram - Tabula Rasa",
+      "url": "https://www.instagram.com/tabula_rasa_band/"
+    },
+    {
+      "platform": "tiktok",
+      "label": "TikTok - Tabula Rasa",
+      "url": "https://www.tiktok.com/@tabularasaband"
+    },
+    {
+      "platform": "youtube",
+      "label": "YouTube - Tabula Rasa",
+      "url": "https://www.youtube.com/@tabula_rasa_band"
+    },
+    {
+      "platform": "facebook",
+      "label": "Facebook - Tabula Rasa",
+      "url": "https://www.facebook.com/ZespolTabulaRasa/"
+    },
+    {
+      "platform": "spotify",
+      "label": "Spotify - Tabula Rasa",
+      "url": "https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3"
+    }
+  ],
+  "integrations": {
+    "contactFormEndpoint": "https://formspree.io/f/xanwrzoo",
+    "newsletterEndpoint": "https://assets.mailerlite.com/jsonp/2145120/forms/180477237039990507/subscribe",
+    "googleTagManagerId": "GTM-MK42J45H"
+  },
+  "contact": {
+    "generalEmail": "tabularasa.zespol@gmail.com",
+    "bookingEmail": "castoratabularasa@gmail.com",
+    "bookingPhone": "+48 882 678 779",
+    "bandPhones": [
+      "+48 602 502 562",
+      "+48 724 011 079"
+    ],
+    "technicalPhone": "+48 724 011 079"
+  },
+  "documents": {
+    "pressPackPl": "/Presspack.pdf",
+    "pressPackEn": "/Presspack-en.pdf",
+    "riderPl": "/RiderTabulaRasa.pdf",
+    "riderEn": "/RiderTabulaRasa-en.pdf",
+    "pressPhotosUrl": "https://drive.google.com/drive/folders/1z4jJb7IR9YiT9bcUC6urNvg0pVTT4qN5?usp=share_link",
+    "stageAnimationUrl": "https://drive.google.com/file/d/1fjJm0eRwqulICMqxgjYwkMOQTcH7pqYn/view?usp=drivesdk",
+    "showcaseUrl": "https://drive.google.com/drive/u/1/folders/11EQ2tjXoQkHM4n4izN65NJhoX_sSMwg3?usp=drive_link"
+  },
+  "shop": {
+    "messagePl": "Merch i płyty CD są dostępne tylko na koncertach live.",
+    "messageEn": "Merch and CDs are available only at live shows."
+  },
+  "footer": {
+    "year": 2026,
+    "copyrightPl": "Tabula Rasa. Wszelkie prawa zastrzeżone.",
+    "copyrightEn": "Tabula Rasa. All rights reserved."
+  }
+}

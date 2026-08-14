@@ -1,0 +1,83 @@
+{
+  "members": [
+    {
+      "name": "Beniamin Skoniecki",
+      "displayName": "Benek",
+      "rolePl": "wokal i gitara",
+      "roleEn": "vocals and guitar",
+      "image": "/galeria/_responsive/127Plik_-w640.webp",
+      "altPl": "Benek – członek zespołu Tabula Rasa",
+      "altEn": "Benek – Tabula Rasa band member"
+    },
+    {
+      "name": "Johnny Mitrowski",
+      "displayName": "Johnny",
+      "rolePl": "gitara prowadząca",
+      "roleEn": "lead guitar",
+      "image": "/galeria/_responsive/106Plik_-w640.webp",
+      "altPl": "Johnny – członek zespołu Tabula Rasa",
+      "altEn": "Johnny – Tabula Rasa band member"
+    },
+    {
+      "name": "Delia Janiszewska",
+      "displayName": "Delia",
+      "rolePl": "instrumenty klawiszowe",
+      "roleEn": "keyboards",
+      "image": "/galeria/_responsive/105Plik_-w640.webp",
+      "altPl": "Delia – członkini zespołu Tabula Rasa",
+      "altEn": "Delia – Tabula Rasa band member"
+    },
+    {
+      "name": "Carlos Ceron Lara",
+      "displayName": "Carlos",
+      "rolePl": "gitara basowa",
+      "roleEn": "bass",
+      "image": "/galeria/_responsive/107Plik_-w640.webp",
+      "altPl": "Carlos – członek zespołu Tabula Rasa",
+      "altEn": "Carlos – Tabula Rasa band member"
+    },
+    {
+      "name": "Bartosz Kamiński",
+      "displayName": "Bart",
+      "rolePl": "perkusja",
+      "roleEn": "drums",
+      "image": "/galeria/_responsive/100Plik-w640.webp",
+      "altPl": "Bart – członek zespołu Tabula Rasa",
+      "altEn": "Bart – Tabula Rasa band member"
+    }
+  ],
+  "introPl": "<p>Jesteśmy <strong>Tabula Rasa</strong> — zespołem rockowym z Warszawy. Gramy muzykę opartą na gitarach, mocnej sekcji rytmicznej, elektronice i energii, której najpełniej można doświadczyć na koncercie.</p>",
+  "introEn": "<p>We are <strong>Tabula Rasa</strong> — a rock band from Warsaw. Our music is built around guitars, a strong rhythm section, electronic elements and the kind of energy that fully comes alive on stage.</p>",
+  "sections": [
+    {
+      "headingPl": "Nasza droga",
+      "headingEn": "Our path",
+      "bodyPl": "<p>Zespół powstał pod koniec 2023 roku. Od tamtej pory zagraliśmy pierwsze autorskie koncerty, konkursy, supporty i własną trasę. Krok po kroku zbieramy doświadczenie, piszemy własny materiał i szukamy brzmienia, które będzie naprawdę nasze.</p>",
+      "bodyEn": "<p>The band was formed in late 2023. Since then, we have played original shows, competitions, support slots and our own tour. Step by step, we are gaining experience, writing our own material and looking for a sound that genuinely feels like ours.</p>"
+    },
+    {
+      "headingPl": "Brzmienie",
+      "headingEn": "Sound",
+      "bodyPl": "<p>Nasza muzyka wychodzi z rocka, ale nie zamykamy jej w jednej szufladce. Są w niej cięższe riffy, groove, syntezatory, przestrzeń i bardziej emocjonalne momenty.</p>",
+      "bodyEn": "<p>Our music starts from rock, but we do not lock it into one narrow category. There are heavier riffs, groove, synths, space and more emotional moments.</p>"
+    },
+    {
+      "headingPl": "Międzynarodowy skład",
+      "headingEn": "International line-up",
+      "bodyPl": "<p>W Tabula Rasie ważne są różne perspektywy. Nasz basista <strong>Carlos Ceron Lara</strong> pochodzi z Chile i wnosi do zespołu groove, luz i sceniczny temperament.</p>",
+      "bodyEn": "<p>Different perspectives are an important part of Tabula Rasa. Our bassist <strong>Carlos Ceron Lara</strong> comes from Chile and brings groove, freedom and stage temperament into the band.</p>"
+    },
+    {
+      "headingPl": "Na scenie",
+      "headingEn": "On stage",
+      "bodyPl": "<p>Scena jest dla nas kluczowa. Chcemy, żeby ludzie pod sceną byli częścią tego, co się dzieje: reagowali, śpiewali, ruszali się i naprawdę wchodzili z nami w koncert.</p>",
+      "bodyEn": "<p>The stage is central to what we do. We want the crowd to be part of what is happening: reacting, singing, moving and entering the concert with us.</p>"
+    },
+    {
+      "headingPl": "Tabula Rasa",
+      "headingEn": "Tabula Rasa",
+      "bodyPl": "<p>Nazwa <strong>Tabula Rasa</strong> oznacza „czystą tablicę”. Dla nas to przestrzeń, w której możemy łączyć rockową tradycję z nowoczesnością, ciężar z melodią i elektronikę z żywym graniem.</p>",
+      "bodyEn": "<p>The name <strong>Tabula Rasa</strong> means “blank slate”. For us, it is a space where we can combine rock tradition with modern sound, weight with melody and electronics with live performance.</p>"
+    }
+  ]
+}
