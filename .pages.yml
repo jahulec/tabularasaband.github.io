@@ -142,6 +142,16 @@ content:
           - { name: categoryEn, label: Kategoria EN, type: string, required: true }
           - { name: titlePl, label: Tytuł PL, type: string, required: true }
           - { name: titleEn, label: Tytuł EN, type: string, required: true }
+          - name: homeTitleLinesPl
+            label: Linie tytułu na stronie głównej PL
+            type: string
+            list: { max: 2 }
+            description: Opcjonalnie dwie krótkie linie dla wyróżnionej karty.
+          - name: homeTitleLinesEn
+            label: Linie tytułu na stronie głównej EN
+            type: string
+            list: { max: 2 }
+            description: Opcjonalnie dwie krótkie linie dla wyróżnionej karty.
           - { name: leadPl, label: Lead PL, type: text, required: true }
           - { name: leadEn, label: Lead EN, type: text, required: true }
           - name: bodyPl

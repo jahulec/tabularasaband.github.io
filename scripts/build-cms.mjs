@@ -117,11 +117,15 @@ function renderHomeNews(news, lang) {
   const page = pl ? "news.html" : "news-en.html";
   const cards = news.slice(0, 3).map((article, index) => {
     const featured = index === 0 ? " home-news-v2-card-featured" : "";
+    const configuredLines = localeValue(article, "homeTitleLines", lang);
+    const title = index === 0 && Array.isArray(configuredLines) && configuredLines.length > 0
+      ? configuredLines.map((line) => `<span class="home-news-v2-title-line">${escapeHtml(line)}</span>`).join("")
+      : escapeHtml(localeValue(article, "title", lang));
     return `        <a class="home-news-v2-card${featured}" href="${page}#${attr(article.slug)}" data-home-motion data-motion-y="${index === 0 ? "-16" : "8"}" data-motion-x="${index % 2 ? "10" : "-10"}">
             <picture><img src="${attr(publicPath(article.cover))}" alt="${attr(localeValue(article, "alt", lang))}" loading="lazy" decoding="async"></picture>
             <span class="home-news-v2-copy">
                 <span>${escapeHtml(localeValue(article, "category", lang))} / ${escapeHtml(article.date)}</span>
-                <strong>${escapeHtml(localeValue(article, "title", lang))}</strong>
+                <strong>${title}</strong>
                 <small>${pl ? "Czytaj więcej" : "Read more"}</small>
             </span>
         </a>`;
@@ -130,7 +134,7 @@ function renderHomeNews(news, lang) {
   return `<section id="news" class="home-section home-news-v2" aria-labelledby="welcome" data-home-section data-home-tone="light-blur">
     <div class="home-section-lead">
         <p class="home-section-kicker">${pl ? "Aktualności / blog" : "News / journal"}</p>
-        <h2 id="welcome">${pl ? "Co nowego" : "Latest news"}</h2>
+        <h2 id="welcome">${pl ? "Co nowego" : "From the band notebook"}</h2>
         <p>${pl ? "Premiery, trasa i historie, które nie mieszczą się w jednym poście." : "Releases, touring and stories too big for a single post."}</p>
     </div>
     <div class="home-news-v2-grid">
