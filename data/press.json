@@ -82,6 +82,14 @@
           "highlightEn": "Przebudzenie Tour",
           "highlightStyle": "bold",
           "featured": false
+        },
+        {
+          "textPl": "Kozynostra Rock Fest - I miejsce",
+          "textEn": "Kozynostra Rock Fest - 1st place",
+          "highlightPl": "I miejsce",
+          "highlightEn": "1st place",
+          "highlightStyle": "red",
+          "featured": false
         }
       ]
     },
