@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const showsData = require('../data/shows.json').shows;
+const pressData = require('../data/press.json');
 
 async function setNecessaryCookieConsent(page) {
   await page.addInitScript(() => {
@@ -55,6 +56,36 @@ test.describe('Smoke: scroll on all pages', () => {
       const after = await page.evaluate(() => window.scrollY);
 
       expect(after).toBeGreaterThan(before);
+    });
+  }
+});
+
+test.describe('Press achievements keep CMS-controlled emphasis', () => {
+  const variants = [
+    { path: '/press.html', lang: 'Pl', firstPlace: /(?<!I)I miejsce/u },
+    { path: '/press-en.html', lang: 'En', firstPlace: /1st place/i },
+  ];
+
+  for (const { path, lang, firstPlace } of variants) {
+    test(`achievement emphasis is rendered: ${path}`, async ({ page }) => {
+      const items = pressData.achievements.flatMap((group) => group.items);
+      const winners = items.filter((item) => firstPlace.test(item[`text${lang}`]));
+      const redHighlights = items.filter((item) => item.highlightStyle === 'red');
+      const featuredItems = items.filter((item) => item.featured);
+
+      expect(winners.length).toBeGreaterThan(0);
+      expect(winners.every((item) => item.highlightStyle === 'red')).toBe(true);
+
+      await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+      const accents = page.locator('.press-achievements .press-red');
+      await expect(accents).toHaveCount(redHighlights.length);
+      await expect(accents.first()).toHaveCSS('color', 'rgb(255, 36, 79)');
+      await expect(accents.first()).toHaveCSS('font-weight', '800');
+
+      const featured = page.locator('.press-achievements .achievement-item-featured');
+      await expect(featured).toHaveCount(featuredItems.length);
+      await expect(featured.first()).toHaveCSS('font-weight', '800');
     });
   }
 });

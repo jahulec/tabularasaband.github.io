@@ -26,6 +26,22 @@ Repozytorium ma gotowy panel treści oparty na Pages CMS. CMS zapisuje dane w Gi
 
 Koncerty nadal mogą trafiać automatycznie z Google Calendar. Ręczna edycja w CMS działa na tym samym pliku `data/shows.json`; synchronizacja kalendarza uzupełnia listę, zamiast ją zastępować.
 
+## Bandsintown i koncerty na Spotify
+
+Spotify pobiera wydarzenia od partnerów biletowych oraz z Bandsintown. Najpewniejszy przepływ dla zespołu to:
+
+1. przejąć lub utworzyć profil Tabula Rasa w Bandsintown for Artists,
+2. dodać do niego adres profilu artysty Spotify,
+3. publikować kompletne wydarzenia w Bandsintown,
+4. pobierać wydarzenia z Bandsintown do `data/shows.json` i renderować je na stronie.
+
+Publiczne API Bandsintown służy do odczytu i wyświetlania wydarzeń, nie do ich tworzenia. Dlatego w pełni automatyczny zapis `Pages CMS → Bandsintown → Spotify` wymagałby indywidualnego dostępu partnerskiego. Bez niego są dwie bezpieczne opcje:
+
+- **zalecana:** Bandsintown jest źródłem koncertów, a strona synchronizuje je przez API;
+- **alternatywna:** Pages CMS pozostaje źródłem, a generator przygotowuje plik do ręcznego importu wydarzeń w Bandsintown.
+
+Klucz API Bandsintown powinien trafić do GitHub Secrets, nie do danych Pages CMS ani publicznego repozytorium. Po publikacji lub zmianie wydarzenia trzeba uwzględnić opóźnienie dystrybucji do Spotify.
+
 ## Publikacja zdjęć
 
 Po dodaniu zdjęć do galerii uruchom w bibliotece mediów akcję **Optymalizuj i przebuduj galerię**. Workflow utworzy warianty responsywne i przebuduje galerię. Zdjęcie główne aktualności oraz tekst alternatywny należy ustawić w formularzu artykułu.

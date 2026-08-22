@@ -226,6 +226,30 @@ function renderShop(site, lang) {
 </section>`;
 }
 
+function renderAchievementItem(item, lang) {
+  if (typeof item === "string") {
+    return `<li>${escapeHtml(item)}</li>`;
+  }
+
+  const text = localeValue(item, "text", lang);
+  const highlight = localeValue(item, "highlight", lang);
+  let content = escapeHtml(text);
+
+  if (highlight && text.includes(highlight)) {
+    const start = text.indexOf(highlight);
+    const before = escapeHtml(text.slice(0, start));
+    const emphasized = escapeHtml(highlight);
+    const after = escapeHtml(text.slice(start + highlight.length));
+    const highlightMarkup = item.highlightStyle === "red"
+      ? `<strong class="press-red">${emphasized}</strong>`
+      : `<strong>${emphasized}</strong>`;
+    content = `${before}${highlightMarkup}${after}`;
+  }
+
+  const className = item.featured ? ` class="achievement-item-featured"` : "";
+  return `<li${className}>${content}</li>`;
+}
+
 function renderPress(site, press, about, lang) {
   const pl = lang === "pl";
   const documents = site.documents;
@@ -233,7 +257,10 @@ function renderPress(site, press, about, lang) {
   const rider = publicPath(pl ? documents.riderPl : documents.riderEn);
   const lineup = about.members.map((member) => `<li>${escapeHtml(member.name)} — ${escapeHtml(localeValue(member, "role", lang))}</li>`).join("\n            ");
   const achievements = press.achievements.map((group) => {
-    const items = localeValue(group, "items", lang).map((item) => `<li>${escapeHtml(item)}</li>`).join("\n                    ");
+    const localizedItems = Array.isArray(group.items)
+      ? group.items
+      : localeValue(group, "items", lang);
+    const items = localizedItems.map((item) => renderAchievementItem(item, lang)).join("\n                    ");
     return `<div class="achievement-group"><h3 class="achievement-year">${group.year}</h3><ul>${items}</ul></div>`;
   }).join("\n            ");
   return `<section id="news">

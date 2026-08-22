@@ -282,8 +282,34 @@ content:
                 summary: "{year}"
             fields:
               - { name: year, label: Rok, type: number, required: true }
-              - { name: itemsPl, label: Osiągnięcia PL, type: string, list: true }
-              - { name: itemsEn, label: Osiągnięcia EN, type: string, list: true }
+              - name: items
+                label: Osiągnięcia
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{textPl}"
+                fields:
+                  - { name: textPl, label: Tekst PL, type: string, required: true }
+                  - { name: textEn, label: Tekst EN, type: string, required: true }
+                  - name: highlightPl
+                    label: Wyróżniany fragment PL
+                    type: string
+                    description: Wpisz dokładny fragment tekstu, np. „I miejsce” albo nazwę artysty.
+                  - name: highlightEn
+                    label: Wyróżniany fragment EN
+                    type: string
+                    description: Angielski odpowiednik wyróżnianego fragmentu.
+                  - name: highlightStyle
+                    label: Styl wyróżnienia fragmentu
+                    type: select
+                    default: bold
+                    options:
+                      values: [bold, red]
+                  - name: featured
+                    label: Pogrub całe osiągnięcie
+                    type: boolean
+                    default: false
 
       - name: shows
         label: Koncerty

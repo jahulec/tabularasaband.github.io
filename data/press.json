@@ -4,72 +4,43 @@
   "achievements": [
     {
       "year": 2026,
-      "itemsPl": [
-        "ROcK Fesiwal, Kołobrzeg - I miejsce",
-        "Support przed THE WARNING w warszawskiej Progresji",
-        "Rockowa Przystań — I miejsce",
-        "Ryk Silnika, Pułtusk i Muzyka — I miejsce",
-        "Music On, Kalisz Pomorski — I miejsce",
-        "Płockie i Dęblińskie Juwenalia",
-        "Wszyscy Śpiewamy na Rockowo — I miejsce i Nagroda Publiczności",
-        "Support przed Smith/Kotzen w Progresji",
-        "Pierwsza autorska trasa Przebudzenie Tour — 11 miast"
-      ],
-      "itemsEn": [
-        "ROcK Fesiwal, Kołobrzeg — 1st place",
-        "Support for THE WARNING at Progresja, Warsaw",
-        "Rockowa Przystań — 1st place",
-        "Ryk Silnika, Pułtusk i Muzyka — 1st place",
-        "Music On, Kalisz Pomorski — 1st place",
-        "Płock and Dęblin Juwenalia festivals",
-        "Wszyscy Śpiewamy na Rockowo — 1st place and Audience Award",
-        "Support for Smith/Kotzen at Progresja",
-        "First headline tour, Przebudzenie Tour — 11 cities"
+      "items": [
+        { "textPl": "ROcK Fesiwal, Kołobrzeg - I miejsce", "textEn": "ROcK Fesiwal, Kołobrzeg — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Support przed THE WARNING w warszawskiej Progresji", "textEn": "Support for THE WARNING at Progresja, Warsaw", "highlightPl": "THE WARNING", "highlightEn": "THE WARNING", "highlightStyle": "red" },
+        { "textPl": "Rockowa Przystań — I miejsce", "textEn": "Rockowa Przystań — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Ryk Silnika, Pułtusk i Muzyka — I miejsce", "textEn": "Ryk Silnika, Pułtusk i Muzyka — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Music On, Kalisz Pomorski — I miejsce", "textEn": "Music On, Kalisz Pomorski — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Płockie i Dęblińskie Juwenalia", "textEn": "Płock and Dęblin Juwenalia festivals", "featured": true },
+        { "textPl": "Wszyscy Śpiewamy na Rockowo — I miejsce i Nagroda Publiczności", "textEn": "Wszyscy Śpiewamy na Rockowo — 1st place and Audience Award", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Support przed Smith/Kotzen w Progresji", "textEn": "Support for Smith/Kotzen at Progresja", "highlightPl": "Smith/Kotzen", "highlightEn": "Smith/Kotzen", "highlightStyle": "red" },
+        { "textPl": "Pierwsza autorska trasa Przebudzenie Tour — 11 miast", "textEn": "First headline tour, Przebudzenie Tour — 11 cities", "highlightPl": "Przebudzenie Tour", "highlightEn": "Przebudzenie Tour", "highlightStyle": "bold" }
       ]
     },
     {
       "year": 2025,
-      "itemsPl": [
-        "Kill Me With Music — I miejsce",
-        "Road to Juwe — I miejsce",
-        "Juwenalia w Rzeszowie, Bydgoszczy i Płocku",
-        "Hybryda w Turbo Top Antyradia — top 20 przez dwa tygodnie",
-        "Przegląd Brzmienia Jelcza — I miejsce"
-      ],
-      "itemsEn": [
-        "Kill Me With Music — 1st place",
-        "Road to Juwe — 1st place",
-        "Juwenalia festivals in Rzeszów, Bydgoszcz and Płock",
-        "Hybryda in Antyradio Turbo Top 20 for two weeks",
-        "Brzmienia Jelcza competition — 1st place"
+      "items": [
+        { "textPl": "Kill Me With Music — I miejsce", "textEn": "Kill Me With Music — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Road to Juwe — I miejsce", "textEn": "Road to Juwe — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Juwenalia w Rzeszowie, Bydgoszczy i Płocku", "textEn": "Juwenalia festivals in Rzeszów, Bydgoszcz and Płock", "featured": true },
+        { "textPl": "Hybryda w Turbo Top Antyradia — top 20 przez dwa tygodnie", "textEn": "Hybryda in Antyradio Turbo Top 20 for two weeks" },
+        { "textPl": "Przegląd Brzmienia Jelcza — I miejsce", "textEn": "Brzmienia Jelcza competition — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" }
       ]
     },
     {
       "year": 2024,
-      "itemsPl": [
-        "Rock May Festival — nagroda publiczności",
-        "Knurowisko — II miejsce",
-        "Wielki Ogień im. Miry Kubasińskiej — I miejsce"
-      ],
-      "itemsEn": [
-        "Rock May Festival — Audience Award",
-        "Knurowisko — 2nd place",
-        "Wielki Ogień im. Miry Kubasińskiej — 1st place"
+      "items": [
+        { "textPl": "Rock May Festival — nagroda publiczności", "textEn": "Rock May Festival — Audience Award" },
+        { "textPl": "Knurowisko — II miejsce", "textEn": "Knurowisko — 2nd place", "highlightPl": "II miejsce", "highlightEn": "2nd place", "highlightStyle": "bold" },
+        { "textPl": "Wielki Ogień im. Miry Kubasińskiej — I miejsce", "textEn": "Wielki Ogień im. Miry Kubasińskiej — 1st place", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" }
       ]
     },
     {
       "year": 2023,
-      "itemsPl": [
-        "Stodoła — I miejsce w konkursie Politechniki Warszawskiej",
-        "Juwenalia PW z Waluś Kraksa Kryzys, Zalewski i Kult",
-        "Żywiec — występ na Najmniejszej Scenie Świata",
-        "Rock Radio — Nagroda Publiczności w Konkursie Klasyki Rocka"
-      ],
-      "itemsEn": [
-        "Stodoła — 1st place in the Warsaw University of Technology competition",
-        "Warsaw University of Technology Juwenalia with Waluś Kraksa Kryzys, Zalewski and Kult",
-        "Żywiec — performance on the Smallest Stage in the World",
-        "Rock Radio — Audience Award in the Rock Classics Contest"
+      "items": [
+        { "textPl": "Stodoła — I miejsce w konkursie Politechniki Warszawskiej", "textEn": "Stodoła — 1st place in the Warsaw University of Technology competition", "highlightPl": "I miejsce", "highlightEn": "1st place", "highlightStyle": "red" },
+        { "textPl": "Juwenalia PW z Waluś Kraksa Kryzys, Zalewski i Kult", "textEn": "Warsaw University of Technology Juwenalia with Waluś Kraksa Kryzys, Zalewski and Kult", "featured": true },
+        { "textPl": "Żywiec — występ na Najmniejszej Scenie Świata", "textEn": "Żywiec — performance on the Smallest Stage in the World" },
+        { "textPl": "Rock Radio — Nagroda Publiczności w Konkursie Klasyki Rocka", "textEn": "Rock Radio — Audience Award in the Rock Classics Contest" }
       ]
     }
   ]

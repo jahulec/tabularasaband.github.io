@@ -10770,6 +10770,11 @@ body.home-landing-page .home-landing[data-home-motion-root] .home-show time::fir
     font-weight: 800;
 }
 
+#news .press-achievements .achievement-item-featured {
+    color: rgba(255, 255, 255, 0.96);
+    font-weight: 800;
+}
+
 #news .press-history .press-red {
     color: #ff244f;
     font-weight: 800;
