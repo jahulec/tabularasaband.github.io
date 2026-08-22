@@ -6,6 +6,14 @@
       "year": 2026,
       "items": [
         {
+          "textPl": "Kozynostra Rock Fest - I miejsce",
+          "textEn": "Kozynostra Rock Fest - 1st place",
+          "highlightPl": "I miejsce",
+          "highlightEn": "1st place",
+          "highlightStyle": "red",
+          "featured": false
+        },
+        {
           "textPl": "ROcK Fesiwal, Kołobrzeg - I miejsce",
           "textEn": "ROcK Fesiwal, Kołobrzeg — 1st place",
           "highlightPl": "I miejsce",
@@ -81,14 +89,6 @@
           "highlightPl": "Przebudzenie Tour",
           "highlightEn": "Przebudzenie Tour",
           "highlightStyle": "bold",
-          "featured": false
-        },
-        {
-          "textPl": "Kozynostra Rock Fest - I miejsce",
-          "textEn": "Kozynostra Rock Fest - 1st place",
-          "highlightPl": "I miejsce",
-          "highlightEn": "1st place",
-          "highlightStyle": "red",
           "featured": false
         }
       ]
