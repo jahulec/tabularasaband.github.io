@@ -339,6 +339,37 @@ content:
               - { name: title, label: Nazwa wydarzenia i miasto, type: string, required: true }
               - { name: location, label: Pełna lokalizacja, type: string }
               - { name: ticketUrl, label: Link do biletów / wydarzenia, type: string }
+              - name: publishToBandsintown
+                label: Przygotuj do publikacji w Bandsintown i Spotify
+                type: boolean
+                default: true
+                description: Po zapisaniu koncert trafi na stronę i do pliku importu Bandsintown. Po imporcie wyłącz tę opcję, aby nie dublować wydarzenia.
+              - { name: venue, label: Bandsintown — nazwa klubu / miejsca, type: string }
+              - { name: country, label: Bandsintown — kraj, type: string, default: Poland }
+              - { name: address, label: Bandsintown — adres, type: string }
+              - { name: city, label: Bandsintown — miasto, type: string }
+              - { name: region, label: Bandsintown — województwo / region, type: string }
+              - { name: postalCode, label: Bandsintown — kod pocztowy, type: string }
+              - { name: timezone, label: Bandsintown — strefa czasowa, type: string, default: Europe/Warsaw }
+              - name: startTime
+                label: Bandsintown — godzina rozpoczęcia (HH:MM)
+                type: string
+                description: Pole obowiązkowe dla importu, np. 20:00.
+              - { name: endDate, label: Bandsintown — data zakończenia, type: date, options: { format: yyyy-MM-dd } }
+              - { name: endTime, label: Bandsintown — godzina zakończenia (HH:MM), type: string }
+              - { name: ticketType, label: Bandsintown — typ biletu, type: string, default: Tickets }
+              - { name: ticketUrl2, label: Bandsintown — drugi link do biletów, type: string }
+              - { name: ticketType2, label: Bandsintown — typ drugiego biletu, type: string }
+              - { name: onSaleDate, label: Bandsintown — start sprzedaży, type: date, options: { format: yyyy-MM-dd } }
+              - { name: onSaleTime, label: Bandsintown — godzina startu sprzedaży, type: string }
+              - { name: lineup, label: Bandsintown — lineup, type: string }
+              - { name: eventName, label: Bandsintown — nazwa wydarzenia, type: string }
+              - { name: description, label: Bandsintown — opis, type: text }
+              - { name: scheduleDate, label: Bandsintown — zaplanuj publikację na dzień, type: date, options: { format: yyyy-MM-dd } }
+              - { name: scheduleTime, label: Bandsintown — godzina zaplanowanej publikacji, type: string }
+              - { name: doNotAnnounce, label: Bandsintown — nie wysyłaj powiadomienia fanom, type: boolean, default: false }
+              - { name: setlist, label: Bandsintown — setlista, type: text }
+              - { name: eventImage, label: Bandsintown — adres grafiki wydarzenia, type: string }
 
   - name: administration
     label: Ustawienia i integracje

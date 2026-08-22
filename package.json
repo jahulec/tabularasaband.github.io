@@ -4,7 +4,7 @@
   "main": "script.js",
   "scripts": {
     "test": "npm run test:generator && npm run test:smoke && npm run test:uiux",
-    "test:generator": "node --test tests/shows-generator.test.mjs",
+    "test:generator": "node --test tests/shows-generator.test.mjs tests/bandsintown-export.test.mjs",
     "test:smoke": "playwright test tests/smoke.spec.js",
     "test:uiux": "playwright test tests/ui-ux-a11y.spec.js",
     "check:encoding": "node scripts/check-text-encoding.mjs",
@@ -17,7 +17,8 @@
     "optimize-images": "node scripts/optimize-images.mjs",
     "sync:shows": "node scripts/sync-shows-from-calendar.mjs",
     "sync:shows:render": "node scripts/sync-shows-from-calendar.mjs --render-only",
-    "build:cms": "node scripts/build-cms.mjs && node scripts/sync-shows-from-calendar.mjs --render-only && node scripts/build-assets.mjs",
+    "build:cms": "node scripts/build-cms.mjs && node scripts/sync-shows-from-calendar.mjs --render-only && node scripts/export-bandsintown-events.mjs && node scripts/build-assets.mjs",
+    "export:bandsintown": "node scripts/export-bandsintown-events.mjs",
     "update-slider": "node scripts/update-slider.mjs",
     "rebuild-gallery": "node scripts/rebuild-gallery.mjs"
   },

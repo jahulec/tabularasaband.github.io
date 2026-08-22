@@ -21,6 +21,30 @@ const LIST_END = "<!-- SHOWS_LIST_END -->";
 const HOME_SHOWS_START = "<!-- HOME_SHOWS_START -->";
 const HOME_SHOWS_END = "<!-- HOME_SHOWS_END -->";
 const HOME_SHOWS_RENDER_LIMIT = 5;
+const BANDSINTOWN_STRING_FIELDS = [
+  "venue",
+  "country",
+  "address",
+  "city",
+  "region",
+  "postalCode",
+  "timezone",
+  "startTime",
+  "endDate",
+  "endTime",
+  "ticketType",
+  "ticketUrl2",
+  "ticketType2",
+  "onSaleDate",
+  "onSaleTime",
+  "lineup",
+  "eventName",
+  "description",
+  "scheduleDate",
+  "scheduleTime",
+  "setlist",
+  "eventImage",
+];
 
 const PL_MONTHS = [
   "stycznia",
@@ -228,13 +252,29 @@ export function parseShowsFromIcs(icsText, { importTag = "" } = {}) {
 
 export function normalizeShows(shows) {
   return Array.from(shows || [])
-    .map((show) => ({
-      date: normalizeDate(show.date || show.startDate),
-      startDate: show.startDate || normalizeDate(show.date),
-      title: String(show.title || "").trim(),
-      location: String(show.location || "").trim(),
-      ticketUrl: String(show.ticketUrl || "").trim(),
-    }))
+    .map((show) => {
+      const normalized = {
+        date: normalizeDate(show.date || show.startDate),
+        startDate: show.startDate || normalizeDate(show.date),
+        title: String(show.title || "").trim(),
+        location: String(show.location || "").trim(),
+        ticketUrl: String(show.ticketUrl || "").trim(),
+      };
+
+      for (const field of BANDSINTOWN_STRING_FIELDS) {
+        const value = String(show[field] || "").trim();
+        if (value) normalized[field] = value;
+      }
+
+      if (typeof show.publishToBandsintown === "boolean") {
+        normalized.publishToBandsintown = show.publishToBandsintown;
+      }
+      if (typeof show.doNotAnnounce === "boolean") {
+        normalized.doNotAnnounce = show.doNotAnnounce;
+      }
+
+      return normalized;
+    })
     .filter((show) => show.date && show.title)
     .sort((a, b) => (
       a.date.localeCompare(b.date)
@@ -251,6 +291,7 @@ function showMergeKey(show) {
 
 function mergeShowDetails(existingShow, incomingShow) {
   return {
+    ...existingShow,
     date: incomingShow.date || existingShow.date,
     startDate: incomingShow.startDate || existingShow.startDate,
     title: incomingShow.title || existingShow.title,

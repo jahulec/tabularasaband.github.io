@@ -9,6 +9,9 @@ on:
       - "script.js"
       - ".pages.yml"
       - "scripts/build-cms.mjs"
+      - "scripts/export-bandsintown-events.mjs"
+      - "scripts/sync-shows-from-calendar.mjs"
+      - "package.json"
   workflow_dispatch:
     inputs:
       payload:
@@ -61,6 +64,6 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.html' '*.min.js' '*.min.css' cms-data.js
+          git add -- '*.html' '*.min.js' '*.min.css' cms-data.js bandsintown-events.csv
           git commit -m "Build site content from CMS"
           git push origin HEAD:${{ github.ref_name }}

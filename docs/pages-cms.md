@@ -28,19 +28,17 @@ Koncerty nadal mogą trafiać automatycznie z Google Calendar. Ręczna edycja w 
 
 ## Bandsintown i koncerty na Spotify
 
-Spotify pobiera wydarzenia od partnerów biletowych oraz z Bandsintown. Najpewniejszy przepływ dla zespołu to:
+Koncert dodany w sekcji **Koncerty** Pages CMS automatycznie aktualizuje stronę. Formularz zawiera także pola zgodne z oficjalnym importem Bandsintown: miejsce, miasto, kraj, strefę czasową, godzinę, bilety, lineup, opis i grafikę.
 
-1. przejąć lub utworzyć profil Tabula Rasa w Bandsintown for Artists,
-2. dodać do niego adres profilu artysty Spotify,
-3. publikować kompletne wydarzenia w Bandsintown,
-4. pobierać wydarzenia z Bandsintown do `data/shows.json` i renderować je na stronie.
+Przy nowym wydarzeniu opcja **Przygotuj do publikacji w Bandsintown i Spotify** jest domyślnie włączona. Po zapisaniu workflow:
 
-Publiczne API Bandsintown służy do odczytu i wyświetlania wydarzeń, nie do ich tworzenia. Dlatego w pełni automatyczny zapis `Pages CMS → Bandsintown → Spotify` wymagałby indywidualnego dostępu partnerskiego. Bez niego są dwie bezpieczne opcje:
+1. publikuje koncert na stronie,
+2. sprawdza obowiązkowe dane Bandsintown,
+3. generuje w głównym katalogu repozytorium plik `bandsintown-events.csv` zgodny z aktualnym szablonem Bulk Upload.
 
-- **zalecana:** Bandsintown jest źródłem koncertów, a strona synchronizuje je przez API;
-- **alternatywna:** Pages CMS pozostaje źródłem, a generator przygotowuje plik do ręcznego importu wydarzeń w Bandsintown.
+Plik należy przesłać w **Bandsintown for Artists → Events → Bulk Upload**. Po udanym imporcie trzeba wyłączyć przy wydarzeniu opcję eksportu, aby kolejny plik nie zawierał go ponownie. Bandsintown przekazuje opublikowane wydarzenia do połączonego profilu Spotify; aktualizacja może potrwać do 48 godzin.
 
-Klucz API Bandsintown powinien trafić do GitHub Secrets, nie do danych Pages CMS ani publicznego repozytorium. Po publikacji lub zmianie wydarzenia trzeba uwzględnić opóźnienie dystrybucji do Spotify.
+Publiczne API Bandsintown pozwala pobierać wydarzenia, ale nie udostępnia operacji tworzenia. Całkowicie bezobsługowy zapis z Pages CMS do Bandsintown będzie możliwy dopiero po otrzymaniu od Bandsintown partnerskiego dostępu do zapisu. Nie należy automatyzować logowania do panelu ani przechowywać hasła lub sesji Bandsintown w repozytorium.
 
 ## Publikacja zdjęć
 
