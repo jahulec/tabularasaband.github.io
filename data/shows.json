@@ -4,253 +4,456 @@
       "date": "2026-01-09",
       "startDate": "2026-01-09",
       "title": "Baza | Kraków",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-01-16",
       "startDate": "2026-01-16",
       "title": "Krzywy Gryf | Szczecin",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-01-30",
       "startDate": "2026-01-30",
       "title": "Alive | Wrocław",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-01-31",
       "startDate": "2026-01-31",
       "title": "Kawon | Zielona Góra",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-02-06",
       "startDate": "2026-02-06",
       "title": "Komin | Sosnowiec",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-02-07",
       "startDate": "2026-02-07",
       "title": "Rock69 | Płock",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-02-12",
       "startDate": "2026-02-12",
       "title": "UFO Festiwal | Warszawa",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-02-13",
       "startDate": "2026-02-13",
       "title": "Zgrzyt | Lublin",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-02-20",
       "startDate": "2026-02-20",
       "title": "Voodoo | Warszawa",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-02-21",
       "startDate": "2026-02-21",
       "title": "Schron | Poznań",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-03-02",
       "startDate": "2026-03-02",
       "title": "Progresja | SMITH/KOTZEN",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-03-06",
       "startDate": "2026-03-06",
       "title": "Wooltura | Łódź",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-03-07",
       "startDate": "2026-03-07",
       "title": "Brama Nizinna | Gdańsk",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-03-27",
       "startDate": "2026-03-27",
       "title": "Liga Rocka | Jelenia Góra",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-03-28",
       "startDate": "2026-03-28",
       "title": "Festiwal Faza | Warszawa",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-04-11",
       "startDate": "2026-04-11",
       "title": "OCK | Ostrów Wielkopolski",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-04-18",
       "startDate": "2026-04-18",
       "title": "Graffiti | Lublin",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-05-16",
       "startDate": "2026-05-16",
       "title": "MOK Gniezno | Gniezno",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-05-23",
       "startDate": "2026-05-23",
       "title": "Bieg Lwa | Tarnowo Podgórne",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-05-23",
       "startDate": "2026-05-23",
       "title": "Zlot Motocyklowy | Żerków",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-05-28",
       "startDate": "2026-05-28",
       "title": "Juwenalia | Dęblin",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-05-29",
       "startDate": "2026-05-29",
       "title": "Juwenalia | Płock",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-06-13",
       "startDate": "2026-06-13",
       "title": "Ryk Silnika, Pułtusk i Muzyka | Pułtusk",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-06-14",
       "startDate": "2026-06-14",
       "title": "Music On | Kalisz Pomorski",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-06-26",
       "startDate": "2026-06-26",
       "title": "Józefów",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-06-27",
       "startDate": "2026-06-27",
       "title": "Progresja | THE WARNING",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-06-27",
       "startDate": "2026-06-27",
       "title": "Rockowa Przystań | Majdan Zachorodyński",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-07-17",
       "startDate": "2026-07-17",
       "title": "Rock Okop | Skępe",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-07-18",
       "startDate": "2026-07-18",
       "title": "Jarmark Ogórkowy | Kalisz Pomorski",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-07-19",
       "startDate": "2026-07-19",
       "title": "Majdan Królewski",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-07-26",
       "startDate": "2026-07-26",
       "title": "Letni Festiwal Rocka | Jaworzno",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-08-21",
       "startDate": "2026-08-21",
       "title": "RoCK Festiwal | Kołobrzeg",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-08-22",
       "startDate": "2026-08-22",
       "title": "Kozy Nostra Rock Fest | Kozy",
-      "location": "",
-      "ticketUrl": ""
-    },
-    {
-      "date": "2026-08-29",
-      "startDate": "2026-08-29",
-      "title": "Zlot Motocyklowy | Pułtusk",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-09-05",
       "startDate": "05.09.2026",
       "title": "Rock Battle of Barcja | Bartoszyce",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-09-27",
       "startDate": "2026-09-27",
       "title": "Hydrozagadka, Wiśniosz | Warszawa",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-10-04",
@@ -258,6 +461,7 @@
       "title": "MOXO, Tomasz Karolak | Warszawa",
       "location": "MOXO Restaurant, Żelazna 51/53, Warszawa",
       "ticketUrl": "https://www.bilety24.pl/koncert/1631-tomasz-karolak-39-i-pol-15-lat-pozniej-152257?id=905711",
+      "publishToBandsintown": false,
       "venue": "MOXO Restaurant",
       "country": "Poland",
       "address": "Żelazna 51/53",
@@ -266,13 +470,16 @@
       "postalCode": "00-841",
       "timezone": "Europe/Warsaw",
       "startTime": "17:00",
+      "endDate": "2026-09-05",
       "ticketType": "Tickets",
       "ticketUrl2": "https://bilety.io/aR2SQ",
       "ticketType2": "Tickets",
+      "onSaleDate": "2026-09-05",
       "lineup": "Tomasz Karolak, Tabula Rasa",
       "eventName": "Tomasz Karolak – 39 i pół. 15 lat później – support Tabula Rasa",
       "description": "Tabula Rasa wystąpi jako support podczas koncertu Tomasza Karolaka w MOXO. Otwarcie klubu o 16:00, początek koncertu o 17:00.",
-      "publishToBandsintown": false
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-10-24",
@@ -280,6 +487,7 @@
       "title": "Zaklęte Rewiry | Wrocław",
       "location": "Zaklęte Rewiry, Krakowska 100, Wrocław",
       "ticketUrl": "https://www.ebilet.pl/muzyka/rock/tabula-rasa",
+      "publishToBandsintown": false,
       "venue": "Zaklęte Rewiry",
       "country": "Poland",
       "address": "Krakowska 100",
@@ -288,25 +496,40 @@
       "postalCode": "50-427",
       "timezone": "Europe/Warsaw",
       "startTime": "19:00",
+      "endDate": "2026-09-05",
       "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
       "lineup": "Tabula Rasa",
       "eventName": "Koncert zespołu Tabula Rasa",
       "description": "Tabula Rasa we Wrocławiu. Koncert w klubie Zaklęte Rewiry, bilety są w sprzedaży.",
-      "publishToBandsintown": false
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-11-06",
       "startDate": "06.11.2026",
       "title": "BLVM x Chronic Insomnia Tour | Łódź",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     },
     {
       "date": "2026-12-05",
       "startDate": "05.12.2026",
       "title": "Voodoo | Warszawa",
-      "location": "",
-      "ticketUrl": ""
+      "publishToBandsintown": true,
+      "country": "Poland",
+      "timezone": "Europe/Warsaw",
+      "endDate": "2026-09-05",
+      "ticketType": "Tickets",
+      "onSaleDate": "2026-09-05",
+      "scheduleDate": "2026-09-05",
+      "doNotAnnounce": false
     }
   ]
 }
