@@ -40,3 +40,24 @@ test("rejects an incomplete concert before it can be mistaken for published", ()
     /miejsce\/klub, miasto, godzina/,
   );
 });
+
+test("automatic export skips incomplete concerts without blocking the CMS build", () => {
+  const warnings = [];
+  const csv = buildBandsintownCsv([
+    { date: "2026-10-10", title: "Bez miasta", publishToBandsintown: true },
+    {
+      date: "2026-10-11",
+      title: "Klub Próba | Warszawa",
+      startTime: "20:00",
+      publishToBandsintown: true,
+    },
+  ], {
+    skipInvalid: true,
+    onInvalid: (error) => warnings.push(error.message),
+  });
+
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /Bez miasta/);
+  assert.doesNotMatch(csv, /Bez miasta/);
+  assert.match(csv, /Klub Próba/);
+});

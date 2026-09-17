@@ -126,17 +126,33 @@ export function bandsintownRow(show, { artistName = "Tabula Rasa" } = {}) {
 }
 
 export function buildBandsintownCsv(shows, options = {}) {
+  const { skipInvalid = false, onInvalid = () => {}, ...rowOptions } = options;
   const pending = Array.from(shows || []).filter((show) => show.publishToBandsintown === true);
-  const rows = pending.map((show) => bandsintownRow(show, options));
+  const rows = pending.flatMap((show) => {
+    try {
+      return [bandsintownRow(show, rowOptions)];
+    } catch (error) {
+      if (!skipInvalid) throw error;
+      onInvalid(error, show);
+      return [];
+    }
+  });
   return `${[BANDSINTOWN_HEADERS.join(","), ...rows].join("\r\n")}\r\n`;
 }
 
 async function main() {
   const parsed = JSON.parse(await fs.readFile(DATA_PATH, "utf8"));
   const pendingCount = Array.from(parsed.shows || []).filter((show) => show.publishToBandsintown === true).length;
-  const csv = buildBandsintownCsv(parsed.shows);
+  let skippedCount = 0;
+  const csv = buildBandsintownCsv(parsed.shows, {
+    skipInvalid: true,
+    onInvalid(error) {
+      skippedCount += 1;
+      console.warn(`Bandsintown export skipped: ${error.message}`);
+    },
+  });
   await fs.writeFile(OUTPUT_PATH, csv, "utf8");
-  console.log(`Bandsintown export ready: ${pendingCount} event(s).`);
+  console.log(`Bandsintown export ready: ${pendingCount - skippedCount} event(s), ${skippedCount} skipped.`);
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {

@@ -342,7 +342,7 @@ content:
               - name: publishToBandsintown
                 label: Przygotuj do publikacji w Bandsintown i Spotify
                 type: boolean
-                default: true
+                default: false
                 description: Po zapisaniu koncert trafi na stronę i do pliku importu Bandsintown. Po imporcie wyłącz tę opcję, aby nie dublować wydarzenia.
               - { name: venue, label: Bandsintown — nazwa klubu / miejsca, type: string }
               - { name: country, label: Bandsintown — kraj, type: string, default: Poland }
