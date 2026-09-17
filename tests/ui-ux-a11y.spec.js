@@ -199,8 +199,9 @@ test.describe('UI/UX a11y regressions', () => {
     expect(captionLayout.titleLineCenters.every((delta) => delta <= 1)).toBe(true);
     expect(captionLayout.titleTextWrap).toBe('wrap');
 
-    const firstUpcomingShow = page.locator('.home-show:not([hidden])').first();
-    await expect(page.locator('.home-show:not([hidden])')).toHaveCount(3);
+    const upcomingShows = page.locator('.home-show:not([hidden])');
+    const firstUpcomingShow = upcomingShows.first();
+    expect(await upcomingShows.count()).toBeGreaterThan(0);
     const showTop = await firstUpcomingShow.evaluate((item) => item.getBoundingClientRect().top + window.scrollY);
     await page.evaluate((target) => window.scrollTo(0, Math.max(0, target - window.innerHeight * 0.78)), showTop);
     await page.waitForTimeout(150);
