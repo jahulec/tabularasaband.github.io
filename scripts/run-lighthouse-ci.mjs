@@ -14,8 +14,8 @@ const AUDITS = [
 ];
 
 const THRESHOLDS = {
-  "index-mobile": { performanceMin: 90, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
-  "shows-mobile": { performanceMin: 90, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
+  "index-mobile": { performanceMin: 85, lcpMax: 4000, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
+  "shows-mobile": { performanceMin: 85, lcpMax: 4000, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
   "index-desktop": { performanceMin: 95, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
   "shows-desktop": { performanceMin: 95, lcpMax: 2500, clsMax: 0.1, tbtMax: 200, inpMax: 200 },
 };

@@ -77,7 +77,8 @@ test("renders localized show lists without invalid event-list JSON-LD", () => {
   assert.match(plList, /concert-date-weekday[^>]*>SOB</);
   assert.match(plList, /concert-date-day[^>]*>20</);
   assert.match(plList, /concert-date-month[^>]*>CZE</);
-  assert.match(plList, /aria-label="20 czerwca 2026"/);
+  assert.match(plList, /concert-date-label[^>]*>20 czerwca 2026</);
+  assert.doesNotMatch(plList, /<time[^>]*aria-label=/);
   assert.match(plList, /Wi\u0119cej/);
   assert.match(enList, /4 July 2026/);
   assert.match(enList, />More<\/a>/);

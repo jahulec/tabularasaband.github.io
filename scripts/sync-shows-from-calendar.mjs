@@ -324,11 +324,11 @@ function buildShowArticle(show, lang) {
   const badge = formatDateBadge(show.date, lang);
   const dateLabel = escapeHtml(formatDate(show.date, lang));
   const dateMarkup = badge
-    ? `<span class="concert-date-weekday" aria-hidden="true">${escapeHtml(badge.weekday)}</span><span class="concert-date-day" aria-hidden="true">${escapeHtml(badge.day)}</span><span class="concert-date-month" aria-hidden="true">${escapeHtml(badge.month)}</span>`
+    ? `<span class="concert-date-label">${dateLabel}</span><span class="concert-date-weekday" aria-hidden="true">${escapeHtml(badge.weekday)}</span><span class="concert-date-day" aria-hidden="true">${escapeHtml(badge.day)}</span><span class="concert-date-month" aria-hidden="true">${escapeHtml(badge.month)}</span>`
     : dateLabel;
 
   return `    <article class="concert-item koncert" data-show-date="${escapeHtml(show.date)}">
-        <time class="concert-date" datetime="${escapeHtml(show.date)}" aria-label="${dateLabel}">${dateMarkup}</time>
+        <time class="concert-date" datetime="${escapeHtml(show.date)}">${dateMarkup}</time>
         <h3 role="heading" aria-level="2">${escapeHtml(show.title)}</h3>
         ${ticket.trimStart()}
     </article>`.replace(/\n        \n/, "\n");
