@@ -5126,6 +5126,12 @@ body > footer.shop-footer .shop-footer-social {
 }
 
 @media (max-width: 900px) {
+    .home-hero-copy {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
     .home-hero {
         min-height: calc(100svh - 44px);
         padding: calc(var(--tr-header-height) + 48px) 18px 62px;
