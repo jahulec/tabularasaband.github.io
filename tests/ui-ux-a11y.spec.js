@@ -63,7 +63,9 @@ test.describe('UI/UX a11y regressions', () => {
           htmlOverflowY: htmlStyle.overflowY,
           bodyTouchAction: bodyStyle.touchAction,
           // Fixed overlays can inflate scrollHeight without creating a real page scroll range.
-          canScroll: flowContentBottom > window.innerHeight + 16,
+          canScroll:
+            flowContentBottom > window.innerHeight + 16 &&
+            scrollingElement.scrollHeight > scrollingElement.clientHeight + 16,
         };
       });
 
