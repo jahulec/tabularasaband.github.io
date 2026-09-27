@@ -358,6 +358,14 @@ const [site, home, about, music, press, news] = await Promise.all([
   loadNews(),
 ]);
 
+// Keep the downloaded filenames while bypassing stale CDN/browser PDF copies.
+for (const key of ["pressPackPl", "pressPackEn"]) {
+  const filename = publicPath(site.documents[key]).split("?")[0];
+  const contents = await fs.readFile(path.join(ROOT, filename));
+  const version = crypto.createHash("sha256").update(contents).digest("hex").slice(0, 12);
+  site.documents[key] = `${filename}?v=${version}`;
+}
+
 const cmsData = `window.TABULA_RASA_CMS = ${JSON.stringify({
   socialLinks: site.socialLinks.map((link) => ({ href: link.url, label: link.label, icon: link.platform })),
   integrations: site.integrations,

@@ -12,6 +12,8 @@ on:
       - "scripts/export-bandsintown-events.mjs"
       - "scripts/sync-shows-from-calendar.mjs"
       - "package.json"
+      - "Presspack.pdf"
+      - "Presspack-en.pdf"
   workflow_dispatch:
     inputs:
       payload:

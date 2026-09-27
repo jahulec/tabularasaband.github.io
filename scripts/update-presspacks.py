@@ -24,7 +24,8 @@ def clear(page, rect, images=False):
 
 
 def box(page, text, rect, size=11, bold=False, color=(0, 0, 0)):
-    name = 'press-bold' if bold else 'press-regular'
+    # A fresh font resource is required after a previous run subsetted the PDF.
+    name = 'press-v2-bold' if bold else 'press-v2-regular'
     page.insert_font(fontname=name, fontfile='C:/Windows/Fonts/' + ('arialbd.ttf' if bold else 'arial.ttf'))
     spare = page.insert_textbox(rect, text, fontname=name, fontsize=size, lineheight=1.25, color=color)
     if spare < 0:
@@ -43,7 +44,7 @@ for en in (False, True):
     page = doc[1]
     # Refresh the opening paragraph while preserving the history and photograph.
     first = next(b for b in page.get_text('blocks') if any(s in b[4].replace('\u00a0', ' ') for s in ('The band was', 'Zespół powstał', 'Tabula Rasa powstała', 'Formed in Warsaw')))
-    rect = fitz.Rect(55, first[1] - 1, 545, max(first[3] + 1, first[1] + 29))
+    rect = fitz.Rect(55, first[1], 545, max(first[3] + 1, first[1] + 29))
     clear(page, rect)
     intro = ('Formed in Warsaw in 2023, Tabula Rasa released their debut album on 5 June 2025. The latest single, "Diamenty", arrived on 8 July 2026.' if en else
              'Tabula Rasa powstała w Warszawie w 2023 roku. Debiutancki album ukazał się 5 czerwca 2025, a najnowszy singiel "Diamenty" - 8 lipca 2026.')
@@ -52,11 +53,11 @@ for en in (False, True):
     page = doc[3]
     clear(page, fitz.Rect(40, 75, 550, 735))
     box(page, 'MUSIC / RELEASES' if en else 'MUZYKA / WYDAWNICTWA', (56, 90, 545, 125), 22, True)
-    box(page, 'DIAMENTY', (56, 155, 540, 185), 17, True)
-    box(page, ('Latest single and official video. Released 8 July 2026.\nA new chapter combining guitar energy and electronic textures.' if en else
-               'Najnowszy singiel i oficjalny teledysk. Premiera: 8 lipca 2026.\nNowy rozdział łączący gitarową energię z elektroniką.'), (56, 193, 540, 240))
-    link(page, 'Streaming: Diamenty', 'https://e-muzyka.link/TabulaRasaDiamenty', 253)
-    link(page, 'YouTube: Diamenty', 'https://www.youtube.com/watch?v=DQwpv5y-qAU', 282)
+    box(page, 'RECOMMENDED TRACKS' if en else 'REKOMENDOWANE UTWORY', (56, 151, 540, 180), 16, True)
+    link(page, '1. Diamenty / Streaming', 'https://e-muzyka.link/TabulaRasaDiamenty', 193)
+    link(page, '2. Hybryda / Spotify', 'https://open.spotify.com/track/7C2lbCqXWDbjw6NXmX8LTo', 228)
+    link(page, '3. Lewitacja / Spotify', 'https://open.spotify.com/track/5PLxOIq3esGKu2PJFCSsdR', 263)
+    box(page, 'Diamenty: released 8 July 2026.' if en else 'Diamenty: premiera 8 lipca 2026.', (56, 300, 540, 322), 10)
     box(page, 'TABULA RASA', (56, 335, 540, 365), 17, True)
     box(page, ('Debut album released 5 June 2025. Nine tracks, available digitally and on CD.' if en else
                'Debiutancki album wydany 5 czerwca 2025. Dziewięć utworów, dostępnych cyfrowo i na CD.'), (56, 373, 540, 418))
@@ -66,14 +67,15 @@ for en in (False, True):
                'Prywatny odsłuch wyłącznie do celów branżowych. Aktualny koncertowy set zespołu opiera się głównie na nowym, niewydanym materiale.'), (56, 521, 540, 568))
     link(page, 'Demo / Google Drive', 'https://drive.google.com/drive/folders/15bcl-R37_is94j04Mk_hjTFz2wmLZ5zQ?usp=sharing', 579)
     box(page, 'LIVE VIDEO', (56, 634, 540, 660), 14, True)
-    link(page, 'PRZEBUDZENIE TOUR 2026 / Instagram', 'https://www.instagram.com/reel/DR-a4KVjnOU/', 671)
+    link(page, 'https://www.youtube.com/watch?v=BwzwxOD9rGs', 'https://www.youtube.com/watch?v=BwzwxOD9rGs', 671)
 
     page = doc[4]
     # Keep the original album artwork; remove inconsistent old release dates.
     clear(page, fitz.Rect(45, 400, 550, 738))
     tracks = [('Diamenty', 'DQwpv5y-qAU'), ('Lewitacja', '9pIKakO0nR0'), ('Hybryda', 'qgXjLFixykg'), ('Offline', '9bAQ1C6MBio'), ('Ostatni Raz', 'oQN6vtTc-7o'), ('Wszystko To Co Mam', '_NKiiR6thjE')]
     for i, (title, video) in enumerate(tracks):
-        link(page, title + ' / YouTube', 'https://www.youtube.com/watch?v=' + video, 415 + i * 34)
+        label = title + (' / 08.07.2026 / YouTube' if title == 'Diamenty' else ' / YouTube')
+        link(page, label, 'https://www.youtube.com/watch?v=' + video, 415 + i * 34)
     box(page, 'ALBUM: TABULA RASA (2025)', (56, 632, 540, 660), 13, True)
     box(page, '24/7 / Hybryda / Ikar / James Deen / Lewitacja / Offline /\nOstatni Raz / Tabula Rasa / Wszystko To Co Mam', (56, 666, 540, 708), 11)
     link(page, 'Spotify / Tabula Rasa', 'https://open.spotify.com/artist/6xvV1lYwFaNpyXmlbzdLi3', 716)
