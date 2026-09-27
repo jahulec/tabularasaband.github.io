@@ -3487,6 +3487,14 @@ body.menu-open {
     margin: 8px 0 6px !important;
 }
 
+/* Keep keyboard navigation as legible as pointer navigation in the mobile menu. */
+.mobile-nav a:focus-visible,
+.hamburger-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
 #news .press-achievements .achievement-group {
     width: min(840px, 100%) !important;
 }

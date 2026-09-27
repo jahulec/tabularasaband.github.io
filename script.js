@@ -3579,6 +3579,7 @@ document.addEventListener('DOMContentLoaded', () => {
         menuNav.classList.remove('active');
         menuNav.style.pointerEvents = 'none';
         menuNav.setAttribute('aria-hidden', 'true');
+        menuNav.inert = true;
         menuHamburger.setAttribute('aria-expanded', 'false');
         document.body.classList.remove('menu-open');
         if (header) header.classList.remove('menu-open');
@@ -3592,10 +3593,13 @@ document.addEventListener('DOMContentLoaded', () => {
         menuNav.classList.add('active');
         menuNav.style.pointerEvents = 'auto';
         menuNav.setAttribute('aria-hidden', 'false');
+        menuNav.inert = false;
         menuHamburger.setAttribute('aria-expanded', 'true');
         document.body.classList.add('menu-open');
         if (header) header.classList.add('menu-open');
         setBodyScrollEnabled(false);
+
+        links[0]?.focus({ preventScroll: true });
 
         if (header) {
             header.classList.remove('hidden', 'is-hidden');
@@ -3606,6 +3610,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeMenu = () => {
         if (!isOpen) return;
         syncClosedState();
+        menuHamburger.focus({ preventScroll: true });
     };
 
     syncClosedState();
@@ -3622,7 +3627,18 @@ document.addEventListener('DOMContentLoaded', () => {
     links.forEach((a) => a.addEventListener('click', () => closeMenu()));
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeMenu();
+        if (!isOpen) return;
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            closeMenu();
+        }
+        if (event.key === 'Tab') {
+            const controls = [menuHamburger, ...links].filter((element) => element.getClientRects().length);
+            const index = controls.indexOf(document.activeElement);
+            const next = event.shiftKey ? index - 1 : index + 1;
+            event.preventDefault();
+            controls[(next + controls.length) % controls.length]?.focus({ preventScroll: true });
+        }
     });
 
     menuNav.addEventListener('click', (event) => {
