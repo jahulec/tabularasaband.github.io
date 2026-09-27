@@ -22,9 +22,15 @@ Sources checked:
 - Rock Battle of Barcja first place: https://bartoszyceon.pl/xii-rock-battle-of-barcja-tabula-rasa-zwycieza-w-bartoszycach/
 - Current booking: `data/site.json`. The band contact remains available separately.
 
-The old singles table contained dates inconsistent with the already released album.
-It now offers direct music-video links and the album tracklist; verified release
-dates appear on the preceding releases page. Existing private demo access is retained.
+The PDFs are built from their original layout in revision
+`f629532974dda56f1cadf37013f34c467686d945`. Original photographs, headings,
+singles table, dates, biography, achievements and contacts are retained. The
+recommended tracks are updated as requested; the Tabula Rasa track and its URL
+remain in the singles table. Full URLs appear beside titles in the original
+font sizes and colours. Diamenty is an added table row, the new live URL is
+added beside its label, and the old live reel and private demo remain available.
+Latest wins extend the existing 2026 list without moving its photographs.
+Current management contact is appended below the original contact details.
 
 Website editorial copy and CMS data are unchanged. The mobile menu now makes its
 closed links inert, focuses its first link on opening, cycles keyboard focus within
@@ -33,3 +39,7 @@ Generated asset hashes in HTML were rebuilt for cache invalidation.
 
 Validation: rendered all 16 PDF pages, checked updated text and link annotations;
 11 generator tests, 42 smoke tests, 14 UI/UX tests and one keyboard-menu regression.
+For the layout restoration, verified the original text outside the explicitly
+replaced recommendations, identical image content/positions on every page, and
+pixel-identical rendering of the untouched cover, lineup and historic awards
+pages. Visually inspected all modified pages in both languages.
