@@ -172,7 +172,8 @@ const HEADER_LINKS_PL = [
     { href: 'gallery.html', label: 'Galeria' },
     { href: 'press.html', label: 'Press' },
     { href: 'about.html', label: 'O nas' },
-    { href: 'contact.html', label: 'Kontakt' }
+    { href: 'contact.html', label: 'Kontakt' },
+    { href: 'https://patronite.pl/TabulaRasa', label: 'Patronite' }
 ];
 const HEADER_LINKS_EN = [
     { href: 'shop-en.html', label: 'Shop' },
@@ -182,7 +183,8 @@ const HEADER_LINKS_EN = [
     { href: 'gallery-en.html', label: 'Gallery' },
     { href: 'press-en.html', label: 'Press' },
     { href: 'about-en.html', label: 'About' },
-    { href: 'contact-en.html', label: 'Contact' }
+    { href: 'contact-en.html', label: 'Contact' },
+    { href: 'https://patronite.pl/TabulaRasa', label: 'Patronite' }
 ];
 const LANGUAGE_SWITCH_MAP = {
     'index.html': 'index-en.html',

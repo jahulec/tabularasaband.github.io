@@ -5613,6 +5613,52 @@ body > footer.shop-footer .shop-footer-social {
     line-height: 1.72;
 }
 
+.home-landing .home-patronite {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+    align-items: center;
+    gap: clamp(32px, 5vw, 72px);
+    min-height: 0;
+    padding-block: clamp(64px, 8vw, 112px);
+    background: rgba(8, 9, 11, 0.94);
+}
+
+.home-landing .home-patronite .home-section-lead {
+    max-width: 900px;
+}
+
+.home-landing .home-patronite h2 {
+    font-size: clamp(2rem, 4.8vw, 4.5rem);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+}
+
+.home-landing .home-patronite .home-section-cta {
+    margin-top: 28px;
+    min-height: 44px;
+    gap: 10px;
+}
+
+.home-patronite-arrow {
+    font-family: Arial, sans-serif;
+}
+
+.home-patronite-widget {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    height: 330px;
+    border: 0;
+    justify-self: center;
+    background: #181818;
+}
+
+@media (max-width: 900px) {
+    .home-landing .home-patronite {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .home-music-feature {
     background:
         linear-gradient(120deg, rgba(8, 9, 11, 0.94) 0%, rgba(20, 12, 15, 0.84) 48%, rgba(8, 9, 11, 0.9) 100%);
