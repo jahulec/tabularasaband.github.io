@@ -292,12 +292,13 @@ function renderNews(news, lang) {
   const pl = lang === "pl";
   const cards = news.map((article) => `<a class="news-hub-card" href="#${attr(article.slug)}" data-news-open="${attr(article.slug)}" aria-label="${pl ? "Czytaj" : "Read"}: ${attr(localeValue(article, "title", lang))}">
                 <picture><img src="${attr(publicPath(article.cover))}" alt="${attr(localeValue(article, "alt", lang))}" loading="lazy" decoding="async"></picture>
-                <span class="home-news-v2-copy"><span>${escapeHtml(localeValue(article, "category", lang))} / ${escapeHtml(articleDate(article, lang))}</span><strong>${escapeHtml(localeValue(article, "title", lang))}</strong><span class="news-hub-excerpt">${escapeHtml(localeValue(article, "lead", lang))}</span><small>${pl ? "Czytaj wpis" : "Read story"}</small></span>
+                <span class="home-news-v2-copy"><time datetime="${attr(article.datePrecision === "year" ? article.date.slice(0, 4) : article.date)}">${escapeHtml(articleDate(article, lang))}</time><strong>${escapeHtml(localeValue(article, "title", lang))}</strong></span>
             </a>`).join("\n            ");
 
   const stories = news.map((article) => {
     const video = article.youtubeId ? `<div class="news-reader-video"><iframe src="https://www.youtube.com/embed/${attr(article.youtubeId)}" title="${attr(localeValue(article, "title", lang))}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>` : "";
-    const cta = article.ctaUrl ? `<p class="news-reader-action"><a href="${attr(article.ctaUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(localeValue(article, "ctaLabel", lang) || (pl ? "Zobacz więcej" : "Learn more"))} <span aria-hidden="true">↗</span></a></p>` : "";
+    const ctaUrl = localeValue(article, "ctaUrl", lang);
+    const cta = ctaUrl ? `<p class="news-reader-action"><a href="${attr(ctaUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(localeValue(article, "ctaLabel", lang) || (pl ? "Zobacz więcej" : "Learn more"))}${new URL(ctaUrl, "https://tabularasaband.pl").hostname === "patronite.pl" ? "" : ' <span aria-hidden="true">↗</span>'}</a></p>` : "";
     return `<article class="news-reader-story" data-news-article="${attr(article.slug)}" aria-labelledby="article-${attr(article.slug)}-title" hidden>
         <picture class="news-reader-media"><img src="${attr(publicPath(article.cover))}" alt="${attr(localeValue(article, "alt", lang))}"></picture>
         <div class="news-reader-copy">
@@ -308,7 +309,7 @@ function renderNews(news, lang) {
   }).join("\n    ");
 
   return `<main id="news" class="news-hub-page">
-    <h1 id="welcome">${pl ? "Z życia zespołu" : "From the band"}</h1>
+    <h1 id="welcome">${pl ? "Aktualności" : "News"}</h1>
     <section class="news-hub-index" data-news-index aria-label="${pl ? "Lista aktualności" : "News list"}"><div class="news-hub-grid">${cards}</div></section>
 </main>
 <section class="news-reader" data-news-reader role="dialog" aria-modal="true" aria-label="${pl ? "Artykuł" : "Article"}" tabindex="-1" hidden>

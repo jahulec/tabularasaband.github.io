@@ -177,6 +177,7 @@ content:
             type: string
             description: Zostaw puste, jeśli artykuł nie zawiera filmu.
           - { name: ctaUrl, label: Opcjonalny link CTA, type: string }
+          - { name: ctaUrlEn, label: Opcjonalny link CTA EN (gdy inny niż PL), type: string }
           - { name: ctaLabelPl, label: Etykieta CTA PL, type: string }
           - { name: ctaLabelEn, label: Etykieta CTA EN, type: string }
 

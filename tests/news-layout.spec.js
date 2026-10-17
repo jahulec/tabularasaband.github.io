@@ -4,7 +4,11 @@ for (const path of ['/news.html', '/news-en.html']) {
   test(`news cards keep text below photos and preserve the reader: ${path}`, async ({ page }) => {
     await page.goto(path);
     const cards = page.locator('.news-hub-card');
-    await expect(cards).toHaveCount(5);
+    await expect(cards).toHaveCount(9);
+    await expect(page.locator('.news-hub-excerpt')).toHaveCount(0);
+    await expect(cards.locator('small')).toHaveCount(0);
+    const dates = await cards.locator('time').evaluateAll(elements => elements.map(el => el.dateTime));
+    expect(dates).toEqual([...dates].sort().reverse());
     for (const width of [1440, 820, 390]) {
       await page.setViewportSize({ width, height: 900 });
       const layout = await cards.evaluateAll(elements => elements.map(el => {
@@ -17,7 +21,7 @@ for (const path of ['/news.html', '/news-en.html']) {
       expect(Math.max(...layout.map(card => card.width)) - Math.min(...layout.map(card => card.width))).toBeLessThan(2);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
     }
-    await cards.first().click();
+    await page.locator('[data-news-open="diamenty"]').click();
     const reader = page.locator('[data-news-reader]');
     await expect(reader).toBeVisible();
     await expect(page.locator('[data-news-article="diamenty"]')).toBeVisible();
