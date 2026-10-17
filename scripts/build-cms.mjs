@@ -68,6 +68,10 @@ function formatDate(value, lang) {
   }).format(new Date(`${value}T00:00:00Z`));
 }
 
+function articleDate(article, lang) {
+  return article.datePrecision === "year" ? article.date.slice(0, 4) : formatDate(article.date, lang);
+}
+
 function renderHomeHero(home, lang) {
   const hero = home.hero;
   const pl = lang === "pl";
@@ -286,9 +290,9 @@ function renderPress(site, press, about, lang) {
 
 function renderNews(news, lang) {
   const pl = lang === "pl";
-  const cards = news.map((article, index) => `<a class="home-news-v2-card${index === 0 ? " home-news-v2-card-featured" : ""} news-hub-card" href="#${attr(article.slug)}" data-news-open="${attr(article.slug)}" aria-label="${pl ? "Czytaj" : "Read"}: ${attr(localeValue(article, "title", lang))}">
+  const cards = news.map((article) => `<a class="news-hub-card" href="#${attr(article.slug)}" data-news-open="${attr(article.slug)}" aria-label="${pl ? "Czytaj" : "Read"}: ${attr(localeValue(article, "title", lang))}">
                 <picture><img src="${attr(publicPath(article.cover))}" alt="${attr(localeValue(article, "alt", lang))}" loading="lazy" decoding="async"></picture>
-                <span class="home-news-v2-copy"><span>${escapeHtml(localeValue(article, "category", lang))} / ${escapeHtml(article.date)}</span><strong>${escapeHtml(localeValue(article, "title", lang))}</strong><small>${pl ? "Czytaj artykuł" : "Read article"}</small></span>
+                <span class="home-news-v2-copy"><span>${escapeHtml(localeValue(article, "category", lang))} / ${escapeHtml(articleDate(article, lang))}</span><strong>${escapeHtml(localeValue(article, "title", lang))}</strong><span class="news-hub-excerpt">${escapeHtml(localeValue(article, "lead", lang))}</span><small>${pl ? "Czytaj wpis" : "Read story"}</small></span>
             </a>`).join("\n            ");
 
   const stories = news.map((article) => {
@@ -297,14 +301,14 @@ function renderNews(news, lang) {
     return `<article class="news-reader-story" data-news-article="${attr(article.slug)}" aria-labelledby="article-${attr(article.slug)}-title" hidden>
         <picture class="news-reader-media"><img src="${attr(publicPath(article.cover))}" alt="${attr(localeValue(article, "alt", lang))}"></picture>
         <div class="news-reader-copy">
-            <div class="news-reader-heading"><p class="news-reader-meta"><time datetime="${attr(article.date)}">${escapeHtml(formatDate(article.date, lang))}</time><span>${escapeHtml(localeValue(article, "category", lang))}</span></p><h2 id="article-${attr(article.slug)}-title">${escapeHtml(localeValue(article, "title", lang))}</h2><p class="news-reader-lead">${escapeHtml(localeValue(article, "lead", lang))}</p></div>
+            <div class="news-reader-heading"><p class="news-reader-meta"><time datetime="${attr(article.datePrecision === "year" ? article.date.slice(0, 4) : article.date)}">${escapeHtml(articleDate(article, lang))}</time><span>${escapeHtml(localeValue(article, "category", lang))}</span></p><h2 id="article-${attr(article.slug)}-title">${escapeHtml(localeValue(article, "title", lang))}</h2><p class="news-reader-lead">${escapeHtml(localeValue(article, "lead", lang))}</p></div>
             <div class="news-reader-prose">${localeValue(article, "body", lang)}${video}${cta}</div>
         </div>
     </article>`;
   }).join("\n    ");
 
   return `<main id="news" class="news-hub-page">
-    <h1 id="welcome">${pl ? "Aktualności" : "News"}</h1>
+    <h1 id="welcome">${pl ? "Z życia zespołu" : "From the band"}</h1>
     <section class="news-hub-index" data-news-index aria-label="${pl ? "Lista aktualności" : "News list"}"><div class="news-hub-grid">${cards}</div></section>
 </main>
 <section class="news-reader" data-news-reader role="dialog" aria-modal="true" aria-label="${pl ? "Artykuł" : "Article"}" tabindex="-1" hidden>

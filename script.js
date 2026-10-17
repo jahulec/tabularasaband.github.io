@@ -80,7 +80,7 @@ const PAGE_HERO_COPY = {
     },
     'news.html': {
         eyebrow: 'Z ŻYCIA ZESPOŁU',
-        title: 'Aktualności',
+        title: 'Z życia zespołu',
         subtitle: 'Premiery, koncerty, kulisy i rzeczy, które dzieją się pomiędzy.'
     },
     'press.html': {
@@ -135,7 +135,7 @@ const PAGE_HERO_COPY = {
     },
     'news-en.html': {
         eyebrow: 'BAND JOURNAL',
-        title: 'News',
+        title: 'From the band',
         subtitle: 'Releases, live stories, backstage moments, and everything in between.'
     },
     'press-en.html': {

@@ -139,6 +139,7 @@ content:
             required: true
             options: { format: yyyy-MM-dd }
           - { name: categoryPl, label: Kategoria PL, type: string, required: true }
+          - { name: datePrecision, label: "Dokładność daty (day lub year)", type: string, default: day, description: "Użyj year dla archiwalnych wpisów bez potwierdzonego dnia publikacji." }
           - { name: categoryEn, label: Kategoria EN, type: string, required: true }
           - { name: titlePl, label: Tytuł PL, type: string, required: true }
           - { name: titleEn, label: Tytuł EN, type: string, required: true }

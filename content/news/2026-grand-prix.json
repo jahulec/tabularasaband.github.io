@@ -5,13 +5,14 @@
   "date": "2026-01-01",
   "categoryPl": "Zespół",
   "categoryEn": "Band",
-  "titlePl": "Grand Prix Wszyscy Śpiewamy na Rockowo",
-  "titleEn": "Grand Prix at Wszyscy Śpiewamy na Rockowo",
-  "leadPl": "Wracamy z finału z Grand Prix. To mocny sygnał, że nowy materiał i koncertowa energia trafiają tam, gdzie powinny.",
-  "leadEn": "We return from the final with the Grand Prix — a strong sign that the new material and our live energy are connecting.",
-  "bodyPl": "<p>Takie wieczory zostają w pamięci. Wychodzisz na scenę, grasz swoje, a chwilę później dowiadujesz się, że jury przyznało ci najważniejsze wyróżnienie.</p><p>Dziękujemy jury, ekipie wydarzenia i wszystkim pod sceną.</p>",
-  "bodyEn": "<p>Nights like this stay with you. You walk on stage, play your music and moments later learn that the jury awarded you the top prize.</p><p>Thank you to the jury, the event team and everyone in front of the stage.</p>",
+  "titlePl": "Wszyscy Śpiewamy na Rockowo — I miejsce i Nagroda Publiczności",
+  "titleEn": "Wszyscy Śpiewamy na Rockowo — 1st place and Audience Award",
+  "leadPl": "Dwa wyróżnienia dla Tabula Rasa: I miejsce i Nagroda Publiczności na Wszyscy Śpiewamy na Rockowo.",
+  "leadEn": "Two awards for Tabula Rasa at Wszyscy Śpiewamy na Rockowo: 1st place and the Audience Award.",
+  "bodyPl": "<p>Dziękujemy jury za docenienie naszej muzyki, a publiczności za głosy i wsparcie. Dziękujemy też organizatorom i ekipie wydarzenia.</p><p>To kolejny koncertowy moment, który zapisujemy w historii zespołu.</p>",
+  "bodyEn": "<p>Thank you to the jury for recognising our music, and to the audience for your votes and support. Thanks also to the organisers and event crew.</p><p>Another live milestone in the band’s story.</p>",
   "cover": "/artykul/wsnr.webp",
   "altPl": "Tabula Rasa po finale Wszyscy Śpiewamy na Rockowo",
-  "altEn": "Tabula Rasa after the Wszyscy Śpiewamy na Rockowo final"
+  "altEn": "Tabula Rasa after the Wszyscy Śpiewamy na Rockowo final",
+  "datePrecision": "year"
 }
