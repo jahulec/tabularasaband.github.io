@@ -12645,3 +12645,10 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::before {
         will-change: auto !important;
     }
 }
+
+/* Keep the Patronite backdrop blurred in colour at every breakpoint. */
+body.home-landing-page .home-landing[data-home-motion-root] #patronite.home-patronite {
+    background: rgba(8, 9, 11, 0.48) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.2) !important;
+    backdrop-filter: blur(18px) saturate(1.2) !important;
+}
