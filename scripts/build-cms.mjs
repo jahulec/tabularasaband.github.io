@@ -313,7 +313,7 @@ function renderNews(news, lang) {
     <section class="news-hub-index" data-news-index aria-label="${pl ? "Lista aktualności" : "News list"}"><div class="news-hub-grid">${cards}</div></section>
 </main>
 <section class="news-reader" data-news-reader role="dialog" aria-modal="true" aria-label="${pl ? "Artykuł" : "Article"}" tabindex="-1" hidden>
-    <button class="news-reader-back" type="button" data-news-close aria-label="${pl ? "Wróć do listy aktualności" : "Back to news list"}"><span aria-hidden="true">←</span><span>${pl ? "Cofnij" : "Back"}</span></button>
+    <div class="news-reader-toolbar"><img src="logo.png" alt="Tabula Rasa" width="70" height="62"><button class="news-reader-back" type="button" data-news-close aria-label="${pl ? "Wróć do listy aktualności" : "Back to news list"}"><span aria-hidden="true">←</span><span>${pl ? "Wróć do aktualności" : "Back to news"}</span></button></div>
     ${stories}
 </section>`;
 }

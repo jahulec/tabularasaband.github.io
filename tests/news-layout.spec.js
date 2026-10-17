@@ -1,6 +1,38 @@
 const { test, expect } = require('@playwright/test');
 
 for (const path of ['/news.html', '/news-en.html']) {
+  test(`article layout keeps the photo and text apart: ${path}`, async ({ page }) => {
+    test.setTimeout(90_000);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const width of [320, 390, 820, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const slug of ['grand-prix', 'przebudzenie-tour-podsumowanie', 'diamenty']) {
+        await page.goto(path + '#' + slug, { waitUntil: 'domcontentloaded' });
+        const story = page.locator(`[data-news-article="${slug}"]`);
+        await expect(story).toBeVisible();
+        await expect(page.locator('[data-news-close]')).toBeFocused();
+        const layout = await story.evaluate(el => {
+          const box = node => node.getBoundingClientRect().toJSON();
+          const reader = el.closest('[data-news-reader]');
+          return {
+            photo: box(el.querySelector('.news-reader-media')),
+            copy: box(el.querySelector('.news-reader-copy')),
+            title: box(el.querySelector('h2')),
+            toolbar: box(reader.querySelector('.news-reader-toolbar')),
+            contentWidth: reader.scrollWidth,
+            readerWidth: reader.clientWidth,
+          };
+        });
+        expect(layout.contentWidth).toBeLessThanOrEqual(layout.readerWidth + 1);
+        expect(layout.title.left).toBeGreaterThanOrEqual(0);
+        expect(layout.title.right).toBeLessThanOrEqual(width);
+        expect(layout.photo.top).toBeGreaterThanOrEqual(layout.toolbar.bottom - 1);
+        if (width <= 900) expect(layout.copy.top).toBeGreaterThanOrEqual(layout.photo.bottom - 1);
+        else expect(layout.copy.left).toBeGreaterThanOrEqual(layout.photo.right - 1);
+      }
+    }
+  });
+
   test(`news cards keep text below photos and preserve the reader: ${path}`, async ({ page }) => {
     await page.goto(path);
     const cards = page.locator('.news-hub-card');
