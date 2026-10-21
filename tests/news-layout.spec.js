@@ -51,6 +51,8 @@ for (const path of ['/news.html', '/news-en.html']) {
         const story = page.locator(`[data-news-article="${slug}"]`);
         await expect(story).toBeVisible();
         await expect(page.locator('[data-news-close]')).toBeFocused();
+        await expect(page.locator('[data-news-reader]')).toHaveClass(/is-active/);
+        await expect.poll(() => page.locator('[data-news-reader]').evaluate(el => Math.abs(el.getBoundingClientRect().left))).toBeLessThan(0.5);
         const layout = await story.evaluate(el => {
           const box = node => node.getBoundingClientRect().toJSON();
           const reader = el.closest('[data-news-reader]');

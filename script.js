@@ -3044,7 +3044,7 @@ function initNewsReader() {
     ].join(',');
     const reducedMotion = window.matchMedia
         && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const transitionDelay = reducedMotion ? 20 : 200;
+    const transitionDelay = reducedMotion ? 20 : 540;
 
     let activeSlug = '';
     let lastTrigger = null;

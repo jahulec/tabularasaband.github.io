@@ -543,7 +543,7 @@ body.home-landing-page .home-landing .home-show h3 {
 
 html {
     scrollbar-width: thin;
-    scrollbar-color: #f4002f #08090b;
+    scrollbar-color: #777 #08090b;
     min-height: 100%;
     height: auto;
 	-webkit-overflow-scrolling: touch;
@@ -11358,12 +11358,12 @@ html::-webkit-scrollbar-track {
     background: #08090b;
 }
 html::-webkit-scrollbar-thumb {
-    background: #f4002f;
+    background: #777;
     border: 2px solid #08090b;
     border-radius: 0;
 }
 html::-webkit-scrollbar-thumb:hover {
-    background: #ff3558;
+    background: #aaa;
 }
 
 body.news-reader-open .background-slider img {
@@ -11400,8 +11400,10 @@ body.news-reader-open > .tr-cookie-settings-button {
     -webkit-backdrop-filter: blur(18px) saturate(1.15);
     backdrop-filter: blur(18px) saturate(1.15);
     opacity: 0.6;
-    transform: none;
-    transition: opacity 180ms ease;
+    transform: translate3d(100%, 0, 0);
+    transition:
+        transform 520ms cubic-bezier(0.22, 0.76, 0.22, 1),
+        opacity 360ms ease;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -11412,7 +11414,7 @@ body.news-reader-open > .tr-cookie-settings-button {
 
 .news-reader.is-closing {
     opacity: 0.7;
-    transform: none;
+    transform: translate3d(100%, 0, 0);
 }
 
 .news-reader-toolbar {
