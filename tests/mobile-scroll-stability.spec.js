@@ -28,3 +28,28 @@ test('small direction reversals do not repeatedly toggle the mobile header', asy
   }
   await context.close();
 });
+
+test('mobile landing stops at the footer and immediately scrolls back up', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+  await page.locator('.shop-footer-copy').scrollIntoViewIfNeeded();
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  await expect(page.locator('html')).toHaveCSS('overscroll-behavior-y', 'none');
+  await expect(page.locator('body')).toHaveCSS('overscroll-behavior-y', 'none');
+  const bottom = await page.evaluate(() => scrollY);
+  await page.mouse.move(200, 700);
+  await page.mouse.wheel(0, 700);
+  await page.waitForTimeout(150);
+  expect(await page.evaluate(() => scrollY)).toBeCloseTo(bottom, 0);
+  // Safari may report out-of-range scroll positions even when the document is at its end.
+  await page.evaluate(bottom => {
+    handleHeaderVisibility(bottom + 160);
+    handleHeaderVisibility(bottom);
+  }, bottom);
+  await expect(page.locator('header.shop-header')).toHaveClass(/is-hidden/);
+  await page.mouse.wheel(0, -250);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(bottom - 100);
+  await expect(page.locator('body')).not.toHaveCSS('position', 'fixed');
+  await context.close();
+});

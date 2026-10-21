@@ -11739,7 +11739,11 @@ body.news-reader-open > .tr-cookie-settings-button {
     .news-reader-story {
         width: min(var(--tr-shell-max), 92vw);
         grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: minmax(0, 28dvh) minmax(0, 1fr);
+        grid-template-rows: 28dvh auto;
+        align-content: start;
+        overflow-y: auto;
+        overscroll-behavior-y: none;
+        -webkit-overflow-scrolling: touch;
         gap: 20px;
         padding-top: 16px;
         padding-bottom: max(20px, env(safe-area-inset-bottom));
@@ -11747,9 +11751,15 @@ body.news-reader-open > .tr-cookie-settings-button {
     .news-reader-media {
         position: relative;
         top: auto;
+        height: 28dvh;
     }
     .news-reader-media img {
         max-height: 100%;
+    }
+    .news-reader-copy {
+        height: auto;
+        overflow: visible;
+        padding-right: 0;
     }
     .news-reader-heading h2 {
         font-size: clamp(1.65rem, 6.5vw, 2.6rem) !important;
@@ -11934,9 +11944,9 @@ body.home-landing-page .home-gallery-media picture {
 }
 
 @media (max-width: 760px) {
-    html,
-    body {
-        overscroll-behavior-y: auto !important;
+    html:has(body.home-landing-page),
+    body.home-landing-page {
+        overscroll-behavior-y: none !important;
     }
 
     .background-slider {

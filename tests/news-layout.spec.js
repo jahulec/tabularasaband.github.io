@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 for (const path of ['/news.html', '/news-en.html']) {
-  test(`article scrolls only its text and restores the list: ${path}`, async ({ page }) => {
+  test(`article scrolls its photo on mobile only and restores the list: ${path}`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     for (const width of [390, 1440]) {
       await page.setViewportSize({ width, height: 650 });
@@ -35,9 +35,11 @@ for (const path of ['/news.html', '/news-en.html']) {
       await page.mouse.wheel(0, 700);
       await copy.hover();
       await page.mouse.wheel(0, 700);
-      await expect.poll(() => copy.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
+      const scroller = width <= 900 ? story : copy;
+      await expect.poll(() => scroller.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
       const afterPhoto = await photo.boundingBox();
-      expect(Math.abs(afterPhoto.y - beforePhoto.y)).toBeLessThan(1);
+      if (width <= 900) expect(afterPhoto.y).toBeLessThan(beforePhoto.y - 20);
+      else expect(Math.abs(afterPhoto.y - beforePhoto.y)).toBeLessThan(1);
       expect(await page.locator('#news').evaluate(el => el.getBoundingClientRect().top)).toBeCloseTo(beforeBackground, 0);
       await close.click();
       await expect(page.locator('[data-news-reader]')).toBeHidden();

@@ -2038,6 +2038,13 @@ function adjustImageBrightness(scrollTop) {
 function handleHeaderVisibility(scrollTop) {
     if (!header) return;
 
+    // Safari can report positions outside the document during rubber-band scrolling.
+    // Ignore that extra distance when deciding whether the header should change direction.
+    if (document.body.classList.contains('home-landing-page')) {
+        const maxScrollTop = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        scrollTop = Math.max(0, Math.min(scrollTop, maxScrollTop));
+    }
+
     const isHamburgerActive = hamburger ? hamburger.classList.contains('active') : false;
     const nearTop = scrollTop < 80;
     const delta = scrollTop - lastScrollTop;
@@ -3134,6 +3141,7 @@ function initNewsReader() {
         reader.hidden = false;
         reader.scrollTop = 0;
         stories.forEach((story) => {
+            story.scrollTop = 0;
             story.querySelector('.news-reader-copy').scrollTop = 0;
         });
         document.documentElement.classList.add('news-reader-open');
