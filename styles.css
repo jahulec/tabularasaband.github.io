@@ -12858,3 +12858,89 @@ body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .
     }
 }
 
+
+/* Section boundaries use spacing and backgrounds, without drawn separators. */
+body.home-landing-page .home-landing[data-home-motion-root] > section {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+}
+body.home-landing-page .home-landing[data-home-motion-root] > section.home-section::before {
+    content: none !important;
+    display: none !important;
+}
+
+/* Keep the compact footer structure, with the site's dark surfaces and controls. */
+body > footer.shop-footer,
+body.home-landing-page > footer.shop-footer,
+body:has(.home-landing[data-home-motion-root]) > footer.shop-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 40px 0 max(28px, env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+    background: #08090b !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+body > footer.shop-footer::before,
+body > footer.shop-footer::after {
+    content: none !important;
+    display: none !important;
+}
+body > footer.shop-footer > .container.shop-footer-compact {
+    gap: 18px !important;
+}
+body > footer.shop-footer .shop-footer-newsletter {
+    gap: 12px !important;
+    margin: 0 auto !important;
+}
+body > footer.shop-footer .shop-footer-newsletter-status:empty {
+    display: none !important;
+}
+body > footer.shop-footer .shop-footer-newsletter-lead {
+    font-size: 0.94rem !important;
+    line-height: 1.4 !important;
+    text-transform: uppercase;
+    color: #fff !important;
+}
+body > footer.shop-footer .shop-footer-newsletter-form input[type="email"],
+body > footer.shop-footer .shop-footer-newsletter-form button[type="submit"] {
+    height: 44px !important;
+    border-radius: 4px !important;
+    font-size: 0.86rem !important;
+    min-width: 0;
+}
+body > footer.shop-footer .shop-footer-newsletter-form input[type="email"] {
+    background: rgba(255, 255, 255, 0.045) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+}
+body > footer.shop-footer .shop-footer-newsletter-legal {
+    font-size: 0.75rem !important;
+    line-height: 1.6 !important;
+    color: #bcbcbc !important;
+    text-align: left !important;
+}
+body > footer.shop-footer .shop-footer-newsletter-legal input {
+    flex: 0 0 auto;
+    margin-top: 0.3em !important;
+    accent-color: #f4002f;
+}
+body > footer.shop-footer .shop-footer-nav {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px 24px !important;
+    margin-inline: auto;
+}
+body > footer.shop-footer .shop-footer-nav a,
+body > footer.shop-footer .shop-footer-nav .shop-footer-cookie-link {
+    font-size: 0.8rem !important;
+    line-height: 1.5;
+}
+body > footer.shop-footer .shop-footer-copy {
+    max-width: none !important;
+    font-size: 0.74rem !important;
+    line-height: 1.6 !important;
+    color: #a8a8a8 !important;
+}
+

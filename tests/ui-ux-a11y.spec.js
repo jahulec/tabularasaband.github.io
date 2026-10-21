@@ -111,6 +111,15 @@ test.describe('UI/UX a11y regressions', () => {
 
       expect(boundaries.every((gap) => gap <= -0.9)).toBe(true);
       await expect(page.locator('.home-music-feature')).toHaveCSS('border-top-width', '0px');
+      const separators = await page.locator('.home-landing > section.home-section').evaluateAll(elements => elements.map(el => ({
+        section: el.id || el.className,
+        before: getComputedStyle(el, '::before').content,
+        top: getComputedStyle(el).borderTopWidth,
+        bottom: getComputedStyle(el).borderBottomWidth,
+      })));
+      expect(separators.filter(el => el.before !== 'none' || el.top !== '0px' || el.bottom !== '0px')).toEqual([]);
+      await expect(page.locator('footer.shop-footer')).toHaveCSS('background-color', 'rgb(8, 9, 11)');
+      await expect(page.locator('footer.shop-footer')).toHaveCSS('backdrop-filter', 'none');
     }
   });
 
