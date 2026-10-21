@@ -639,23 +639,21 @@ img[src$="logo.png"]:not(.brand-logo) {
 
 @font-face {
     font-family: 'PoppinsBlack';
-    src: url('PoppinsBlack.woff2') format('woff2'),
-         url('PoppinsBlack.woff') format('woff');
+    src: url('Poppins-Black-v1.woff2') format('woff2'),
+         url('Poppins-Black-v1.woff') format('woff');
     font-weight: 900;
     font-style: normal;
-    font-display: optional;
+    font-display: swap;
 }
 
-/* The bundled file contains Poppins Regular glyphs (weight 400). Keep a
-   correctly described alias for compact card captions so every engine uses
-   the same metrics instead of resolving the mismatched 900 declaration. */
+/* Keep the card alias on the same genuine Black face as the rest of the site. */
 @font-face {
     font-family: 'PoppinsCard';
-    src: url('PoppinsBlack.woff2') format('woff2'),
-         url('PoppinsBlack.woff') format('woff');
-    font-weight: 400;
+    src: url('Poppins-Black-v1.woff2') format('woff2'),
+         url('Poppins-Black-v1.woff') format('woff');
+    font-weight: 900;
     font-style: normal;
-    font-display: optional;
+    font-display: swap;
 }
 
 #footer {
@@ -11396,9 +11394,9 @@ body.news-reader-open > .tr-cookie-settings-button {
     overflow-y: hidden;
     overscroll-behavior: contain;
     color: #fff;
-    background: rgba(8, 9, 11, 0.94);
-    -webkit-backdrop-filter: blur(18px) saturate(1.15);
-    backdrop-filter: blur(18px) saturate(1.15);
+    background: #08090b;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     opacity: 0.6;
     transform: translate3d(100%, 0, 0);
     transition:
@@ -11422,7 +11420,7 @@ body.news-reader-open > .tr-cookie-settings-button {
     z-index: 3;
     top: 0;
     padding: 0;
-    background: rgba(8, 9, 11, 0.96);
+    background: #08090b;
     border: 0;
 }
 
@@ -12814,6 +12812,49 @@ body.news-index-page .news-hub-card:focus-visible {
     body.news-index-page .news-hub-grid {
         grid-template-columns: minmax(0, 1fr);
         gap: 24px;
+    }
+}
+
+
+/* Use one genuine Black face; never fall back to a regular card/body face. */
+body,
+body :where(h1, h2, h3, h4, p, a, span, small, strong, time, label, button, input, select, textarea, li, td, th) {
+    font-family: var(--tr-font-display) !important;
+    font-weight: 900 !important;
+}
+body.home-landing-page .home-news-v2-copy,
+body.home-landing-page .home-news-v2-copy > span,
+body.home-landing-page .home-news-v2-copy strong,
+body.home-landing-page .home-news-v2-copy small {
+    font-weight: 900 !important;
+}
+body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .home-news-v2-copy > strong {
+    font-weight: 900 !important;
+}
+
+@media (max-width: 760px) {
+    /* Keep native touch scrolling free of full-section backdrop recompositing. */
+    body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2,
+    body.home-landing-page .home-landing[data-home-motion-root] .home-shows {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        background: rgba(8, 9, 11, 0.88) !important;
+    }
+    body.home-landing-page .home-news-v2 .reveal,
+    body.home-landing-page .home-news-v2 .home-news-v2-card,
+    body.home-landing-page .home-news-v2 .home-news-v2-card picture {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        will-change: auto !important;
+    }
+    body.home-landing-page .home-shows.home-shows-animated .home-show {
+        animation: none !important;
+    }
+    .background-slider img.active {
+        animation: none !important;
+        transform: none !important;
+        will-change: opacity !important;
     }
 }
 

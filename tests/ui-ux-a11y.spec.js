@@ -264,7 +264,7 @@ test.describe('UI/UX a11y regressions', () => {
       expect(layout.lineDeltas.every((delta) => delta <= 1)).toBe(true);
       expect(layout.textAlign).toBe('center');
       expect(layout.textWrap).toBe('wrap');
-      expect(layout.fontWeight).toBe('400');
+      expect(layout.fontWeight).toBe('900');
     } finally {
       await context.close();
       await webkitBrowser.close();
@@ -311,8 +311,8 @@ test.describe('UI/UX a11y regressions', () => {
     expect(before.cssHeight).toBe('844px');
     expect(after.cssHeight).toBe(before.cssHeight);
     expect(after.height).toBe(before.height);
-    expect(after.imageTransform).not.toBe('none');
-    expect(after.imageAnimation).toBe('tr-mobile-slider-zoom');
+    expect(after.imageTransform).toBe('none');
+    expect(after.imageAnimation).toBe('none');
     expect(after.imageTransition).toContain('opacity');
     expect(after.footerBorder).toBe('0px');
     expect(after.footerDivider).toBe('none');
@@ -548,7 +548,7 @@ test.describe('UI/UX a11y regressions', () => {
         });
         expect(backgroundEnd.width).toBeCloseTo(backgroundStart.width, 0);
         expect(backgroundEnd.height).toBeCloseTo(backgroundStart.height, 0);
-        expect(backgroundEnd.transform).not.toBe('none');
+        expect(backgroundEnd.transform).toBe('none');
         const showsTop = await page.locator('.home-shows').evaluate((element) => element.offsetTop);
         await page.evaluate((target) => window.scrollTo(0, target + 24), showsTop);
         await page.waitForTimeout(350);

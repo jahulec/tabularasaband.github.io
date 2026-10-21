@@ -6,6 +6,8 @@ let hamburger = document.getElementById('hamburger');
 
 let currentImageIndex = 0;
 let isHeaderHidden = false;
+let headerScrollDirection = 0;
+let headerDirectionDistance = 0;
 let isChangingSlide = false;
 let sliderIntervalId = null;
 let stableMobileViewportWidth = 0;
@@ -1726,8 +1728,8 @@ function cancelAutoScrollOnUserInput() {
         autoScrollCanceled = true;
         cancelAnimationFrame(autoScrollRaf);
         autoScrollRaf = null;
+        ensureScrollEnabled();
     }
-    ensureScrollEnabled();
 }
 
 function isMobileMenuOpen() {
@@ -2043,14 +2045,23 @@ function handleHeaderVisibility(scrollTop) {
     if (isHamburgerActive || nearTop) {
         header.classList.remove('hidden', 'is-hidden');
         isHeaderHidden = false;
+        headerScrollDirection = 0;
+        headerDirectionDistance = 0;
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         return;
     }
 
-    if (delta > 6 && !isHeaderHidden) {
+    const direction = Math.sign(delta);
+    if (direction && direction !== headerScrollDirection) {
+        headerScrollDirection = direction;
+        headerDirectionDistance = 0;
+    }
+    headerDirectionDistance += Math.abs(delta);
+    const threshold = window.matchMedia('(max-width: 900px)').matches ? 28 : 8;
+    if (delta > 0 && headerDirectionDistance >= threshold && !isHeaderHidden) {
         header.classList.add('hidden', 'is-hidden');
         isHeaderHidden = true;
-    } else if (delta < -6 && isHeaderHidden) {
+    } else if (delta < 0 && headerDirectionDistance >= threshold && isHeaderHidden) {
         header.classList.remove('hidden', 'is-hidden');
         isHeaderHidden = false;
     }
@@ -2513,37 +2524,55 @@ function initHomeLandingMotion() {
             if (shows) {
                 const showItems = Array.from(shows.querySelectorAll('.home-show'));
                 let showsRafId = null;
+                let showsTargetsDirty = true;
+                let showsLastFrame = 0;
+                const showsMotion = showItems.map((item) => ({ item, x: 0, y: 0, targetX: 0, targetY: 0 }));
+                showItems.forEach((item) => item.classList.add('home-show-desktop-motion'));
                 const clampShowsMotion = (value, min, max) => Math.min(max, Math.max(min, value));
                 const readShowsMotionNumber = (item, name, fallback = 0) => {
                     const parsed = Number(item.getAttribute(name));
                     return Number.isFinite(parsed) ? parsed : fallback;
                 };
 
-                const renderMobileShowsMotion = () => {
+                const renderMobileShowsMotion = (timestamp) => {
                     showsRafId = null;
-                    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-
-                    showItems.forEach((item) => {
-                        if (item.hidden) return;
-                        const rect = item.getBoundingClientRect();
-                        const elementCenter = rect.top + rect.height * 0.5;
-                        const progress = clampShowsMotion(
-                            (viewportHeight * 0.5 - elementCenter) / viewportHeight,
-                            -1,
-                            1
-                        );
-                        const stagger = readShowsMotionNumber(item, 'data-motion-stagger');
-                        const adjustedProgress = clampShowsMotion(progress - stagger * 0.18, -1, 1);
-                        const x = adjustedProgress * readShowsMotionNumber(item, 'data-motion-x');
-                        const y = adjustedProgress * readShowsMotionNumber(item, 'data-motion-y');
-
-                        item.classList.add('home-show-desktop-motion');
-                        item.style.setProperty('--motion-x-current', `${x.toFixed(2)}px`);
-                        item.style.setProperty('--motion-y-current', `${y.toFixed(2)}px`);
+                    const viewportHeight = stableMobileViewportHeight || window.innerHeight || 1;
+                    // Read all geometry before writing any transforms.
+                    if (showsTargetsDirty) {
+                        const rects = showItems.map((item) => item.getBoundingClientRect());
+                        showsTargetsDirty = false;
+                        showsMotion.forEach((state, index) => {
+                            const item = state.item;
+                            const rect = rects[index];
+                            const elementCenter = rect.top + rect.height * 0.5;
+                            const progress = clampShowsMotion(
+                                (viewportHeight * 0.5 - elementCenter) / viewportHeight,
+                                -1,
+                                1
+                            );
+                            const stagger = readShowsMotionNumber(item, 'data-motion-stagger');
+                            const adjustedProgress = clampShowsMotion(progress - stagger * 0.18, -1, 1);
+                            state.targetX = adjustedProgress * readShowsMotionNumber(item, 'data-motion-x');
+                            state.targetY = adjustedProgress * readShowsMotionNumber(item, 'data-motion-y');
+                        });
+                    }
+                    const delta = showsLastFrame ? Math.min(40, timestamp - showsLastFrame) : 16;
+                    showsLastFrame = timestamp;
+                    const blend = 1 - Math.exp(-delta / 42);
+                    let settling = false;
+                    showsMotion.forEach((state) => {
+                        state.x += (state.targetX - state.x) * blend;
+                        state.y += (state.targetY - state.y) * blend;
+                        settling ||= Math.abs(state.targetX - state.x) > 0.05 || Math.abs(state.targetY - state.y) > 0.05;
+                        state.item.style.setProperty('--motion-x-current', `${state.x.toFixed(2)}px`);
+                        state.item.style.setProperty('--motion-y-current', `${state.y.toFixed(2)}px`);
                     });
+                    if (settling) showsRafId = requestAnimationFrame(renderMobileShowsMotion);
+                    else showsLastFrame = 0;
                 };
 
                 const queueMobileShowsMotion = () => {
+                    showsTargetsDirty = true;
                     if (showsRafId !== null) return;
                     showsRafId = requestAnimationFrame(renderMobileShowsMotion);
                 };
@@ -3307,6 +3336,7 @@ window.addEventListener('keydown', (event) => {
 
 function enforceWheelScrollFallback(event) {
     if (isMobileMenuOpen() || isGalleryModalOpen() || isNewsReaderOpen()) return;
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
     const doc = document.documentElement;
     if (doc.scrollHeight <= window.innerHeight + 1) return;
 

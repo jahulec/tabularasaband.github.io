@@ -15,6 +15,11 @@ for (const path of ['/news.html', '/news-en.html']) {
       const close = page.locator('[data-news-close]');
       await expect(close).toBeFocused();
       await expect(page.locator('body')).toHaveCSS('position', 'fixed');
+      await expect(page.locator('[data-news-reader]')).toHaveCSS('background-color', 'rgb(8, 9, 11)');
+      await expect(page.locator('[data-news-reader]')).toHaveCSS('backdrop-filter', 'none');
+      await expect(page.locator('.news-reader-toolbar')).toHaveCSS('background-color', 'rgb(8, 9, 11)');
+      await expect(page.locator('[data-news-article="diamenty"] h2')).toHaveCSS('font-weight', '900');
+      await expect(page.locator('[data-news-article="diamenty"] .news-reader-lead')).toHaveCSS('font-weight', '900');
       const articleLogo = await page.locator('.news-reader-brand .brand-logo').boundingBox();
       expect(Math.abs(articleLogo.x - normalLogo.x)).toBeLessThan(1);
       expect(Math.abs(articleLogo.width - normalLogo.width)).toBeLessThan(1);
