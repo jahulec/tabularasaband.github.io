@@ -1,6 +1,38 @@
 const { test, expect } = require('@playwright/test');
 
 for (const path of ['/news.html', '/news-en.html']) {
+  test(`article scrolls only its text and restores the list: ${path}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 650 });
+      await page.goto(path);
+      const trigger = page.locator('[data-news-open="diamenty"]');
+      await trigger.scrollIntoViewIfNeeded();
+      const listTop = await page.locator('#news').evaluate(el => el.getBoundingClientRect().top);
+      await trigger.click();
+      const close = page.locator('[data-news-close]');
+      await expect(close).toBeFocused();
+      await expect(page.locator('body')).toHaveCSS('position', 'fixed');
+      const story = page.locator('[data-news-article="diamenty"]');
+      const photo = story.locator('.news-reader-media');
+      const copy = story.locator('.news-reader-copy');
+      const beforePhoto = await photo.boundingBox();
+      const beforeBackground = await page.locator('#news').evaluate(el => el.getBoundingClientRect().top);
+      await photo.hover();
+      await page.mouse.wheel(0, 700);
+      await copy.hover();
+      await page.mouse.wheel(0, 700);
+      await expect.poll(() => copy.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
+      const afterPhoto = await photo.boundingBox();
+      expect(Math.abs(afterPhoto.y - beforePhoto.y)).toBeLessThan(1);
+      expect(await page.locator('#news').evaluate(el => el.getBoundingClientRect().top)).toBeCloseTo(beforeBackground, 0);
+      await close.click();
+      await expect(page.locator('[data-news-reader]')).toBeHidden();
+      await expect(page.locator('body')).not.toHaveCSS('position', 'fixed');
+      expect(await page.locator('#news').evaluate(el => el.getBoundingClientRect().top)).toBeCloseTo(listTop, 0);
+    }
+  });
+
   test(`article layout keeps the photo and text apart: ${path}`, async ({ page }) => {
     test.setTimeout(90_000);
     await page.emulateMedia({ reducedMotion: 'reduce' });

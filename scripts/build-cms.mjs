@@ -301,7 +301,7 @@ function renderNews(news, lang) {
     const cta = ctaUrl ? `<p class="news-reader-action"><a href="${attr(ctaUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(localeValue(article, "ctaLabel", lang) || (pl ? "Zobacz więcej" : "Learn more"))}${new URL(ctaUrl, "https://tabularasaband.pl").hostname === "patronite.pl" ? "" : ' <span aria-hidden="true">↗</span>'}</a></p>` : "";
     return `<article class="news-reader-story" data-news-article="${attr(article.slug)}" aria-labelledby="article-${attr(article.slug)}-title" hidden>
         <picture class="news-reader-media"><img src="${attr(publicPath(article.cover))}" alt="${attr(localeValue(article, "alt", lang))}"></picture>
-        <div class="news-reader-copy">
+        <div class="news-reader-copy" tabindex="0">
             <div class="news-reader-heading"><p class="news-reader-meta"><time datetime="${attr(article.datePrecision === "year" ? article.date.slice(0, 4) : article.date)}">${escapeHtml(articleDate(article, lang))}</time><span>${escapeHtml(localeValue(article, "category", lang))}</span></p><h2 id="article-${attr(article.slug)}-title">${escapeHtml(localeValue(article, "title", lang))}</h2><p class="news-reader-lead">${escapeHtml(localeValue(article, "lead", lang))}</p></div>
             <div class="news-reader-prose">${localeValue(article, "body", lang)}${video}${cta}</div>
         </div>

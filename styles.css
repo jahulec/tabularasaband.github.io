@@ -11340,6 +11340,18 @@ body.news-reader-open {
     overscroll-behavior: none;
 }
 
+body.news-reader-open {
+    position: fixed !important;
+    top: var(--news-scroll-offset, 0px);
+    left: 0;
+    width: 100%;
+}
+
+body.news-reader-open .background-slider img {
+    animation-play-state: paused !important;
+    transition: none !important;
+}
+
 body.news-reader-open > .floating-utilities,
 body.news-reader-open > .cookie-settings-button,
 body.news-reader-open > .tr-cookie-settings-button {
@@ -11354,21 +11366,21 @@ body.news-reader-open > .tr-cookie-settings-button {
 }
 
 .news-reader {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
     position: fixed;
     z-index: 5000;
     inset: 0;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     overscroll-behavior: contain;
     color: #fff;
     background: rgba(8, 9, 11, 0.94);
     -webkit-backdrop-filter: blur(18px) saturate(1.15);
     backdrop-filter: blur(18px) saturate(1.15);
     opacity: 0.6;
-    transform: translate3d(100%, 0, 0);
-    transition:
-        transform 520ms cubic-bezier(0.22, 0.76, 0.22, 1),
-        opacity 360ms ease;
+    transform: none;
+    transition: opacity 180ms ease;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -11379,11 +11391,11 @@ body.news-reader-open > .tr-cookie-settings-button {
 
 .news-reader.is-closing {
     opacity: 0.7;
-    transform: translate3d(100%, 0, 0);
+    transform: none;
 }
 
 .news-reader-toolbar {
-    position: sticky;
+    position: relative;
     z-index: 3;
     top: 0;
     display: flex;
@@ -11393,7 +11405,7 @@ body.news-reader-open > .tr-cookie-settings-button {
     min-height: 82px;
     padding: max(10px, env(safe-area-inset-top)) max(24px, calc((100% - 1180px) / 2));
     background: rgba(8, 9, 11, 0.96);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    border: 0;
 }
 
 .news-reader-toolbar img {
@@ -11446,15 +11458,18 @@ body.news-reader-open > .tr-cookie-settings-button {
     width: min(1180px, calc(100% - 48px));
     min-height: 0;
     margin: 0 auto;
-    padding: clamp(32px, 5vw, 64px) 0 80px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: clamp(24px, 4vw, 48px) 0 32px;
 }
 
 .news-reader-media {
-    position: sticky;
-    top: 114px;
+    position: relative;
+    top: auto;
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     min-height: 0;
     overflow: hidden;
     background: transparent;
@@ -11471,8 +11486,9 @@ body.news-reader-open > .tr-cookie-settings-button {
 .news-reader-media img {
     width: 100%;
     display: block;
-    height: auto;
-    max-height: calc(100dvh - 146px);
+    height: 100%;
+    max-height: 100%;
+    object-position: center top;
     object-fit: contain;
     border-radius: 0;
     pointer-events: none;
@@ -11492,8 +11508,16 @@ body.news-reader-open > .tr-cookie-settings-button {
     z-index: 1;
     width: 100%;
     min-width: 0;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
     margin: 0;
-    padding: 0;
+    padding: 0 14px 16px 0;
     border: 0;
     background: transparent;
     box-shadow: none;
@@ -11696,15 +11720,17 @@ body.news-reader-open > .tr-cookie-settings-button {
     .news-reader-story {
         width: calc(100% - 40px);
         grid-template-columns: minmax(0, 1fr);
-        gap: 28px;
-        padding-top: 24px;
+        grid-template-rows: minmax(0, 28dvh) minmax(0, 1fr);
+        gap: 20px;
+        padding-top: 16px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
     .news-reader-media {
         position: relative;
         top: auto;
     }
     .news-reader-media img {
-        max-height: 42dvh;
+        max-height: 100%;
     }
     .news-reader-heading h2 {
         font-size: clamp(1.65rem, 6.5vw, 2.6rem) !important;

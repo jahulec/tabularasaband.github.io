@@ -1743,7 +1743,11 @@ function isGalleryModalOpen() {
 }
 
 function canUnlockScroll() {
-    return !isMobileMenuOpen() && !isGalleryModalOpen();
+    return !isMobileMenuOpen() && !isGalleryModalOpen() && !isNewsReaderOpen();
+}
+
+function isNewsReaderOpen() {
+    return document.body.classList.contains('news-reader-open');
 }
 
 function clearInlineScrollOverrides() {
@@ -1915,6 +1919,7 @@ function handleImageSwap(includeNext = true) {
 }
 
 async function changeSlide() {
+    if (isNewsReaderOpen()) return;
     if (sliderImages.length === 0) {
         refreshSliderImages();
     }
@@ -1930,6 +1935,10 @@ async function changeSlide() {
     // Never fade to a slide which has not been decoded yet: this is what caused
     // the black flash / late image jump on real mobile devices.
     await waitForSliderImage(nextImage);
+    if (isNewsReaderOpen()) {
+        isChangingSlide = false;
+        return;
+    }
 
     const previousImage = sliderImages[currentImageIndex];
     sliderImages.forEach((img) => img.classList.remove('is-leaving'));
@@ -1953,6 +1962,7 @@ async function changeSlide() {
 }
 
 function startSlider() {
+    if (isNewsReaderOpen()) return;
     refreshSliderImages();
     if (sliderImages.length === 0) return;
     const sliderRoot = document.querySelector('.background-slider');
@@ -3034,7 +3044,7 @@ function initNewsReader() {
     ].join(',');
     const reducedMotion = window.matchMedia
         && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const transitionDelay = reducedMotion ? 20 : 540;
+    const transitionDelay = reducedMotion ? 20 : 200;
 
     let activeSlug = '';
     let lastTrigger = null;
@@ -3078,8 +3088,13 @@ function initNewsReader() {
         if (!storyBySlug.has(slug)) return false;
 
         window.clearTimeout(closingTimer);
+        if (!isNewsReaderOpen()) {
+            savedScrollY = window.scrollY || 0;
+            document.body.style.setProperty('--news-scroll-offset', `${-savedScrollY}px`);
+        }
         activeSlug = slug;
-        savedScrollY = window.scrollY || 0;
+        cancelAutoScrollOnUserInput();
+        stopSlider();
         lastTrigger = document.activeElement?.closest?.('[data-news-open]')
             || document.querySelector(`[data-news-open="${slug}"]`)
             || lastTrigger;
@@ -3088,6 +3103,9 @@ function initNewsReader() {
         reader.classList.remove('is-active', 'is-closing');
         reader.hidden = false;
         reader.scrollTop = 0;
+        stories.forEach((story) => {
+            story.querySelector('.news-reader-copy').scrollTop = 0;
+        });
         document.documentElement.classList.add('news-reader-open');
         document.body.classList.add('news-reader-open');
         setPageShellInactive(true);
@@ -3134,7 +3152,9 @@ function initNewsReader() {
             setPageShellInactive(false);
             document.documentElement.classList.remove('news-reader-open');
             document.body.classList.remove('news-reader-open');
-            window.scrollTo(0, savedScrollY);
+            document.body.style.removeProperty('--news-scroll-offset');
+            window.scrollTo({ top: savedScrollY, left: 0, behavior: 'instant' });
+            if (!document.hidden) startSlider();
             if (restoreFocus && triggerToRestore?.isConnected) {
                 triggerToRestore.focus({ preventScroll: true });
             }
@@ -3284,13 +3304,13 @@ window.addEventListener('keydown', (event) => {
 });
 
 function enforceWheelScrollFallback(event) {
-    if (isMobileMenuOpen() || isGalleryModalOpen()) return;
+    if (isMobileMenuOpen() || isGalleryModalOpen() || isNewsReaderOpen()) return;
     const doc = document.documentElement;
     if (doc.scrollHeight <= window.innerHeight + 1) return;
 
     const before = window.scrollY;
     requestAnimationFrame(() => {
-        if (window.scrollY === before) {
+        if (!isNewsReaderOpen() && window.scrollY === before) {
             window.scrollBy({ top: event.deltaY, behavior: 'auto' });
         }
     });
