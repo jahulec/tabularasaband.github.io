@@ -9,10 +9,18 @@ for (const path of ['/news.html', '/news-en.html']) {
       const trigger = page.locator('[data-news-open="diamenty"]');
       await trigger.scrollIntoViewIfNeeded();
       const listTop = await page.locator('#news').evaluate(el => el.getBoundingClientRect().top);
+      const normalLogo = await page.locator('header .brand-logo').boundingBox();
+      const normalListX = await page.locator('#news').evaluate(el => el.getBoundingClientRect().left);
       await trigger.click();
       const close = page.locator('[data-news-close]');
       await expect(close).toBeFocused();
       await expect(page.locator('body')).toHaveCSS('position', 'fixed');
+      const articleLogo = await page.locator('.news-reader-brand .brand-logo').boundingBox();
+      expect(Math.abs(articleLogo.x - normalLogo.x)).toBeLessThan(1);
+      expect(Math.abs(articleLogo.width - normalLogo.width)).toBeLessThan(1);
+      expect(Math.abs(articleLogo.height - normalLogo.height)).toBeLessThan(1);
+      expect(await page.locator('#news').evaluate(el => el.getBoundingClientRect().left)).toBeCloseTo(normalListX, 0);
+      await expect(page.locator('.news-reader-brand')).toHaveAttribute('href', path.includes('-en') ? 'index-en.html' : 'index.html');
       const story = page.locator('[data-news-article="diamenty"]');
       const photo = story.locator('.news-reader-media');
       const copy = story.locator('.news-reader-copy');

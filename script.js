@@ -2087,7 +2087,7 @@ function initHeaderLogoHoverAnimation() {
     const canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!canHover) return;
 
-    const logoImages = Array.from(document.querySelectorAll('header .brand-logo, header .logo'));
+    const logoImages = Array.from(document.querySelectorAll('header .brand-logo, header .logo, .news-reader-brand .brand-logo'));
     if (logoImages.length === 0) return;
 
     logoImages.forEach((logo) => {
@@ -3091,6 +3091,7 @@ function initNewsReader() {
         if (!isNewsReaderOpen()) {
             savedScrollY = window.scrollY || 0;
             document.body.style.setProperty('--news-scroll-offset', `${-savedScrollY}px`);
+            document.body.style.setProperty('--news-scrollbar-width', `${window.innerWidth - document.documentElement.clientWidth}px`);
         }
         activeSlug = slug;
         cancelAutoScrollOnUserInput();
@@ -3153,6 +3154,7 @@ function initNewsReader() {
             document.documentElement.classList.remove('news-reader-open');
             document.body.classList.remove('news-reader-open');
             document.body.style.removeProperty('--news-scroll-offset');
+            document.body.style.removeProperty('--news-scrollbar-width');
             window.scrollTo({ top: savedScrollY, left: 0, behavior: 'instant' });
             if (!document.hidden) startSlider();
             if (restoreFocus && triggerToRestore?.isConnected) {
@@ -3193,7 +3195,7 @@ function initNewsReader() {
         if (event.key !== 'Tab') return;
 
         const visibleStory = storyBySlug.get(activeSlug);
-        const focusable = [closeButton, ...Array.from(visibleStory?.querySelectorAll(focusableSelector) || [])]
+        const focusable = [...Array.from(reader.querySelectorAll('.news-reader-toolbar a, .news-reader-toolbar button')), ...Array.from(visibleStory?.querySelectorAll(focusableSelector) || [])]
             .filter((element) => !element.hidden && element.getAttribute('aria-hidden') !== 'true');
         if (focusable.length === 0) return;
 

@@ -542,6 +542,8 @@ body.home-landing-page .home-landing .home-show h3 {
 }
 
 html {
+    scrollbar-width: thin;
+    scrollbar-color: #f4002f #08090b;
     min-height: 100%;
     height: auto;
 	-webkit-overflow-scrolling: touch;
@@ -11344,7 +11346,24 @@ body.news-reader-open {
     position: fixed !important;
     top: var(--news-scroll-offset, 0px);
     left: 0;
-    width: 100%;
+    width: calc(100% - var(--news-scrollbar-width, 0px));
+}
+
+/* Fallback for browsers that use WebKit scrollbar styling. */
+html::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+html::-webkit-scrollbar-track {
+    background: #08090b;
+}
+html::-webkit-scrollbar-thumb {
+    background: #f4002f;
+    border: 2px solid #08090b;
+    border-radius: 0;
+}
+html::-webkit-scrollbar-thumb:hover {
+    background: #ff3558;
 }
 
 body.news-reader-open .background-slider img {
@@ -11371,6 +11390,8 @@ body.news-reader-open > .tr-cookie-settings-button {
     position: fixed;
     z-index: 5000;
     inset: 0;
+    right: auto;
+    width: calc(100% - var(--news-scrollbar-width, 0px));
     overflow-x: hidden;
     overflow-y: hidden;
     overscroll-behavior: contain;
@@ -11398,22 +11419,18 @@ body.news-reader-open > .tr-cookie-settings-button {
     position: relative;
     z-index: 3;
     top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    min-height: 82px;
-    padding: max(10px, env(safe-area-inset-top)) max(24px, calc((100% - 1180px) / 2));
+    padding: 0;
     background: rgba(8, 9, 11, 0.96);
     border: 0;
 }
 
-.news-reader-toolbar img {
-    width: 70px;
-    height: 62px;
-    object-fit: contain;
-    margin: 0;
-    border-radius: 0;
+.news-reader-toolbar-inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.news-reader-back {
+    grid-column: 3;
+    justify-self: end;
 }
 
 .news-reader-back {
@@ -11455,7 +11472,7 @@ body.news-reader-open > .tr-cookie-settings-button {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: start;
     gap: clamp(32px, 5vw, 72px);
-    width: min(1180px, calc(100% - 48px));
+    width: min(var(--tr-shell-max), 92vw);
     min-height: 0;
     margin: 0 auto;
     height: 100%;
@@ -11704,21 +11721,23 @@ body.news-reader-open > .tr-cookie-settings-button {
 }
 
 @media (max-width: 900px) {
-    .news-reader-toolbar {
-        min-height: 76px;
-        padding-inline: max(20px, env(safe-area-inset-left));
-        gap: 16px;
-    }
-    .news-reader-toolbar img {
-        width: 58px;
-        height: 52px;
+    .news-reader-toolbar-inner {
+        grid-template-columns: 44px minmax(0, 1fr) 44px;
     }
     .news-reader-back {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
         min-width: 0;
-        font-size: 0.68rem;
+        width: 44px;
+        justify-content: center;
+        border-bottom: 0;
+    }
+    .news-reader-back > span:last-child {
+        display: none;
     }
     .news-reader-story {
-        width: calc(100% - 40px);
+        width: min(var(--tr-shell-max), 92vw);
         grid-template-columns: minmax(0, 1fr);
         grid-template-rows: minmax(0, 28dvh) minmax(0, 1fr);
         gap: 20px;
