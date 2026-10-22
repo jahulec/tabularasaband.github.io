@@ -82,6 +82,7 @@ test('touch scrolling responds to repeated direction changes on the landing', as
   const page = await context.newPage();
   await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
   await page.evaluate(() => document.fonts.ready);
+  await page.locator('[data-cookie-action="reject-optional"]').click();
   const touch = await context.newCDPSession(page);
   for (const selector of ['.home-shows', '.home-news-v2', '.home-gallery']) {
     await page.locator(selector).scrollIntoViewIfNeeded();
