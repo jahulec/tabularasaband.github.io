@@ -8637,9 +8637,7 @@ body:has(.home-landing[data-home-motion-root]) > footer.shop-footer::after {
 @media (max-width: 760px) {
     .home-landing[data-home-motion-root] .home-landing-hero {
         min-height: 100svh !important;
-        min-height: 100dvh !important;
         height: 100svh !important;
-        height: 100dvh !important;
     }
 
     .home-landing[data-home-motion-root] .home-pinned-stage,
@@ -12844,11 +12842,28 @@ body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2 .
 
 @media (max-width: 760px) {
     /* Keep native touch scrolling free of full-section backdrop recompositing. */
-    body.home-landing-page .home-landing[data-home-motion-root] #news.home-news-v2,
-    body.home-landing-page .home-landing[data-home-motion-root] .home-shows {
+    body.home-landing-page .home-landing[data-home-motion-root] > .home-section[data-home-section],
+    body.home-landing-page .home-landing[data-home-motion-root] > #patronite.home-patronite[data-home-section],
+    body.home-landing-page .home-landing[data-home-motion-root] > #news.home-news-v2[data-home-section] {
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
-        background: rgba(8, 9, 11, 0.88) !important;
+    }
+    /* Blur a local image once instead of resampling the scrolling page behind it. */
+    body.home-landing-page .home-landing[data-home-motion-root] > #patronite.home-patronite {
+        isolation: isolate;
+    }
+    body.home-landing-page .home-landing[data-home-motion-root] > #patronite.home-patronite::after {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        inset: -28px !important;
+        z-index: -1 !important;
+        background: linear-gradient(rgba(8, 9, 11, 0.55), rgba(8, 9, 11, 0.55)),
+            url('galeria/_responsive/zdjecia_mobile/80m-w640.webp') center / cover !important;
+        filter: blur(18px) !important;
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: none;
     }
     body.home-landing-page .home-news-v2 .reveal,
     body.home-landing-page .home-news-v2 .home-news-v2-card,

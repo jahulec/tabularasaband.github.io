@@ -3311,7 +3311,15 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 let resizeRafId = null;
+let refreshedViewportWidth = window.innerWidth;
 const queueViewportRefresh = () => {
+    // Mobile browser chrome changes height as soon as a swipe reverses.
+    // The landing layout is width-driven; do not rebuild it for that resize.
+    const width = window.innerWidth;
+    if (document.body.classList.contains('home-landing-page')
+        && window.matchMedia('(max-width: 760px)').matches
+        && width === refreshedViewportWidth) return;
+    refreshedViewportWidth = width;
     if (resizeRafId !== null) {
         cancelAnimationFrame(resizeRafId);
     }
