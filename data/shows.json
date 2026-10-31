@@ -447,7 +447,7 @@
       "startDate": "06.11.2026",
       "title": "BLVM x Chronic Insomnia Tour | Łódź",
       "ticketUrl": "https://goingapp.pl/wydarzenie/blvm-x-chronic-insomnia-tour-2026/lodz-listopad-2026",
-      "publishToBandsintown": true,
+      "publishToBandsintown": false,
       "country": "Poland",
       "timezone": "Europe/Warsaw",
       "endDate": "2026-09-05",
