@@ -6,6 +6,14 @@
       "year": 2026,
       "items": [
         {
+          "textPl": "Mocne wąbrzmienie - I miejsce",
+          "textEn": "Mocne wąbrzenie - 1st place",
+          "highlightPl": "I miejsce",
+          "highlightEn": "1st place",
+          "highlightStyle": "bold",
+          "featured": false
+        },
+        {
           "textPl": "Rock Battle of Barcja - I miejsce",
           "textEn": "Rock Battle of Barcja - 1st place",
           "highlightPl": "I miejsce",
